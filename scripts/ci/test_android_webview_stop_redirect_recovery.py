@@ -127,7 +127,9 @@ class AndroidWebViewStopRedirectRecoveryControls(unittest.TestCase):
     def test_public_source_keeps_requested_navigation_independent_of_declarative_content(self):
         shared = (r.ROOT / "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt").read_text()
         android = (r.ROOT / "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt").read_text()
-        contracts = (r.ROOT / "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt").read_text()
+        from platform_recovery659_source_projection import current_source_before_platform_recovery659
+        relative = "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt"
+        contracts = current_source_before_platform_recovery659(relative, (r.ROOT / relative).read_bytes()).decode()
         load_url = source_guard.body_after(shared, "public fun loadUrl(")
         self.assertIn("enqueue(NavigationEvent.LoadUrl(url, additionalHttpHeaders.toMap()))", load_url)
         load = source_guard.body_after(android, "internal fun loadAndroidContent(")

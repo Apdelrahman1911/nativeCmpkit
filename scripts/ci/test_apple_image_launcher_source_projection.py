@@ -189,7 +189,9 @@ class ImageLauncherSourceProjectionControls(unittest.TestCase):
         with self.assertRaises(ValueError): history._unique([("duplicate", 1), ("duplicate", 2)])
 
     def test_fragment_hashes_unique_sites_and_complete_restoration_are_mandatory(self):
-        name = history.LAUNCHER; current = (ROOT / name).read_bytes()
+        name = history.LAUNCHER
+        current = ui_history.peel_ui_related_for_history(name, (ROOT / name).read_bytes())
+        self.assertEqual(history._document()["bindings"][name]["after_sha256"], sha(current))
         for field, value in (("before", "missing"), ("after", "missing"), ("before", ""), ("after", ""),
                              ("before_fragment_sha256", "0" * 64), ("after_fragment_sha256", "0" * 64)):
             changed = copy.deepcopy(history._document())

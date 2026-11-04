@@ -141,6 +141,8 @@ def _identity(relative, payload):
 def source_before_ui_split664(relative, payload):
     """Complete exact inverse or its one accepted667 preimage; not current admission."""
     _identity(relative, payload)
+    from android_io_remote_routing_source_projection import peel_remote_routing_for_history
+    payload = peel_remote_routing_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted bytes are not certified, reconstructed or executed.
@@ -174,6 +176,8 @@ def source_before_ui_split664(relative, payload):
 def current_source_before_ui_split664(relative, payload):
     """One newest raw ingress; old, partial and unknown bound images must refuse."""
     _identity(relative, payload)
+    from android_io_remote_routing_source_projection import current_source_before_remote_routing
+    payload = current_source_before_remote_routing(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and (sha(payload) != binding["after_sha256"] or len(payload) != binding["after_bytes"]):
         raise ValueError("An old or unknown image cannot replace exact current UI-split664 source")
@@ -183,6 +187,8 @@ def current_source_before_ui_split664(relative, payload):
 def peel_ui_split664_for_history(relative, payload):
     """Peel only complete exact latest images; pass-through never certifies current."""
     _identity(relative, payload)
+    from android_io_remote_routing_source_projection import peel_remote_routing_for_history
+    payload = peel_remote_routing_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and sha(payload) == binding["after_sha256"]:
         return source_before_ui_split664(relative, payload)
@@ -192,13 +198,15 @@ def peel_ui_split664_for_history(relative, payload):
 def _validate_own_guard(root, document):
     """Bind all new guard bytes without a manifest/self-hash cycle."""
     from ios_popover_anchor_plan import _ordinary_bytes
-    raw = _ordinary_bytes(root, SOURCE_RELATIVE)[0]
+    raw_current = _ordinary_bytes(root, SOURCE_RELATIVE)[0]
+    from android_io_remote_routing_source_projection import current_source_before_remote_routing
+    raw = current_source_before_remote_routing(SOURCE_RELATIVE, raw_current)
     needle = ('SPEC_SHA256 = "' + SPEC_SHA256 + '"\n').encode()
     template = ('SPEC_SHA256 = "' + "0" * 64 + '"\n').encode()
     if (not 0 < len(raw) <= MAX_SOURCE_BYTES or len(raw) != document["own_guard"]["bytes"] or
             raw.count(needle) != 1 or sha(raw.replace(needle, template, 1)) != document["own_guard"]["template_sha256"]):
         raise ValueError("Current UI-split664 own guard differs from its exact singleton template")
-    return sha(raw)  # Qualified by the entire unchanged singleton template above.
+    return sha(raw_current)  # Exact IO raw guard above; the unchanged UI singleton still binds its complete ancestor.
 
 
 def _expected(document):
@@ -209,20 +217,25 @@ def _expected(document):
 def current_input_hashes():
     """Only exact qualified raw source identities; no native/compiler selection."""
     document = _document()
-    return _expected(document) | {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)}
+    from android_io_remote_routing_source_projection import current_input_hashes as remote_input_hashes
+    return (_expected(document) | {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)} |
+            remote_input_hashes())
 
 
 def validate_current_sources(root: Path):
     """Qualify actual raw finite UI inputs before any immutable older comparison."""
+    import android_io_remote_routing_source_projection as remote
+    remote.validate_current_sources(root)
     document = _document()
     _validate_own_guard(root, document)
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in _expected(document).items():
-        if sha(_ordinary_bytes(root, name)[0]) != digest:
+        if sha(remote.source_before_remote_routing(name, _ordinary_bytes(root, name)[0])) != digest:
             raise ValueError("Current UI-split664 input differs from its complete reviewed raw image: " + name)
     return True
 
 
 def fixture_inputs():
     """Exactly the finite UI source-custody union, with no other checkout binding."""
-    return BOUND_PATHS | ADDED_PATHS | UNCHANGED_PATHS | {SOURCE_RELATIVE, SPEC_RELATIVE}
+    from android_io_remote_routing_source_projection import fixture_inputs as remote_fixture_inputs
+    return BOUND_PATHS | ADDED_PATHS | UNCHANGED_PATHS | {SOURCE_RELATIVE, SPEC_RELATIVE} | remote_fixture_inputs()

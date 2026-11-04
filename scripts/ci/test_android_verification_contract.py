@@ -20,7 +20,11 @@ class AndroidVerificationContractTests(unittest.TestCase):
         self.fixture.write("calf-empty/src/commonTest/kotlin/Common.kt", "// common tests are not a device host")
 
     def plan(self):
-        return r.plan(self.root, "android-device", minimum_modules=("calf-fixture",))
+        plan = r.plan(self.root, "android-device", minimum_modules=("calf-fixture",),
+                      only_modules=("calf-fixture",))
+        self.assertEqual(["calf-fixture"], plan["explicit_module_subset"])
+        self.assertFalse(plan["complete_suite_requested"])
+        return plan
 
     def test_device_plan_requires_an_actual_authored_device_test_host(self):
         plan = self.plan()
@@ -32,7 +36,13 @@ class AndroidVerificationContractTests(unittest.TestCase):
                          plan["expected"][0]["agp_declared_xml_directory"])
         self.assertEqual(plan["expected"][0]["report_directory"], plan["expected"][0]["utp_results_directory"])
         self.assertEqual(":calf-fixture:connectedAndroidDeviceTest", plan["expected"][0]["task"])
-        self.assertIn("calf-empty", {item["module"] for item in plan["uncovered"]})
+        self.assertEqual(["calf-fixture"], plan["explicit_module_subset"])
+        self.assertEqual([], plan["uncovered"])
+        self.assertNotIn("calf-empty", plan["test_bearing_modules_not_requested"])
+        # A common-only module is not an authored device host even if requested.
+        with self.assertRaisesRegex(ValueError,
+                r"^Selected modules do not have android-device library test sources: \['calf-empty'\]$"):
+            r.plan(self.root, "android-device", minimum_modules=("calf-empty",), only_modules=("calf-empty",))
 
     def test_deleting_device_sources_cannot_turn_common_tests_into_native_success(self):
         (self.root / "calf-fixture/src/androidDeviceTest/kotlin/Device.kt").unlink()
@@ -50,13 +60,25 @@ class AndroidVerificationContractTests(unittest.TestCase):
         self.assertNotIn("--rerun-tasks", command)
 
     def test_repository_device_tasks_run_data_ownership_before_native_ui(self):
-        plan = r.plan(r.ROOT, "android-device")
-        self.assertEqual(["calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share", "calf-camera-picker"],
-                         [item["module"] for item in plan["expected"]])
-        self.assertEqual(list(r.MINIMUM_MODULES["android-device"]),
-                         [item["module"] for item in plan["expected"]] + ["calf-permissions/core"])
+        # Eight ordinary hosts remain inventory metadata, not executable default coverage.
+        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')
+        self.assertEqual(8, len(inventory))
+        self.assertEqual((*inventory, "calf-permissions/core"), r.MINIMUM_MODULES["android-device"])
+        with self.assertRaises(ValueError) as refused:
+            r.plan(r.ROOT, "android-device")
+        self.assertIn(str(refused.exception), (
+            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',
+            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',
+        ))
+        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.
+        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')
+        plan = r.plan(r.ROOT, "android-device", minimum_modules=unrelated, only_modules=unrelated)
+        self.assertEqual(list(unrelated), [item["module"] for item in plan["expected"]])
+        self.assertEqual(list(unrelated), plan["explicit_module_subset"])
         self.assertFalse(plan["complete_suite_requested"])
         self.assertEqual(["calf-permissions/core"], plan["finite_only_device_modules_not_requested"])
+        self.assertEqual(["calf-camera-picker", "calf-io", "calf-permissions/core"],
+                         plan["test_bearing_modules_not_requested"])
 
     def test_missing_physical_or_injected_serials_are_rejected_before_execution(self):
         for serial in (None, "", "personal-phone", "emulator-5588 --info", "emulator-5588;echo", "emulator-5589"):

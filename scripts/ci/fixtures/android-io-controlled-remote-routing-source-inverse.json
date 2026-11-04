@@ -1,0 +1,560 @@
+{
+  "added_inputs": {
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteDocumentsTest.kt": "47313a30c844ddbf33a5f776aec7e4afb0ea616dc362bced298e4d1c51739dc4",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteTreeGrantActivity.kt": "1b49ca749a01e8fd276294d5286c83181c70bd7d8b098504dd49fbf669b1e325",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/RemoteIoEndpoint.kt": "769ea4ec7ac11d29b2af4c85b6e3da7c9b74b3670a368df0a8a25bcc78e3ee82",
+    "docs/development/android-io-controlled-remote-provider.md": "34c9f4d5176e6e3395805aab2425cf4199af02638662b0121aec3c589adeb486",
+    "scripts/ci/android_io_remote_documents.py": "d7ba70d6957a4b3e7fc7ee99cdc4a46db228cc7abd8f8fee4157ce8cd6fe44e2",
+    "scripts/ci/test_android_io_remote_documents.py": "d45c62fa7ff78ada440fc723972d860e599cb5869b68ca9210789c7da7bba8c2",
+    "scripts/ci/test_android_io_remote_routing.py": "b6b3bd00add19ca0500130b835ebdf68a6683643570f1bd3c2517eef048911ec",
+    "scripts/ci/test_android_io_remote_routing_source_projection.py": "b46e6d436ccc8eb498af76f611dbce17b30beb563f2c766830a81a970c65e708",
+    "tests/consumer/android-io-remote-documents/README.md": "92ef61b5673af421fb48d6812d054fc5c119ac27b9ccf7b7d41d29cfcf083e92",
+    "tests/consumer/android-io-remote-documents/build.gradle.kts": "55967f734407e4e632a17fb9268879ce26979e3f9f96d8a1152af04da32f4160",
+    "tests/consumer/android-io-remote-documents/gradle.properties": "9bdf5fc8f73662d4e80072838783cc65fdae29b6b1c6a53de5d4cf8e20c8d44f",
+    "tests/consumer/android-io-remote-documents/settings.gradle.kts": "31ffb56210c51fc3d8344682b8183c76d55add20e09e5ffb4ea133229be9b981",
+    "tests/consumer/android-io-remote-documents/src/main/AndroidManifest.xml": "b32fd120a12987616d7f641640d3779e832397c25396da298d1fc3bcc5ceb8f7",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoContract.java": "98bac439bc8e6ea1e6f8de5f4d8192ccc9707331c6e5973b93adcdaa5ed49244",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoControlService.java": "731549a3a8cba7647f3e665b0351ca6f804ac48c07c46d1a60545768b0bd7f44",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoDocumentsProvider.java": "41a32e36b8f785a9cba3793c253872e15131977d4276f091fa16b18e73a59c3e",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoHttpBackend.java": "58e2cb1091f16d81595b8065e23ab532a5f18378df5d48d18d50317014a58d89",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoHttpTransport.java": "d6f6af63da9c2a89bc8a71fa306ee089852402919c256ec7fd7419ea819b65cc",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoProviderWitnessService.java": "f6d2e7a107179f3e1992b3868ea6c73075459b9eeb74a59287194416ddb52593"
+  },
+  "bindings": {
+    ".github/workflows/gradle.yml": {
+      "after_bytes": 69674,
+      "after_sha256": "90a95f391d2ae613408408f1773bf81eb74ead2d28d736ee2c84effa5642efc0",
+      "before_bytes": 69396,
+      "before_sha256": "4ecc3324c5da4004d54c92afb784d92482ba7d3f94c0b13c0d4b7cfe0723ccd4",
+      "fragments": [
+        {
+          "after": "android-io-reference-regressions, android-io-controlled-remote, android-io-controlled-remote-positive, android-io-controlled-remote-cancel, android-permission-demo,",
+          "after_fragment_sha256": "3c2969bdea96c2dec632244d3837df7ca90226fe930b9296afba1b0a59fd9cd6",
+          "before": "android-io-reference-regressions, android-permission-demo,",
+          "before_fragment_sha256": "d7f4513c6b7079180ec5873f70a5ffa3e40cbd2050749bfb6968476424c04447",
+          "obligation": "Exact three additive dispatch choices; no old profile reorder or job change"
+        },
+        {
+          "after": "inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-io-controlled-remote' || inputs.profile == 'android-io-controlled-remote-positive' || inputs.profile == 'android-io-controlled-remote-cancel' || inputs.profile == 'android-device'",
+          "after_fragment_sha256": "edf9bb9607c250f3c32ca5479cea04604d19b9baf6f7a51e361b8514ef32933c",
+          "before": "inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-device'",
+          "before_fragment_sha256": "73a8b8e1bb353a08c1f9932f66e673ddf4c3180463c5025aa205b12c95fa67fb",
+          "obligation": "Remote official compile37/build-tools36/API35google_apisx86_64 recipe; permissions/actions/artifacts unchanged"
+        }
+      ]
+    },
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml": {
+      "after_bytes": 2508,
+      "after_sha256": "26788255756c239bccb8e7c9ee15d0cf67afdb2cd6231defa494e42747f3573d",
+      "before_bytes": 1958,
+      "before_sha256": "397d45d9201637e6a696b3c4148376bb02fe5c4bb1070c541616bdcdaefeeb19",
+      "fragments": [
+        {
+          "after": "    <uses-permission android:name=\"io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.CONTROL_REMOTE_IO\" />\n    <queries>\n",
+          "after_fragment_sha256": "cc105302931b191e2ae337acf5e0820ce1d5a064f59d539dc3b9e23f87504779",
+          "before": "    <queries>\n",
+          "before_fragment_sha256": "3f48aebaa6dc8f122e652da4c2e376fdb69a45ff7fadbf35558d3577d2792a34",
+          "obligation": "Exactly one accepted remote reporter addition; the four-input union restores the original397d reporter"
+        },
+        {
+          "after": "        <package android:name=\"io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments\" />\n        <provider android:authorities=\"media;com.android.externalstorage.documents;com.android.providers.downloads.documents\" />\n",
+          "after_fragment_sha256": "c9b0e48f22235a60985a7f11da9b0953d5e1ba8da73581b403816d83f2301e1f",
+          "before": "        <provider android:authorities=\"media;com.android.externalstorage.documents;com.android.providers.downloads.documents\" />\n",
+          "before_fragment_sha256": "5482afe52e2f95cda9020080e8537a7efeb51f293f08ca6e9f7a48fb6f5aaeb6",
+          "obligation": "Exactly one accepted remote reporter addition; the four-input union restores the original397d reporter"
+        },
+        {
+          "after": "        <provider android:authorities=\"io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.documents\" />\n        <provider android:authorities=\"media;com.android.externalstorage.documents;com.android.providers.downloads.documents\" />\n",
+          "after_fragment_sha256": "fd7a31eb2aa7b5da5ae2f671d474800b0012cb21dd72f4389fdf65252ef062fb",
+          "before": "        <provider android:authorities=\"media;com.android.externalstorage.documents;com.android.providers.downloads.documents\" />\n",
+          "before_fragment_sha256": "5482afe52e2f95cda9020080e8537a7efeb51f293f08ca6e9f7a48fb6f5aaeb6",
+          "obligation": "Exactly one accepted remote reporter addition; the four-input union restores the original397d reporter"
+        },
+        {
+          "after": "        <activity android:name=\"com.mohamedrejeb.calf.io.AndroidIoRemoteTreeGrantActivity\" android:exported=\"false\"\n            android:theme=\"@android:style/Theme.Material.Light.NoActionBar\" />\n        <activity android:name=\"com.mohamedrejeb.calf.io.AndroidIoSystemTreeGrantActivity\" android:exported=\"false\"\n            android:theme=\"@android:style/Theme.Material.Light.NoActionBar\" />\n",
+          "after_fragment_sha256": "e246837e9b5d66195f3451080b91522c252a6b7b56a7aa1b16b31954570caa05",
+          "before": "        <activity android:name=\"com.mohamedrejeb.calf.io.AndroidIoSystemTreeGrantActivity\" android:exported=\"false\"\n            android:theme=\"@android:style/Theme.Material.Light.NoActionBar\" />\n",
+          "before_fragment_sha256": "721de98f9ac0d7ea68351ce5bb434ebd82e4a5b493ffa287130b78b5dbe078c5",
+          "obligation": "Exactly one accepted remote reporter addition; the four-input union restores the original397d reporter"
+        }
+      ]
+    },
+    "scripts/ci/android_device_tests.py": {
+      "after_bytes": 52787,
+      "after_sha256": "02ea091a86c08e69bb6356b24fa33060fb08e7973b90b6b3519a7b9c3267f464",
+      "before_bytes": 47872,
+      "before_sha256": "183c8f6752bb2aeac9f468c0b0e9ad72b8fffe68f4023e7a67b4779fde5128ec",
+      "fragments": [
+        {
+          "after": "import android_io_documents\nimport android_io_remote_documents\n",
+          "after_fragment_sha256": "20e572a78543f1620c3a8c7fdde9f300f7a20f2cad454630aaf6f7c6aef4d2aa",
+          "before": "import android_io_documents\n",
+          "before_fragment_sha256": "47163769f33b82d5b9beb580ac64f7178b3939324e8238b718380c72941af650",
+          "obligation": "Separate owned remote implementation; existing IO helper not repurposed"
+        },
+        {
+          "after": "\"android_geo_probe.py\", \"android_io_documents.py\", \"android_io_remote_documents.py\", \"android_io_remote_routing_source_projection.py\", \"android_permission_demo.py\",",
+          "after_fragment_sha256": "07e84c7982e9a80ef7d770173e519c663d7f6735b2c625888ceb065cab4b54e3",
+          "before": "\"android_geo_probe.py\", \"android_io_documents.py\", \"android_permission_demo.py\",",
+          "before_fragment_sha256": "c42f24c1a5de7525c4c4e83b11aa84c54896a08ca1ca0962f7635837073d06f8",
+          "obligation": "Only public bounded source origin for the new remote refusal"
+        },
+        {
+          "after": "    io_documents_required = lt.android_io_documents_required(plan)\n    remote_documents_required = lt.android_io_remote_documents_required(plan)\n",
+          "after_fragment_sha256": "c7f5eeee16601696f2873da60b00bc8aa246efb06811b8620c1cd0be1d34d064",
+          "before": "    io_documents_required = lt.android_io_documents_required(plan)\n",
+          "before_fragment_sha256": "e2ba24d8d5f5a51be4bc3c7bfd704f81a451c65e5c79666739b1f83c894355ac",
+          "obligation": "Distinct exact remote preparation predicate, never a receipt alias"
+        },
+        {
+          "after": "} or permission_demo_required or storage_required or remote_documents_required\n",
+          "after_fragment_sha256": "e25d6ee48fb46074073542a7706bd1cd5e7dc401cfe19337735a8bf88031a0fd",
+          "before": "} or permission_demo_required or storage_required\n",
+          "before_fragment_sha256": "7c68431947aebd7745dd2fe103c9762afe9794de48be6f7eb66cb0d750836871",
+          "obligation": "Keep bounded remote source/preparation/cleanup diagnostics without raw device payloads"
+        },
+        {
+          "after": "    if not camera_developer_required and not remote_documents_required:\n        (output / \"avd\").mkdir()\n",
+          "after_fragment_sha256": "619356bf94a745d8bfc9eb40461c8fa2e0bf988e5cf76ab9622d5faa4c51bce9",
+          "before": "    if not camera_developer_required:\n        (output / \"avd\").mkdir()\n",
+          "before_fragment_sha256": "051e565365fd7422a098129abcc28cf7a93f0234debfaa0e09d06f6ed383f0e0",
+          "obligation": "Remote route reuses unchanged exclusive owned-root ledger instead of precreating unowned roots"
+        },
+        {
+          "after": "    if io_documents_required or permission_demo_required or storage_required or remote_documents_required:\n",
+          "after_fragment_sha256": "8ba180ef7f76ec3fe02dc33f070dcc7dc71965640ea81b9f76c677f656e52c98",
+          "before": "    if io_documents_required or permission_demo_required or storage_required:\n",
+          "before_fragment_sha256": "31fcde46f78cb0b137ac00df0725904c97c6d2b3aa56724e8219172039732914",
+          "obligation": "Remote reporter assembly-only command has no connected or prepared argument"
+        },
+        {
+          "after": "    io_documents = None\n    remote_io_documents = None\n",
+          "after_fragment_sha256": "de5b745b2e32af4a137738225d3943fdbe34ab4257e2a1d385d934eba7632096",
+          "before": "    io_documents = None\n",
+          "before_fragment_sha256": "38fa11a0c798663420dcaa4253b23160e07256abb75318f263976f5972d34b1a",
+          "obligation": "Assign the separate remote owner slot before the protected try/finally"
+        },
+        {
+          "after": "    if remote_documents_required:\n        result[\"reporter_compile_deferred_until_remote_io_documents_identity\"] = True\n    if io_documents_required:\n        result[\"reporter_compile_deferred_until_io_documents_identity\"] = True\n",
+          "after_fragment_sha256": "c75240529022990552840db987c8d6e0966c21a8dc117105cefcedf93d9ff34f",
+          "before": "    if io_documents_required:\n        result[\"reporter_compile_deferred_until_io_documents_identity\"] = True\n",
+          "before_fragment_sha256": "9667ecaa5dc534f1a12a63270f948400f272aabd795e0fa88c0db80d2311e782",
+          "obligation": "Remote compile explicitly deferred until exact source/APK/signer/install/readback identity"
+        },
+        {
+          "after": "        if camera_developer_required or remote_documents_required:\n            # Assign the exclusive owner",
+          "after_fragment_sha256": "cce38e2ccda129d08a5245b1250b4e1c01e42adf75009908aac3fe4a37579054",
+          "before": "        if camera_developer_required:\n            # Assign the exclusive owner",
+          "before_fragment_sha256": "f7508851895e00cbe0afa81fe217c2c81e2c3bbf22709520ab13b3a67d8e25db",
+          "obligation": "Reuse unchanged camera-owned root/FD/process ledger; no new implementation or schema"
+        },
+        {
+          "after": "        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required or remote_documents_required or camera_developer_required:\n",
+          "after_fragment_sha256": "684e29ad7030948092e8ad0ddbde7601c1b6f90334e152f14dd6ed26744fbe81",
+          "before": "        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required or camera_developer_required:\n",
+          "before_fragment_sha256": "64f9d2cef0d57777629f765198ccb1055b916c23998682dadcbb253421fa845a",
+          "obligation": "No reporter compile before remote helper identity and verified owned boot"
+        },
+        {
+          "after": "                        result[\"remote_guest_capture_error_origin\" if remote_documents_required else \"camera_guest_capture_error_origin\"] = preflight_error_origin(\n",
+          "after_fragment_sha256": "e4108a2961414d7d9d617e6a2c51bbdb77f40599618187e95e9eec9f753113de",
+          "before": "                        result[\"camera_guest_capture_error_origin\"] = preflight_error_origin(\n",
+          "before_fragment_sha256": "b9b6ee12295defe0ac1c80229958131244f00bb5867823f81ab67a4495bd05e1",
+          "obligation": "Distinct remote guest capture error key; original Camera schema and facts retained"
+        },
+        {
+          "after": "                        result[\"remote_guest_capture_error_origin\" if remote_documents_required else \"camera_guest_capture_error_origin\"] = {\n",
+          "after_fragment_sha256": "641caaf9a9e7fa75764aa279da392282777db83f96e968889c4c0e7cd1e7c441",
+          "before": "                        result[\"camera_guest_capture_error_origin\"] = {\n",
+          "before_fragment_sha256": "e6cbe9929c99f6762c71f616c8b1866630d837ad3c22e485abb88374c724a4b5",
+          "obligation": "Distinct remote unavailable guest capture origin; no Camera result relabel"
+        },
+        {
+          "after": "        if guest is not None and camera_developer_required:\n            # Read-only original custody may fail fast",
+          "after_fragment_sha256": "b07b42dc82c894e7d702825dfa53842e97b6469f4ec0e3b7dda51e0c65772beb",
+          "before": "        if guest is not None:\n            # Read-only original custody may fail fast",
+          "before_fragment_sha256": "2f6f7bdf102e425467adf926323ca99cd87cc31cf64a7efab9ea69c394ef62b3",
+          "obligation": "Camera developer prerequisite remains original C1-only even when IO reuses root ledger"
+        },
+        {
+          "after": "        if remote_documents_required:\n            # Assign the owner before prepare so every partial source/APK/install failure reaches close.\n            remote_io_documents = android_io_remote_documents.OwnedRemoteIoDocuments(root, output, home, SERIAL,\n                lambda: process.poll() is None and avd_name(home) == name, environment=env)\n            result[\"remote_io_documents\"] = remote_io_documents.prepare()\n            android_io_remote_documents.validate_prepared_receipt(result[\"remote_io_documents\"],\n                plan[\"android_io_remote_documents\"][\"source_contract\"])\n            execution = lt.execute(root, assemble, output / \"apk-assembly.log\", 900, RESERVE_MIB, env=env)\n            result[\"setup_stages\"][\"apk-assembly\"] = execution\n            if execution[\"exit_code\"] != 0 or execution.get(\"stop_reason\"):\n                raise RuntimeError(\"Reporter setup failed before any controlled remote IO native execution\")\n            if android_io_remote_documents.source_contract(root) != plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote exact source map changed during reporter compilation\")\n        if lt.android_io_documents_required(plan):\n",
+          "after_fragment_sha256": "8f26f0873d0c6f799a7935afddddb8964a4bfb1b2b0e7c1b5235c504fbeaef50",
+          "before": "        if lt.android_io_documents_required(plan):\n",
+          "before_fragment_sha256": "be7046c8c2ec1d9aceda990085bd2caaf95a372e2a9752e9fdb70436af01fdf6",
+          "obligation": "Actual source/APK/compiled policy/private signer/install/readback and revalidation precede reporter/native"
+        },
+        {
+          "after": "                         **({\"android_io_documents_receipt\": dict(io_documents.receipt)} if io_documents is not None else {}),\n                         **({\"android_io_remote_documents_receipt\": dict(remote_io_documents.receipt)} if remote_io_documents is not None else {}),\n",
+          "after_fragment_sha256": "179bd9b76a6c60122db39a5a4560e5728539219d7b8b8a5cc523f8956beef055",
+          "before": "                         **({\"android_io_documents_receipt\": dict(io_documents.receipt)} if io_documents is not None else {}),\n",
+          "before_fragment_sha256": "7b342995321816a22816990529d614633ae9edb229949e6af94cab6be5d25242",
+          "obligation": "Separate remote receipt reaches lt.run only after successful preparation and reporter assembly"
+        },
+        {
+          "after": "                if remote_io_documents is not None:\n                    try:\n                        result[\"remote_io_documents\"] = remote_io_documents.close()\n                    except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:\n                        result[\"remote_io_documents\"] = dict(remote_io_documents.receipt) | {\n                            \"cleanup_status\": \"failed\", \"owned_recipient_removed\": False, \"cleanup_error\": type(error).__name__}\n                        result[\"remote_io_documents_cleanup_error_origin\"] = preflight_error_origin(error)\n                if io_documents is not None:\n",
+          "after_fragment_sha256": "825f0c8e1dd3f7a92b5aaa20d80c798b998776f41292cb41b264cb9290c285fb",
+          "before": "                if io_documents is not None:\n",
+          "before_fragment_sha256": "920d296b1880e20550b99a7a40a05b85ea08f2d9fe8bf53ba6aac2890c923c47",
+          "obligation": "Independent close even on partial prepare; preserve source/APK primary facts and cleanup failure"
+        },
+        {
+          "after": "elif ((camera_receiver is not None or io_documents is not None or remote_io_documents is not None or permission_demo is not None or storage_probe is not None) and verified and\n",
+          "after_fragment_sha256": "6ec165a88485f7a240088b061433890e0940d78ee2f988a55fb17cb87783df63",
+          "before": "elif ((camera_receiver is not None or io_documents is not None or permission_demo is not None or storage_probe is not None) and verified and\n",
+          "before_fragment_sha256": "235812950fcd110fc79999888340ef44efb1f25072975f0adf166eddac758df5",
+          "obligation": "Remote owned transport absence remains necessary after clean shutdown, never inferred from helper cleanup"
+        },
+        {
+          "after": "                    result[\"remote_guest_disposal\" if remote_documents_required else \"camera_guest_disposal\"] = guest.dispose(\n",
+          "after_fragment_sha256": "958fdc69260215e1e3539d41f6c54fe6ddccbb4b70ab308c2547d2057967fa94",
+          "before": "                    result[\"camera_guest_disposal\"] = guest.dispose(\n",
+          "before_fragment_sha256": "5b84c55e22c5870647604f3d738adb10dd4e83a36bac93b2942e2a3e56826de3",
+          "obligation": "Independent remote guest disposal fact envelope; unchanged owned ledger schema"
+        },
+        {
+          "after": "                    result[\"remote_guest_disposal\" if remote_documents_required else \"camera_guest_disposal\"] = dict(guest.receipt) | {\n",
+          "after_fragment_sha256": "30cae2e00f471a833021b4a6188490cb5e89296860268ab681cca4da63c86f1a",
+          "before": "                    result[\"camera_guest_disposal\"] = dict(guest.receipt) | {\n",
+          "before_fragment_sha256": "df981d4eccd0adfb56d2aa479ff7573cf24463d1cdb1d1bf329c84ecc5e26d95",
+          "obligation": "Remote disposal exception cannot overwrite Camera or earlier preparation facts"
+        },
+        {
+          "after": "                            (not remote_documents_required or (result.get(\"remote_io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n                             result[\"remote_io_documents\"].get(\"cleanup_status\") == \"passed\" and\n                             result[\"remote_io_documents\"].get(\"owned_recipient_removed\") is True and\n                             not result[\"remote_io_documents\"].get(\"prepare_error\") and not result[\"remote_io_documents\"].get(\"cleanup_error\") and\n                             result.get(\"remote_guest_disposal\", {}).get(\"disposal_status\") == \"passed\" and\n                             result[\"remote_guest_disposal\"].get(\"roots_absent\") is True and\n                             result[\"remote_guest_disposal\"].get(\"identity_confined_disposal\") is True and\n                             not result[\"remote_guest_disposal\"].get(\"errors\"))) and\n                            (not io_documents_required or (result.get(\"io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n",
+          "after_fragment_sha256": "8e489b0efc2da3ab407f5f7b34764969870a537ff4aceaf7ccedef4af5b670b7",
+          "before": "                            (not io_documents_required or (result.get(\"io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n",
+          "before_fragment_sha256": "0459bdbc1fe30a1668e220c3ffe3d9fa4110bc614a98ebbb3b66956d72726e05",
+          "obligation": "Remote helper cleanup and confined owned guest disposal are separate mandatory pass conditions"
+        },
+        {
+          "after": "    if focus in lt.ANDROID_IO_REMOTE_FOCUSES:\n        if type(api_level) is not int or api_level != 35 or modules != (\"calf-io\",):\n            raise ValueError(\"Controlled remote IO requires exact integer API35 calf-io-only focus\")\n        return\n    if focus in (lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, \"android-io-named-external-storage\"):\n",
+          "after_fragment_sha256": "f54fe66399ecacefbf3a47b7429f490efbe9e92bd5bc717d8a99ca44d39fc100",
+          "before": "    if focus in (lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, \"android-io-named-external-storage\"):\n",
+          "before_fragment_sha256": "997a28c7fe932ec7ff25c347e56a96a0750d1594605dff0d3ae77b2f43b07422",
+          "obligation": "No bool/string/wrong API/module expansion is a remote route"
+        },
+        {
+          "after": "    if focus is None:\n        # Unfiltered remote discovery is source-refused before host checks, output or locks.\n        lt.plan(root, \"android-device\", only_modules=only_modules)\n    observing = kvm_timeline.active(api_level, focus)\n",
+          "after_fragment_sha256": "4fedd00b05cb38a42481c466100fd08c5479d0ffd5489a875d53b06560240359",
+          "before": "    observing = kvm_timeline.active(api_level, focus)\n",
+          "before_fragment_sha256": "eccef8f5bf8b5fe93495bcb377ed2e424c6126e44fc30c40f6ff160ebd7e1cba",
+          "obligation": "Explicit full-discovery refusal precedes host and output side effects"
+        },
+        {
+          "after": "*lt.ANDROID_IO_REMOTE_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, \"android-io-named-external-storage\", lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS,",
+          "after_fragment_sha256": "5d5080243a185636cfb5de6015c4a9d31c2cd68e43ee8804155ebb9f2b512c96",
+          "before": "lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, \"android-io-named-external-storage\", lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS,",
+          "before_fragment_sha256": "a04c7936ec0ed7c9bb4b0d757f64e7c3d686c78addceefc4c1f5c01aaa3a9ff8",
+          "obligation": "Only three exact remote focus CLI choices; no full remote fixture broadening"
+        },
+        {
+          "after": "def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None, api_level: int = API) -> dict:\n    if focus in lt.ANDROID_IO_REMOTE_FOCUSES:\n        validate_api_selection(api_level, only_modules, focus)  # Even direct owning-controller calls cannot expand the remote route.\n    if focus is None:\n        lt.plan(root, \"android-device\", only_modules=only_modules)  # Refuse unfiltered IO before output or SDK lookup, including direct calls.\n    output = lt.safe_path(root, relative)\n",
+          "after_fragment_sha256": "e5ec0e5db8efd56e754bbbddd7403edac868619c015ff7d590a3375f4720d471",
+          "before": "def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None, api_level: int = API) -> dict:\n    output = lt.safe_path(root, relative)\n",
+          "before_fragment_sha256": "9f9c8ad575f84dee5861b1518b5c9a75d32ff09e53648c1eca39f428a2bb40af",
+          "obligation": "Exact API35 remote admission is retained even at the private owning controller seam before output/source/helper side effects; unfiltered direct requests also refuse before output or SDK lookup"
+        },
+        {
+          "after": "        if remote_documents_required:\n            try:\n                result[\"remote_source_unchanged_after_cleanup\"] = (\n                    android_io_remote_documents.source_contract(root) == plan[\"android_io_remote_documents\"][\"source_contract\"])\n            except (OSError, ValueError, UnicodeError):\n                result[\"remote_source_unchanged_after_cleanup\"] = False\n        result[\"passed\"] = (result[\"test_suite_passed\"] and result[\"source_unchanged\"]\n",
+          "after_fragment_sha256": "ce105db08415506bc3f825a0903f238fc642cc456f931d482728eaba06a71ae4",
+          "before": "        result[\"passed\"] = (result[\"test_suite_passed\"] and result[\"source_unchanged\"]\n",
+          "before_fragment_sha256": "9f7119c475859e99772f413797334d86b8ae43c4c41d70650a49f99ea06e1bf9",
+          "obligation": "Literal remote source witness is held independently after final cleanup, in addition to unchanged global maps"
+        },
+        {
+          "after": "                            (not remote_documents_required or (result.get(\"remote_source_unchanged_after_cleanup\") is True and\n                             result.get(\"remote_io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n",
+          "after_fragment_sha256": "34703fc7bcedfbdb6115f607201d0f12cd60e382d7d52eaaaa9ead5e5288129b",
+          "before": "                            (not remote_documents_required or (result.get(\"remote_io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n",
+          "before_fragment_sha256": "97aae5cbe2bd7fb2d71b79efb69ef8c2da2dc2ada181537cb743c9ecbba2814a",
+          "obligation": "A refused remote final-cleanup source map cannot satisfy the independent remote acceptance gate"
+        }
+      ]
+    },
+    "scripts/ci/android_io_documents.py": {
+      "after_bytes": 45077,
+      "after_sha256": "d878bdd9d61008c885d089f6f9831c5dd9c361a7ff6484a118a19214e1dc96f7",
+      "before_bytes": 43146,
+      "before_sha256": "bad64e2ef63f6c44effc8b0dc8c6c792684ab2346ec3666befe83a0e5e0e1136",
+      "fragments": [
+        {
+          "after": "SIGNER_REVISION = \"36.0.0\"\nMAX_HOST_BYTES = 1024**2\nANDROID = \"{http://schemas.android.com/apk/res/android}\"\n# Source-only extension of the reporter, never a new accepted helper/package pair.\n# The four complete fragments inverse to the exact previously accepted reporter.\nREMOTE_REPORTER_SHA256 = \"397d45d9201637e6a696b3c4148376bb02fe5c4bb1070c541616bdcdaefeeb19\"\nREMOTE_REPORTER_FRAGMENTS = (\n    b'    <uses-permission android:name=\"io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.CONTROL_REMOTE_IO\" />\\n',\n    b'        <package android:name=\"io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments\" />\\n',\n    b'        <provider android:authorities=\"io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.documents\" />\\n',\n    b'        <activity android:name=\"com.mohamedrejeb.calf.io.AndroidIoRemoteTreeGrantActivity\" android:exported=\"false\"\\n'\n    b'            android:theme=\"@android:style/Theme.Material.Light.NoActionBar\" />\\n',\n)\n\n\ndef require(condition: bool, message: str) -> None:\n    if not condition:\n        raise ValueError(message)\n\n\ndef normalize_remote_reporter_source(payload: bytes) -> bytes:\n    \"\"\"Only the exact complete NEW remote source union precedes old constraints.\"\"\"\n    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536, \"Bounded IO reporter source bytes required\")\n    if not any(fragment in payload for fragment in REMOTE_REPORTER_FRAGMENTS):\n        return payload  # Old source constraints, not this reader, admit/refuse it.\n    result = payload\n    for fragment in REMOTE_REPORTER_FRAGMENTS:\n        require(result.count(fragment) == 1, \"Only the complete exact remote reporter source union is permitted\")\n        result = result.replace(fragment, b\"\", 1)\n    require(hashlib.sha256(result).hexdigest() == REMOTE_REPORTER_SHA256,\n            \"Remote reporter inverse cannot replace or hide changed accepted reporter bytes\")\n    return result\n\n\ndef validate_manifest(payload: bytes, *, compiled: bool) -> dict:\n",
+          "after_fragment_sha256": "efc81312c63a7254d46b6f1c9fd9d00223e9fb328349f3d17c3097cc59724b03",
+          "before": "SIGNER_REVISION = \"36.0.0\"\nMAX_HOST_BYTES = 1024**2\nANDROID = \"{http://schemas.android.com/apk/res/android}\"\n\n\ndef require(condition: bool, message: str) -> None:\n    if not condition:\n        raise ValueError(message)\n\n\ndef validate_manifest(payload: bytes, *, compiled: bool) -> dict:\n",
+          "before_fragment_sha256": "397d2c3cf05f95771e7cf90163256772cee0fcdca7406ba19f163e05354676d3",
+          "obligation": "Exact four-addition reporter-source inverse before unchanged old helper manifest/grant/refusal owners"
+        },
+        {
+          "after": "    require(actual == {FIXTURE + \"/src/main/AndroidManifest.xml\", *(JAVA + name + \".java\" for name in JAVA_NAMES)},\n            \"Unexpected helper source inventory\")\n    validate_manifest(texts[FIXTURE + \"/src/main/AndroidManifest.xml\"].encode(), compiled=False)\n    texts[\"calf-io/src/androidDeviceTest/AndroidManifest.xml\"] = normalize_remote_reporter_source(\n        texts[\"calf-io/src/androidDeviceTest/AndroidManifest.xml\"].encode(\"utf-8\")).decode(\"utf-8\")\n    reporter = ET.fromstring(texts[\"calf-io/src/androidDeviceTest/AndroidManifest.xml\"],\n                             parser=ET.XMLParser(target=lt.NoDtdBuilder()))\n    permissions = [node.get(ANDROID + \"name\") for node in reporter.findall(\"uses-permission\")]\n",
+          "after_fragment_sha256": "5786d6238a4e260bb25424718b9285932d96bbb0125b027320612e787296a3f2",
+          "before": "    require(actual == {FIXTURE + \"/src/main/AndroidManifest.xml\", *(JAVA + name + \".java\" for name in JAVA_NAMES)},\n            \"Unexpected helper source inventory\")\n    validate_manifest(texts[FIXTURE + \"/src/main/AndroidManifest.xml\"].encode(), compiled=False)\n    reporter = ET.fromstring(texts[\"calf-io/src/androidDeviceTest/AndroidManifest.xml\"],\n                             parser=ET.XMLParser(target=lt.NoDtdBuilder()))\n    permissions = [node.get(ANDROID + \"name\") for node in reporter.findall(\"uses-permission\")]\n",
+          "before_fragment_sha256": "d092308b053de0ce0821950b23d667d45636265af20b94d0e4202c4acfbe9bfd",
+          "obligation": "Exact four-addition reporter-source inverse before unchanged old helper manifest/grant/refusal owners"
+        }
+      ]
+    },
+    "scripts/ci/ios_ui_split664_source_projection.py": {
+      "after_bytes": 14034,
+      "after_sha256": "3fe6ba6239409536db53b1121bf6830b7dedfd521a5aef77c557833f7cda212f",
+      "before_bytes": 12917,
+      "before_sha256": "fa7dc60a3d5c89094d5981b14f16df870b75abb64581fbbdeaa914565261bd0f",
+      "fragments": [
+        {
+          "after": "def source_before_ui_split664(relative, payload):\n    \"\"\"Complete exact inverse or its one accepted667 preimage; not current admission.\"\"\"\n    _identity(relative, payload)\n    from android_io_remote_routing_source_projection import peel_remote_routing_for_history\n    payload = peel_remote_routing_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is None:\n        return payload  # Unlisted bytes are not certified, reconstructed or executed.\n",
+          "after_fragment_sha256": "0c63d7ffc482f2611f4003bd6c3dc6deeba7275c503575189efbbe409d945f9f",
+          "before": "def source_before_ui_split664(relative, payload):\n    \"\"\"Complete exact inverse or its one accepted667 preimage; not current admission.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is None:\n        return payload  # Unlisted bytes are not certified, reconstructed or executed.\n",
+          "before_fragment_sha256": "bdc8b84971b01f9297a9f7ba86394620aa5d69c267713eba417f979e5517e65b",
+          "obligation": "Latest IO raw/history ingress and complete input path/hash union before unchanged UI664/667 manifest pins"
+        },
+        {
+          "after": "def current_source_before_ui_split664(relative, payload):\n    \"\"\"One newest raw ingress; old, partial and unknown bound images must refuse.\"\"\"\n    _identity(relative, payload)\n    from android_io_remote_routing_source_projection import current_source_before_remote_routing\n    payload = current_source_before_remote_routing(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and (sha(payload) != binding[\"after_sha256\"] or len(payload) != binding[\"after_bytes\"]):\n        raise ValueError(\"An old or unknown image cannot replace exact current UI-split664 source\")\n",
+          "after_fragment_sha256": "f78af3dadbc287d5344e7c7fba45634b754debcc451de790d7bbdb45d6000451",
+          "before": "def current_source_before_ui_split664(relative, payload):\n    \"\"\"One newest raw ingress; old, partial and unknown bound images must refuse.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and (sha(payload) != binding[\"after_sha256\"] or len(payload) != binding[\"after_bytes\"]):\n        raise ValueError(\"An old or unknown image cannot replace exact current UI-split664 source\")\n",
+          "before_fragment_sha256": "94c97033a07326fa43078b8abfe8737f54ef1a79e6de1212771f5ce1de644ec9",
+          "obligation": "Latest IO raw/history ingress and complete input path/hash union before unchanged UI664/667 manifest pins"
+        },
+        {
+          "after": "def peel_ui_split664_for_history(relative, payload):\n    \"\"\"Peel only complete exact latest images; pass-through never certifies current.\"\"\"\n    _identity(relative, payload)\n    from android_io_remote_routing_source_projection import peel_remote_routing_for_history\n    payload = peel_remote_routing_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and sha(payload) == binding[\"after_sha256\"]:\n        return source_before_ui_split664(relative, payload)\n",
+          "after_fragment_sha256": "d136acfc72d530b020dc58db678234284bd582eecdd37d7a68cfffd39198a852",
+          "before": "def peel_ui_split664_for_history(relative, payload):\n    \"\"\"Peel only complete exact latest images; pass-through never certifies current.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and sha(payload) == binding[\"after_sha256\"]:\n        return source_before_ui_split664(relative, payload)\n",
+          "before_fragment_sha256": "3ee2610a53dd32fcf1060f1f5071e3769d36d998d38e1c46976803858bf322aa",
+          "obligation": "Latest IO raw/history ingress and complete input path/hash union before unchanged UI664/667 manifest pins"
+        },
+        {
+          "after": "def _validate_own_guard(root, document):\n    \"\"\"Bind all new guard bytes without a manifest/self-hash cycle.\"\"\"\n    from ios_popover_anchor_plan import _ordinary_bytes\n    raw_current = _ordinary_bytes(root, SOURCE_RELATIVE)[0]\n    from android_io_remote_routing_source_projection import current_source_before_remote_routing\n    raw = current_source_before_remote_routing(SOURCE_RELATIVE, raw_current)\n    needle = ('SPEC_SHA256 = \"' + SPEC_SHA256 + '\"\\n').encode()\n    template = ('SPEC_SHA256 = \"' + \"0\" * 64 + '\"\\n').encode()\n    if (not 0 < len(raw) <= MAX_SOURCE_BYTES or len(raw) != document[\"own_guard\"][\"bytes\"] or\n            raw.count(needle) != 1 or sha(raw.replace(needle, template, 1)) != document[\"own_guard\"][\"template_sha256\"]):\n        raise ValueError(\"Current UI-split664 own guard differs from its exact singleton template\")\n    return sha(raw_current)  # Exact IO raw guard above; the unchanged UI singleton still binds its complete ancestor.\n\n\ndef _expected(document):\n",
+          "after_fragment_sha256": "d924e4532bb7d1bed24830915d5dc424292dc1335daf496d23c241cc5da6330f",
+          "before": "def _validate_own_guard(root, document):\n    \"\"\"Bind all new guard bytes without a manifest/self-hash cycle.\"\"\"\n    from ios_popover_anchor_plan import _ordinary_bytes\n    raw = _ordinary_bytes(root, SOURCE_RELATIVE)[0]\n    needle = ('SPEC_SHA256 = \"' + SPEC_SHA256 + '\"\\n').encode()\n    template = ('SPEC_SHA256 = \"' + \"0\" * 64 + '\"\\n').encode()\n    if (not 0 < len(raw) <= MAX_SOURCE_BYTES or len(raw) != document[\"own_guard\"][\"bytes\"] or\n            raw.count(needle) != 1 or sha(raw.replace(needle, template, 1)) != document[\"own_guard\"][\"template_sha256\"]):\n        raise ValueError(\"Current UI-split664 own guard differs from its exact singleton template\")\n    return sha(raw)  # Qualified by the entire unchanged singleton template above.\n\n\ndef _expected(document):\n",
+          "before_fragment_sha256": "3b7b14567402f4ef3f11b9a8f7a29b36e43b07de327ac8aede88a834e73335dd",
+          "obligation": "Latest IO raw/history ingress and complete input path/hash union before unchanged UI664/667 manifest pins"
+        },
+        {
+          "after": "def current_input_hashes():\n    \"\"\"Only exact qualified raw source identities; no native/compiler selection.\"\"\"\n    document = _document()\n    from android_io_remote_routing_source_projection import current_input_hashes as remote_input_hashes\n    return (_expected(document) | {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)} |\n            remote_input_hashes())\n\n\ndef validate_current_sources(root: Path):\n    \"\"\"Qualify actual raw finite UI inputs before any immutable older comparison.\"\"\"\n    import android_io_remote_routing_source_projection as remote\n    remote.validate_current_sources(root)\n    document = _document()\n    _validate_own_guard(root, document)\n    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in _expected(document).items():\n        if sha(remote.source_before_remote_routing(name, _ordinary_bytes(root, name)[0])) != digest:\n            raise ValueError(\"Current UI-split664 input differs from its complete reviewed raw image: \" + name)\n    return True\n\n\ndef fixture_inputs():\n    \"\"\"Exactly the finite UI source-custody union, with no other checkout binding.\"\"\"\n    from android_io_remote_routing_source_projection import fixture_inputs as remote_fixture_inputs\n    return BOUND_PATHS | ADDED_PATHS | UNCHANGED_PATHS | {SOURCE_RELATIVE, SPEC_RELATIVE} | remote_fixture_inputs()\n",
+          "after_fragment_sha256": "1197785787aeccd232ff03b08ca583e1e6106d5823913a059ca7a9c754aaee29",
+          "before": "def current_input_hashes():\n    \"\"\"Only exact qualified raw source identities; no native/compiler selection.\"\"\"\n    document = _document()\n    return _expected(document) | {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)}\n\n\ndef validate_current_sources(root: Path):\n    \"\"\"Qualify actual raw finite UI inputs before any immutable older comparison.\"\"\"\n    document = _document()\n    _validate_own_guard(root, document)\n    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in _expected(document).items():\n        if sha(_ordinary_bytes(root, name)[0]) != digest:\n            raise ValueError(\"Current UI-split664 input differs from its complete reviewed raw image: \" + name)\n    return True\n\n\ndef fixture_inputs():\n    \"\"\"Exactly the finite UI source-custody union, with no other checkout binding.\"\"\"\n    return BOUND_PATHS | ADDED_PATHS | UNCHANGED_PATHS | {SOURCE_RELATIVE, SPEC_RELATIVE}\n",
+          "before_fragment_sha256": "be2209e66b7f75ac9c419bf66df020878e3fa61d0a6dbac4e8a879a73911ea6f",
+          "obligation": "Latest IO raw/history ingress and complete input path/hash union before unchanged UI664/667 manifest pins"
+        }
+      ]
+    },
+    "scripts/ci/library_tests.py": {
+      "after_bytes": 407290,
+      "after_sha256": "50649230981349294a9aac3dd51b14d629d3596818c2a527d95ea2cf2c48c80d",
+      "before_bytes": 397942,
+      "before_sha256": "b2c90b74c600c13f47270aae9a61f903ad184a10898ffaff0ed333b9461ac985",
+      "fragments": [
+        {
+          "after": "# NEW controlled-loopback routes; no full/default fixture population is admitted.\nANDROID_IO_REMOTE_FOCUSES = (\"android-io-controlled-remote\", \"android-io-controlled-remote-positive\",\n                            \"android-io-controlled-remote-cancel\")\nANDROID_IO_REMOTE_SOURCE = \"calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteDocumentsTest.kt\"\nANDROID_IO_PROVIDER_FOCUS = \"android-io-provider-lifecycle\"\n",
+          "after_fragment_sha256": "d3b5ecbb7ace2ee366174fa5e750d392cbbac75cf8ceaf62bb5516174d380c84",
+          "before": "ANDROID_IO_PROVIDER_FOCUS = \"android-io-provider-lifecycle\"\n",
+          "before_fragment_sha256": "aa7d80e5409a4108df5cf9b424ffc57880f6303cdf372cc82a7ef41f3ff41afb",
+          "obligation": "Literal separate remote focuses and direct owning source; no old focus aliases"
+        },
+        {
+          "after": "            (focus in ANDROID_IO_REMOTE_FOCUSES and suite == \"android-device\" and modules == (\"calf-io\",)) or\n            (focus == ANDROID_IO_PROVIDER_FOCUS and suite == \"android-device\" and modules == (\"calf-io\",)) or\n",
+          "after_fragment_sha256": "f6b68c277c80fe4719a6bd11a381d9d91b5b10296096eafdba5fc577e252e48c",
+          "before": "            (focus == ANDROID_IO_PROVIDER_FOCUS and suite == \"android-device\" and modules == (\"calf-io\",)) or\n",
+          "before_fragment_sha256": "5ca4318168b903368447d6d077b84aff616e181bab800d96a61fda8d5619b932",
+          "obligation": "Only exact Android-device calf-io tuple admits the three remote focuses"
+        },
+        {
+          "after": "def android_io_remote_documents_required(test_plan: dict) -> bool:\n    return (test_plan.get(\"suite\") == \"android-device\" and\n            test_plan.get(\"explicit_test_focus\") in ANDROID_IO_REMOTE_FOCUSES)\n\n\ndef validate_android_io_remote_documents_plan(test_plan: dict) -> None:\n    contract = test_plan.get(\"android_io_remote_documents\")\n    if not android_io_remote_documents_required(test_plan):\n        if contract is not None:\n            raise ValueError(\"A remote helper/source receipt cannot replace an unrelated or accepted IO route\")\n        return\n    import android_io_remote_documents as remote\n    focus = test_plan[\"explicit_test_focus\"]\n    expected = test_plan.get(\"expected\")\n    if (type(contract) is not dict or set(contract) != {\"package\", \"source_fixture\", \"verification_api_level\", \"source_contract\"} or\n            contract.get(\"package\") != remote.PACKAGE or contract.get(\"source_fixture\") != remote.FIXTURE or\n            type(contract.get(\"verification_api_level\")) is not int or contract[\"verification_api_level\"] != 35 or\n            type(expected) is not list or len(expected) != 1 or test_plan.get(\"explicit_module_subset\") != [\"calf-io\"] or\n            test_plan.get(\"complete_suite_requested\") is not False or test_plan.get(\"android_io_documents\") is not None):\n        raise ValueError(\"Only the separate exact API35 calf-io remote source/fixture plan is admitted\")\n    item = expected[0]\n    dependencies = tuple(remote.KOTLIN + name + \".kt\" for name in remote.KOTLIN_NAMES) + tuple(remote.REUSED_PINS)\n    if (type(item) is not dict or item.get(\"module\") != \"calf-io\" or item.get(\"project\") != \":calf-io\" or\n            item.get(\"task\") != \":calf-io:connectedAndroidDeviceTest\" or\n            item.get(\"report_directory\") != \"calf-io/build/outputs/androidTest-results/connected/androidMain\" or\n            item.get(\"utp_results_directory\") != item.get(\"report_directory\") or\n            item.get(\"agp_declared_xml_directory\") != \"calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest\" or\n            item.get(\"test_filter\") != remote.instrumentation_filter(focus) or item.get(\"test_filter_argument\") != \"class\" or\n            item.get(\"test_exclusion_annotation\") is not None or item.get(\"required_testcases\") != list(remote.identities(focus)) or\n            type(item.get(\"verification_api_level\")) is not int or item[\"verification_api_level\"] != 35 or\n            type(item.get(\"required_original_xml\")) is not int or item[\"required_original_xml\"] != 1 or\n            any(relative not in item.get(\"test_source_files\", []) for relative in dependencies)):\n        raise ValueError(\"Invalid exact remote class/two-or-one-method/API35/task/XML plan\")\n    remote.validate_source_receipt(contract[\"source_contract\"])\n\n\ndef android_io_documents_required(test_plan: dict) -> bool:\n",
+          "after_fragment_sha256": "3128962fdebde292e3178fc3875aca2f3977f0c9da69a4af0d48978fe1678c31",
+          "before": "def android_io_documents_required(test_plan: dict) -> bool:\n",
+          "before_fragment_sha256": "6ffc9c54b7078e74ad62929e23e0c57b0b6ce02190738c96a4eb5f2941542955",
+          "obligation": "Separate remote predicate and strict finite class/API/source receipt plan; old helper never substitutes"
+        },
+        {
+          "after": "    elif focus in ANDROID_IO_REMOTE_FOCUSES:\n        import android_io_remote_documents as remote\n        remote.validate_direct_native_population(safe_path(root, ANDROID_IO_REMOTE_SOURCE).read_text(encoding=\"utf-8\"))\n        result[\"explicit_test_focus\"] = focus\n        selected[0][\"test_filter\"] = remote.instrumentation_filter(focus)\n        selected[0][\"test_filter_argument\"] = \"class\"\n        selected[0][\"required_testcases\"] = list(remote.identities(focus))\n        selected[0][\"verification_api_level\"] = 35\n        selected[0][\"required_original_xml\"] = 1\n        result[\"android_io_remote_documents\"] = {\"package\": remote.PACKAGE, \"source_fixture\": remote.FIXTURE,\n            \"verification_api_level\": 35, \"source_contract\": remote.source_contract(root)}\n        validate_android_io_remote_documents_plan(result)\n        result[\"scope\"] = \"Only the two NEW controlled-loopback TCP DocumentsProvider methods, or one justified missing-only follow-up, on exact owned API35 calf-io. Real system tree grants/live HTTP/public bounded source and separate framework pending-open CancellationSignal before PFD transfer remain native assertions. Not commercial cloud/account, Downloads, process restart, automatic coroutine/post-transfer cancellation, TLS/security, full IO/device/consumer/API-ABI or issue/release acceptance; Downloads remains unresolved, not N/A.\"\n    elif focus == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "after_fragment_sha256": "adb595ab7903f743ef702e50c35aa1c5830a4c9294afb2e672c10475053b1a23",
+          "before": "    elif focus == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "before_fragment_sha256": "bed4172d67a21b05014835736dc004c7dcb6a0d0fd0ca069218cc5c8d2e72b8e",
+          "obligation": "Pure source refusal and exact remote2/1 selection precede controller side effects"
+        },
+        {
+          "after": "    validate_android_io_documents_plan(test_plan)\n    validate_android_io_remote_documents_plan(test_plan)\n",
+          "after_fragment_sha256": "f8cd8f46c58f3c3b47deee215ec334dee4b47bd953f8bd76be291113a1b1d5ac",
+          "before": "    validate_android_io_documents_plan(test_plan)\n",
+          "before_fragment_sha256": "6b32421f84296a2a2e6c00c807f1a919d03056367104b490af8917956c64b128",
+          "obligation": "Revalidate remote plan whenever the existing focus gate is consumed"
+        },
+        {
+          "after": "    if focus in ANDROID_IO_REMOTE_FOCUSES:\n        return True  # The separate strict remote plan validator above already owns every finite operand.\n    if focus == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "after_fragment_sha256": "2c28b5a4824fe7e6ad5b2cb72fd1a6d13b4ef9421490e38afd55e62f3f891577",
+          "before": "    if focus == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "before_fragment_sha256": "bc5638d3393f84e811621d510db1a022b781f776abab00869b4acd4f184b75dd",
+          "obligation": "Remote focused path returns only after its separate complete validator"
+        },
+        {
+          "after": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_IO_REMOTE_FOCUSES:\n            required = {(c[\"classname\"], c[\"name\"]) for c in expected[\"required_testcases\"]}\n            actual = {(c[\"classname\"], c[\"name\"]) for c in module_cases}\n            policy_errors = ([] if actual == required and len(module_cases) == len(required) and\n                             len(reports) == len(paths) == expected[\"required_original_xml\"] == 1 and\n                             all(c[\"status\"] == \"passed\" for c in module_cases) else\n                             [\"Controlled remote IO XML requires only the exact selected NEW identities in one fresh original report; duplicate/skipped/stale/missing/foreign cases refuse\"])\n            if native_test_policy.canonical_host(host_system or platform.system()) != \"linux\":\n                policy_errors.append(\"Controlled remote IO requires the exact Linux API35 owned-emulator slot\")\n            scenarios = [{**c, \"source\": ANDROID_IO_REMOTE_SOURCE, \"required_on_host\": True,\n                          \"verification_api_level\": 35,\n                          \"disposition\": \"required-executed\" if c[\"status\"] == \"passed\" else \"required-not-passed\"}\n                         for c in module_cases]\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "after_fragment_sha256": "45821cd59476bd61a13206de63160cc821e2e78b1cd1e8f8b98d4baf9ae5580a",
+          "before": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "before_fragment_sha256": "e26f19192035dfb9f6c8f93e9e2d98e765b69dd71de0d964cd7ca6783ce7483c",
+          "obligation": "One fresh original XML only exact selected identities; no duplicate skip stale unrelated host admission"
+        },
+        {
+          "after": "                   android_serial: str | None = None, android_io_documents_receipt: dict | None = None,\n                   android_io_remote_documents_receipt: dict | None = None,\n",
+          "after_fragment_sha256": "d5cbddd37da0a65b85465d24c7e65541f97ce2cc69f528b3bab1a91d197d749d",
+          "before": "                   android_serial: str | None = None, android_io_documents_receipt: dict | None = None,\n",
+          "before_fragment_sha256": "4e14c90aa6c093d727fb98a63f0fb61cd6ec5b979c1cde13bc77d828c3e91370",
+          "obligation": "Distinct remote receipt parameter; old helper remains distinct"
+        },
+        {
+          "after": "    io_required = android_io_documents_required(test_plan)\n    remote_required = android_io_remote_documents_required(test_plan)\n    if android_io_remote_documents_receipt is not None and (not remote_required or for_assembly):\n        raise ValueError(\"No remote prepared receipt on unrelated or assembly-only commands\")\n    if remote_required:\n        import android_io_remote_documents as remote\n        if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n            raise ValueError(\"Remote current source/fixture/controller identities changed before the owning command\")\n        if not for_assembly:\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n",
+          "after_fragment_sha256": "9a349c5620799103bc59e57babed91f906718a09cfb4f3f75383125426e74f9c",
+          "before": "    io_required = android_io_documents_required(test_plan)\n",
+          "before_fragment_sha256": "51ed2c5947ca6d6e9e43befafdc9414b5b5eaa7839c116d39b2e932643305656",
+          "obligation": "Exact current source and separate prepared lease revalidated before native command; assembly has no lease"
+        },
+        {
+          "after": "        if remote_required and not for_assembly:\n            # Preparation identity only; neither this argument nor a source receipt proves native success.\n            command.append(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedRemoteIoDocuments=true\")\n        if permission_required and not for_assembly:\n",
+          "after_fragment_sha256": "e014328e1df731bc1471066ef0246c6b33cd5b1d67db956f66b03070953b1638",
+          "before": "        if permission_required and not for_assembly:\n",
+          "before_fragment_sha256": "6556b807cf49b1e8a388d8518def561dced44bedac17675488d81ff1d094b2d7",
+          "obligation": "Remote prepared bit never emitted by assembly-only; not a native assertion or acceptance claim"
+        },
+        {
+          "after": "        android_io_documents_receipt: dict | None = None,\n        android_io_remote_documents_receipt: dict | None = None,\n",
+          "after_fragment_sha256": "239f87fd1a47d3e25927d725dacdd82da3abedcd789e9c488ef324594290a2e9",
+          "before": "        android_io_documents_receipt: dict | None = None,\n",
+          "before_fragment_sha256": "7025eb531d820418a635f457fca26f6fa5361a90445f391b5f333bfda08a70dc",
+          "obligation": "Distinct remote library run receipt handoff"
+        },
+        {
+          "after": "    if android_io_remote_documents_required(test_plan) and android_user_home is None:\n        raise ValueError(\"Remote instrumentation requires the controller's same existing private signing home\")\n    if android_io_documents_required(test_plan) and android_user_home is None:\n",
+          "after_fragment_sha256": "43efee8b8264f3c490fac0006ee3992dc43b95ed41c10661e5a27838b718a8d9",
+          "before": "    if android_io_documents_required(test_plan) and android_user_home is None:\n",
+          "before_fragment_sha256": "808170412bc91a598204c60017490a55fb49615993930c10c8e7c582c9bc6abb",
+          "obligation": "Remote source APK/reporter/native share only the existing private debug signer"
+        },
+        {
+          "after": "                             android_serial=android_serial, android_io_documents_receipt=android_io_documents_receipt,\n                             android_io_remote_documents_receipt=android_io_remote_documents_receipt,\n",
+          "after_fragment_sha256": "3200ae521b8d6c61273dcc3e269e0ae8cf4df9687269051a7345bcf1f27a1c5a",
+          "before": "                             android_serial=android_serial, android_io_documents_receipt=android_io_documents_receipt,\n",
+          "before_fragment_sha256": "a620dc18f5a87056d603c17d7a04ea90bf51a2e73c2841fe4834721c0f6f6d02",
+          "obligation": "Separate remote prepared receipt reaches the actual guarded command"
+        },
+        {
+          "after": "        if android_io_remote_documents_required(test_plan):\n            import android_io_remote_documents as remote\n            if context.get(\"android_emulator\", {}).get(\"api_level\") != \"35\":\n                raise ValueError(\"Remote controlled-loopback native execution requires actual API35\")\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n            if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote current source map changed before native execution\")\n        if android_permission_demo_required(test_plan):\n            import android_permission_demo\n",
+          "after_fragment_sha256": "a6ff1cd080488ee158257938d1f85478dc22fb4b9effeb3b1820edd122099190",
+          "before": "        if android_permission_demo_required(test_plan):\n            import android_permission_demo\n",
+          "before_fragment_sha256": "de1d409b2858d3c9ef7fc8182b2b7006c88eaf05ac07f43f332d6e28749e96f2",
+          "obligation": "Actual captured API35 and source map required before native; no compile/source inference"
+        },
+        {
+          "after": "        if android_io_remote_documents_required(test_plan):\n            receipt[\"android_io_remote_documents\"] = dict(android_io_remote_documents_receipt)\n        if android_permission_demo_required(test_plan):\n            receipt[\"android_permission_demo\"] = dict(android_permission_demo_receipt)\n",
+          "after_fragment_sha256": "cdc9d5c6aac2ac4d23ac437c33cc0038bd4f04917001f1318b9b9ecadba18929",
+          "before": "        if android_permission_demo_required(test_plan):\n            receipt[\"android_permission_demo\"] = dict(android_permission_demo_receipt)\n",
+          "before_fragment_sha256": "fbbf96e9ea24961136e99e8b0080bb01c99bc6b84a24e90e75e797fa79ecf89c",
+          "obligation": "Attach the distinct remote preparation facts without relabelling old IO/native facts"
+        },
+        {
+          "after": "        if android_io_remote_documents_required(test_plan):\n            try:\n                import android_io_remote_documents as remote\n                if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                    receipt[\"remote_source_capture_error\"] = \"Remote source/fixture/controller inputs changed after native execution\"\n            except (OSError, ValueError, UnicodeError):\n                receipt[\"remote_source_capture_error\"] = \"Unable to establish the exact remote source map after execution\"\n        markers = execution_markers(output / \"gradle.log\")\n",
+          "after_fragment_sha256": "a57a8cbbb9ba0d561e08087c9984890517653d5c13034257eeb7f2c9c85ca8e1",
+          "before": "        markers = execution_markers(output / \"gradle.log\")\n",
+          "before_fragment_sha256": "5c7a79f1c77d0b31d48c2d4e933bc0dca1090fb814139804fccf96f81aa9db62",
+          "obligation": "Exact remote source receipt is independently held after native, in addition to unchanged global input maps"
+        },
+        {
+          "after": "                             and not receipt.get(\"device_context_error\") and not receipt.get(\"remote_source_capture_error\"))\n",
+          "after_fragment_sha256": "14a7cb0277dd4f094d0c55617319ca0a9a51ce735b75b9faefd63d244f7eeb26",
+          "before": "                             and not receipt.get(\"device_context_error\"))\n",
+          "before_fragment_sha256": "ac8144b6615c970b840fa0dda8a6efad02ee4ef9a2733a2a70c41e776cc4b29b",
+          "obligation": "Remote post-execution source refusal cannot pass the library gate"
+        },
+        {
+          "after": "                                           ANDROID_PERMISSION_COMPLETION_FOCUS, *ANDROID_IO_REMOTE_FOCUSES, ANDROID_IO_PROVIDER_FOCUS,",
+          "after_fragment_sha256": "e787d7b64a8ab762a243fb13b2347321dbee5f4a75c39cea7981de1b10552b53",
+          "before": "                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS,",
+          "before_fragment_sha256": "b4d5303e3cf16d6be1b975283324bc1f163f59106f775a11e9969dded3768820",
+          "obligation": "Finite remote CLI choice union; no broad/default route"
+        },
+        {
+          "after": "    if suite == \"android-device\" and focus is None and (not only_modules or \"calf-io\" in only_modules):\n        # Requested-domain admission is independent of class/file existence or a synthetic minimum.\n        raise ValueError(\"Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked\")\n    task_name, inherited = SUITES[suite]\n",
+          "after_fragment_sha256": "00039f89ecc95419d2e201e954c8241ebeeaea8ce87c359951b00b425fb66c8d",
+          "before": "    task_name, inherited = SUITES[suite]\n",
+          "before_fragment_sha256": "75af6efe280cd3498ed88da3d92436eb7a2c85232b9e6b90bf3784b264aeaf0b",
+          "obligation": "Unconditional requested-domain full/default or unfiltered calf-io refusal before source discovery; no class/path/minimum loophole"
+        }
+      ]
+    },
+    "scripts/ci/test_android_io_reporter_manifest_union.py": {
+      "after_bytes": 16999,
+      "after_sha256": "6f59106ef9bd4bfcee15e9527016d8b671ae442c006889fd49a73135807e8977",
+      "before_bytes": 15647,
+      "before_sha256": "8c36f20179b65505fb93d5d3cb222e73d3b071771cc6f300db46e3f93d25a7a5",
+      "fragments": [
+        {
+          "after": "\nimport ast\nfrom copy import deepcopy\nimport hashlib\nimport os\nfrom pathlib import Path\nfrom types import SimpleNamespace\n",
+          "after_fragment_sha256": "70c2a3aac09fa6720ace746787fd90df35c19a14fdba2cb86060631b10e40322",
+          "before": "\nimport ast\nfrom copy import deepcopy\nimport os\nfrom pathlib import Path\nfrom types import SimpleNamespace\n",
+          "before_fragment_sha256": "99d278561bb978085c1799a0c39a69e82c02d547f284be57c30ee7214a4c42f6",
+          "obligation": "One source fixture inverse before unchanged original12 method assertion bodies"
+        },
+        {
+          "after": "    return env[\"reporter_model\"]\n\n\ndef owning_reporter_fixture(payload):\n    \"\"\"Execute only the exact new pure source inverse, then the old parser stage.\"\"\"\n    syntax = ast.parse((TREE / \"scripts/ci/android_io_documents.py\").read_text(encoding=\"utf-8\"))\n    names = (\"REMOTE_REPORTER_SHA256\", \"REMOTE_REPORTER_FRAGMENTS\")\n    constants = []\n    for name in names:\n        matches = [node for node in syntax.body if isinstance(node, ast.Assign) and\n                   any(isinstance(target, ast.Name) and target.id == name for target in node.targets)]\n        if len(matches) != 1:\n            raise AssertionError(\"One exact remote reporter fixture constant is required\")\n        constants += matches\n    functions = []\n    for name in (\"require\", \"normalize_remote_reporter_source\"):\n        matches = [node for node in syntax.body if isinstance(node, ast.FunctionDef) and node.name == name]\n        if len(matches) != 1:\n            raise AssertionError(\"One exact pure remote reporter fixture source function is required\")\n        functions += matches\n    env = {\"hashlib\": hashlib}\n    exec(compile(ast.fix_missing_locations(ast.Module(body=deepcopy(constants + functions), type_ignores=[])),\n                 \"selected-owning-remote-reporter-source-inverse-only\", \"exec\"), env)\n    return env[\"normalize_remote_reporter_source\"](payload)\n\n\nclass ReporterManifestUnionSourceControls(unittest.TestCase):\n    def setUp(self):\n        self.guard = owning_reporter_guard()\n        self.union = ET.fromstring(owning_reporter_fixture((TREE / MANIFEST).read_bytes()))\n        self.prior = deepcopy(self.union)\n        queries = self.prior.find(\"queries\")\n        if [node.tag for node in queries] != [\"package\", \"provider\", \"intent\"]:\n",
+          "after_fragment_sha256": "dfa8b308e3579673cb501780f875ec00a6c1bf18cad178c3e9ad56dfca8512b9",
+          "before": "    return env[\"reporter_model\"]\n\n\nclass ReporterManifestUnionSourceControls(unittest.TestCase):\n    def setUp(self):\n        self.guard = owning_reporter_guard()\n        self.union = ET.fromstring((TREE / MANIFEST).read_bytes())\n        self.prior = deepcopy(self.union)\n        queries = self.prior.find(\"queries\")\n        if [node.tag for node in queries] != [\"package\", \"provider\", \"intent\"]:\n",
+          "before_fragment_sha256": "cd84ce534b888cb93ad6d89ece1cbcca483afa9b8f6bc92dc7351f97ab85dbf5",
+          "obligation": "One source fixture inverse before unchanged original12 method assertion bodies"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "after_bytes": 61644,
+      "after_sha256": "82df0ddf508967a9284059c42e5fc1ce8d412e1c603ea69e47494db76cf12d7a",
+      "before_bytes": 61085,
+      "before_sha256": "8ca96d12d0ec4a69aaaca64f90edda84b63747ee285ff17c907e2d8ecb1d8d6f",
+      "fragments": [
+        {
+          "after": "    \"android-io-reference-regressions\": (\"android-device-api35\",),\n    \"android-io-controlled-remote\": (\"android-device-api35\",),\n    \"android-io-controlled-remote-positive\": (\"android-device-api35\",),\n    \"android-io-controlled-remote-cancel\": (\"android-device-api35\",),\n",
+          "after_fragment_sha256": "23c8a017dbbc628d48ecbe2efb777fa05922a586bb54b2ac7bf5c48b0667bdee",
+          "before": "    \"android-io-reference-regressions\": (\"android-device-api35\",),\n",
+          "before_fragment_sha256": "83101f7fc24b9a2260ee23d36b2e853f3f181d7defc7748769934c5a23e0e65e",
+          "obligation": "Three single API35 Linux x64 rows; no added all/11-slot work"
+        },
+        {
+          "after": "    \"android-io-reference-regressions\": \"calf-io\",\n    \"android-io-controlled-remote\": \"calf-io\",\n    \"android-io-controlled-remote-positive\": \"calf-io\",\n    \"android-io-controlled-remote-cancel\": \"calf-io\",\n",
+          "after_fragment_sha256": "c4bd23b812117859c0cd7a26d25a9e0ecae60eb9da9450c7daea823ad9641a79",
+          "before": "    \"android-io-reference-regressions\": \"calf-io\",\n",
+          "before_fragment_sha256": "69568751a6b7b4026e8b1bffd7703df3aa379ba4c841aac713005721973aac0c",
+          "obligation": "Literal calf-io-only profile modules; no inherited aggregate"
+        },
+        {
+          "after": "    if profile in {\"android-io-controlled-remote\", \"android-io-controlled-remote-positive\", \"android-io-controlled-remote-cancel\"}:\n        for row in rows:\n            row[\"test-focus\"] = profile\n    if profile == \"android-io-reference-regressions\":\n",
+          "after_fragment_sha256": "7295f4d7ee769a69956aab00c4be2627d11f1fd44d1dae46cbf65c0e0bf65c9a",
+          "before": "    if profile == \"android-io-reference-regressions\":\n",
+          "before_fragment_sha256": "4c999f8f424bfd68fa166d04f2b804c24eeb1d2891b5ce0763a49a5f5ec07d9b",
+          "obligation": "Each fixed remote row carries only its exact2/1 class selection"
+        }
+      ]
+    }
+  },
+  "own_guard": {
+    "bytes": 14480,
+    "template_sha256": "320d9a1aff917c56ded730ddc9802a86828ae41811ce36fd38ead00f6d7fcdc8"
+  },
+  "predecessor": "afc0a727f60a9278c96cf9721157ba7413229c10",
+  "schema_version": 1,
+  "scope": "Exact controlled-loopback IO routing/source/history custody only; no compiler/native/consumer acceptance",
+  "unchanged_inputs": {
+    "calf-io/build.gradle.kts": "480ef3a1cd3a75dd7b60df1a86812064ea7233ed950a34d1cd9941fff489e449",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSystemTreeGrantActivity.kt": "760634c61aa94ffb04b16f94fc20ceb67f4c58aa06477ee6dde14c3dda24fdde",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "941c43e90bd8d32f113b3dc0b863b4885459a4f17716825eb26ffbf8b320a78a",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/NamedSystemDocumentsUi.kt": "e0251e1f3cc8bb4c93791b978d84de5bc4eb18469873c4879c190dbdd93956a0",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt": "c2180ba34f3c825e9060ddc68272b41c9d847f13cd91de7f7e2be54b496216a6",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt": "c27062ac3be205297ba84337c046bc2921b0d9326236bc9b53a974461bb44227",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.android.kt": "580c83bc154d93e4f8b347644c04823ec662b2703cfa2cc73e702d2f04aed751",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.android.kt": "436d0065214fd781730a1818868ec96d9202f750aa63c2ec2189e970ac6a2ac0",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+    "calf-ui/build.gradle.kts": "7f83bd970329ad885821f80a0f56cf9a8d27a58e8e5a8c8b354a124e544ee8a4",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt": "b58eafaa3f097de27d0e8babe1059ce818fca903d954a77cdbd2a4c1a73252b9",
+    "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "scripts/ci/android_geo_probe.py": "86ee29f08f33f30a1616f18fa9666ee7bb9763f6364c345456e5523bd335c061",
+    "scripts/ci/android_share_recipient.py": "9877fd03ba2818281d6100fbc134b7be1e2cb60d1959114b332c38397882c608",
+    "scripts/ci/fixtures/ios-ui-split664-source-inverse.json": "1455a8edb3553a87a409f7fc30568ede9f7f52fe97042690b668dc6ebc145f4a",
+    "scripts/ci/ios_ui_application.py": "b3d0f2c2986e42a5e662ba8c2521393f7564916e27084b9473c354b7328b9605",
+    "scripts/ci/ios_ui_related_native_focus.py": "2828b127fc9413da63340ed635b306eaec09dfd0f6a057a8978fef29746a77fb",
+    "scripts/ci/ios_ui_split_native.init.gradle.kts": "93bdd4ec3bbd3fac3db6d2e60709bd6945eb96c8cb05b7bdc50d7c3d7b689a9d",
+    "scripts/ci/test_ios_ui_related_source_projection.py": "08e90c1752149f554065eb51e586b41eca913a231fe691c5059e930c32578120",
+    "scripts/ci/test_ios_ui_split664_native_routing.py": "dc0b1f4a5a4bd9dc22989043a3e1f65137a0466adb1543fb36b2a1686079e5a7",
+    "scripts/ci/webview_current_contract667_source_projection.py": "6e3d560049ceb020db99a6ccd7d72bfc34e05425210900a1a009f44cd592ac23"
+  }
+}

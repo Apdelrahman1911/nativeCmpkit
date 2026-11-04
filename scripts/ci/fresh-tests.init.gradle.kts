@@ -74,6 +74,25 @@ allprojects {
             check(runnerArguments.filterKeys { it in selectorKeys } == requestedSelectors) {
                 "Effective AGP instrumentation selectors differ from the requested exact selection"
             }
+            val callbackFocus = providers.gradleProperty("nativecmpkitCameraCallbackSubstitution").orNull
+            val callbackSelector = "com.mohamedrejeb.calf.camerapicker.AndroidCameraCallbackSubstitutionTest#nativeActiveCaptureDeliversOnceToLatestCallbackWithoutReplacingOwner"
+            check(callbackFocus == null || callbackFocus == "android-camera-callback-substitution") {
+                "Only the exact opt-in callback/delayed-recipient focus is permitted"
+            }
+            val callbackSelected = requestedSelectors["class"] == callbackSelector
+            check((callbackFocus != null) == callbackSelected) {
+                "Callback selection requires its exact explicit callback/delayed-recipient opt-in"
+            }
+            if (callbackSelected) {
+                check(path == ":calf-camera-picker:connectedAndroidDeviceTest" &&
+                    requestedSelectors == mapOf("class" to callbackSelector)) {
+                    "Callback is one Camera class#method, never an annotation, exclusion or provider replay"
+                }
+                check(runnerArguments["nativecmpkitOwnedCameraReceiver"] == "true" &&
+                    runnerArguments["timeout_msec"] == "120000") {
+                    "Effective callback arguments require the owned receiver and bounded failure timeout"
+                }
+            }
             val results = javaClass.getMethod("getXmlResultsDirectory").invoke(this) as DirectoryProperty
             // Executed getter inspection establishes the DECLARED intermediate.
             // Actual run40434024680 has an empty tree there; its UTP producer

@@ -1,0 +1,640 @@
+{
+  "added_inputs": {
+    "scripts/ci/fixtures/tooling-recovery671-composed-routing680.json": "b853b524177cfa51c175f9c3bc7d3cd301c5db0aec7e335f6739fdca07332871",
+    "scripts/ci/test_shared_tooling_recovery671.py": "f53e0edd6dc4ea991a07453468a6f0a2560dd79b0e957e1dc5626b087f89edcf"
+  },
+  "bindings": {
+    "scripts/ci/android_camera_callback_native_focus.py": {
+      "after_bytes": 26749,
+      "after_sha256": "503ca18b83311b557908a50dc9683dec3e74ba1708f23e9515b356c4361459a6",
+      "before_bytes": 24884,
+      "before_sha256": "f0a9123eda4525f8eb8d308100747c8b7a19f68184ade071e073885e3cb38538",
+      "fragments": [
+        {
+          "after": "def source_before_callback672(relative, payload):\n    \"\"\"Exact complete isolated callback inverse or root044d; never current admission.\"\"\"\n    _identity(relative, payload)\n    from tooling_recovery671_source_projection import peel_tooling671_for_history, peel_callback_isolated680_for_history\n    payload = peel_tooling671_for_history(relative, payload)\n    payload = peel_callback_isolated680_for_history(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is None:\n        return payload  # Unlisted data is not certified or executed.\n    if not 0 < len(payload) <= MAX_SOURCE_BYTES:\n        raise ValueError(\"Complete bounded callback672 source bytes are required\")\n    observed = sha(payload)\n    if observed == row[\"before_sha256\"] and len(payload) == row[\"before_bytes\"]:\n        return payload\n    if observed != row[\"after_sha256\"] or len(payload) != row[\"after_bytes\"]:\n        raise ValueError(\"Callback672 source is not its complete reviewed afterimage\")\n    restored = payload\n    for fragment in reversed(row[\"fragments\"]):\n        before, after = fragment[\"before\"].encode(), fragment[\"after\"].encode()\n        if sha(before) != fragment[\"before_fragment_sha256\"] or sha(after) != fragment[\"after_fragment_sha256\"] or restored.count(after) != 1:\n            raise ValueError(\"Exact unique callback672 inverse fragments are required\")\n        restored = restored.replace(after, before, 1)\n    if sha(restored) != row[\"before_sha256\"] or len(restored) != row[\"before_bytes\"]:\n        raise ValueError(\"Callback672 inverse did not restore its complete root044d source\")\n    forward = restored\n    for fragment in row[\"fragments\"]:\n        before, after = fragment[\"before\"].encode(), fragment[\"after\"].encode()\n        if forward.count(before) != 1:\n            raise ValueError(\"Exact unique callback672 forward fragments are required\")\n        forward = forward.replace(before, after, 1)\n    if forward != payload:\n        raise ValueError(\"Complete callback672 inverse/forward roundtrip differs\")\n    return restored",
+          "after_fragment_sha256": "c74f72e6af706edb0b2e5d287a7067c218d15f8b7c9ccd381b1117668ac8fbd3",
+          "before": "def source_before_callback672(relative, payload):\n    \"\"\"Exact complete inverse or its root044d preimage; never current admission.\"\"\"\n    _identity(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is None:\n        return payload  # Unlisted data is not certified or executed.\n    if not 0 < len(payload) <= MAX_SOURCE_BYTES:\n        raise ValueError(\"Complete bounded callback672 source bytes are required\")\n    observed = sha(payload)\n    if observed == row[\"before_sha256\"] and len(payload) == row[\"before_bytes\"]:\n        return payload\n    if observed != row[\"after_sha256\"] or len(payload) != row[\"after_bytes\"]:\n        raise ValueError(\"Callback672 source is not its complete reviewed afterimage\")\n    restored = payload\n    for fragment in reversed(row[\"fragments\"]):\n        before, after = fragment[\"before\"].encode(), fragment[\"after\"].encode()\n        if sha(before) != fragment[\"before_fragment_sha256\"] or sha(after) != fragment[\"after_fragment_sha256\"] or restored.count(after) != 1:\n            raise ValueError(\"Exact unique callback672 inverse fragments are required\")\n        restored = restored.replace(after, before, 1)\n    if sha(restored) != row[\"before_sha256\"] or len(restored) != row[\"before_bytes\"]:\n        raise ValueError(\"Callback672 inverse did not restore its complete root044d source\")\n    forward = restored\n    for fragment in row[\"fragments\"]:\n        before, after = fragment[\"before\"].encode(), fragment[\"after\"].encode()\n        if forward.count(before) != 1:\n            raise ValueError(\"Exact unique callback672 forward fragments are required\")\n        forward = forward.replace(before, after, 1)\n    if forward != payload:\n        raise ValueError(\"Complete callback672 inverse/forward roundtrip differs\")\n    return restored",
+          "before_fragment_sha256": "9f6d2bd09e62f7bfd7270a27fb2657009bf90be551142b8a0e972af5806b7240",
+          "obligation": "Exact671 raw ingress and complete680 composition view in source_before_callback672"
+        },
+        {
+          "after": "def current_source_before_callback672(relative, payload):\n    \"\"\"One strict671 raw ingress before the qualified isolated callback byte view.\"\"\"\n    _identity(relative, payload)\n    from tooling_recovery671_source_projection import current_source_before_tooling671, callback_isolated_after_qualified_tooling671\n    payload = current_source_before_tooling671(relative, payload)\n    payload = callback_isolated_after_qualified_tooling671(relative, payload)\n    document = _document()\n    row = document[\"bindings\"].get(relative)\n    digest = (row[\"after_sha256\"] if row is not None else\n              (document[\"added_inputs\"] | document[\"immutable_inputs\"]).get(relative))\n    if digest is not None and (sha(payload) != digest or row is not None and len(payload) != row[\"after_bytes\"]):\n        raise ValueError(\"Old or unknown bytes cannot replace exact current callback672 source\")\n    return source_before_callback672(relative, payload)",
+          "after_fragment_sha256": "d2b09b7e9ba96d2d8293cfe4a0e5fc109ebe86abc85828b83104d286d8a48de2",
+          "before": "def current_source_before_callback672(relative, payload):\n    \"\"\"Exact raw current admission; approved old/partial/unknown images refuse.\"\"\"\n    _identity(relative, payload)\n    document = _document()\n    row = document[\"bindings\"].get(relative)\n    digest = (row[\"after_sha256\"] if row is not None else\n              (document[\"added_inputs\"] | document[\"immutable_inputs\"]).get(relative))\n    if digest is not None and (sha(payload) != digest or row is not None and len(payload) != row[\"after_bytes\"]):\n        raise ValueError(\"Old or unknown bytes cannot replace exact current callback672 source\")\n    return source_before_callback672(relative, payload)",
+          "before_fragment_sha256": "f1824308acfd2d2082115093d93ce1414efd8c959df79f9cfe2f4946c2856005",
+          "obligation": "Exact671 raw ingress and complete680 composition view in current_source_before_callback672"
+        },
+        {
+          "after": "def peel_callback672_for_history(relative, payload):\n    \"\"\"Only exact671/composed680/isolated callback images peel; pass-through is not current.\"\"\"\n    _identity(relative, payload)\n    from tooling_recovery671_source_projection import peel_tooling671_for_history, peel_callback_isolated680_for_history\n    payload = peel_tooling671_for_history(relative, payload)\n    payload = peel_callback_isolated680_for_history(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is not None and sha(payload) == row[\"after_sha256\"]:\n        return source_before_callback672(relative, payload)\n    return payload  # Unchanged next historical pin owns refusal; no restored code runs.",
+          "after_fragment_sha256": "44ce42743e35dd271488fc17dd6c3b16ca16dcf0ad2fbd576138a5fe56564291",
+          "before": "def peel_callback672_for_history(relative, payload):\n    \"\"\"Peel only exact complete latest afterimages; pass-through is not current.\"\"\"\n    _identity(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is not None and sha(payload) == row[\"after_sha256\"]:\n        return source_before_callback672(relative, payload)\n    return payload",
+          "before_fragment_sha256": "f979a0a656dc940c3123311148685349704513350d4de963754a0ac8873549eb",
+          "obligation": "Exact671 raw ingress and complete680 composition view in peel_callback672_for_history"
+        },
+        {
+          "after": "def _own_guard(root, document):\n    raw_current = _ordinary_bytes(root, SOURCE_RELATIVE)\n    from tooling_recovery671_source_projection import current_source_before_tooling671\n    raw = current_source_before_tooling671(SOURCE_RELATIVE, raw_current)\n    needle = ('SPEC_SHA256 = \"' + SPEC_SHA256 + '\"\\n').encode()\n    template = ('SPEC_SHA256 = \"' + \"0\" * 64 + '\"\\n').encode()\n    if (len(raw) != document[\"own_guard\"][\"bytes\"] or raw.count(needle) != 1 or\n            sha(raw.replace(needle, template, 1)) != document[\"own_guard\"][\"template_sha256\"]):\n        raise ValueError(\"Callback672 own guard differs from its exact singleton manifest-SHA template\")\n    return sha(raw_current)  # Qualified exact671 executable above the unchanged isolated callback singleton.",
+          "after_fragment_sha256": "df1ce11da8cb39a3077892b9a56f77db399288d4ca00c5ddbd4b49b84c1f4ad9",
+          "before": "def _own_guard(root, document):\n    raw = _ordinary_bytes(root, SOURCE_RELATIVE)\n    needle = ('SPEC_SHA256 = \"' + SPEC_SHA256 + '\"\\n').encode()\n    template = ('SPEC_SHA256 = \"' + \"0\" * 64 + '\"\\n').encode()\n    if (len(raw) != document[\"own_guard\"][\"bytes\"] or raw.count(needle) != 1 or\n            sha(raw.replace(needle, template, 1)) != document[\"own_guard\"][\"template_sha256\"]):\n        raise ValueError(\"Callback672 own guard differs from its exact singleton manifest-SHA template\")\n    return sha(raw)",
+          "before_fragment_sha256": "eb98498646643da174a4afafa11da6c1f5142cb054aeacb55dc01ce147a8b4ef",
+          "obligation": "Exact671 raw ingress and complete680 composition view in _own_guard"
+        },
+        {
+          "after": "def current_contract_hashes(root: Path = ROOT):\n    document = _document()\n    from tooling_recovery671_source_projection import current_input_hashes as tooling_input_hashes\n    return ({name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} |\n            document[\"added_inputs\"] | document[\"immutable_inputs\"] | tooling_input_hashes() |\n            {SOURCE_RELATIVE: _own_guard(root, document), SPEC_RELATIVE: SPEC_SHA256})",
+          "after_fragment_sha256": "6a8ef28dffa2a34c61b0bbb6cc2dcbb963ce60d1333d008f392de1d5eb3e0ba3",
+          "before": "def current_contract_hashes(root: Path = ROOT):\n    document = _document()\n    return ({name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} |\n            document[\"added_inputs\"] | document[\"immutable_inputs\"] |\n            {SOURCE_RELATIVE: _own_guard(root, document), SPEC_RELATIVE: SPEC_SHA256})",
+          "before_fragment_sha256": "abb55d4d2abdef6d7a6475425781c2329315114a407fdff2b7b0050f4215fda8",
+          "obligation": "Exact671 raw ingress and complete680 composition view in current_contract_hashes"
+        },
+        {
+          "after": "def contract_input_paths():\n    from tooling_recovery671_source_projection import fixture_inputs as tooling_fixture_inputs\n    return BOUND_PATHS | ADDED_PATHS | IMMUTABLE_PATHS | {SOURCE_RELATIVE, SPEC_RELATIVE} | tooling_fixture_inputs()",
+          "after_fragment_sha256": "d67666d56f162559dad1efb49480dbcc7bb5742ecd0a715375fe9cc3efa59ac8",
+          "before": "def contract_input_paths():\n    return BOUND_PATHS | ADDED_PATHS | IMMUTABLE_PATHS | {SOURCE_RELATIVE, SPEC_RELATIVE}",
+          "before_fragment_sha256": "9a5942999d66c9b4460d48158c589ebee250c188ecd6ae7508dd7be1bca1a3c8",
+          "obligation": "Exact671 raw ingress and complete680 composition view in contract_input_paths"
+        },
+        {
+          "after": "def validate_current_sources(root: Path):\n    import tooling_recovery671_source_projection as tooling\n    tooling.validate_current_sources(root)\n    document = _document()\n    _own_guard(root, document)\n    expected = ({name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} |\n                document[\"added_inputs\"] | document[\"immutable_inputs\"] |\n                {SPEC_RELATIVE: SPEC_SHA256})\n    for relative, digest in expected.items():\n        payload = tooling.source_before_tooling671(relative, _ordinary_bytes(root, relative))\n        payload = tooling.callback_isolated_after_qualified_tooling671(relative, payload)\n        if sha(payload) != digest:\n            raise ValueError(\"Current callback672 source differs from its exact reviewed raw image: \" + relative)\n    return True",
+          "after_fragment_sha256": "b35f88a28714a9e03bfbffa1cb0c44a37e1d7eaf17a3f20a07063545763906f7",
+          "before": "def validate_current_sources(root: Path):\n    expected = current_contract_hashes(root)\n    for relative, digest in expected.items():\n        if sha(_ordinary_bytes(root, relative)) != digest:\n            raise ValueError(\"Current callback672 source differs from its exact reviewed raw image: \" + relative)\n    return True",
+          "before_fragment_sha256": "0ae22cb293c45ee8da2534061c98e65eaedcda53cee45b2a4473fde4d902128e",
+          "obligation": "Exact671 raw ingress and complete680 composition view in validate_current_sources"
+        }
+      ]
+    },
+    "scripts/ci/android_camera_developer_prerequisite.py": {
+      "after_bytes": 107722,
+      "after_sha256": "c61d385634dddc3aac39ce8346f93f2fcd4f7e4df6330ba81528247fba2f5800",
+      "before_bytes": 107522,
+      "before_sha256": "92f8d79d3a0871f1abb619a0a17b36c87568e11151fb3dbefa4f12773de78bdb",
+      "fragments": [
+        {
+          "after": "        module = file_bytes(self.owner.root / MODULE / \"build.gradle.kts\", CONTROL_BYTES)\n        from camera_ios_ownership_source_projection import current_source_before_camera_ios_ownership\n        module = current_source_before_camera_ios_ownership(MODULE + \"/build.gradle.kts\", module)\n        require(hashlib.sha256(convention).hexdigest() == CONVENTION_SHA256 and\n",
+          "after_fragment_sha256": "d0b6f4e5b222e18cea7a3a8e284ead047c8960cfb4afc27bad41468ba6eeb1e7",
+          "before": "        module = file_bytes(self.owner.root / MODULE / \"build.gradle.kts\", CONTROL_BYTES)\n        require(hashlib.sha256(convention).hexdigest() == CONVENTION_SHA256 and\n",
+          "before_fragment_sha256": "5bd1e12bd7ffb58b9ab78ce6e7eaebbf1f319453fca5781ccddae3ffc7312b19",
+          "obligation": "Qualify exactly reviewed current Camera build bytes before both unchanged namespace hash operands; compiled metadata/manifest leases remain"
+        }
+      ]
+    },
+    "scripts/ci/android_io_remote_routing_source_projection.py": {
+      "after_bytes": 16076,
+      "after_sha256": "e54d0d68283ef8b93498bd50e11322fb51b50b8fcb7cd26edd4ae12270796e15",
+      "before_bytes": 14480,
+      "before_sha256": "c58f5bac87ee83e132a0a14ed0b2bf3fba315d4a53532aa530ee5f1ec663b0a0",
+      "fragments": [
+        {
+          "after": "def source_before_remote_routing(relative, payload):\n    \"\"\"One exact complete inverse or frozen predecessor; never current admission.\"\"\"\n    _identity(relative, payload)\n    from tooling_recovery671_source_projection import peel_tooling671_for_history, peel_callback_composition680_for_history\n    payload = peel_tooling671_for_history(relative, payload)\n    payload = peel_callback_composition680_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is None:\n        return payload  # Unlisted bytes are not certified, reconstructed or executed.\n    if not 0 < len(payload) <= MAX_SOURCE_BYTES:\n        raise ValueError(\"Bounded complete remote IO source bytes are required\")\n    observed = sha(payload)\n    if observed == binding[\"before_sha256\"] and len(payload) == binding[\"before_bytes\"]:\n        return payload\n    if observed != binding[\"after_sha256\"] or len(payload) != binding[\"after_bytes\"]:\n        raise ValueError(\"Remote IO source is not its complete reviewed afterimage\")\n    restored = payload\n    for fragment in reversed(binding[\"fragments\"]):\n        before, after = fragment[\"before\"].encode(), fragment[\"after\"].encode()\n        if (sha(before) != fragment[\"before_fragment_sha256\"] or sha(after) != fragment[\"after_fragment_sha256\"] or\n                restored.count(after) != 1):\n            raise ValueError(\"Exact finite unique remote IO inverse fragments are required\")\n        restored = restored.replace(after, before, 1)\n    if sha(restored) != binding[\"before_sha256\"] or len(restored) != binding[\"before_bytes\"]:\n        raise ValueError(\"Remote IO inverse did not restore the complete frozen predecessor\")\n    forward = restored\n    for fragment in binding[\"fragments\"]:\n        before, after = fragment[\"before\"].encode(), fragment[\"after\"].encode()\n        if forward.count(before) != 1:\n            raise ValueError(\"Exact finite unique remote IO forward fragments are required\")\n        forward = forward.replace(before, after, 1)\n    if forward != payload:\n        raise ValueError(\"Remote IO complete inverse/forward source roundtrip differs\")\n    return restored",
+          "after_fragment_sha256": "fe3bbfd0eccf4be7654c3b3b3fbaad285db00afa11d0bee2e1354ae8785a336a",
+          "before": "def source_before_remote_routing(relative, payload):\n    \"\"\"One exact complete inverse or frozen predecessor; never current admission.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is None:\n        return payload  # Unlisted bytes are not certified, reconstructed or executed.\n    if not 0 < len(payload) <= MAX_SOURCE_BYTES:\n        raise ValueError(\"Bounded complete remote IO source bytes are required\")\n    observed = sha(payload)\n    if observed == binding[\"before_sha256\"] and len(payload) == binding[\"before_bytes\"]:\n        return payload\n    if observed != binding[\"after_sha256\"] or len(payload) != binding[\"after_bytes\"]:\n        raise ValueError(\"Remote IO source is not its complete reviewed afterimage\")\n    restored = payload\n    for fragment in reversed(binding[\"fragments\"]):\n        before, after = fragment[\"before\"].encode(), fragment[\"after\"].encode()\n        if (sha(before) != fragment[\"before_fragment_sha256\"] or sha(after) != fragment[\"after_fragment_sha256\"] or\n                restored.count(after) != 1):\n            raise ValueError(\"Exact finite unique remote IO inverse fragments are required\")\n        restored = restored.replace(after, before, 1)\n    if sha(restored) != binding[\"before_sha256\"] or len(restored) != binding[\"before_bytes\"]:\n        raise ValueError(\"Remote IO inverse did not restore the complete frozen predecessor\")\n    forward = restored\n    for fragment in binding[\"fragments\"]:\n        before, after = fragment[\"before\"].encode(), fragment[\"after\"].encode()\n        if forward.count(before) != 1:\n            raise ValueError(\"Exact finite unique remote IO forward fragments are required\")\n        forward = forward.replace(before, after, 1)\n    if forward != payload:\n        raise ValueError(\"Remote IO complete inverse/forward source roundtrip differs\")\n    return restored",
+          "before_fragment_sha256": "3e648bb83399057d93b0373800521eba4df8589c9e93cb5c5b2d5161f3226556",
+          "obligation": "Exact671 raw ingress and complete680 composition view in source_before_remote_routing"
+        },
+        {
+          "after": "def current_source_before_remote_routing(relative, payload):\n    \"\"\"One strict671 raw ingress, then qualified callback/IO ancestors; never two current admissions.\"\"\"\n    _identity(relative, payload)\n    from tooling_recovery671_source_projection import current_source_before_tooling671, source_before_callback_composition680\n    payload = current_source_before_tooling671(relative, payload)\n    payload = source_before_callback_composition680(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and (sha(payload) != binding[\"after_sha256\"] or len(payload) != binding[\"after_bytes\"]):\n        raise ValueError(\"An old or unknown image cannot replace exact current remote IO source\")\n    return source_before_remote_routing(relative, payload)",
+          "after_fragment_sha256": "3d3c75018fd97272800162650eb439bbdd21ccf6c16d25f6e5fc47abebab4902",
+          "before": "def current_source_before_remote_routing(relative, payload):\n    \"\"\"One raw ingress; predecessor, stale, partial and drift never become current.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and (sha(payload) != binding[\"after_sha256\"] or len(payload) != binding[\"after_bytes\"]):\n        raise ValueError(\"An old or unknown image cannot replace exact current remote IO source\")\n    return source_before_remote_routing(relative, payload)",
+          "before_fragment_sha256": "f9e259a03bc1c9d73b4fd8089fbe8725563582503c6e973477aa2eee43bd9249",
+          "obligation": "Exact671 raw ingress and complete680 composition view in current_source_before_remote_routing"
+        },
+        {
+          "after": "def peel_remote_routing_for_history(relative, payload):\n    \"\"\"Peel only exact671/composed680/IO afterimages; older pins own other bytes.\"\"\"\n    _identity(relative, payload)\n    from tooling_recovery671_source_projection import peel_tooling671_for_history, peel_callback_composition680_for_history\n    payload = peel_tooling671_for_history(relative, payload)\n    payload = peel_callback_composition680_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and sha(payload) == binding[\"after_sha256\"]:\n        return source_before_remote_routing(relative, payload)\n    return payload  # Unknown/prior pass-through is never current certification.",
+          "after_fragment_sha256": "a895107cc045ea0322d36b191d31095a66967803c585601591b8dad9584d0999",
+          "before": "def peel_remote_routing_for_history(relative, payload):\n    \"\"\"Peel only exact IO afterimages; unchanged predecessor pins own all other bytes.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and sha(payload) == binding[\"after_sha256\"]:\n        return source_before_remote_routing(relative, payload)\n    return payload",
+          "before_fragment_sha256": "667623e3a9ed0f6df956c4efecf9e35886ac6a436d6c975ef0294a4d0d761b79",
+          "obligation": "Exact671 raw ingress and complete680 composition view in peel_remote_routing_for_history"
+        },
+        {
+          "after": "def _validate_own_guard(root, document):\n    \"\"\"Qualify exact671 raw executable before the unchanged sealed IO singleton.\"\"\"\n    from ios_popover_anchor_plan import _ordinary_bytes\n    raw_current = _ordinary_bytes(root, SOURCE_RELATIVE)[0]\n    from tooling_recovery671_source_projection import current_source_before_tooling671\n    raw = current_source_before_tooling671(SOURCE_RELATIVE, raw_current)\n    needle = ('SPEC_SHA256 = \"' + SPEC_SHA256 + '\"\\n').encode()\n    template = ('SPEC_SHA256 = \"' + \"0\" * 64 + '\"\\n').encode()\n    if (not 0 < len(raw) <= MAX_SOURCE_BYTES or len(raw) != document[\"own_guard\"][\"bytes\"] or\n            raw.count(needle) != 1 or sha(raw.replace(needle, template, 1)) != document[\"own_guard\"][\"template_sha256\"]):\n        raise ValueError(\"Current remote IO own guard differs from its exact singleton template\")\n    return sha(raw_current)  # Exact current671 identity, not a relabelled historical guard.",
+          "after_fragment_sha256": "e1ff6bcf2d390e8a7794c297b5a4c100671cfc6a81f6b3d2d4389a378986c123",
+          "before": "def _validate_own_guard(root, document):\n    \"\"\"Exact singleton manifest-SHA template avoids a self-hash/manifest cycle.\"\"\"\n    from ios_popover_anchor_plan import _ordinary_bytes\n    raw = _ordinary_bytes(root, SOURCE_RELATIVE)[0]\n    needle = ('SPEC_SHA256 = \"' + SPEC_SHA256 + '\"\\n').encode()\n    template = ('SPEC_SHA256 = \"' + \"0\" * 64 + '\"\\n').encode()\n    if (not 0 < len(raw) <= MAX_SOURCE_BYTES or len(raw) != document[\"own_guard\"][\"bytes\"] or\n            raw.count(needle) != 1 or sha(raw.replace(needle, template, 1)) != document[\"own_guard\"][\"template_sha256\"]):\n        raise ValueError(\"Current remote IO own guard differs from its exact singleton template\")\n    return sha(raw)",
+          "before_fragment_sha256": "69088c60640a369d9bd9ceaac550a3f0ddc2ead62b353303c85171148324c9d6",
+          "obligation": "Exact671 raw ingress and complete680 composition view in _validate_own_guard"
+        },
+        {
+          "after": "def current_input_hashes():\n    \"\"\"Finite exact raw671/680/IO identities, with no call into older UI owners.\"\"\"\n    document = _document()\n    from tooling_recovery671_source_projection import current_input_hashes as tooling_input_hashes\n    return (_expected(document) | tooling_input_hashes() |\n            {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)})",
+          "after_fragment_sha256": "5d29402f94654542342fbc0766c79b82252acb8dddb444bc81da588cba2963f3",
+          "before": "def current_input_hashes():\n    \"\"\"Finite expected raw IO identities, with no call back into older UI owners.\"\"\"\n    document = _document()\n    return _expected(document) | {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)}",
+          "before_fragment_sha256": "c39c9fb85b81aef9d993e4e9e038021715480ab912f90fd7a577995ab78ef012",
+          "obligation": "Exact671 raw ingress and complete680 composition view in current_input_hashes"
+        },
+        {
+          "after": "def validate_current_sources(root: Path):\n    \"\"\"Qualify raw671 first; compare only complete qualified680/IO ancestor views.\"\"\"\n    import tooling_recovery671_source_projection as tooling\n    tooling.validate_current_sources(root)\n    document = _document()\n    _validate_own_guard(root, document)\n    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in _expected(document).items():\n        payload = tooling.source_before_tooling671(name, _ordinary_bytes(root, name)[0])\n        payload = tooling.source_before_callback_composition680(name, payload)\n        if sha(payload) != digest:\n            raise ValueError(\"Current remote IO input differs from its complete reviewed raw image: \" + name)\n    return True",
+          "after_fragment_sha256": "97db78cca45e17a51b8ff1f721a1b46671af776900976a2496e1519c99a1f5df",
+          "before": "def validate_current_sources(root: Path):\n    \"\"\"Independently qualify actual finite raw inputs; global helper maps remain separate.\"\"\"\n    document = _document()\n    _validate_own_guard(root, document)\n    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in _expected(document).items():\n        if sha(_ordinary_bytes(root, name)[0]) != digest:\n            raise ValueError(\"Current remote IO input differs from its complete reviewed raw image: \" + name)\n    return True",
+          "before_fragment_sha256": "c202f0d8c780697ffe45cc3425715224b2465f475462805cdb17d87b23408cda",
+          "obligation": "Exact671 raw ingress and complete680 composition view in validate_current_sources"
+        },
+        {
+          "after": "def fixture_inputs():\n    \"\"\"Exactly finite IO plus671 custody; never candidate/compiler/native execution.\"\"\"\n    document = _document()\n    from tooling_recovery671_source_projection import fixture_inputs as tooling_fixture_inputs\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, SOURCE_RELATIVE} | tooling_fixture_inputs())",
+          "after_fragment_sha256": "b909bf7351798a6fb1c22d1eb34ef45a592de35780463c4d5726bc3abb743226",
+          "before": "def fixture_inputs():\n    \"\"\"Exactly this finite source union, without candidate/compiler/native execution.\"\"\"\n    document = _document()\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, SOURCE_RELATIVE})",
+          "before_fragment_sha256": "df87a6dc64818c8f8b5e3da93619da642f0efcbecd255c58ab91ffe7437314b2",
+          "obligation": "Exact671 raw ingress and complete680 composition view in fixture_inputs"
+        }
+      ]
+    },
+    "scripts/ci/camera_recents_fixture_source_projection.py": {
+      "after_bytes": 5454,
+      "after_sha256": "05c445b75a1811db3b98e999cdbbae35f3347d652a9867f344887ce436c5a932",
+      "before_bytes": 4719,
+      "before_sha256": "a45ad1c018dc78474e9b5a3513379bcfcba75489dc9af960eb29d87c7c7988f2",
+      "fragments": [
+        {
+          "after": "        raise ValueError(\"Exact recents-fixture source identity and ordinary bytes required\")\n    from platform_recovery659_source_projection import peel_platform_recovery659_for_history\n    payload = peel_platform_recovery659_for_history(relative, payload)\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n",
+          "after_fragment_sha256": "0b456f8df38c77df3588d163215c5dff177a9888d9522a5456165b02a59c1ee0",
+          "before": "        raise ValueError(\"Exact recents-fixture source identity and ordinary bytes required\")\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n",
+          "before_fragment_sha256": "b0fb5600ebaaf5c0614dfefd96420b247d73bf6b1e365f06490c061ddaa0cb3b",
+          "obligation": "Peel latest exact659 ancestor before unchanged566/562/recents history; old refusals stay"
+        },
+        {
+          "after": "        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    from platform_recovery659_source_projection import current_source_before_platform_recovery659\n    payload = current_source_before_platform_recovery659(relative, payload)\n    # Already-qualified outer images are ancestors here, never fresh raw inputs.\n",
+          "after_fragment_sha256": "265bf3b150777fcc66fe691923f68b4bf1431582f8be90f149e60df384c6aabb",
+          "before": "        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    # Already-qualified outer images are ancestors here, never fresh raw inputs.\n",
+          "before_fragment_sha256": "0c55c6703e26c116d869d566ba7ebb0191acf07999de98a671ff7479a499627e",
+          "obligation": "Strict latest659 raw ingress precedes only unchanged ancestor peels; old/partial/current type refusals remain"
+        },
+        {
+          "after": "    payload = current_source_before_platform_recovery659(relative, payload)\n    return recents_fixture_after_qualified_outer_ingress(relative, payload)\n\n\ndef recents_fixture_after_qualified_outer_ingress(relative, payload):\n    \"\"\"Older-stage pin only; the caller must already qualify the outer source image.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact qualified recents-fixture identity and ordinary bytes required\")\n    # Already-qualified outer images are ancestors here, never fresh raw inputs.\n",
+          "after_fragment_sha256": "b750fa4a21e8812bcb5341999d4dd0dd682dbf7a1ae5ad7e8200bf96343c6770",
+          "before": "    payload = current_source_before_platform_recovery659(relative, payload)\n    # Already-qualified outer images are ancestors here, never fresh raw inputs.\n",
+          "before_fragment_sha256": "f0d024957b38eb9e15f1ef2ecca246df168821c3a76adfabb0e243d29a935650",
+          "obligation": "Separate strict one659 raw ingress from already-qualified nested491 operands; avoid duplicate current admission without changing any old literal/refusal"
+        }
+      ]
+    },
+    "scripts/ci/camera_recents_source_projection.py": {
+      "after_bytes": 4439,
+      "after_sha256": "dcdc53cccbf7d0ffa4c9608d64d6f4a4dd3aee1c634438fb19960914c504dfa0",
+      "before_bytes": 4423,
+      "before_sha256": "8d9d0f2dc96fd40f8ab8c8ba16c13539d29aee726e8d2aa26fd78186b71a564a",
+      "fragments": [
+        {
+          "after": "    from camera_recents_fixture_source_projection import recents_fixture_after_qualified_outer_ingress\n    payload = recents_fixture_after_qualified_outer_ingress(relative, payload)\n",
+          "after_fragment_sha256": "4996ea5b4e1917eacfc7e412323be1ea55c323ee66d1572ce1689a3ed5e3f9d7",
+          "before": "    from camera_recents_fixture_source_projection import current_source_before_recents_fixture\n    payload = current_source_before_recents_fixture(relative, payload)\n",
+          "before_fragment_sha256": "b0620efec86a777234488ccf967fc3e0eb5f302608acbd721dd46314aaaecb3d",
+          "obligation": "Current recents observation already peels exact outer content-policy/659 custody; nested fixture enforces only its original491 current pin rather than a second raw ingress"
+        }
+      ]
+    },
+    "scripts/ci/test_android_combined_finite_routing.py": {
+      "after_bytes": 11306,
+      "after_sha256": "4c8f7ea5ae5c897c9e004b1aba1ca3f1f752c62dd68e15e6096174afd67816d7",
+      "before_bytes": 9755,
+      "before_sha256": "f8ab41ede18fd938334cd24f99f09afff4522b094051dc4b51d88b898c89e975",
+      "fragments": [
+        {
+          "after": "    def test_default_keeps_nine_inventory_entries_eight_executions_and_the_core_deletion_guard(self):\n        self.assertEqual((*BASE_DEVICE_MODULES, CORE), lt.MINIMUM_MODULES[\"android-device\"])\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), lt.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            lt.plan(ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        plan = lt.plan(ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(unrelated), plan[\"explicit_module_subset\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         plan[\"test_bearing_modules_not_requested\"])\n        self.assertFalse(lt.validate_test_focus(plan))\n        self.assertNotIn(\"android_permission_demo\", plan)\n        self.assertNotIn(\"android_storage_probe\", plan)\n        forged = deepcopy(plan); forged[\"complete_suite_requested\"] = True\n        with self.assertRaises(ValueError):\n            lt.validate_test_focus(forged)\n        source_files = lt.source_files\n        def without_core_host(root, relative):\n            return [] if relative == CORE + \"/src/androidDeviceTest\" else source_files(root, relative)\n        # Reach the actual missing core host, not the unrelated default refusal.\n        with patch.object(lt, \"source_files\", side_effect=without_core_host), self.assertRaisesRegex(\n                ValueError, r\"^Selected modules do not have android-device library test sources: \\['calf-permissions/core'\\]$\"):\n            lt.plan(ROOT, \"android-device\", only_modules=(CORE,), focus=lt.ANDROID_PERMISSION_DEMO_FOCUS)\n",
+          "after_fragment_sha256": "79783ff7fee2c38d9c8c785d44b8891b6027b0bce8fc0557abf37efc3e15d7c8",
+          "before": "    def test_default_keeps_nine_inventory_entries_eight_executions_and_the_core_deletion_guard(self):\n        self.assertEqual((*BASE_DEVICE_MODULES, CORE), lt.MINIMUM_MODULES[\"android-device\"])\n        plan = lt.plan(ROOT, \"android-device\")\n        self.assertEqual(list(BASE_DEVICE_MODULES), [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual([CORE], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertFalse(lt.validate_test_focus(plan))\n        self.assertNotIn(\"android_permission_demo\", plan)\n        self.assertNotIn(\"android_storage_probe\", plan)\n        forged = deepcopy(plan); forged[\"complete_suite_requested\"] = True\n        with self.assertRaises(ValueError):\n            lt.validate_test_focus(forged)\n        source_files = lt.source_files\n        def without_core_host(root, relative):\n            return [] if relative == CORE + \"/src/androidDeviceTest\" else source_files(root, relative)\n        with patch.object(lt, \"source_files\", side_effect=without_core_host), self.assertRaises(ValueError):\n            lt.plan(ROOT, \"android-device\")\n",
+          "before_fragment_sha256": "aefe9971fb548abe443b64211f98fb9210923738e7995800ac44c2b2314abffd",
+          "obligation": "Keep9-inventory/subset metadata/full-scope forgery and route core deletion through an explicit core-capable finite focus to its exact authored-host refusal"
+        }
+      ]
+    },
+    "scripts/ci/test_android_geo_ownership.py": {
+      "after_bytes": 8439,
+      "after_sha256": "03f4135da8ad441bee502ff7a656b34960f6ac62db2b9286c477437e2df26500",
+      "before_bytes": 7463,
+      "before_sha256": "d7bc3c75e3b03db79e1687488f408456f5a7b8150d7c3df82b64fef67c66aad2",
+      "fragments": [
+        {
+          "after": "    def test_full_native_plan_retains_all_existing_modules_and_all_eleven_host_slots(self):\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), lt.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            lt.plan(lt.ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        plan = lt.plan(lt.ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(unrelated), plan[\"explicit_module_subset\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         plan[\"test_bearing_modules_not_requested\"])\n        self.assertEqual(11, len(wm.matrix(\"all\")[\"include\"]))\n",
+          "after_fragment_sha256": "568df90454b83c2d97b007c89d2fe2693b08b19d1c575ed83e1e8719aa4e470c",
+          "before": "    def test_full_native_plan_retains_all_existing_modules_and_all_eleven_host_slots(self):\n        plan = lt.plan(lt.ROOT, \"android-device\")\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-io\", \"calf-file-picker\", \"calf-geo\", \"calf-webview\", \"calf-ui\", \"calf-navigation\", \"calf-share\", \"calf-camera-picker\"],\n                         [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(lt.MINIMUM_MODULES[\"android-device\"]),\n                         [item[\"module\"] for item in plan[\"expected\"]] + [\"calf-permissions/core\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual(11, len(wm.matrix(\"all\")[\"include\"]))\n",
+          "before_fragment_sha256": "5159bf8c68f51a3a54d698f844db5563bc2f7db17953b9df37d46f948fe1e7a3",
+          "obligation": "Preserve all9 module inventory and11 hosted slots without falsely calling blocked default a full executable plan; only unrelated subset6 is planned"
+        }
+      ]
+    },
+    "scripts/ci/test_android_geo_prerequisites.py": {
+      "after_bytes": 10329,
+      "after_sha256": "25db964ef418e0ebe70842a3b5bcc9459ade56f352ccefe7f95f339b7f32e45d",
+      "before_bytes": 8928,
+      "before_sha256": "45afc2e47f1e46f08f6ebcd26bfb3275e2c28b0f0cb98627ce4b7b0fe458f26b",
+      "fragments": [
+        {
+          "after": "    def test_only_failed_default_provider_and_two_new_prerequisites_recover_without_two_accepted_replays(self):\n        row, = w.matrix(\"android-geo-prerequisites\")[\"include\"]\n        self.assertEqual((\"android-device-api35\", \"calf-geo\", l.ANDROID_GEO_PREREQUISITES_FOCUS),\n                         (row[\"slot\"], row[\"test-modules\"], row[\"test-focus\"]))\n        plan = self.plan(); self.assertTrue(l.validate_test_focus(plan)); self.assertTrue(l.android_geo_probe_required(plan))\n        cases = l.android_geo_provider_identities(l.ANDROID_GEO_PREREQUISITES_FOCUS)\n        self.assertEqual(3, len(cases)); self.assertEqual(cases, plan[\"expected\"][0][\"required_testcases\"])\n        self.assertTrue(set(c[\"name\"] for c in cases).isdisjoint(l.ANDROID_GEO_PROVIDER_METHODS[3:]))\n        self.assertEqual(l.ANDROID_GEO_PREREQUISITES_ANNOTATION, plan[\"expected\"][0][\"test_filter\"])\n        command = l.gradle_command(\"android-device\", plan, android_serial=\"emulator-5588\")\n        self.assertEqual(1, command.count(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true\"))\n        owner = l.plan(l.ROOT, \"android-device\", only_modules=(\"calf-geo\",), focus=l.ANDROID_GEO_OWNERSHIP_FOCUS)\n        self.assertFalse(l.android_geo_probe_required(owner))\n        self.assertEqual(11, len(w.matrix(\"all\")[\"include\"]))\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), l.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            l.plan(l.ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        unrelated_plan = l.plan(l.ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in unrelated_plan[\"expected\"]])\n        self.assertEqual(list(unrelated), unrelated_plan[\"explicit_module_subset\"])\n        self.assertFalse(unrelated_plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], unrelated_plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         unrelated_plan[\"test_bearing_modules_not_requested\"])\n        self.assertEqual(9, len(l.MINIMUM_MODULES[\"android-device\"]))\n",
+          "after_fragment_sha256": "5a53ea465ebdea0e08edc4f8672743998d73e045b8601c0c386cd5bf47ac5ce5",
+          "before": "    def test_only_failed_default_provider_and_two_new_prerequisites_recover_without_two_accepted_replays(self):\n        row, = w.matrix(\"android-geo-prerequisites\")[\"include\"]\n        self.assertEqual((\"android-device-api35\", \"calf-geo\", l.ANDROID_GEO_PREREQUISITES_FOCUS),\n                         (row[\"slot\"], row[\"test-modules\"], row[\"test-focus\"]))\n        plan = self.plan(); self.assertTrue(l.validate_test_focus(plan)); self.assertTrue(l.android_geo_probe_required(plan))\n        cases = l.android_geo_provider_identities(l.ANDROID_GEO_PREREQUISITES_FOCUS)\n        self.assertEqual(3, len(cases)); self.assertEqual(cases, plan[\"expected\"][0][\"required_testcases\"])\n        self.assertTrue(set(c[\"name\"] for c in cases).isdisjoint(l.ANDROID_GEO_PROVIDER_METHODS[3:]))\n        self.assertEqual(l.ANDROID_GEO_PREREQUISITES_ANNOTATION, plan[\"expected\"][0][\"test_filter\"])\n        command = l.gradle_command(\"android-device\", plan, android_serial=\"emulator-5588\")\n        self.assertEqual(1, command.count(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true\"))\n        owner = l.plan(l.ROOT, \"android-device\", only_modules=(\"calf-geo\",), focus=l.ANDROID_GEO_OWNERSHIP_FOCUS)\n        self.assertFalse(l.android_geo_probe_required(owner))\n        self.assertEqual(11, len(w.matrix(\"all\")[\"include\"]))\n        self.assertEqual(8, len(l.plan(l.ROOT, \"android-device\")[\"expected\"]))\n        self.assertEqual(9, len(l.MINIMUM_MODULES[\"android-device\"]))\n        self.assertEqual([\"calf-permissions/core\"],\n                         l.plan(l.ROOT, \"android-device\")[\"finite_only_device_modules_not_requested\"])\n",
+          "before_fragment_sha256": "014b807403fc8bcb905fc52051c167b60ccdbc89541bd46596b9eeb917cbf047",
+          "obligation": "Preserve exact missing-only Geo prerequisites filter/probe/no accepted replay and11 slots; correct solely default metadata to honest refusal plus explicit unrelated subset6"
+        }
+      ]
+    },
+    "scripts/ci/test_android_geo_provider.py": {
+      "after_bytes": 9325,
+      "after_sha256": "998a093c25299bf165ddac62fd31a466d804e2c90ab3dcf522cba965ce5aef91",
+      "before_bytes": 8352,
+      "before_sha256": "f4d59a08afe757a9617d8e0a263706ef26884d050446e9de65d884fe98293ece",
+      "fragments": [
+        {
+          "after": "    def test_filter_readonly_workflow_and_full_inventory_are_preserved(self):\n        command = lt.gradle_command(\"android-device\", self.plan(), android_serial=\"emulator-5588\")\n        self.assertIn(\"-Pandroid.testInstrumentationRunnerArguments.class=\" + CLASS, command)\n        self.assertEqual(\":calf-geo:connectedAndroidDeviceTest\", command[-1])\n        self.assertEqual(11, len(wm.matrix(\"all\")[\"include\"]))\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), lt.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            lt.plan(lt.ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        plan = lt.plan(lt.ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(unrelated), plan[\"explicit_module_subset\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         plan[\"test_bearing_modules_not_requested\"])\n        workflow = (lt.ROOT / \".github/workflows/gradle.yml\").read_text()\n        self.assertIn(PROFILE, workflow)\n        self.assertIn(\"permissions:\\n  contents: read\", workflow)\n        self.assertIn(\"persist-credentials: false\", workflow)\n",
+          "after_fragment_sha256": "377ed7cf073612a5cddbf7c256cc6140c3b632db366c10eddff3ba4dc256f0ac",
+          "before": "    def test_filter_readonly_workflow_and_full_inventory_are_preserved(self):\n        command = lt.gradle_command(\"android-device\", self.plan(), android_serial=\"emulator-5588\")\n        self.assertIn(\"-Pandroid.testInstrumentationRunnerArguments.class=\" + CLASS, command)\n        self.assertEqual(\":calf-geo:connectedAndroidDeviceTest\", command[-1])\n        self.assertEqual(11, len(wm.matrix(\"all\")[\"include\"]))\n        default = lt.plan(lt.ROOT, \"android-device\")\n        self.assertEqual([\"calf-io\", \"calf-file-picker\", \"calf-geo\", \"calf-webview\", \"calf-ui\", \"calf-navigation\", \"calf-share\", \"calf-camera-picker\"],\n                         [m[\"module\"] for m in default[\"expected\"]])\n        self.assertEqual(list(lt.MINIMUM_MODULES[\"android-device\"]),\n                         [m[\"module\"] for m in default[\"expected\"]] + [\"calf-permissions/core\"])\n        self.assertFalse(default[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], default[\"finite_only_device_modules_not_requested\"])\n        workflow = (lt.ROOT / \".github/workflows/gradle.yml\").read_text()\n        self.assertIn(PROFILE, workflow)\n        self.assertIn(\"permissions:\\n  contents: read\", workflow)\n        self.assertIn(\"persist-credentials: false\", workflow)\n",
+          "before_fragment_sha256": "4955bf7b85a63de81cf7be708230525346ce9bff461c83e17e2e9d48b4ba8de4",
+          "obligation": "Retain exact Geo filter/read-only workflow/11-slot and9-module inventory while default Camera/IO domains refuse; positive plan is an explicit unrelated subset6 only"
+        }
+      ]
+    },
+    "scripts/ci/test_android_io_default_decode.py": {
+      "after_bytes": 20450,
+      "after_sha256": "f987ddfde0b884dde0c1f176b2bdda8eb91313fa460dfda77d9ee66e13bb12e0",
+      "before_bytes": 19085,
+      "before_sha256": "cfaddc0b36946f326ff225713d6659159bb1d1ee42d707dee6222cb2f4de976c",
+      "fragments": [
+        {
+          "after": "    def test_finite_profile_retains_eleven_full_slots_and_eight_android_modules(self):\n        row, = matrix.matrix(FOCUS)['include']\n        self.assertEqual(('android-device-api35', 'calf-io', FOCUS), (row['slot'], row['test-modules'], row['test-focus']))\n        self.assertEqual(11, len(matrix.matrix('all')['include'])); self.assertEqual(9, len(r.MINIMUM_MODULES['android-device']))\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), r.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            r.plan(r.ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        plan = r.plan(r.ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(unrelated), plan[\"explicit_module_subset\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         plan[\"test_bearing_modules_not_requested\"])\n        self.assertEqual(5, len(r.android_io_provider_identities()))\n        choices = re.search(r'options: \\[([^\\n]+)\\]', (r.ROOT / '.github/workflows/gradle.yml').read_text()).group(1)\n        self.assertEqual(set(matrix.PROFILES), {part.strip() for part in choices.split(',')})\n",
+          "after_fragment_sha256": "a68ad1bf6befd8bea1a86342866e68f371de9eb41386acd01a7905a943f0e568",
+          "before": "    def test_finite_profile_retains_eleven_full_slots_and_eight_android_modules(self):\n        row, = matrix.matrix(FOCUS)['include']\n        self.assertEqual(('android-device-api35', 'calf-io', FOCUS), (row['slot'], row['test-modules'], row['test-focus']))\n        self.assertEqual(11, len(matrix.matrix('all')['include'])); self.assertEqual(9, len(r.MINIMUM_MODULES['android-device']))\n        default = r.plan(r.ROOT, \"android-device\")\n        self.assertEqual(8, len(default[\"expected\"]))\n        self.assertEqual([\"calf-permissions/core\"], default[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual(5, len(r.android_io_provider_identities()))\n        choices = re.search(r'options: \\[([^\\n]+)\\]', (r.ROOT / '.github/workflows/gradle.yml').read_text()).group(1)\n        self.assertEqual(set(matrix.PROFILES), {part.strip() for part in choices.split(',')})\n",
+          "before_fragment_sha256": "0d0c2d2f0ebb777e364801353e5c4f0c3008aa92a93b53c608f4ff1380d2e0db",
+          "obligation": "Retain exact finite IO profile5/provider inventory, all11 slots and workflow choices; unfiltered Camera/IO refuses independent of positive unrelated subset6"
+        }
+      ]
+    },
+    "scripts/ci/test_android_share_grants.py": {
+      "after_bytes": 9976,
+      "after_sha256": "fa46255320d0b6315cdd56b9f1cd043f6e97e4ebaa55245224a2da33ab41a627",
+      "before_bytes": 8575,
+      "before_sha256": "e8cf4f5c7c063fd518bc546626c2ecd2d90e90768ce099bcd1798dbff3e89e6f",
+      "fragments": [
+        {
+          "after": "    def test_one_exact_three_method_native_job_preserves_all_prior_device_modules_and_full_slots(self):\n        row, = w.matrix(\"android-share-grants\")[\"include\"]\n        self.assertEqual((\"android-device-api35\", \"android-device\", \"calf-share\", \"android-share-uri-grants\"),\n                         (row[\"slot\"], row[\"suite\"], row[\"test-modules\"], row[\"test-focus\"]))\n        plan = self.plan(); self.assertTrue(l.validate_test_focus(plan))\n        self.assertTrue(l.android_share_recipient_required(plan)); self.assertFalse(l.android_geo_probe_required(plan))\n        self.assertFalse(plan[\"complete_suite_requested\"]); self.assertEqual([\"calf-share\"], plan[\"explicit_module_subset\"])\n        self.assertEqual(3, len(plan[\"expected\"][0][\"required_testcases\"]))\n        self.assertEqual({\"calf-io\", \"calf-file-picker\", \"calf-geo\", \"calf-webview\", \"calf-ui\", \"calf-navigation\", \"calf-share\", \"calf-camera-picker\", \"calf-permissions/core\"},\n                         set(l.MINIMUM_MODULES[\"android-device\"]))\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), l.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            l.plan(l.ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        unrelated_plan = l.plan(l.ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in unrelated_plan[\"expected\"]])\n        self.assertEqual(list(unrelated), unrelated_plan[\"explicit_module_subset\"])\n        self.assertFalse(unrelated_plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], unrelated_plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         unrelated_plan[\"test_bearing_modules_not_requested\"])\n        self.assertEqual(9, len(l.MINIMUM_MODULES[\"android-device\"]))\n        self.assertEqual(11, len(w.matrix(\"all\")[\"include\"]))\n",
+          "after_fragment_sha256": "16a5a9ce1ebb11557a45c880d1c0b298602252faf15c83b39a6ad7ce6bafd487",
+          "before": "    def test_one_exact_three_method_native_job_preserves_all_prior_device_modules_and_full_slots(self):\n        row, = w.matrix(\"android-share-grants\")[\"include\"]\n        self.assertEqual((\"android-device-api35\", \"android-device\", \"calf-share\", \"android-share-uri-grants\"),\n                         (row[\"slot\"], row[\"suite\"], row[\"test-modules\"], row[\"test-focus\"]))\n        plan = self.plan(); self.assertTrue(l.validate_test_focus(plan))\n        self.assertTrue(l.android_share_recipient_required(plan)); self.assertFalse(l.android_geo_probe_required(plan))\n        self.assertFalse(plan[\"complete_suite_requested\"]); self.assertEqual([\"calf-share\"], plan[\"explicit_module_subset\"])\n        self.assertEqual(3, len(plan[\"expected\"][0][\"required_testcases\"]))\n        self.assertEqual({\"calf-io\", \"calf-file-picker\", \"calf-geo\", \"calf-webview\", \"calf-ui\", \"calf-navigation\", \"calf-share\", \"calf-camera-picker\", \"calf-permissions/core\"},\n                         set(l.MINIMUM_MODULES[\"android-device\"]))\n        self.assertEqual(8, len(l.plan(l.ROOT, \"android-device\")[\"expected\"]))\n        self.assertEqual(9, len(l.MINIMUM_MODULES[\"android-device\"]))\n        self.assertEqual([\"calf-permissions/core\"],\n                         l.plan(l.ROOT, \"android-device\")[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual(11, len(w.matrix(\"all\")[\"include\"]))\n",
+          "before_fragment_sha256": "1aff7adad12ed0b01975cfd07b57e23a109f1463374db8bdb6883de98269a2e3",
+          "obligation": "Keep genuine three Share identities/owned recipient/Geo exclusion/all9 inventory and11 slots while default Camera/IO refuses; unrelated subset6 is not Share/native replay"
+        }
+      ]
+    },
+    "scripts/ci/test_android_storage_probe.py": {
+      "after_bytes": 47279,
+      "after_sha256": "c708d2f8b8947a819b53d53fd6f9c141f1bd40e106310baca518a21ef172409d",
+      "before_bytes": 46013,
+      "before_sha256": "58c5754b34baa13e9bb6e039bd5dbacb33c2ea3d38805abd4d319060de263066",
+      "fragments": [
+        {
+          "after": "    def test_default_eight_modules_exclude_only_explicit_finite_storage_metadata(self):\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), lt.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            lt.plan(lt.ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        plan = lt.plan(lt.ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(unrelated), plan[\"explicit_module_subset\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         plan[\"test_bearing_modules_not_requested\"])\n        self.assertEqual(9, len(lt.MINIMUM_MODULES[\"android-device\"]))\n        self.assertEqual([s.MODULE], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertIn(s.MODULE, plan[\"test_bearing_modules_not_requested\"])\n        self.assertNotIn(\"android_storage_probe\", plan)\n        self.assertFalse(lt.validate_test_focus(plan))\n        forged = copy.deepcopy(plan); forged[\"complete_suite_requested\"] = True\n        with self.assertRaises(ValueError): lt.validate_test_focus(forged)\n",
+          "after_fragment_sha256": "35c097456d6f7d61cc3dac43be0d80d8d55bd334f9736e4dab166c5f9244c24e",
+          "before": "    def test_default_eight_modules_exclude_only_explicit_finite_storage_metadata(self):\n        plan = lt.plan(lt.ROOT, \"android-device\")\n        self.assertEqual(list(lt.MINIMUM_MODULES[\"android-device\"]),\n                         [item[\"module\"] for item in plan[\"expected\"]] + [s.MODULE])\n        self.assertEqual(9, len(lt.MINIMUM_MODULES[\"android-device\"]))\n        self.assertEqual(8, len(plan[\"expected\"]))\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([s.MODULE], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertIn(s.MODULE, plan[\"test_bearing_modules_not_requested\"])\n        self.assertNotIn(\"android_storage_probe\", plan)\n        self.assertFalse(lt.validate_test_focus(plan))\n        forged = copy.deepcopy(plan); forged[\"complete_suite_requested\"] = True\n        with self.assertRaises(ValueError): lt.validate_test_focus(forged)\n",
+          "before_fragment_sha256": "b72cb4c92f0fe2b8e320d9d129c091798d5a917f2208e45abe7ed5b0c9d06b94",
+          "obligation": "Keep finite storage metadata/helper absence/full-scope forgery refusals and9-inventory; do not claim blocked eight-module default as executable plan"
+        }
+      ]
+    },
+    "scripts/ci/test_android_verification_contract.py": {
+      "after_bytes": 18685,
+      "after_sha256": "e90b106570aff96dd6116dc2a5833368e176ace036d16ed1664ae7020cc13686",
+      "before_bytes": 17035,
+      "before_sha256": "c3a4a767be9d4dd0fd71e1beed48ad1ae0d4dca63e85d2331909f75ecbad385e",
+      "fragments": [
+        {
+          "after": "    def test_repository_device_tasks_run_data_ownership_before_native_ui(self):\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), r.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            r.plan(r.ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        plan = r.plan(r.ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(unrelated), plan[\"explicit_module_subset\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         plan[\"test_bearing_modules_not_requested\"])\n",
+          "after_fragment_sha256": "e0d09d32e7fc954a880b9371770a054341a8380c367c215b23b17fdf5e8c4184",
+          "before": "    def test_repository_device_tasks_run_data_ownership_before_native_ui(self):\n        plan = r.plan(r.ROOT, \"android-device\")\n        self.assertEqual([\"calf-io\", \"calf-file-picker\", \"calf-geo\", \"calf-webview\", \"calf-ui\", \"calf-navigation\", \"calf-share\", \"calf-camera-picker\"],\n                         [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(r.MINIMUM_MODULES[\"android-device\"]),\n                         [item[\"module\"] for item in plan[\"expected\"]] + [\"calf-permissions/core\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n",
+          "before_fragment_sha256": "f931d6c6a64eab137bd35677660a73c1e940b3d5623a8682fd63b1beb8964deb",
+          "obligation": "Preserve nine-module data-first inventory/order separately from blocked unfiltered Camera/IO requests; exercise only the explicit unrelated subset6"
+        },
+        {
+          "after": "    def plan(self):\n        plan = r.plan(self.root, \"android-device\", minimum_modules=(\"calf-fixture\",),\n                      only_modules=(\"calf-fixture\",))\n        self.assertEqual([\"calf-fixture\"], plan[\"explicit_module_subset\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        return plan\n",
+          "after_fragment_sha256": "39b2555cb06ecbe5fa4f03f30af4588b9a47e5a76cef37db05ff974fd428e94a",
+          "before": "    def plan(self):\n        return r.plan(self.root, \"android-device\", minimum_modules=(\"calf-fixture\",))\n",
+          "before_fragment_sha256": "00fce4b4b8a51dbff55721bc42c45cf30348b6fbdd5603faed5a5636cbbbab6c",
+          "obligation": "Synthetic calf-fixture helper explicitly requests only its actually declared authored host; never admit unfiltered Camera/IO using a synthetic minimum"
+        },
+        {
+          "after": "    def test_device_plan_requires_an_actual_authored_device_test_host(self):\n        plan = self.plan()\n        self.assertEqual([\"calf-fixture\"], [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual([\"commonTest\", \"androidDeviceTest\"], plan[\"expected\"][0][\"test_source_sets\"])\n        self.assertEqual(\"calf-fixture/build/outputs/androidTest-results/connected/androidMain\",\n                         plan[\"expected\"][0][\"report_directory\"])\n        self.assertEqual(\"calf-fixture/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest\",\n                         plan[\"expected\"][0][\"agp_declared_xml_directory\"])\n        self.assertEqual(plan[\"expected\"][0][\"report_directory\"], plan[\"expected\"][0][\"utp_results_directory\"])\n        self.assertEqual(\":calf-fixture:connectedAndroidDeviceTest\", plan[\"expected\"][0][\"task\"])\n        self.assertEqual([\"calf-fixture\"], plan[\"explicit_module_subset\"])\n        self.assertEqual([], plan[\"uncovered\"])\n        self.assertNotIn(\"calf-empty\", plan[\"test_bearing_modules_not_requested\"])\n        # A common-only module is not an authored device host even if requested.\n        with self.assertRaisesRegex(ValueError,\n                r\"^Selected modules do not have android-device library test sources: \\['calf-empty'\\]$\"):\n            r.plan(self.root, \"android-device\", minimum_modules=(\"calf-empty\",), only_modules=(\"calf-empty\",))\n",
+          "after_fragment_sha256": "8b096304ba9f1aae0fdb98b82b3e6ea912bb4ff3b4b545127b0a839bbf26d365",
+          "before": "    def test_device_plan_requires_an_actual_authored_device_test_host(self):\n        plan = self.plan()\n        self.assertEqual([\"calf-fixture\"], [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual([\"commonTest\", \"androidDeviceTest\"], plan[\"expected\"][0][\"test_source_sets\"])\n        self.assertEqual(\"calf-fixture/build/outputs/androidTest-results/connected/androidMain\",\n                         plan[\"expected\"][0][\"report_directory\"])\n        self.assertEqual(\"calf-fixture/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest\",\n                         plan[\"expected\"][0][\"agp_declared_xml_directory\"])\n        self.assertEqual(plan[\"expected\"][0][\"report_directory\"], plan[\"expected\"][0][\"utp_results_directory\"])\n        self.assertEqual(\":calf-fixture:connectedAndroidDeviceTest\", plan[\"expected\"][0][\"task\"])\n        self.assertIn(\"calf-empty\", {item[\"module\"] for item in plan[\"uncovered\"]})\n",
+          "before_fragment_sha256": "4e4cb4cc60f278c08f26159dfb1f31c88ba94b1bbf83f48ffc55aa78db908ba7",
+          "obligation": "Keep exact authored host/source-set/task/UTP XML contracts; excluded common-only calf-empty is not requested and its explicit request still reaches exact host absence"
+        }
+      ]
+    },
+    "scripts/ci/test_android_webview_stop_redirect_recovery.py": {
+      "after_bytes": 23860,
+      "after_sha256": "a0b496f88f711108926e6fe3441080d98d2ca52d92bc198bcf0873e439570c34",
+      "before_bytes": 23666,
+      "before_sha256": "1ba72ec0955e181c5fb02724cdaa40c9c4c88513e26770cb55953cca59e0d940",
+      "fragments": [
+        {
+          "after": "        from platform_recovery659_source_projection import current_source_before_platform_recovery659\n        relative = \"calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt\"\n        contracts = current_source_before_platform_recovery659(relative, (r.ROOT / relative).read_bytes()).decode()\n",
+          "after_fragment_sha256": "b4c2e872e0fafeec1a6918897f9c3f8cbbe455d65925b4ca495a4df339419554",
+          "before": "        contracts = (r.ROOT / \"calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt\").read_text()\n",
+          "before_fragment_sha256": "4854aca3494d22e52445303a78279eee77e53a33f10030ea3e73c13c495b237a",
+          "obligation": "Strictly qualify current659 common contracts before the old acceptContent/declarative-content literals; native/public code stays unchanged"
+        }
+      ]
+    },
+    "scripts/ci/test_apple_image_launcher_source_projection.py": {
+      "after_bytes": 22811,
+      "after_sha256": "e9af322336f08c49c6a4456fe60edaa8fa44884c8161dff42f707d94effb4ad7",
+      "before_bytes": 22664,
+      "before_sha256": "4dd74834552bb6bf06e8ac79b42d268926dad567dda5430894129c76075b4a26",
+      "fragments": [
+        {
+          "after": "    def test_fragment_hashes_unique_sites_and_complete_restoration_are_mandatory(self):\n        name = history.LAUNCHER\n        current = ui_history.peel_ui_related_for_history(name, (ROOT / name).read_bytes())\n        self.assertEqual(history._document()[\"bindings\"][name][\"after_sha256\"], sha(current))\n",
+          "after_fragment_sha256": "c0691c8a2cd6aa8d4fd06b80eb3d1b6fc60d82746102d736e5c12af655198991",
+          "before": "    def test_fragment_hashes_unique_sites_and_complete_restoration_are_mandatory(self):\n        name = history.LAUNCHER; current = (ROOT / name).read_bytes()\n",
+          "before_fragment_sha256": "cef794069eff9ce6253955fb3bd6e391f1d74d575d211f5defa9074092aa8df8",
+          "obligation": "Construct synthetic duplicate/hash/site refusals from exactly the owning image-layer current image, never the newer UI generation"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_recents_fixture_recovery.py": {
+      "after_bytes": 9332,
+      "after_sha256": "4687dab4e4ae2f180365ab44c8d31c199d27cc649b280e5985786db478b722ce",
+      "before_bytes": 9007,
+      "before_sha256": "13874c149b9d7d46ae5a4d7c64f5635968bf77b5fe8adcf046a301ff405ff713",
+      "fragments": [
+        {
+          "after": "        from camera_tooling562_source_projection import current_source_before_tooling\n        from platform_recovery659_source_projection import source_before_platform_recovery659\n        for relative, binding in self.bindings.items():\n",
+          "after_fragment_sha256": "241524e16e53197abe23bc6b2a7f67f13ff3fc62a3483b8bb020b7d246039c69",
+          "before": "        from camera_tooling562_source_projection import current_source_before_tooling\n        for relative, binding in self.bindings.items():\n",
+          "before_fragment_sha256": "71e890b8f097972495558be403d204762a4e844a47b9da099afe83b748a84835",
+          "obligation": "Name exact659 ancestor restoration for the already-admitted current recents roundtrip operand"
+        },
+        {
+          "after": "            current = current_source_before_tooling(\n                relative, source_before_platform_recovery659(relative, actual_current))\n",
+          "after_fragment_sha256": "5039e1531387b087d3d3b707e820a5ec23f2ca83a65522a3841dfd9302125edc",
+          "before": "            current = current_source_before_tooling(relative, actual_current)\n",
+          "before_fragment_sha256": "17931f774ad8e7b7b94c210d935bb3438bcfb24913257b5a867a2be1534f0553",
+          "obligation": "Qualify only already-admitted raw source before old tooling562 endpoint/hash and fragment checks; no literal refresh"
+        },
+        {
+          "after": "        from platform_recovery659_source_projection import source_before_platform_recovery659\n        relative = \"scripts/ci/test_android_external337_fixture_recovery.py\"\n        source = source_before_platform_recovery659(relative, self.current[relative]).decode()\n        self.assertIn('\"^A historical image cannot replace exact current recents-observation source$\"', source)\n",
+          "after_fragment_sha256": "e3d01aaa0f115f34a6b110edf4593e7c17313df52fa8c0db449fb616ddeac8ce",
+          "before": "        source = self.current[\"scripts/ci/test_android_external337_fixture_recovery.py\"].decode()\n        self.assertIn('\"^A historical image cannot replace exact current recents-observation source$\"', source)\n",
+          "before_fragment_sha256": "84d879104947eb4ff1febdf3dbbaebe144a4d9c02a53d243519d80d86dac6ad6",
+          "obligation": "Restore exact659 fixture source operand before the unchanged historical refusal literal assertion"
+        }
+      ]
+    },
+    "scripts/ci/test_desktop_webview_literal_matrix.py": {
+      "after_bytes": 25253,
+      "after_sha256": "f74a94c0b2d00d4d174db31b0f7789ae5052bfc6bf44b3ee4851b7c2d8109b66",
+      "before_bytes": 25049,
+      "before_sha256": "efbfebc6bc71f7416b80612d5537ab16d271897ecc51bb4b7a72b61a6bc15dcb",
+      "fragments": [
+        {
+          "after": "        from platform_recovery659_source_projection import current_source_before_platform_recovery659\n        for relative, expected in preserved.items():\n            preserved_source = current_source_before_platform_recovery659(relative, (lt.ROOT / relative).read_bytes())\n            self.assertEqual(expected, hashlib.sha256(preserved_source).hexdigest())\n",
+          "after_fragment_sha256": "cf3f0b069a76aa95aabbe307e0c231945fbd570305d85925ef90cad03d7c4574",
+          "before": "        for relative, expected in preserved.items():\n            self.assertEqual(expected, hashlib.sha256((lt.ROOT / relative).read_bytes()).hexdigest())\n",
+          "before_fragment_sha256": "7684e8a5af0f786b5658b7b9a1266752bef6500b6983033fa3aadc4387693769",
+          "obligation": "Qualify only exact reviewed659 production operands before unchanged preserved whole-source hash assertions"
+        }
+      ]
+    },
+    "scripts/ci/test_desktop_webview_stop_windows_recovery.py": {
+      "after_bytes": 29304,
+      "after_sha256": "cd10042201c3438862b66438d52a5547a55b00f838026e84608eadf2b385b741",
+      "before_bytes": 29100,
+      "before_sha256": "cf7ec68c8b89211533a74c4c0002a465bdeff0428d940858696d0b7221d90658",
+      "fragments": [
+        {
+          "after": "        from platform_recovery659_source_projection import current_source_before_platform_recovery659\n        for relative, expected in preserved.items():\n            preserved_source = current_source_before_platform_recovery659(relative, (lt.ROOT / relative).read_bytes())\n            self.assertEqual(expected, hashlib.sha256(preserved_source).hexdigest())\n",
+          "after_fragment_sha256": "cf3f0b069a76aa95aabbe307e0c231945fbd570305d85925ef90cad03d7c4574",
+          "before": "        for relative, expected in preserved.items():\n            self.assertEqual(expected, hashlib.sha256((lt.ROOT / relative).read_bytes()).hexdigest())\n",
+          "before_fragment_sha256": "7684e8a5af0f786b5658b7b9a1266752bef6500b6983033fa3aadc4387693769",
+          "obligation": "Qualify only exact reviewed659 production operands before unchanged preserved whole-source hash assertions"
+        }
+      ]
+    },
+    "scripts/ci/test_image_profile_readiness.py": {
+      "after_bytes": 16673,
+      "after_sha256": "9828002e422556e059b1324c365963a277ad8eee92601674cb6bbc8abf883638",
+      "before_bytes": 15563,
+      "before_sha256": "80961afb006ea3d49410a7f81c212b6eaee5e84bf185b9f9735c7ebd830bfb52",
+      "fragments": [
+        {
+          "after": "import copy\nimport hashlib\nimport io\n",
+          "after_fragment_sha256": "e25d84e4e1207451edce6f8e3eafdab2bbf49819a83df71a173e2706d463bf0e",
+          "before": "import copy\nimport io\n",
+          "before_fragment_sha256": "49bb58eaeb21109feefeedfce0d71d7cba54f2a1e86fe1be9653036b9d921804",
+          "obligation": "Hash explicitly fabricated sidecar identity operands; no producer/native observation"
+        },
+        {
+          "after": "PID = 12345\n\n\ndef retain_owned_image_sidecar_model(fixture):\n    \"\"\"Retain one bound fabricated sidecar; never produce native/profile evidence.\"\"\"\n    import apple_image_sidecar_evidence as sidecar\n    from test_apple_image_sidecar_evidence import canonical, observation\n    record = observation()\n    record.update(source_revision=fixture.context[\"source_revision\"],\n                  simulator_uuid_sha256=hashlib.sha256(fixture.context[\"simulator\"][\"udid\"].encode()).hexdigest(),\n                  bundle_identifier_sha256=hashlib.sha256(fixture.document[\"bundle_id\"].encode()).hexdigest())\n    for key in (\"installed_executable_before\", \"installed_executable_after\"):\n        record[key][\"signed_executable_sha256\"] = fixture.document[\"signed_application_executable_sha256\"]\n    fixture.document[sidecar.INLINE_KEY] = record\n    path = fixture.receipt_path.with_name(sidecar.RECORD_NAME)\n    path.write_bytes(canonical(record)); path.chmod(0o600)\n    return record\n\n\nclass ImageProfileReadinessTests(unittest.TestCase):\n",
+          "after_fragment_sha256": "b805128a4bb1ed8c53c6dd7d2d344b1cd0cd154f0c8ce80b8037e7edcfe07439",
+          "before": "PID = 12345\n\n\nclass ImageProfileReadinessTests(unittest.TestCase):\n",
+          "before_fragment_sha256": "d773847ae5a6d242ead2e64c3f44a6a2966a265a38336c2ebdfce05bb4eb2bd1",
+          "obligation": "Provide the current finite image fixture requirement: one canonical0600 synthetic sidecar bound to actual fixture source/simulator/session/signed byte identities"
+        },
+        {
+          "after": "        fixture.document['application_protocol'].update(testcases=cases, counts=lt.case_counts(cases))\n        retain_owned_image_sidecar_model(fixture)\n        fixture.modules[0]['testcases'] = fixture.xml_cases(cases); fixture.save()\n",
+          "after_fragment_sha256": "b51d974165544fa9b6183e1ec87580b4d1744d9db739d08d4977127af924740c",
+          "before": "        fixture.document['application_protocol'].update(testcases=cases, counts=lt.case_counts(cases))\n        fixture.modules[0]['testcases'] = fixture.xml_cases(cases); fixture.save()\n",
+          "before_fragment_sha256": "db8679e6498d1dd09807c56ad72d05cf360452fe471b5bc0149657f7f57778b0",
+          "obligation": "Retain required sidecar before unchanged positive profile/PID/native-readiness/cleanup assertion and all original negative mutations"
+        },
+        {
+          "after": "                       lambda d: d['cleanup'].update(owned_app_absence_verified=False),\n                       lambda d: d['cleanup'].update(owned_app_stopped_verified=False),\n                       lambda d: d.update(strict_runtime_assertions_attested=True)):\n",
+          "after_fragment_sha256": "16b4dd86389b19a82e40c71d6873d721b103de2e50220ba5d99865c26f386932",
+          "before": "                       lambda d: d['cleanup'].update(owned_app_absence_verified=False),\n                       lambda d: d.update(strict_runtime_assertions_attested=True)):\n",
+          "before_fragment_sha256": "9a54c6c0578c52611fd3313b2893658616784fa6256d8d763d82fae00aaa75b8",
+          "obligation": "Add an owning strict stopped-app cleanup negative alongside every unchanged original native/PID/file/profile negative"
+        }
+      ]
+    },
+    "scripts/ci/test_ios_webview_current_request_metadata.py": {
+      "after_bytes": 28876,
+      "after_sha256": "9edd3b30676414e047f1d06b949845d83b9f06c8a1847677a831c314efd1d104",
+      "before_bytes": 28684,
+      "before_sha256": "75f14905d1c4093cea6f0b4e5d5e8fe149ca130060dfff8b46400aa46181839b",
+      "fragments": [
+        {
+          "after": "    def test_original_common_api_and_all_native_method_bodies_remain_byte_identical(self):\n        from platform_recovery659_source_projection import current_source_before_platform_recovery659\n        for relative, expected in PINS.items():\n            with self.subTest(path=relative):\n                original = current_source_before_platform_recovery659(relative, (ROOT / relative).read_bytes())\n                self.assertEqual(expected, hashlib.sha256(original).hexdigest())\n",
+          "after_fragment_sha256": "2f2d7c9d94ba0a11b12598c881f9fdc0a47a0361ea66760ffd1423d718c10119",
+          "before": "    def test_original_common_api_and_all_native_method_bodies_remain_byte_identical(self):\n        for relative, expected in PINS.items():\n            with self.subTest(path=relative):\n                self.assertEqual(expected, hashlib.sha256((ROOT / relative).read_bytes()).hexdigest())\n",
+          "before_fragment_sha256": "c6b402ddbddeb6e80a9dca11fdf4637fb77da1976289d152a654ff381e389ce1",
+          "obligation": "Exact659 qualification restores only changed common source operand; every original common/native hash and subtest remains"
+        }
+      ]
+    },
+    "scripts/ci/test_webview_content_policy_source.py": {
+      "after_bytes": 18842,
+      "after_sha256": "2c706881cb5d8d471f26f6b47a381aceff7f2d0f4e74cf65a50cd21562920fbd",
+      "before_bytes": 18400,
+      "before_sha256": "01c85c5270cb0cdc7a6007d8764d5362a95dd5a689840a26123e83a97225b475",
+      "fragments": [
+        {
+          "after": "    def test_owning_common_native_and_accepted_fixture_helper_bytes_remain_unchanged(self):\n        from platform_recovery659_source_projection import current_source_before_platform_recovery659\n        for path, digest in UNCHANGED_INPUTS.items():\n            original = current_source_before_platform_recovery659(path, (ROOT / path).read_bytes())\n            self.assertEqual(digest, hashlib.sha256(original).hexdigest(), path)\n",
+          "after_fragment_sha256": "f6ddbed1234adacb8cb80b5b6cac0d30817b8f2f6350264a9bd63dedf926e35f",
+          "before": "    def test_owning_common_native_and_accepted_fixture_helper_bytes_remain_unchanged(self):\n        for path, digest in UNCHANGED_INPUTS.items():\n            self.assertEqual(digest, hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), path)\n",
+          "before_fragment_sha256": "d7d6b2336c29365c98e15bed04f38a907d09fbf2ae5508ff20fa8d7b40214475",
+          "obligation": "Current659 custody precedes every original native/common/helper hash; unchanged operands pass through without certification"
+        },
+        {
+          "after": "    def test_desktop_browser_unsupported_both_entry_points_preserve_current_dom_with_zero_real_requests(self):\n        from platform_recovery659_source_projection import current_source_before_platform_recovery659\n        for klass in (\"DesktopWebViewContentPolicyAcceptanceTest\", \"BrowserWebViewContentPolicyAcceptanceTest\"):\n            relative = PREFIX.format(set=CLASSES[klass][0]) + klass + \".kt\"\n            text = current_source_before_platform_recovery659(relative, (ROOT / relative).read_bytes()).decode()\n",
+          "after_fragment_sha256": "3ff0ea98903c41298d502be0d0275220b25e87127ce55d8cfb2a9ac7fd2a6169",
+          "before": "    def test_desktop_browser_unsupported_both_entry_points_preserve_current_dom_with_zero_real_requests(self):\n        for klass in (\"DesktopWebViewContentPolicyAcceptanceTest\", \"BrowserWebViewContentPolicyAcceptanceTest\"):\n            text = source(klass)\n",
+          "before_fragment_sha256": "589b819477b567669ae27cc1be2dc5a30c4ce62e13c48cd1022ab42bdafbd5a3",
+          "obligation": "Qualify exact current659 Desktop test source before unchanged utf8 literal/zero-request/DOM assertions; Unicode assertions remain strict"
+        }
+      ]
+    },
+    "scripts/ci/test_webview_request_focus.py": {
+      "after_bytes": 24093,
+      "after_sha256": "4b134ad57a19d05aad19ce2e4e9bd7cc7becae9d4859b007721c1e580ac385e0",
+      "before_bytes": 22966,
+      "before_sha256": "7bf75f715539902924a4f602e6b7ae0078200d97f32d396941597c3bc9a1594e",
+      "fragments": [
+        {
+          "after": "    def test_exact_three_method_browser_plan_preserves_all_slots_and_existing_profiles(self):\n        rows = matrix.matrix(PROFILE)[\"include\"]\n        self.assertEqual([\"browser-js\", \"browser-wasm\"], [row[\"slot\"] for row in rows])\n        self.assertTrue(all(row[\"test-modules\"] == \"calf-webview\" and row[\"test-focus\"] == FOCUS for row in rows))\n        self.assertEqual(11, len(matrix.matrix(\"all\")[\"include\"]))\n        # Eight ordinary hosts remain inventory metadata, not executable default coverage.\n        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')\n        self.assertEqual(8, len(inventory))\n        self.assertEqual((*inventory, \"calf-permissions/core\"), lt.MINIMUM_MODULES[\"android-device\"])\n        with self.assertRaises(ValueError) as refused:\n            lt.plan(lt.ROOT, \"android-device\")\n        self.assertIn(str(refused.exception), (\n            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',\n            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',\n        ))\n        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.\n        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')\n        plan = lt.plan(lt.ROOT, \"android-device\", minimum_modules=unrelated, only_modules=unrelated)\n        self.assertEqual(list(unrelated), [item[\"module\"] for item in plan[\"expected\"]])\n        self.assertEqual(list(unrelated), plan[\"explicit_module_subset\"])\n        self.assertFalse(plan[\"complete_suite_requested\"])\n        self.assertEqual([\"calf-permissions/core\"], plan[\"finite_only_device_modules_not_requested\"])\n        self.assertEqual([\"calf-camera-picker\", \"calf-io\", \"calf-permissions/core\"],\n                         plan[\"test_bearing_modules_not_requested\"])\n        for suite in (\"js\", \"wasm\"):\n            plan = self.plan(suite)\n            selected, = plan[\"expected\"]\n            self.assertTrue(lt.validate_test_focus(plan))\n            self.assertFalse(plan[\"complete_suite_requested\"])\n            self.assertEqual(CLASS, selected[\"test_filter\"])\n            self.assertEqual([{\"classname\": CLASS, \"name\": method} for method in METHODS], selected[\"required_testcases\"])\n            self.assertEqual(FIXTURE, selected[\"browser_http_fixture\"])\n            command = lt.gradle_command(suite, plan)\n            self.assertEqual(CLASS, command[command.index(\"--tests\") + 1])\n            self.assertEqual(1, command.count(\"--tests\"))\n            self.assertNotIn(\"publish\", \" \".join(command))\n        for profile in (\"all\", \"browser\", \"webview-browser\", \"webview-wasm\", \"core\", \"android-device\"):\n            self.assertTrue(all(\"test-focus\" not in row for row in matrix.matrix(profile)[\"include\"]))\n",
+          "after_fragment_sha256": "dcc2a5f61243f120eeb4579fd991bec1cbc01e5c08db0597366d937d61ca9fc6",
+          "before": "    def test_exact_three_method_browser_plan_preserves_all_slots_and_existing_profiles(self):\n        rows = matrix.matrix(PROFILE)[\"include\"]\n        self.assertEqual([\"browser-js\", \"browser-wasm\"], [row[\"slot\"] for row in rows])\n        self.assertTrue(all(row[\"test-modules\"] == \"calf-webview\" and row[\"test-focus\"] == FOCUS for row in rows))\n        self.assertEqual(11, len(matrix.matrix(\"all\")[\"include\"]))\n        self.assertEqual((\"calf-io\", \"calf-file-picker\", \"calf-geo\", \"calf-webview\", \"calf-ui\",\n                          \"calf-navigation\", \"calf-share\", \"calf-camera-picker\", \"calf-permissions/core\"), lt.MINIMUM_MODULES[\"android-device\"])\n        default = lt.plan(lt.ROOT, \"android-device\")\n        self.assertEqual(8, len(default[\"expected\"]))\n        self.assertEqual([\"calf-permissions/core\"], default[\"finite_only_device_modules_not_requested\"])\n        for suite in (\"js\", \"wasm\"):\n            plan = self.plan(suite)\n            selected, = plan[\"expected\"]\n            self.assertTrue(lt.validate_test_focus(plan))\n            self.assertFalse(plan[\"complete_suite_requested\"])\n            self.assertEqual(CLASS, selected[\"test_filter\"])\n            self.assertEqual([{\"classname\": CLASS, \"name\": method} for method in METHODS], selected[\"required_testcases\"])\n            self.assertEqual(FIXTURE, selected[\"browser_http_fixture\"])\n            command = lt.gradle_command(suite, plan)\n            self.assertEqual(CLASS, command[command.index(\"--tests\") + 1])\n            self.assertEqual(1, command.count(\"--tests\"))\n            self.assertNotIn(\"publish\", \" \".join(command))\n        for profile in (\"all\", \"browser\", \"webview-browser\", \"webview-wasm\", \"core\", \"android-device\"):\n            self.assertTrue(all(\"test-focus\" not in row for row in matrix.matrix(profile)[\"include\"]))\n",
+          "before_fragment_sha256": "28ba7baa89dacdb2b56a2ec75f018f6dd1945f588033fffbfd6e4e4718cdc165",
+          "obligation": "Keep genuine three-method browser filters, profile/11-slot and9-inventory assertions; default Camera/IO refuses and unrelated subset6 is explicitly requested"
+        }
+      ]
+    }
+  },
+  "own_guard": {
+    "bytes": 33105,
+    "template_sha256": "e51f67d41060f02fdf57147d4bd072b46d502db9c2bbedc626199c94750aa355"
+  },
+  "predecessor": "afc0a727f60a9278c96cf9721157ba7413229c10",
+  "schema_version": 1,
+  "scope": "Exact shared-tooling671 derivative custody only; no compiler/native/issue acceptance",
+  "unchanged_inputs": {
+    ".github/workflows/gradle.yml": "46de0540c5e252a1bb9016e96758e79de2f0e728ca4ba2a746b709b88652106b",
+    "build.gradle.kts": "036a7f0c63c1492278205be67669c20914ea1ed26bc6524552d6b716f5846d99",
+    "calf-camera-picker/build.gradle.kts": "e37eb7a4fab11a6af0ed0ff6af7dea57e081241d41efb9fa7f1dd06f7367192f",
+    "calf-camera-picker/src/androidDeviceTest/AndroidManifest.xml": "c24a6c2498dddb660cafd78d31bfc4f4730f8ae34f1c807eff3f17ff6034962b",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraCallbackSubstitutionTest.kt": "4b722312599a0bd23229d36c9c4efbd98a02e147b2a1add4be67a6680d40b0d0",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt": "53e355fa832c2fe622eeae1627de3847d224393f8656b50a7c6b2f396b7bfab1",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt": "357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt": "8aeb2acf56287c08619c854f4da21c3f0c4f95d7dba19e17ca6ceacff03a0c12",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraVerificationProviders.kt": "09956cd5f88d5c18dff5be3251d9ece6beb679f5c961c3041e1450cf46e96f82",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt": "2010803e066ce0de1a34051ed40a50c9bca08f238a6218dcaabb4e7d0a09bee7",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedCameraReceiver.kt": "a15663164f0b66eccf225a0a24d0af7be77e13c80bc620be501d388224a76a6d",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt": "01771567b969a88094d88a2906dadc6bc4d1e8502e695abc9f145b7ca197e06e",
+    "calf-camera-picker/src/androidDeviceTest/res/xml/nativecmpkit_camera_device_paths.xml": "1448a27bb209ef4b8b99f1d90bf2ac44f8eb86a55fadcab5caf24fe524a98413",
+    "calf-camera-picker/src/androidDeviceTest/res/xml/nativecmpkit_camera_device_wrong_paths.xml": "f008fdc746753acf4e40f56ad01b6eea79ad56eb84254ea09fac1524b91d1f4b",
+    "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt": "b7094d795bfaa209b254bbf2c549de21a7fff07df636fbb68f4cb1a3baa917a7",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt": "abeb590d3f9edacc9fd638d40125d20ccbe3c0814bce1586d398c09c5e0cb493",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt": "b7d906813c66604e76a4f64f55306dbea6e92889bf3e77a66cd3aaa13a9891ab",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt": "0ff1470d93f9580e27b54e499b2dda6843a50c5d7b4f4b5c4cfaca7980c7e841",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaseline.kt": "044d050378036573aa527226130ccb67bdbe4717231b8cc1ff10da70816b3801",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaselineTest.kt": "f46f20ff936c4909ca1b9a96c9dbbe1c970c1363d8616141077bdcc6d9cb7c57",
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt": "5e5a62825d8a47ad7a5880df2a75807aba01ffd79f4ffd601f04082a89797230",
+    "calf-io/build.gradle.kts": "480ef3a1cd3a75dd7b60df1a86812064ea7233ed950a34d1cd9941fff489e449",
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml": "26788255756c239bccb8e7c9ee15d0cf67afdb2cd6231defa494e42747f3573d",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteDocumentsTest.kt": "47313a30c844ddbf33a5f776aec7e4afb0ea616dc362bced298e4d1c51739dc4",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteTreeGrantActivity.kt": "1b49ca749a01e8fd276294d5286c83181c70bd7d8b098504dd49fbf669b1e325",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSystemTreeGrantActivity.kt": "760634c61aa94ffb04b16f94fc20ceb67f4c58aa06477ee6dde14c3dda24fdde",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "941c43e90bd8d32f113b3dc0b863b4885459a4f17716825eb26ffbf8b320a78a",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/NamedSystemDocumentsUi.kt": "e0251e1f3cc8bb4c93791b978d84de5bc4eb18469873c4879c190dbdd93956a0",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt": "c2180ba34f3c825e9060ddc68272b41c9d847f13cd91de7f7e2be54b496216a6",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/RemoteIoEndpoint.kt": "769ea4ec7ac11d29b2af4c85b6e3da7c9b74b3670a368df0a8a25bcc78e3ee82",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt": "c27062ac3be205297ba84337c046bc2921b0d9326236bc9b53a974461bb44227",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.android.kt": "580c83bc154d93e4f8b347644c04823ec662b2703cfa2cc73e702d2f04aed751",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.android.kt": "436d0065214fd781730a1818868ec96d9202f750aa63c2ec2189e970ac6a2ac0",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+    "calf-ui/build.gradle.kts": "7f83bd970329ad885821f80a0f56cf9a8d27a58e8e5a8c8b354a124e544ee8a4",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt": "68c1d422b0994aeadbd9ac443ea273eac8410b0446cc751f39864552a9be68a3",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt": "efc57f78749bcf4fe81f7fd0e9746159a5edbfaf38596cbd8176f920af400895",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt": "7b111cf30b994374f5780175b790682e75f20f9df8f5aae283103dd5522c14c5",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/button/LiquidButtonConstructionTraceTest.kt": "1b417a078d26c7d2f09dcaa5c5e17ac9be0806fd4f8a88dffb5e616978207954",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt": "b58eafaa3f097de27d0e8babe1059ce818fca903d954a77cdbd2a4c1a73252b9",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt": "5132474a968f50ce40e161049b32700c28d1709d0e6b1bbd6fecb239f6fd9e20",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/PointerCancellation.kt": "5e9aef0d114a3e4b9d992ce3be2fd5fd96951443a527e68f1c6f87f78d6a1b2b",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSliderNativeMatrixTest.kt": "9ed073effcf3b5399f4838887d271a1b893a2a9bb123afc6771fcd15d2ca87d4",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbarFallbackNativeTest.kt": "c7cfac7363f93e1fa880378f5e38c7289faa9e0b3570e3999c9fe11b2bdc2207",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragLifecycleRegressionTest.kt": "d1e96296dce57bb817a08abca87a2943d9924745d1208fd7591751ed9d5dd3e8",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlightResourceLifecycleTest.kt": "9ded1ba61f6702ef2b6f28312b6971a37a112564c1d030dbe22b0f25419fefbf",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UiDragShaderTestHost.kt": "7ce8cef67a1d4df0430852e77d37967574d42fd039b76a0a6ebb347f93b8cb8c",
+    "calf-webview/build.gradle.kts": "6e924d26f988f960ff828383a41901b79d7692d3eea6a07cb38230866b86e908",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewContentPolicyAcceptanceTest.kt": "d292df9838fd7a208d97db9adf69d1b61466b0a5848955bf5e989f2467ab3564",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt": "e7f3e127d3f3293d21f1bc2d84d9dd6761d26f65b1b77102237521197bb045a2",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": "d9813c52ff5b90fbf5fc97e64a2df577f723f3f422656a3837f8e23b95834ce0",
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": "83709fba6de43479d0f5954d931c5f040618649ed3d8321070d556278316d86b",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt": "79601573fea41ab8d1a78258b2de74153383a2582d9eac031deb6cfbe7e2c683",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt": "508c28c1fe336e01537e8ff62bd6249712c3d0eaa4fb591c89b1289f972b773f",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewContentPolicyAcceptanceTest.kt": "36713f1ccec7c2b19ed9abba86dd502f4108485889f7e8bb0719a735f05aead9",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt": "798710ff9b6ce32685e25f3cd13042d13e3568fc36d5e1438bf2e6df6991727f",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentPolicyAcceptanceTest.kt": "e31efb65ee40ba0f22c6e5c3f7dd39ce88356d35cfa7e469824f28a325e49d2d",
+    "convention-plugins/src/main/kotlin/Android.kt": "204b7b0bb30e33144794ffda1d993f925f670cac87c809155d81fe9f09f7a256",
+    "docs/development/android-io-controlled-remote-provider.md": "34c9f4d5176e6e3395805aab2425cf4199af02638662b0121aec3c589adeb486",
+    "docs/testing/android-camera-callback-substitution.md": "a17cc804d29aba1031e9e8f310c5a4c82d68eb25dcf0711f1fdb59dc2b9f9c8d",
+    "gradle.properties": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470",
+    "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "scripts/ci/android_camera_receiver.py": "032ac23053338ec9e839cdae8b3a946a84712ff92a7f821f4972230241eb03a2",
+    "scripts/ci/android_device_tests.py": "954a3fd8ba6f52f9e63900495258d62341c5dffee0c82962c9883edbe2baa38e",
+    "scripts/ci/android_geo_probe.py": "86ee29f08f33f30a1616f18fa9666ee7bb9763f6364c345456e5523bd335c061",
+    "scripts/ci/android_io_documents.py": "d878bdd9d61008c885d089f6f9831c5dd9c361a7ff6484a118a19214e1dc96f7",
+    "scripts/ci/android_io_remote_documents.py": "d7ba70d6957a4b3e7fc7ee99cdc4a46db228cc7abd8f8fee4157ce8cd6fe44e2",
+    "scripts/ci/android_share_recipient.py": "9877fd03ba2818281d6100fbc134b7be1e2cb60d1959114b332c38397882c608",
+    "scripts/ci/apple_image_launch_readiness.py": "bafea0957404052acfb3a6f6ec56dabb96319448ae736f6b81f9ebdfeae18fc5",
+    "scripts/ci/apple_image_sidecar_evidence.py": "6d72320179d24d190774059b325cceec9e7a5b35139b9b086509091496d75f8c",
+    "scripts/ci/fixtures/android-camera-callback672-source-inverse.json": "1c14d6fcb7dc49716de3688169c9280fde51f62564d1593a6a95707f85f19f7a",
+    "scripts/ci/fixtures/android-io-controlled-remote-routing-source-inverse.json": "4dee514d6aa6bdfaf5856a24416cfb7a677f67daeed9f7fed9b43215e31e95de",
+    "scripts/ci/fixtures/apple-image-launcher-source-inverse.json": "7fd94a3f2249840fb61a6cbe835bc8d3fe0809951dd3e3ed77cb33f422f55cef",
+    "scripts/ci/fixtures/calendar-share-selector-source-inverse.json": "0a9267ec0455668688ce3a4a76dc20f534294bf2d48edf1f4c80fd3e43a34bab",
+    "scripts/ci/fixtures/camera-boot-busy-source-inverse.json": "280c1c631b570d62588458d01dbd02030be3e6d7a0535a34c30e701b6fff1f3e",
+    "scripts/ci/fixtures/camera-boot-handoff-source-inverse.json": "525f7f43222f92ab5730d0154e817dbfc60858e21b1daaa60d5203d954535367",
+    "scripts/ci/fixtures/camera-handoff-fixture-source-inverse.json": "29da5ee28cd1aa1c1859c076895c0d62080743d2ab4bd447983dddd15684b565",
+    "scripts/ci/fixtures/camera-home-baseline-source-inverse.json": "b968373d8de34a53525efd291055ad61f8d034a17236f663d8c58ba4c0716dcb",
+    "scripts/ci/fixtures/camera-ios-ownership-routing-source-inverse.json": "90844a99910a622024f769dd16ffe504308e1a94324d9192e406cda681e680bd",
+    "scripts/ci/fixtures/camera-recents-fixture-source-inverse.json": "4aaaac4178b727c388ae0969985171de0df802d0f1268b4dc6100b255c25d982",
+    "scripts/ci/fixtures/camera-recents-observation-source-inverse.json": "0329eb385d26e9ef90e6c3f92604672e1e76215c9513bbf88c06498eb5f1e028",
+    "scripts/ci/fixtures/camera-tooling562-source-inverse.json": "e91e9f3ccbf98238d7fcb7f82a6cedce492451fb15bfcb381ace6616cd43dfdc",
+    "scripts/ci/fixtures/camera-tooling566-source-inverse.json": "04fe85ecea2e04df03f05386250168b1b12fe1d3c1aae0783e3b22fa6344ee6e",
+    "scripts/ci/fixtures/ios-ui-related-source-inverse.json": "5511b49eb4e164735508ccb596013a7ac59a3dadfe8adf2ce2acac710a2393f8",
+    "scripts/ci/fixtures/ios-ui-split664-source-inverse.json": "1455a8edb3553a87a409f7fc30568ede9f7f52fe97042690b668dc6ebc145f4a",
+    "scripts/ci/fixtures/platform-recovery659-source-inverse.json": "c9a56d4288e1d6a71914de27b0218d0877840136e9d24d448e2d192fcf7d90e9",
+    "scripts/ci/fixtures/webview-content-policy-routing-source-inverse.json": "c44400087570740d3248704c2165c3222229f2c05ff1a2a3840dbda9aa04b916",
+    "scripts/ci/fixtures/webview-current-contract667-source-inverse.json": "56574379b6d9621e8b72009cad3551115401b860250f5c40af23bf3be279f937",
+    "scripts/ci/fresh-tests.init.gradle.kts": "e0c82a5c9c2461e5e18ce4e71e495c5cbdf5f3694d2bd19bbfbe855134112ffb",
+    "scripts/ci/ios_adaptive_controls_native.init.gradle.kts": "90ac4d7f46ee8f88192eb23a3da5b3ce62ef1c00c9a8003a89800b47e305e8e8",
+    "scripts/ci/ios_adaptive_controls_native_focus.py": "696826bbdf9dfff7142f0e5f905d6114a7e0f9fda06c25e155e86d3aa9914a28",
+    "scripts/ci/ios_adaptive_controls_runtime.py": "420ba61013fc790d03fadc00360642fd7d65651b0da3b358027b90b49a2ce67e",
+    "scripts/ci/ios_popover_anchor_plan.py": "ce5a6ea9a1589f8d8bad2c6bfa8b745cf51679b417496822edf9b576a9d53b70",
+    "scripts/ci/ios_ui_adaptive_drag_shader_native.init.gradle.kts": "6f11a305e3ffbe778d4b3aaa6e8a83e50b51c30af63666d2515f26250839e3c8",
+    "scripts/ci/ios_ui_application.py": "b3d0f2c2986e42a5e662ba8c2521393f7564916e27084b9473c354b7328b9605",
+    "scripts/ci/ios_ui_related_native_focus.py": "2828b127fc9413da63340ed635b306eaec09dfd0f6a057a8978fef29746a77fb",
+    "scripts/ci/ios_ui_related_source_projection.py": "19b33c0174e52ab85e603f6f0c7be45dd5b83cff93b278a2430c527692cc1c53",
+    "scripts/ci/ios_ui_split664_source_projection.py": "3fe6ba6239409536db53b1121bf6830b7dedfd521a5aef77c557833f7cda212f",
+    "scripts/ci/ios_ui_split_native.init.gradle.kts": "93bdd4ec3bbd3fac3db6d2e60709bd6945eb96c8cb05b7bdc50d7c3d7b689a9d",
+    "scripts/ci/library_tests.py": "ddd7b38615bef7ec99bfefddb625bf0816d9c90c297604d7baaea898a6e90aa6",
+    "scripts/ci/platform_recovery659_source_projection.py": "4505c503a7cf2b354e7d18dbf9129a43071ffc9a0fbb8e2093dfbca8f179960a",
+    "scripts/ci/runtime_context.py": "56a3072e2164c3ff9d8113a94e68dd400a609c0040cf8ce0514d0c1ef1e79a96",
+    "scripts/ci/test_android_camera_callback_native_focus.py": "01d3d4fe37b08ebf78297c2bb249f367a51b5e4975d0a2b6a308ebcc431223d2",
+    "scripts/ci/test_android_camera_provider.py": "99c48b09ac8a49bb5f1a35802296d2f78195e5e9867eb527afdc2bbe6218a3d7",
+    "scripts/ci/test_android_io_remote_documents.py": "d45c62fa7ff78ada440fc723972d860e599cb5869b68ca9210789c7da7bba8c2",
+    "scripts/ci/test_android_io_remote_routing.py": "b6b3bd00add19ca0500130b835ebdf68a6683643570f1bd3c2517eef048911ec",
+    "scripts/ci/test_android_io_remote_routing_source_projection.py": "b46e6d436ccc8eb498af76f611dbce17b30beb563f2c766830a81a970c65e708",
+    "scripts/ci/test_android_io_reporter_manifest_union.py": "6f59106ef9bd4bfcee15e9527016d8b671ae442c006889fd49a73135807e8977",
+    "scripts/ci/test_apple_image_sidecar_evidence.py": "6c77acc785a5ab326720be87b929de87f1d0d6b1a85385da3ae417b8a53ddfa4",
+    "scripts/ci/test_ios_application_receipts.py": "e149b2dee95d8665105747bed726169951e44c6e9facc0d137a5544b2cd9b68b",
+    "scripts/ci/test_ios_ui_related_source_projection.py": "08e90c1752149f554065eb51e586b41eca913a231fe691c5059e930c32578120",
+    "scripts/ci/test_ios_ui_split664_native_routing.py": "dc0b1f4a5a4bd9dc22989043a3e1f65137a0466adb1543fb36b2a1686079e5a7",
+    "scripts/ci/test_platform_recovery659_source_projection.py": "c7d3a9239fb5c20bd0cad7a4aaf38261ab50e5e62d26851fee96e9bc27e9070e",
+    "scripts/ci/test_webview_content_policy_native_focus.py": "f5680f235b2b9ee64f5edfa64213c8ec1635c82772af609d4cc5cbd867bc326e",
+    "scripts/ci/test_webview_current_contract667_source_projection.py": "06255308b350c7a8480c319998144fa0cfa63d08669cfd63193b2e716f90c335",
+    "scripts/ci/webview_content_policy_native_focus.py": "52e9d31c624e3bfbeab6d02fb7c5f97d1b196fb8fbaefe85be86a87587569837",
+    "scripts/ci/webview_current_contract667_source_projection.py": "6e3d560049ceb020db99a6ccd7d72bfc34e05425210900a1a009f44cd592ac23",
+    "scripts/ci/workflow_matrix.py": "7f5b8c8404c4ec83a9c634b0a6e0636957e4e080b30a24ff272c4df79d306df9",
+    "settings.gradle.kts": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c",
+    "tests/consumer/android-camera-receiver/build.gradle.kts": "92000d4bad25e57121cb5c100363d44955f0bdef290372bd3da965342f1523f4",
+    "tests/consumer/android-camera-receiver/settings.gradle.kts": "31507eb3489726a100053c8624e941f2ad0511460a55a4f62edf6a8b9f850c4f",
+    "tests/consumer/android-camera-receiver/src/main/AndroidManifest.xml": "2e507acb6e0ec0f3fbb3c3bbc7908a5d882277804a68f670e8814160e16fadd5",
+    "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraDelayedReceiverActivity.java": "8a5df77d685676fe29842d4231e86d0a8cf7a3bc388ec69ccf95be28c1d59a93",
+    "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverActivity.java": "2df3ad3ab2e985fa87483c18f269f3fbcf98d44210cf2c346c955dc60a13c8c9",
+    "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverService.java": "b7e366c37f91208afafd8fe6db1160a6048e740ead8c6cc334101b7a4a353a53",
+    "tests/consumer/android-io-remote-documents/README.md": "92ef61b5673af421fb48d6812d054fc5c119ac27b9ccf7b7d41d29cfcf083e92",
+    "tests/consumer/android-io-remote-documents/build.gradle.kts": "55967f734407e4e632a17fb9268879ce26979e3f9f96d8a1152af04da32f4160",
+    "tests/consumer/android-io-remote-documents/gradle.properties": "9bdf5fc8f73662d4e80072838783cc65fdae29b6b1c6a53de5d4cf8e20c8d44f",
+    "tests/consumer/android-io-remote-documents/settings.gradle.kts": "31ffb56210c51fc3d8344682b8183c76d55add20e09e5ffb4ea133229be9b981",
+    "tests/consumer/android-io-remote-documents/src/main/AndroidManifest.xml": "b32fd120a12987616d7f641640d3779e832397c25396da298d1fc3bcc5ceb8f7",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoContract.java": "98bac439bc8e6ea1e6f8de5f4d8192ccc9707331c6e5973b93adcdaa5ed49244",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoControlService.java": "731549a3a8cba7647f3e665b0351ca6f804ac48c07c46d1a60545768b0bd7f44",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoDocumentsProvider.java": "41a32e36b8f785a9cba3793c253872e15131977d4276f091fa16b18e73a59c3e",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoHttpBackend.java": "58e2cb1091f16d81595b8065e23ab532a5f18378df5d48d18d50317014a58d89",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoHttpTransport.java": "d6f6af63da9c2a89bc8a71fa306ee089852402919c256ec7fd7419ea819b65cc",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoProviderWitnessService.java": "f6d2e7a107179f3e1992b3868ea6c73075459b9eeb74a59287194416ddb52593"
+  }
+}

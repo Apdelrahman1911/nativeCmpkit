@@ -32,10 +32,26 @@ class AndroidGeoPrerequisitesTests(unittest.TestCase):
         owner = l.plan(l.ROOT, "android-device", only_modules=("calf-geo",), focus=l.ANDROID_GEO_OWNERSHIP_FOCUS)
         self.assertFalse(l.android_geo_probe_required(owner))
         self.assertEqual(11, len(w.matrix("all")["include"]))
-        self.assertEqual(8, len(l.plan(l.ROOT, "android-device")["expected"]))
+        # Eight ordinary hosts remain inventory metadata, not executable default coverage.
+        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')
+        self.assertEqual(8, len(inventory))
+        self.assertEqual((*inventory, "calf-permissions/core"), l.MINIMUM_MODULES["android-device"])
+        with self.assertRaises(ValueError) as refused:
+            l.plan(l.ROOT, "android-device")
+        self.assertIn(str(refused.exception), (
+            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',
+            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',
+        ))
+        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.
+        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')
+        unrelated_plan = l.plan(l.ROOT, "android-device", minimum_modules=unrelated, only_modules=unrelated)
+        self.assertEqual(list(unrelated), [item["module"] for item in unrelated_plan["expected"]])
+        self.assertEqual(list(unrelated), unrelated_plan["explicit_module_subset"])
+        self.assertFalse(unrelated_plan["complete_suite_requested"])
+        self.assertEqual(["calf-permissions/core"], unrelated_plan["finite_only_device_modules_not_requested"])
+        self.assertEqual(["calf-camera-picker", "calf-io", "calf-permissions/core"],
+                         unrelated_plan["test_bearing_modules_not_requested"])
         self.assertEqual(9, len(l.MINIMUM_MODULES["android-device"]))
-        self.assertEqual(["calf-permissions/core"],
-                         l.plan(l.ROOT, "android-device")["finite_only_device_modules_not_requested"])
 
     def test_prerequisite_selection_uses_one_actual_runtime_annotation_without_ATE_csv_loss(self):
         plan = self.plan()

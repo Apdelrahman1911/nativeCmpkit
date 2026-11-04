@@ -456,6 +456,7 @@ class UiSplit664SourceControls(unittest.TestCase):
 
     def test_complete_current_split_source_inverses_and_own_template_reject_prior_partial_foreign_and_link_drift(self):
         document = split._document(); self.assertEqual(9, len(document["bindings"]))
+        from android_io_remote_routing_source_projection import source_before_remote_routing as qualified_io_ancestor
         for name, row in document["bindings"].items():
             current = (ROOT / name).read_bytes(); before = split.current_source_before_ui_split664(name, current)
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(before), len(before)))
@@ -465,7 +466,7 @@ class UiSplit664SourceControls(unittest.TestCase):
                 left, right = fragment["before"].encode(), fragment["after"].encode()
                 self.assertEqual((fragment["before_fragment_sha256"], fragment["after_fragment_sha256"]), (sha(left), sha(right)))
                 self.assertEqual(1, forward.count(left)); forward = forward.replace(left, right, 1)
-            self.assertEqual(current, forward)
+            self.assertEqual(qualified_io_ancestor(name, current), forward)
             for bad in (before, current + b"\n", current[:-1], b"foreign", b"", None, bytearray(current)):
                 with self.assertRaises(ValueError): split.current_source_before_ui_split664(name, bad)
             unknown = before + b"\n# synthetic unreviewed ancestor\n"

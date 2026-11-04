@@ -686,6 +686,8 @@ class Reporter:
         self.initial_absent = True
         convention = file_bytes(self.owner.root / CONVENTION, CONTROL_BYTES)
         module = file_bytes(self.owner.root / MODULE / "build.gradle.kts", CONTROL_BYTES)
+        from camera_ios_ownership_source_projection import current_source_before_camera_ios_ownership
+        module = current_source_before_camera_ios_ownership(MODULE + "/build.gradle.kts", module)
         require(hashlib.sha256(convention).hexdigest() == CONVENTION_SHA256 and
                 hashlib.sha256(module).hexdigest() == MODULE_SHA256,
                 "Namespace-generating source changed; no classname package guess")

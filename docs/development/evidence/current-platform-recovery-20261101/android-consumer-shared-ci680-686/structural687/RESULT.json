@@ -1,0 +1,72 @@
+{
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/migration/verify_migration.py"
+      ],
+      "finished_utc": "2026-11-04T12:37:07.417488+00:00",
+      "returncode": 0,
+      "started_utc": "2026-11-04T12:36:38.366324+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "531b671e577116808264b9e18d83cd9cb72851f458ba79dadbd5d0de25362942"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/audit/validate_audit.py"
+      ],
+      "finished_utc": "2026-11-04T12:37:09.866003+00:00",
+      "returncode": 0,
+      "started_utc": "2026-11-04T12:37:07.417980+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "fb8d0a086dad1a3b620e94fea54a612ae6e59de0853ce3bf61090959efbb6e26"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/audit/source_inventory.py",
+        "--check"
+      ],
+      "finished_utc": "2026-11-04T12:37:11.713479+00:00",
+      "returncode": 0,
+      "started_utc": "2026-11-04T12:37:09.866198+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "150ec113ef681503061d193a0adf96af7cd81e533c196fe1f476f4cf6fe4a238"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "finished_utc": "2026-11-04T12:37:12.030822+00:00",
+      "returncode": 0,
+      "started_utc": "2026-11-04T12:37:11.713649+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "cd370b7c896168aa5c0e7b2b96c418c4ec16287979568c262e96d5d129b6992e"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/development/generate_icon_catalogues.py",
+        "--check"
+      ],
+      "finished_utc": "2026-11-04T12:37:12.123020+00:00",
+      "returncode": 0,
+      "started_utc": "2026-11-04T12:37:12.030934+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "a54131b9e9bf72dfe0c45a8a2ec2ec20892f64d88995b69fbad31f2bb4475ef7"
+    }
+  ],
+  "native_compiler_unittest_executions": 0,
+  "outcome": "passed",
+  "root_head": "afc0a727f60a9278c96cf9721157ba7413229c10",
+  "schema": "lead-source-metadata-structural-checks687-v1",
+  "scope": "Migration/baseline audit/current resolution/icon structural checks, not library functionality or release readiness."
+}

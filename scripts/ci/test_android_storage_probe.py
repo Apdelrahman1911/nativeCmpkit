@@ -275,12 +275,26 @@ class StorageOperationalGuards(unittest.TestCase):
             self.assertEqual(s.MODULE, selected[0]["test-modules"]); self.assertEqual(row.profile, selected[0]["test-focus"])
 
     def test_default_eight_modules_exclude_only_explicit_finite_storage_metadata(self):
-        plan = lt.plan(lt.ROOT, "android-device")
-        self.assertEqual(list(lt.MINIMUM_MODULES["android-device"]),
-                         [item["module"] for item in plan["expected"]] + [s.MODULE])
-        self.assertEqual(9, len(lt.MINIMUM_MODULES["android-device"]))
-        self.assertEqual(8, len(plan["expected"]))
+        # Eight ordinary hosts remain inventory metadata, not executable default coverage.
+        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')
+        self.assertEqual(8, len(inventory))
+        self.assertEqual((*inventory, "calf-permissions/core"), lt.MINIMUM_MODULES["android-device"])
+        with self.assertRaises(ValueError) as refused:
+            lt.plan(lt.ROOT, "android-device")
+        self.assertIn(str(refused.exception), (
+            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',
+            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',
+        ))
+        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.
+        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')
+        plan = lt.plan(lt.ROOT, "android-device", minimum_modules=unrelated, only_modules=unrelated)
+        self.assertEqual(list(unrelated), [item["module"] for item in plan["expected"]])
+        self.assertEqual(list(unrelated), plan["explicit_module_subset"])
         self.assertFalse(plan["complete_suite_requested"])
+        self.assertEqual(["calf-permissions/core"], plan["finite_only_device_modules_not_requested"])
+        self.assertEqual(["calf-camera-picker", "calf-io", "calf-permissions/core"],
+                         plan["test_bearing_modules_not_requested"])
+        self.assertEqual(9, len(lt.MINIMUM_MODULES["android-device"]))
         self.assertEqual([s.MODULE], plan["finite_only_device_modules_not_requested"])
         self.assertIn(s.MODULE, plan["test_bearing_modules_not_requested"])
         self.assertNotIn("android_storage_probe", plan)

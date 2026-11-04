@@ -37,6 +37,12 @@ class CameraProviderVerificationActivity : ComponentActivity() {
     @Volatile var launcher: CameraPickerLauncher? = null
     @Volatile var appliedOptions: CameraPickerOptions? = null
     val results = CopyOnWriteArrayList<CameraPickerResult>()
+    // Callback verification is opt-in; existing provider methods still collect results.
+    var resultCallback by mutableStateOf<(CameraPickerResult) -> Unit>(results::add)
+    var recompositionTick by mutableStateOf(0)
+    @Volatile var appliedCallback: ((CameraPickerResult) -> Unit)? = null
+    @Volatile var appliedTick = -1
+    var delayedCallbackCapture = false
     @Volatile var outputUri: Uri? = null
     @Volatile var packet: String? = null
     var missingHandler = false
@@ -50,7 +56,7 @@ class CameraProviderVerificationActivity : ComponentActivity() {
             outputUri = assertNotNull(intent.getParcelableExtra<Uri>(MediaStore.EXTRA_OUTPUT))
             packet = UUID.randomUUID().toString().replace("-", "")
             if (!implicitCamera) intent.component = ComponentName(OwnedCameraReceiver.PACKAGE,
-                "${OwnedCameraReceiver.PACKAGE}.${if (missingHandler) "NonexistentCameraActivity" else "CameraReceiverActivity"}")
+                "${OwnedCameraReceiver.PACKAGE}.${if (missingHandler) "NonexistentCameraActivity" else if (delayedCallbackCapture) "CameraDelayedReceiverActivity" else "CameraReceiverActivity"}")
             intent.putExtra("nativecmpkit.packet", packet); intent.putExtra("nativecmpkit.cancel", cancel)
             externalLaunches++
             // No manually added ClipData/URI grants: Android owns EXTRA_OUTPUT grant migration
@@ -64,8 +70,10 @@ class CameraProviderVerificationActivity : ComponentActivity() {
         options = CameraPickerOptions(androidFileProviderAuthority = "$packageName.camera-files")
         setContent {
             CompositionLocalProvider(LocalActivityResultRegistryOwner provides registryOwner) {
-                val current = rememberCameraPickerResultLauncher(options, results::add)
-                SideEffect { launcher = current; appliedOptions = options }
+                val callback = resultCallback
+                val tick = recompositionTick // Read in composition, not only in SideEffect.
+                val current = rememberCameraPickerResultLauncher(options, callback)
+                SideEffect { launcher = current; appliedOptions = options; appliedCallback = callback; appliedTick = tick }
                 DisposableEffect(current) { onDispose { if (launcher === current) launcher = null } }
             }
         }

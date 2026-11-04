@@ -66,10 +66,12 @@ class CameraRecentsFixtureRecoveryControls(unittest.TestCase):
 
     def test_exact_current_inverse_and_forward_composition_keep_older_stage_separate(self):
         from camera_tooling562_source_projection import current_source_before_tooling
+        from platform_recovery659_source_projection import source_before_platform_recovery659
         for relative, binding in self.bindings.items():
             actual_current = self.current[relative]
             previous = recovery.current_source_before_recents_fixture(relative, actual_current)
-            current = current_source_before_tooling(relative, actual_current)
+            current = current_source_before_tooling(
+                relative, source_before_platform_recovery659(relative, actual_current))
             self.assertEqual(binding["after_sha256"], sha(current))
             self.assertEqual(binding["before_sha256"], sha(previous))
             self.assertEqual(binding["before_bytes"], len(previous))
@@ -132,7 +134,9 @@ class CameraRecentsFixtureRecoveryControls(unittest.TestCase):
         self.assertIn("history.current_source_before_boot_handoff(relative, actual_current)", method)
         self.assertIn('binding["after_sha256"]', method)
         self.assertIn("self.assertEqual(current, previous)", method)
-        source = self.current["scripts/ci/test_android_external337_fixture_recovery.py"].decode()
+        from platform_recovery659_source_projection import source_before_platform_recovery659
+        relative = "scripts/ci/test_android_external337_fixture_recovery.py"
+        source = source_before_platform_recovery659(relative, self.current[relative]).decode()
         self.assertIn('"^A historical image cannot replace exact current recents-observation source$"', source)
         self.assertIn("for payload in (previous, current +", source)
         source = self.current["scripts/ci/test_camera_handoff_fixture_recovery.py"].decode()

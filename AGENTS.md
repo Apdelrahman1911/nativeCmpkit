@@ -1,5 +1,63 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Final CI ingress integrated; fresh upstream reconciliation — 2026-11-04
+
+[CI668/689–694](docs/development/evidence/current-platform-recovery-20261101/ci668-produce-reuse689-694/README.md)
+adopts6 modified+10 additions/16 exact spans, finalworkflow4787/raw175 current
+ingress. First API200 staysFAILED after9 accepted events; separately added only20
+literal included build descriptors, onlyfailedIO3+required refusal pass once.
+NEW8+changed4 passes12/12 once/suite50.153s/outer50.901245s,220actual maps held;
+independent610 source/results2859 accepts. Shared111/provider/unchanged CI leaves
+are reused, not replayed. ZERO new compiler/native/browser/consumer/closure.
+First lead prewrite conflict and never-executed correction refusals remain.
+Final two named680→686 transitions+exact683164 schema qualify; once adoption
+writes16 exact bytes but terminal receipt is absent/ten requested0644 additions
+observed0600 underumask077. Original console/exit not retained; no invented cause.
+Separate ten-mode-only recovery0/zero source writes preserves six existing modes,
+175/200 maps/prior220 endpoints. ActualROOT named-receipt preflight0 validates both
+one-moduleCamera5/AndroidWebView5 declared source focus plans, not native methods
+or retained full testcase payloads. Receipt aggregate Git0 means zero mutations,
+not zero read-only Git custody commands. Priorstructural687/Actionlint688 reused.
+[Owned695–696](docs/development/evidence/current-platform-recovery-20261101/owned-reserve695-696/README.md)
+preserves190 archive-identical backing copies and full dormant docs verifier
+environment before discard; no source/history/cache/native/receipt removal or
+process stop. That exact dormant verifier must be restored if explicitly needed.
+Fresh[upstream snapshot](docs/development/upstream-sync-20261104T134400Z/README.md)
+captures16/16open descriptions/comments/timelines+one separatePR; all16mapped,
+ZERO missing imports/comments/mutations. Fresh103closed/69open/172total and
+22implemented/36partial/101verified/five unresolved unchanged. #144/#171 already
+closed, never repeat. Next development-only freeze/push→toolingproduce→exact four-ID
+authenticatedreuse→missingCamera5/AndroidWebView5 on the SAME immutableHEAD;
+no intervening documentation commits. Keep isolated Cookie/Share/Windows patches
+deferred during cohort. Lead Git/integration/dispatch/acceptance/closure; serial
+local>=8GiB disk/compiler>=6GiB memory/max2combinedhosted INCLUDINGqueued/reserved.
+Actions/all/no mandatory SHA pinning/minimum read permissions; only necessary
+tooling actions:read. Every publishing/Pages/main/history/native/consumer/API–ABI/
+dependency/legal/security/readiness gate remains. No package/release/deployment.
+
+## Related resource/consumer/shared-source batch integrated — 2026-11-04
+
+[680–686](docs/development/evidence/current-platform-recovery-20261101/android-consumer-shared-ci680-686/README.md)
+adopts Android37, consumer164 and shared26 paths; exact postimages/inverses held.
+Consumer682 wrote164 then refused final stat comparison; original differing fields
+uncaptured, no cause inference/reapply. Passive683 accepts164+10 inert+four Cargo+
+prior37 without writes. Shared111/111 source/model methods pass once,56.728s suite/
+74.029995s envelope; independent+lead accept, not native/compiler/consumer/legal.
+API16pass+one required refusal/8.039911s separate;139 unchanged/165 finite held,
+1481 isolated inputs not canonical/native. Four ROOT0644/candidate0600 mismatches
+refuse before writes; recorded recovery preserves ROOT modes and exact source.
+Final CI668 remains isolated/unqualified; exact final4787 ingress and affected
+historical-workflow fixture comparisons must pass before produce/reuse dispatch.
+Original Camera41810510161/Android41810768827 stay FAILED before platform;
+#55/#64/#69/#70 and all original missing criteria remain open, no new closure.
+Inherited latest readback103closed/69open/172;22implemented/36partial/101verified/
+five unresolved. Accepted populations reused, not replayed. Lead integration/Git/
+dispatch/acceptance/closure; isolated parallel patches. Local serial>=8GiB free disk,
+compiler>=6GiB MemAvailable; max2 combined hosted INCLUDINGqueued/reserved.
+Actions/all owner-authorized/no mandatory SHA pinning/minimum read permissions;
+every publishing/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/release-readiness gate remains. No package/release/deployment publication.
+
 ## Shared CI failures retained; UI batch integrated — 2026-11-04
 
 [670/UI664](docs/development/evidence/current-platform-recovery-20261101/tooling670-ui664-recovery671/README.md)
@@ -5267,10 +5325,10 @@ preserve `main` at the synchronization checkpoint until reviewed integration.
 Neither a local pass nor a green CI badge alone satisfies a release gate.
 
 - First reconcile every currently open Calf issue before production fixes.
-  The latest read-only refresh is `docs/migration/upstream-updates/20261103T191006Z/`;
+  The latest read-only refresh is `docs/migration/upstream-updates/20261104T134400Z/`;
   all16 open issues still have exactly one current destination context, with
   no imports/comments/closures needed. Review evidence is in
-  `docs/development/upstream-sync-20261103T191006Z/`; original posting/readback
+  `docs/development/upstream-sync-20261104T134400Z/`; original posting/readback
   remains in `docs/development/upstream-sync-20261024T183300Z/`.
   Keep every dated snapshot and the original metadata archive immutable.
 - Pages issue #171 is now **verified and closed** after the owner's Unpublish
@@ -5282,10 +5340,12 @@ Neither a local pass nor a green CI badge alone satisfies a release gate.
   A source repair or a new test is not an executed/verified fix. Close issues only
   after reviewing their required tests and actual results; preserve technical issue
   bodies and add progress/resolution comments instead of destroying history.
-- Continue solo under the owner's 2026-11-02 instruction; do not spawn, resume or
-  reassign agents. The lead integrates all areas and owns Git/GitHub operations. Run heavy local builds
-  serially with a disk reserve, and use immutable commits for CI/consumer
-  evidence. Ordinary parallel CI jobs are not subagents; bound their concurrency.
+- The 2026-11-04 owner amendment supersedes the historical 2026-11-02 solo
+  instruction: coordinated agents may work on isolated, disjoint related patches.
+  The lead alone integrates and owns Git/GitHub mutations and acceptance/closure.
+  Run heavy local builds serially with the 8 GiB disk reserve and 6 GiB available
+  memory compiler gate; use immutable commits for CI/consumer evidence. Bound
+  combined hosted-heavy reservations to two, including queued/reserved work.
 - Existing sample applications are not substitutes for library integration tests.
   Native functionality, cancellation/concurrency/ownership, artifact consumers and
   API compatibility need explicit tests. Device-only gaps remain release gates.

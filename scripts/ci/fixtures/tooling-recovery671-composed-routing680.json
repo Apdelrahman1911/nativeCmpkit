@@ -1,0 +1,1049 @@
+{
+  "callback_above_io": {
+    ".github/workflows/gradle.yml": {
+      "after_bytes": 69674,
+      "after_sha256": "90a95f391d2ae613408408f1773bf81eb74ead2d28d736ee2c84effa5642efc0",
+      "before_bytes": 70598,
+      "before_sha256": "46de0540c5e252a1bb9016e96758e79de2f0e728ca4ba2a746b709b88652106b",
+      "fragments": [
+        {
+          "after": "      CARGO_BUILD_JOBS: '2'\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803\n        with:\n          persist-credentials: false\n      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961\n",
+          "after_fragment_sha256": "5ffec2cb95729ca2f3fb2ad7ccd22edbac4ce10ea2e60dd72464a57c969ca188",
+          "before": "      CARGO_BUILD_JOBS: '2'\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803\n        with:\n          persist-credentials: false\n      - name: Admit finite Android discovery before host setup\n        if: matrix.suite == 'android-device'\n        run: |\n          # Enabled API-specific Camera methods are never hidden, skipped or\n          # admitted by an unrestricted/all selector before costly host work.\n          if [[ -n \"$ANDROID_BATCH\" ]]; then\n            \"$PYTHON\" scripts/ci/android_device_batch.py plan --batch \"$ANDROID_BATCH\" > /dev/null\n          else\n            args=(plan --api-level \"$EMULATOR_API\" --output build/ci-plan)\n            if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi\n            if [[ -n \"$TEST_MODULES\" ]]; then\n              IFS=',' read -ra modules <<< \"$TEST_MODULES\"\n              for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done\n            fi\n            \"$PYTHON\" scripts/ci/android_device_tests.py \"${args[@]}\" > /dev/null\n          fi\n      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961\n",
+          "before_fragment_sha256": "4094af68b5c24548d9506f4e649526af1a33ab882cac4dfbf2c45ea909761c74",
+          "obligation": "Remove exact callback above IO/UI: Actual source/controller/API admission runs immediately after checkout, before Java/Rust/SDK/runtime/KVM or library host work"
+        },
+        {
+          "after": "android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle",
+          "after_fragment_sha256": "d3af87d20cabe56c01e3bcc0756f8b53759c837a41741f49e92784b34cb0ffe5",
+          "before": "android-camera-restoration, android-camera-restoration-dont-keep, android-camera-callback-substitution, android-io-provider-lifecycle",
+          "before_fragment_sha256": "9c182eee0fba19078d92751da472f2756a776f9228ec42c0f074e761fa22c788",
+          "obligation": "Remove exact callback above IO/UI: Expose only one source-defined named callback workflow profile"
+        }
+      ]
+    },
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt": {
+      "after_bytes": 18579,
+      "after_sha256": "e222639ed728465798aa0be937f13dc181c36dfd566db0b2fa9bbdbe67f18532",
+      "before_bytes": 19196,
+      "before_sha256": "53e355fa832c2fe622eeae1627de3847d224393f8656b50a7c6b2f396b7bfab1",
+      "fragments": [
+        {
+          "after": "                val current = rememberCameraPickerResultLauncher(options, results::add)\n                SideEffect { launcher = current; appliedOptions = options }\n",
+          "after_fragment_sha256": "f11b9b740cf993d8c02feeb5f02f61b912320360932255a26a197167ebc165a5",
+          "before": "                val callback = resultCallback\n                val tick = recompositionTick // Read in composition, not only in SideEffect.\n                val current = rememberCameraPickerResultLauncher(options, callback)\n                SideEffect { launcher = current; appliedOptions = options; appliedCallback = callback; appliedTick = tick }\n",
+          "before_fragment_sha256": "815865c931c95c51782138540c41259a5524fe9c591dd319f23f639b85a3de44",
+          "obligation": "Remove exact callback above IO/UI: Actual Compose callback/tick reads before SideEffect and committed observations"
+        },
+        {
+          "after": "                \"${OwnedCameraReceiver.PACKAGE}.${if (missingHandler) \"NonexistentCameraActivity\" else \"CameraReceiverActivity\"}\")\n",
+          "after_fragment_sha256": "5e11b0e87081dd5406d8c93d27ac1fa025a2bfe9e2fcf03e178d6ed8d6bed49e",
+          "before": "                \"${OwnedCameraReceiver.PACKAGE}.${if (missingHandler) \"NonexistentCameraActivity\" else if (delayedCallbackCapture) \"CameraDelayedReceiverActivity\" else \"CameraReceiverActivity\"}\")\n",
+          "before_fragment_sha256": "ae6d7fb88c625ae5e185b17deaceb5234ec3372c566a56ea21cc999ed5549ded",
+          "obligation": "Remove exact callback above IO/UI: Finite delayed recipient only under opt-in; missing-handler precedence and implicit bypass retained"
+        },
+        {
+          "after": "    val results = CopyOnWriteArrayList<CameraPickerResult>()\n",
+          "after_fragment_sha256": "89cb7889008aee67eca77ac02a4c1efc30b725b8e98a290beea1692e8995df56",
+          "before": "    val results = CopyOnWriteArrayList<CameraPickerResult>()\n    // Callback verification is opt-in; existing provider methods still collect results.\n    var resultCallback by mutableStateOf<(CameraPickerResult) -> Unit>(results::add)\n    var recompositionTick by mutableStateOf(0)\n    @Volatile var appliedCallback: ((CameraPickerResult) -> Unit)? = null\n    @Volatile var appliedTick = -1\n    var delayedCallbackCapture = false\n",
+          "before_fragment_sha256": "dade837992b2644ee27f65161c0b803e2ae887c6445481188ce01bf5aaf118e5",
+          "obligation": "Remove exact callback above IO/UI: Opt-in callback/tick observations and false-default delayed selection flag"
+        }
+      ]
+    },
+    "scripts/ci/android_device_tests.py": {
+      "after_bytes": 52787,
+      "after_sha256": "02ea091a86c08e69bb6356b24fa33060fb08e7973b90b6b3519a7b9c3267f464",
+      "before_bytes": 53129,
+      "before_sha256": "954a3fd8ba6f52f9e63900495258d62341c5dffee0c82962c9883edbe2baa38e",
+      "fragments": [
+        {
+          "after": "    validate_api_selection(api_level, only_modules, focus)\n    if focus is None:\n        # Unfiltered remote discovery is source-refused before host checks, output or locks.\n        lt.plan(root, \"android-device\", only_modules=only_modules)\n    observing = kvm_timeline.active(api_level, focus)\n",
+          "after_fragment_sha256": "46edacc7b9e1f615805939275bc481b2168dd668b649cc5d608953d716ca2009",
+          "before": "    validate_api_selection(api_level, only_modules, focus)\n    if focus is None:\n        # Unfiltered remote discovery is source-refused before host checks, output or locks.\n        lt.plan(root, \"android-device\", only_modules=only_modules)\n    if focus == lt.camera_callback.FOCUS:\n        lt.plan(root, \"android-device\", only_modules=only_modules, focus=focus)\n    observing = kvm_timeline.active(api_level, focus)\n",
+          "before_fragment_sha256": "5490b3f950de9a1e8fc44a9f9cb7e927a076a9e75f52ea8108d2aa57d8d6aeb4",
+          "obligation": "Remove exact callback above IO/UI: Validate exact current callback source plan before even require_host; leave unrelated controller admission unchanged"
+        },
+        {
+          "after": "def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:\n",
+          "after_fragment_sha256": "faeb440daa2638fd7dd4ccfe9437c0111021cb9d6a920a2ff16cc1038980659c",
+          "before": "def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:\n    lt.camera_callback.validate_discovery(\"android-device\", modules, focus, lt.ANDROID_CAMERA_FOCUSES)\n    if focus == lt.camera_callback.FOCUS:\n        lt.camera_callback.validate_api(api_level, modules)\n        return\n",
+          "before_fragment_sha256": "a198c34defd65448b2114de82d134e3199dd2d85a73f720b8bcf0bfca7cdc769",
+          "obligation": "Remove exact callback above IO/UI: Refuse unrestricted Camera/default-all and callback API23/foreign selection before host/KVM/output/setup"
+        }
+      ]
+    },
+    "scripts/ci/fresh-tests.init.gradle.kts": {
+      "after_bytes": 7940,
+      "after_sha256": "bc14e3ac5105e6a337c896f4f7e88dd565e8862b2b2dc0d8ff055f40ab8cb9d4",
+      "before_bytes": 9304,
+      "before_sha256": "e0c82a5c9c2461e5e18ce4e71e495c5cbdf5f3694d2bd19bbfbe855134112ffb",
+      "fragments": [
+        {
+          "after": "            check(runnerArguments.filterKeys { it in selectorKeys } == requestedSelectors) {\n                \"Effective AGP instrumentation selectors differ from the requested exact selection\"\n            }\n",
+          "after_fragment_sha256": "6acff729711907d543034b7fbe8b04e893368bb5f23c084387691e02b30b7cd0",
+          "before": "            check(runnerArguments.filterKeys { it in selectorKeys } == requestedSelectors) {\n                \"Effective AGP instrumentation selectors differ from the requested exact selection\"\n            }\n            val callbackFocus = providers.gradleProperty(\"nativecmpkitCameraCallbackSubstitution\").orNull\n            val callbackSelector = \"com.mohamedrejeb.calf.camerapicker.AndroidCameraCallbackSubstitutionTest#nativeActiveCaptureDeliversOnceToLatestCallbackWithoutReplacingOwner\"\n            check(callbackFocus == null || callbackFocus == \"android-camera-callback-substitution\") {\n                \"Only the exact opt-in callback/delayed-recipient focus is permitted\"\n            }\n            val callbackSelected = requestedSelectors[\"class\"] == callbackSelector\n            check((callbackFocus != null) == callbackSelected) {\n                \"Callback selection requires its exact explicit callback/delayed-recipient opt-in\"\n            }\n            if (callbackSelected) {\n                check(path == \":calf-camera-picker:connectedAndroidDeviceTest\" &&\n                    requestedSelectors == mapOf(\"class\" to callbackSelector)) {\n                    \"Callback is one Camera class#method, never an annotation, exclusion or provider replay\"\n                }\n                check(runnerArguments[\"nativecmpkitOwnedCameraReceiver\"] == \"true\" &&\n                    runnerArguments[\"timeout_msec\"] == \"120000\") {\n                    \"Effective callback arguments require the owned receiver and bounded failure timeout\"\n                }\n            }\n",
+          "before_fragment_sha256": "c08dac6c47ac2eb6c76e45a12a362444179acb1d011093c940166b8e1513ddbf",
+          "obligation": "Remove exact callback above IO/UI: At the real connected task, correlate exact effective class selector with explicit callback opt-in, receiver marker and bounded timeout"
+        }
+      ]
+    },
+    "scripts/ci/library_tests.py": {
+      "after_bytes": 407290,
+      "after_sha256": "50649230981349294a9aac3dd51b14d629d3596818c2a527d95ea2cf2c48c80d",
+      "before_bytes": 409120,
+      "before_sha256": "ddd7b38615bef7ec99bfefddb625bf0816d9c90c297604d7baaea898a6e90aa6",
+      "fragments": [
+        {
+          "after": "    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n",
+          "after_fragment_sha256": "e6427a17e2b4b095635b16bc2c5b31634a052737522b282431f0231b8ce63883",
+          "before": "    if focus == camera_callback.FOCUS:\n        return camera_callback.validate_plan(test_plan)\n    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n",
+          "before_fragment_sha256": "07149262d2f48126c7eff19229ba72494561c1cc7a65175a4ca062cf175f94d9",
+          "obligation": "Remove exact callback above IO/UI: Validate callback only after every existing foreign-source/helper contract-placement refusal, never bypass those guards"
+        },
+        {
+          "after": "        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if android_io_remote_documents_required(test_plan):\n            import android_io_remote_documents as remote\n            if context.get(\"android_emulator\", {}).get(\"api_level\") != \"35\":\n                raise ValueError(\"Remote controlled-loopback native execution requires actual API35\")\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n            if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote current source map changed before native execution\")\n        if android_permission_demo_required(test_plan):\n",
+          "after_fragment_sha256": "70478d341132419abb172459971182ef01db6870725fff4103742bede272a575",
+          "before": "        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if focus == camera_callback.FOCUS:\n            camera_callback.validate_context(context, android_serial)\n        if android_io_remote_documents_required(test_plan):\n            import android_io_remote_documents as remote\n            if context.get(\"android_emulator\", {}).get(\"api_level\") != \"35\":\n                raise ValueError(\"Remote controlled-loopback native execution requires actual API35\")\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n            if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote current source map changed before native execution\")\n        if android_permission_demo_required(test_plan):\n",
+          "before_fragment_sha256": "cb81d46919fc11fcbd2404f587e2740084838b7d10fd7c667c9dea2c855f146f",
+          "obligation": "Remove exact callback above IO/UI: Actual runtime must be exact enforcing/Booted API35 Linux x64 and the captured same serial before native task execution"
+        },
+        {
+          "after": "        if android_camera_receiver_required(test_plan):\n            command.append(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true\")\n",
+          "after_fragment_sha256": "3ea3ee4b6285a2246f78a84a36cdfd1f519d8472c8c6bf8d5dd1d379a7928f79",
+          "before": "        if android_camera_receiver_required(test_plan):\n            command.append(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true\")\n        if test_plan.get(\"explicit_test_focus\") == camera_callback.FOCUS:\n            command.append(\"-P\" + camera_callback.GRADLE_PROPERTY + \"=\" + camera_callback.FOCUS)\n",
+          "before_fragment_sha256": "298a6506bda800075616c80b0dbe5dec852e216f6fb56209920591d0d491eb77",
+          "obligation": "Remove exact callback above IO/UI: Explicit receiver marker plus exact callback/delayed focus guard only on the new one-method route; no native grant/result injection"
+        },
+        {
+          "after": "    if boundary_focus and suite != test_plan[\"suite\"]:\n        raise ValueError(\"A focused test plan cannot run as another suite\")\n",
+          "after_fragment_sha256": "41e77cac479d3ecf0ba6842e59699c6d6f464ac5d80ce6d9976dde18721ae0ea",
+          "before": "    if boundary_focus and suite != test_plan[\"suite\"]:\n        raise ValueError(\"A focused test plan cannot run as another suite\")\n    if test_plan.get(\"explicit_test_focus\") == camera_callback.FOCUS:\n        camera_callback.validate_serial(android_serial)\n        if camera_callback.source_contract(root) != test_plan[\"expected\"][0][camera_callback.CONTRACT_KEY]:\n            raise ValueError(\"Exact callback source/recipient/filter identity changed before the command\")\n",
+          "before_fragment_sha256": "c178862fabe73a12b5da2dc1de23d43afcf246a3dc8768ed534a6c6b9d270a36",
+          "obligation": "Remove exact callback above IO/UI: Require a passed-in valid captured emulator serial and unchanged complete callback source contract, including assembly"
+        },
+        {
+          "after": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_CAMERA_RESTORATION_FOCUSES:\n",
+          "after_fragment_sha256": "47c6ae288ffde77f09b019a429625b3aae1b3bbcd24918450027ae23fdbabdd4",
+          "before": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] == camera_callback.FOCUS:\n            scenarios, policy_errors = camera_callback.outcomes(module_cases, host_system or platform.system())\n            if len(paths) != 1 or len(reports) != 1:\n                policy_errors.append(\"Callback requires exactly one fresh original one-method XML; no extra empty report\")\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_CAMERA_RESTORATION_FOCUSES:\n",
+          "before_fragment_sha256": "3f72ff504372895f7108dee69317f7add1d4d483ff8f85684388d9b7c00fe41d",
+          "obligation": "Remove exact callback above IO/UI: Collect exactly one genuine callback XML/case/task; old provider/restoration and failed/skipped/missing/stale cases cannot substitute"
+        },
+        {
+          "after": "    focus = test_plan.get(\"explicit_test_focus\")\n    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n",
+          "after_fragment_sha256": "3df954beaa19145c77eb4f5f12e1e825d333fe2e0baef44503e54966873f8417",
+          "before": "    focus = test_plan.get(\"explicit_test_focus\")\n    camera_callback.validate_contract_placement(test_plan, ANDROID_CAMERA_FOCUSES)\n    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n",
+          "before_fragment_sha256": "1d8b44c2542b01e3ff245772daa8f7643330e29e245a557690d0d4c4aff4d63c",
+          "obligation": "Remove exact callback above IO/UI: Reject unrestricted/mixed/foreign callback claims and exact selector/contract mutations before Gradle"
+        },
+        {
+          "after": "    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:\n        source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding=\"utf-8\")\n",
+          "after_fragment_sha256": "6e43de71aa2f78badf1165e1747932394829a3f24d06b2c63d96f5d6bebb4bcc",
+          "before": "    elif focus == camera_callback.FOCUS:\n        camera_callback.configure_item(root, selected[0])\n        result[\"explicit_test_focus\"] = focus\n        result[\"scope\"] = camera_callback.SCOPE\n    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:\n        source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding=\"utf-8\")\n",
+          "before_fragment_sha256": "5793c1d91eb697207d66b75788c3a93bc6f03ff0b8c5023a3b44de847a65b00b",
+          "obligation": "Remove exact callback above IO/UI: Only one exact callback classname#method, current source contract and fresh XML; normal inherited source list unchanged"
+        },
+        {
+          "after": "    task_name, inherited = SUITES[suite]\n    selected, uncovered = [], []\n    for module, project in projects(root).items():\n",
+          "after_fragment_sha256": "4e1c20c3ba1c32cf1d88f800b04a7d1b5619b2a0a211b029440e1d35da681a00",
+          "before": "    task_name, inherited = SUITES[suite]\n    declared_projects = projects(root)\n    camera_callback.validate_discovery(\n        suite, only_modules, focus, ANDROID_CAMERA_FOCUSES,\n        declared_modules=tuple(declared_projects), minimum_modules=minimum_modules)\n    selected, uncovered = [], []\n    for module, project in declared_projects.items():\n",
+          "before_fragment_sha256": "b0f2faeeda61191612b2ade9b7c806a89d9586bd33b51a29a623028638026201",
+          "obligation": "Remove exact callback above IO/UI: Reuse one rejecting complete literal project declaration map; only an explicit entirely declared non-Camera fixture minimum can enter source discovery; Camera/defaults refuse before source traversal/host/output"
+        },
+        {
+          "after": "    if suite == \"android-device\" and only_modules and ANDROID_STORAGE_MODULE in only_modules and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:\n",
+          "after_fragment_sha256": "530c6e4285cd3267cfb68ed8b1c11d02f1d3a3144d7ae80a24a58bfd461253c8",
+          "before": "    if minimum_modules is None or only_modules:\n        camera_callback.validate_discovery(suite, only_modules, focus, ANDROID_CAMERA_FOCUSES)\n    if suite == \"android-device\" and only_modules and ANDROID_STORAGE_MODULE in only_modules and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:\n",
+          "before_fragment_sha256": "aaf1f2050d3dd64dbf1add24800d68dfc930fa92678846167c8529c577f9be2a",
+          "obligation": "Remove exact callback above IO/UI: Keep the strict request-domain guard before project reads for actual/default/explicit-module requests; only an explicit unfiltered source-fixture minimum may reach rejecting declarations"
+        },
+        {
+          "after": "ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES)\n",
+          "after_fragment_sha256": "40142a7b8188ad525a5143a3f708a43bf294069eba25ee8a264f5493590f70c1",
+          "before": "ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES, camera_callback.FOCUS)\n",
+          "before_fragment_sha256": "b33157da489968cd17aaa3c2edda94f0c7769fe5fa9468e57eec5224f9fa73a1",
+          "obligation": "Remove exact callback above IO/UI: Add one callback focus without changing either original provider/restoration tuple"
+        },
+        {
+          "after": "import camera_ios_ownership_native_focus as camera_ios\n",
+          "after_fragment_sha256": "3e9e4a2b5c5039aeef4b53648368ee4746d5158c841eaac71814fdf970a76537",
+          "before": "import camera_ios_ownership_native_focus as camera_ios\nimport android_camera_callback_native_focus as camera_callback\n",
+          "before_fragment_sha256": "00f36bc474e2c81c6f84ffdab6cb68676a5d0d547225fccf4481a6e9a72d8b68",
+          "obligation": "Remove exact callback above IO/UI: Load only the exact Android callback source owner; no native work at import"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_provider.py": {
+      "after_bytes": 66954,
+      "after_sha256": "d56088155fc7ff4fd61b076b0c45f39ec577d02145103a305c3f4c96b2c45567",
+      "before_bytes": 67806,
+      "before_sha256": "99c48b09ac8a49bb5f1a35802296d2f78195e5e9867eb527afdc2bbe6218a3d7",
+      "fragments": [
+        {
+          "after": "        device.validate_api_selection(35, None, None)\n        device.validate_api_selection(23, (\"calf-camera-picker\",), l.ANDROID_CAMERA_PROVIDER_FOCUS)\n",
+          "after_fragment_sha256": "3820fcefbd4489c1d0f07863b4a07b47813f9769112574fa3361581762c8abb0",
+          "before": "        device.validate_api_selection(35, (\"calf-camera-picker\",), l.ANDROID_CAMERA_PROVIDER_FOCUS)\n        device.validate_api_selection(35, (\"calf-io\",), None)\n        with patch.object(device, \"require_host\") as host:\n            with self.assertRaises(ValueError): device.run(l.ROOT, \"build/ci-verification/unfiltered-camera-refusal\")\n            host.assert_not_called()\n        device.validate_api_selection(23, (\"calf-camera-picker\",), l.ANDROID_CAMERA_PROVIDER_FOCUS)\n",
+          "before_fragment_sha256": "f978b33eb774c3baa2c32532e343dab191f5e450a020cad54067bbc962c5b798",
+          "obligation": "Remove exact callback above IO/UI: Affected original API23/default control preserves finite API35 and unrelated default IO while rejecting unrestricted Camera before host"
+        },
+        {
+          "after": "        self.assertFalse(any(\"OwnedShare\" in x or \"OwnedGeo\" in x for x in c))\n        self.assertEqual(\":calf-camera-picker:connectedAndroidDeviceTest\", c[-1])\n",
+          "after_fragment_sha256": "904b331c5ba56ee8c3546b09ac15ad17726f296f7e2f81ae929067a9d44a10f7",
+          "before": "        self.assertFalse(any(\"OwnedShare\" in x or \"OwnedGeo\" in x for x in c))\n        self.assertFalse(any(x.startswith(\"-PnativecmpkitCameraCallbackSubstitution=\") for x in c))\n        fixture = (l.ROOT / l.ANDROID_CAMERA_PROVIDER_SOURCE).read_text()\n        self.assertIn(\"var delayedCallbackCapture = false\", fixture)\n        self.assertIn(\"if (missingHandler) \\\"NonexistentCameraActivity\\\" else if (delayedCallbackCapture) \\\"CameraDelayedReceiverActivity\\\" else \\\"CameraReceiverActivity\\\"\", fixture)\n        self.assertEqual(\":calf-camera-picker:connectedAndroidDeviceTest\", c[-1])\n",
+          "before_fragment_sha256": "bdfc416862edeb0380a5dfbd1c408cd0796e14903de05011c17db7cfb59bc81c",
+          "obligation": "Remove exact callback above IO/UI: Affected original provider command/default control proves callback opt-in absent and default immediate/missing-handler precedence retained"
+        },
+        {
+          "after": "        self.assertEqual(11, len(w.matrix(\"all\")[\"include\"])); self.assertEqual(8, len(l.plan(l.ROOT, \"android-device\")[\"expected\"]))\n        self.assertEqual(9, len(l.MINIMUM_MODULES[\"android-device\"]))\n        self.assertEqual([\"calf-permissions/core\"],\n                         l.plan(l.ROOT, \"android-device\")[\"finite_only_device_modules_not_requested\"])\n",
+          "after_fragment_sha256": "ee065d0da0ca4392c3346693f662148ccd1baa69300f25746cefb1347b6238f1",
+          "before": "        self.assertEqual(11, len(w.matrix(\"all\")[\"include\"]))\n        self.assertEqual(9, len(l.MINIMUM_MODULES[\"android-device\"]))\n        # The newly enabled API35-only callback cannot be hidden inside an\n        # unrestricted inventory; original finite provider/API23 routes stay.\n        with patch.object(l, \"projects\") as discovery:\n            with self.assertRaises(ValueError): l.plan(l.ROOT, \"android-device\")\n            discovery.assert_not_called()\n",
+          "before_fragment_sha256": "4e1cf8cf0081a095c9ae03a97c98ac05afc4ca84c55eb2169f314647decbfa4e",
+          "obligation": "Remove exact callback above IO/UI: Affected original finite provider control preserves four methods/two old APIs and replaces obsolete unrestricted inventory with pre-discovery refusal"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "after_bytes": 61644,
+      "after_sha256": "82df0ddf508967a9284059c42e5fc1ce8d412e1c603ea69e47494db76cf12d7a",
+      "before_bytes": 61935,
+      "before_sha256": "7f5b8c8404c4ec83a9c634b0a6e0636957e4e080b30a24ff272c4df79d306df9",
+      "fragments": [
+        {
+          "after": "    if profile == \"android-camera-restoration-dont-keep\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-real-restoration-dont-keep\"\n",
+          "after_fragment_sha256": "a5c69290c2eb692eabbb79040daec650f5105192e941fbb81f0b03fbbdf54dc1",
+          "before": "    if profile == \"android-camera-restoration-dont-keep\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-real-restoration-dont-keep\"\n    if profile == \"android-camera-callback-substitution\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-callback-substitution\"\n",
+          "before_fragment_sha256": "6d245c48362dfe00ca875301dfaa8aa13fde80e05d6056baaa052a34671ae4f1",
+          "obligation": "Remove exact callback above IO/UI: Exact named callback focus, no serial-emulator API field and unchanged original provider/restoration rows"
+        },
+        {
+          "after": "    \"android-camera-restoration-dont-keep\": \"calf-camera-picker\",\n",
+          "after_fragment_sha256": "c4f02781fb88ad00eaee459debc3933e72593cd9e9688f5ed4f86da7a6357a41",
+          "before": "    \"android-camera-restoration-dont-keep\": \"calf-camera-picker\",\n    \"android-camera-callback-substitution\": \"calf-camera-picker\",\n",
+          "before_fragment_sha256": "86ba004ef2cd4a450aaeee4bbd5f4136cce2c59df14884bf7d63d46c37574afe",
+          "obligation": "Remove exact callback above IO/UI: Exactly the library Camera module; no sample/native-provider suite broadening"
+        },
+        {
+          "after": "    \"android-camera-restoration-dont-keep\": (\"android-device-api35\",),\n",
+          "after_fragment_sha256": "121404705db3646bbd6a1c4bdebfeed1af1305e61e2cbe04b8385b3815c606fb",
+          "before": "    \"android-camera-restoration-dont-keep\": (\"android-device-api35\",),\n    \"android-camera-callback-substitution\": (\"android-device-api35\",),\n",
+          "before_fragment_sha256": "052998a4873efb12b216766bb1ad88172e7f03f33eb7cea937f4a0c34ad6b2a5",
+          "obligation": "Remove exact callback above IO/UI: One API35 reservation only, never the provider API23 serial pair"
+        }
+      ]
+    }
+  },
+  "callback_isolated": {
+    ".github/workflows/gradle.yml": {
+      "after_bytes": 69451,
+      "after_sha256": "34efbcc439e9dc2f91e3d85aa84325b34da0dacde85708b089a074b6d9b22692",
+      "before_bytes": 70598,
+      "before_sha256": "46de0540c5e252a1bb9016e96758e79de2f0e728ca4ba2a746b709b88652106b",
+      "fragments": [
+        {
+          "after": "      CARGO_BUILD_JOBS: '2'\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803\n        with:\n          persist-credentials: false\n      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961\n",
+          "after_fragment_sha256": "5ffec2cb95729ca2f3fb2ad7ccd22edbac4ce10ea2e60dd72464a57c969ca188",
+          "before": "      CARGO_BUILD_JOBS: '2'\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803\n        with:\n          persist-credentials: false\n      - name: Admit finite Android discovery before host setup\n        if: matrix.suite == 'android-device'\n        run: |\n          # Enabled API-specific Camera methods are never hidden, skipped or\n          # admitted by an unrestricted/all selector before costly host work.\n          if [[ -n \"$ANDROID_BATCH\" ]]; then\n            \"$PYTHON\" scripts/ci/android_device_batch.py plan --batch \"$ANDROID_BATCH\" > /dev/null\n          else\n            args=(plan --api-level \"$EMULATOR_API\" --output build/ci-plan)\n            if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi\n            if [[ -n \"$TEST_MODULES\" ]]; then\n              IFS=',' read -ra modules <<< \"$TEST_MODULES\"\n              for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done\n            fi\n            \"$PYTHON\" scripts/ci/android_device_tests.py \"${args[@]}\" > /dev/null\n          fi\n      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961\n",
+          "before_fragment_sha256": "4094af68b5c24548d9506f4e649526af1a33ab882cac4dfbf2c45ea909761c74",
+          "obligation": "Remove exact callback above IO/UI: Actual source/controller/API admission runs immediately after checkout, before Java/Rust/SDK/runtime/KVM or library host work"
+        },
+        {
+          "after": "android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle",
+          "after_fragment_sha256": "d3af87d20cabe56c01e3bcc0756f8b53759c837a41741f49e92784b34cb0ffe5",
+          "before": "android-camera-restoration, android-camera-restoration-dont-keep, android-camera-callback-substitution, android-io-provider-lifecycle",
+          "before_fragment_sha256": "9c182eee0fba19078d92751da472f2756a776f9228ec42c0f074e761fa22c788",
+          "obligation": "Remove exact callback above IO/UI: Expose only one source-defined named callback workflow profile"
+        },
+        {
+          "after": "inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-device'",
+          "after_fragment_sha256": "73a8b8e1bb353a08c1f9932f66e673ddf4c3180463c5025aa205b12c95fa67fb",
+          "before": "inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-io-controlled-remote' || inputs.profile == 'android-io-controlled-remote-positive' || inputs.profile == 'android-io-controlled-remote-cancel' || inputs.profile == 'android-device'",
+          "before_fragment_sha256": "edf9bb9607c250f3c32ca5479cea04604d19b9baf6f7a51e361b8514ef32933c",
+          "obligation": "Restore sealed IO predecessor: Remote official compile37/build-tools36/API35google_apisx86_64 recipe; permissions/actions/artifacts unchanged"
+        },
+        {
+          "after": "android-io-reference-regressions, android-permission-demo,",
+          "after_fragment_sha256": "d7f4513c6b7079180ec5873f70a5ffa3e40cbd2050749bfb6968476424c04447",
+          "before": "android-io-reference-regressions, android-io-controlled-remote, android-io-controlled-remote-positive, android-io-controlled-remote-cancel, android-permission-demo,",
+          "before_fragment_sha256": "3c2969bdea96c2dec632244d3837df7ca90226fe930b9296afba1b0a59fd9cd6",
+          "obligation": "Restore sealed IO predecessor: Exact three additive dispatch choices; no old profile reorder or job change"
+        },
+        {
+          "after": "            build/ci-verification/${{ matrix.slot }}-minimum-api23/camera-receiver/receipt.json\n            build/ci-verification/${{ matrix.slot }}-minimum-api23/fresh-reports/*.xml\n            build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json\n            build/ci-verification/${{ matrix.slot }}/native-picker-application/*/receipt.json\n            build/ci-verification/${{ matrix.slot }}/native-webview-application/*/receipt.json\n            build/ci-verification/${{ matrix.slot }}/native-share-application/*/receipt.json\n",
+          "after_fragment_sha256": "889c5ea37491738ec96a89ae9ab95d3d21c26d070556df83a1769e471f9c398b",
+          "before": "            build/ci-verification/${{ matrix.slot }}-minimum-api23/camera-receiver/receipt.json\n            build/ci-verification/${{ matrix.slot }}-minimum-api23/fresh-reports/*.xml\n            build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json\n            build/ci-verification/${{ matrix.slot }}/native-ui-nine-application/*/receipt.json\n            build/ci-verification/${{ matrix.slot }}/native-adaptive-customization-application/*/receipt.json\n            build/ci-verification/${{ matrix.slot }}/native-picker-application/*/receipt.json\n            build/ci-verification/${{ matrix.slot }}/native-webview-application/*/receipt.json\n            build/ci-verification/${{ matrix.slot }}/native-share-application/*/receipt.json\n",
+          "before_fragment_sha256": "87462bafe73ea61003a4c896ba85a91782fe1ab3a0e4a56f149f63b7ab5e9700",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for .github/workflows/gradle.yml; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "            build/ci-runtime/*.json\n            build/ci-plan/*.json\n            build/ci-verification/ios-focused-compilation.json\n            build/ci-verification/${{ matrix.slot }}/*.json\n            build/ci-verification/${{ matrix.slot }}/library/*.json\n            build/ci-verification/${{ matrix.slot }}/geo-probe/receipt.json\n",
+          "after_fragment_sha256": "c88d6243390d7354443ff7c0c9453a25e501e4809668b7e4e889c2d792622724",
+          "before": "            build/ci-runtime/*.json\n            build/ci-plan/*.json\n            build/ci-verification/ios-focused-compilation.json\n            build/ci-verification/ui-nine-native-source-admission.json\n            build/ci-verification/adaptive-customization-native-source-admission.json\n            build/ci-verification/${{ matrix.slot }}/*.json\n            build/ci-verification/${{ matrix.slot }}/library/*.json\n            build/ci-verification/${{ matrix.slot }}/geo-probe/receipt.json\n",
+          "before_fragment_sha256": "54a50f733a90f254ab0d69ccccc76c119cb6e4cd2f2158dfe42e138bb27d3904",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for .github/workflows/gradle.yml; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "        run: |\n          args=(--expected-arch \"$EXPECTED_ARCH\" --require-clean --android-platform android-37.0)\n          if [[ \"$SUITE\" == ios ]]; then\n            case \"$TEST_FOCUS\" in\n              ui-native-adaptive-pre26) args+=(--adaptive-focus ui-native-adaptive-pre26) ;;\n              ui-native-adaptive-drag-shader-ios26plus) args+=(--adaptive-focus ui-native-adaptive-ios26plus) ;;\n",
+          "after_fragment_sha256": "55681bf867af66f56c75c47fd23377a89c16b7239482c6af8ac69d92b4af422c",
+          "before": "        run: |\n          args=(--expected-arch \"$EXPECTED_ARCH\" --require-clean --android-platform android-37.0)\n          if [[ \"$SUITE\" == ios ]]; then\n            # Independent nine/one requests retain the exact actual iOS26+ band.\n            # Legacy pre26/ten cases below remain unchanged and separately usable.\n            case \"$TEST_FOCUS\" in\n              ui-native-related-nine-ios26plus) args+=(--adaptive-focus ui-native-adaptive-ios26plus) ;;\n              ui-native-adaptive-customization-ios26plus) args+=(--adaptive-focus ui-native-adaptive-ios26plus) ;;\n            esac\n            case \"$TEST_FOCUS\" in\n              ui-native-adaptive-pre26) args+=(--adaptive-focus ui-native-adaptive-pre26) ;;\n              ui-native-adaptive-drag-shader-ios26plus) args+=(--adaptive-focus ui-native-adaptive-ios26plus) ;;\n",
+          "before_fragment_sha256": "4288a745b1f9b0e6bbfbec3b5f9eff45e4c23a231a3830244915a4bed1e8c632",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for .github/workflows/gradle.yml; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "        type: choice\n        required: true\n        default: core\n        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-content-policy-linux, webview-content-policy-android, webview-content-policy-js, webview-content-policy-wasm, ios-webview-content-policy, webview-offline-destination, webview-desktop-request-state, webview-desktop-stop-windows-recovery, webview-desktop-security-regressions, webview-desktop-request-state-linux-pair, webview-desktop-request-state-macos-pair, webview-desktop-request-state-windows-single, webview-desktop-security-linux-arm64-windows-pair, webview-desktop-security-macos-pair, webview-desktop-policy-macos-recovery, webview-desktop-tls-windows-recovery, webview-wasm, share-browser, share-clipboard-native, share-clipboard-native-wasm, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-ios-calendar-configuration, macos-share-lifecycle, macos-share-missing-lifecycle, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-ui-adaptive-pre26, ios-ui-adaptive-drag-shader-ios26plus, ios-secure-alert-input, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-alert-date-important, ios-alert-important-recovery, ios-modal-ownership-batch, ios-modal-ownership-ipad, ios-modal-lifecycle-replacement, ios-modal-lifecycle-replacement-ipad, ios-modal-lifecycle-memory-recovery, ios-modal-worker-memory-recovery, ios-sheet-cancellation-repeat, ios-modal-completion-cancellation, ios-xctest-startup, ios-modal-xcui-batch, ios-modal-xcui-batch-ipad, ios-popover-anchor, ios-popover-anchor-ipad, ios-popover-bar-recovery, ios-popover-bar-ipad-recovery, ios-popover-geometry-iphone, ios-popover-geometry-ipad, ios-date-year-predicate-red, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-picker-provider-cancellation, ios-camera-ownership-memory-callback, ios-share-presentation-disposal, ios-share-remembered-failure-observation, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-webview-stop-redirect-recovery, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-provider-unavailable, android-io-named-system-providers, android-io-named-external-storage, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-permission-demo-call-denial-recovery, android-permission-demo-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]\n\npermissions:\n  contents: read\n",
+          "after_fragment_sha256": "12d0b91738dd9ef2ddfbc03b59d0a36dc2878326b7b609c05081f47794732fb7",
+          "before": "        type: choice\n        required: true\n        default: core\n        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-content-policy-linux, webview-content-policy-android, webview-content-policy-js, webview-content-policy-wasm, ios-webview-content-policy, webview-offline-destination, webview-desktop-request-state, webview-desktop-stop-windows-recovery, webview-desktop-security-regressions, webview-desktop-request-state-linux-pair, webview-desktop-request-state-macos-pair, webview-desktop-request-state-windows-single, webview-desktop-security-linux-arm64-windows-pair, webview-desktop-security-macos-pair, webview-desktop-policy-macos-recovery, webview-desktop-tls-windows-recovery, webview-wasm, share-browser, share-clipboard-native, share-clipboard-native-wasm, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-ios-calendar-configuration, macos-share-lifecycle, macos-share-missing-lifecycle, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-ui-adaptive-pre26, ios-ui-adaptive-drag-shader-ios26plus, ios-secure-alert-input, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-alert-date-important, ios-alert-important-recovery, ios-modal-ownership-batch, ios-modal-ownership-ipad, ios-modal-lifecycle-replacement, ios-modal-lifecycle-replacement-ipad, ios-modal-lifecycle-memory-recovery, ios-modal-worker-memory-recovery, ios-sheet-cancellation-repeat, ios-modal-completion-cancellation, ios-xctest-startup, ios-modal-xcui-batch, ios-modal-xcui-batch-ipad, ios-popover-anchor, ios-popover-anchor-ipad, ios-popover-bar-recovery, ios-popover-bar-ipad-recovery, ios-popover-geometry-iphone, ios-popover-geometry-ipad, ios-date-year-predicate-red, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-picker-provider-cancellation, ios-camera-ownership-memory-callback, ios-share-presentation-disposal, ios-share-remembered-failure-observation, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-webview-stop-redirect-recovery, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-provider-unavailable, android-io-named-system-providers, android-io-named-external-storage, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-permission-demo-call-denial-recovery, android-permission-demo-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, ios-ui-related-nine-ios26plus, ios-ui-adaptive-customization-ios26plus, tooling]\n\npermissions:\n  contents: read\n",
+          "before_fragment_sha256": "159ca7bdd0b7431cf8336d394910d0951fe6abdd9da5855625e2e158dd67d8c4",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for .github/workflows/gradle.yml; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "android-camera-restoration, android-camera-restoration-dont-keep, android-camera-callback-substitution, android-io-provider-lifecycle",
+          "after_fragment_sha256": "9c182eee0fba19078d92751da472f2756a776f9228ec42c0f074e761fa22c788",
+          "before": "android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle",
+          "before_fragment_sha256": "d3af87d20cabe56c01e3bcc0756f8b53759c837a41741f49e92784b34cb0ffe5",
+          "obligation": "Reconstruct sealed isolated callback: Expose only one source-defined named callback workflow profile"
+        },
+        {
+          "after": "      CARGO_BUILD_JOBS: '2'\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803\n        with:\n          persist-credentials: false\n      - name: Admit finite Android discovery before host setup\n        if: matrix.suite == 'android-device'\n        run: |\n          # Enabled API-specific Camera methods are never hidden, skipped or\n          # admitted by an unrestricted/all selector before costly host work.\n          if [[ -n \"$ANDROID_BATCH\" ]]; then\n            \"$PYTHON\" scripts/ci/android_device_batch.py plan --batch \"$ANDROID_BATCH\" > /dev/null\n          else\n            args=(plan --api-level \"$EMULATOR_API\" --output build/ci-plan)\n            if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi\n            if [[ -n \"$TEST_MODULES\" ]]; then\n              IFS=',' read -ra modules <<< \"$TEST_MODULES\"\n              for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done\n            fi\n            \"$PYTHON\" scripts/ci/android_device_tests.py \"${args[@]}\" > /dev/null\n          fi\n      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961\n",
+          "after_fragment_sha256": "4094af68b5c24548d9506f4e649526af1a33ab882cac4dfbf2c45ea909761c74",
+          "before": "      CARGO_BUILD_JOBS: '2'\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803\n        with:\n          persist-credentials: false\n      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961\n",
+          "before_fragment_sha256": "5ffec2cb95729ca2f3fb2ad7ccd22edbac4ce10ea2e60dd72464a57c969ca188",
+          "obligation": "Reconstruct sealed isolated callback: Actual source/controller/API admission runs immediately after checkout, before Java/Rust/SDK/runtime/KVM or library host work"
+        }
+      ]
+    },
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt": {
+      "after_bytes": 19196,
+      "after_sha256": "53e355fa832c2fe622eeae1627de3847d224393f8656b50a7c6b2f396b7bfab1",
+      "before_bytes": 19196,
+      "before_sha256": "53e355fa832c2fe622eeae1627de3847d224393f8656b50a7c6b2f396b7bfab1",
+      "fragments": []
+    },
+    "scripts/ci/android_device_tests.py": {
+      "after_bytes": 48214,
+      "after_sha256": "91b042f7d6574ec2349daa6a5bb4891adc93df7b3c6ebe56503d41b4ea4b9050",
+      "before_bytes": 53129,
+      "before_sha256": "954a3fd8ba6f52f9e63900495258d62341c5dffee0c82962c9883edbe2baa38e",
+      "fragments": [
+        {
+          "after": "    validate_api_selection(api_level, only_modules, focus)\n    if focus is None:\n        # Unfiltered remote discovery is source-refused before host checks, output or locks.\n        lt.plan(root, \"android-device\", only_modules=only_modules)\n    observing = kvm_timeline.active(api_level, focus)\n",
+          "after_fragment_sha256": "46edacc7b9e1f615805939275bc481b2168dd668b649cc5d608953d716ca2009",
+          "before": "    validate_api_selection(api_level, only_modules, focus)\n    if focus is None:\n        # Unfiltered remote discovery is source-refused before host checks, output or locks.\n        lt.plan(root, \"android-device\", only_modules=only_modules)\n    if focus == lt.camera_callback.FOCUS:\n        lt.plan(root, \"android-device\", only_modules=only_modules, focus=focus)\n    observing = kvm_timeline.active(api_level, focus)\n",
+          "before_fragment_sha256": "5490b3f950de9a1e8fc44a9f9cb7e927a076a9e75f52ea8108d2aa57d8d6aeb4",
+          "obligation": "Remove exact callback above IO/UI: Validate exact current callback source plan before even require_host; leave unrelated controller admission unchanged"
+        },
+        {
+          "after": "def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:\n",
+          "after_fragment_sha256": "faeb440daa2638fd7dd4ccfe9437c0111021cb9d6a920a2ff16cc1038980659c",
+          "before": "def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:\n    lt.camera_callback.validate_discovery(\"android-device\", modules, focus, lt.ANDROID_CAMERA_FOCUSES)\n    if focus == lt.camera_callback.FOCUS:\n        lt.camera_callback.validate_api(api_level, modules)\n        return\n",
+          "before_fragment_sha256": "a198c34defd65448b2114de82d134e3199dd2d85a73f720b8bcf0bfca7cdc769",
+          "obligation": "Remove exact callback above IO/UI: Refuse unrestricted Camera/default-all and callback API23/foreign selection before host/KVM/output/setup"
+        },
+        {
+          "after": "                            (not remote_documents_required or (result.get(\"remote_io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n",
+          "after_fragment_sha256": "97aae5cbe2bd7fb2d71b79efb69ef8c2da2dc2ada181537cb743c9ecbba2814a",
+          "before": "                            (not remote_documents_required or (result.get(\"remote_source_unchanged_after_cleanup\") is True and\n                             result.get(\"remote_io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n",
+          "before_fragment_sha256": "34703fc7bcedfbdb6115f607201d0f12cd60e382d7d52eaaaa9ead5e5288129b",
+          "obligation": "Restore sealed IO predecessor: A refused remote final-cleanup source map cannot satisfy the independent remote acceptance gate"
+        },
+        {
+          "after": "        result[\"passed\"] = (result[\"test_suite_passed\"] and result[\"source_unchanged\"]\n",
+          "after_fragment_sha256": "9f7119c475859e99772f413797334d86b8ae43c4c41d70650a49f99ea06e1bf9",
+          "before": "        if remote_documents_required:\n            try:\n                result[\"remote_source_unchanged_after_cleanup\"] = (\n                    android_io_remote_documents.source_contract(root) == plan[\"android_io_remote_documents\"][\"source_contract\"])\n            except (OSError, ValueError, UnicodeError):\n                result[\"remote_source_unchanged_after_cleanup\"] = False\n        result[\"passed\"] = (result[\"test_suite_passed\"] and result[\"source_unchanged\"]\n",
+          "before_fragment_sha256": "ce105db08415506bc3f825a0903f238fc642cc456f931d482728eaba06a71ae4",
+          "obligation": "Restore sealed IO predecessor: Literal remote source witness is held independently after final cleanup, in addition to unchanged global maps"
+        },
+        {
+          "after": "def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None, api_level: int = API) -> dict:\n    output = lt.safe_path(root, relative)\n",
+          "after_fragment_sha256": "9f9c8ad575f84dee5861b1518b5c9a75d32ff09e53648c1eca39f428a2bb40af",
+          "before": "def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None, api_level: int = API) -> dict:\n    if focus in lt.ANDROID_IO_REMOTE_FOCUSES:\n        validate_api_selection(api_level, only_modules, focus)  # Even direct owning-controller calls cannot expand the remote route.\n    if focus is None:\n        lt.plan(root, \"android-device\", only_modules=only_modules)  # Refuse unfiltered IO before output or SDK lookup, including direct calls.\n    output = lt.safe_path(root, relative)\n",
+          "before_fragment_sha256": "e5ec0e5db8efd56e754bbbddd7403edac868619c015ff7d590a3375f4720d471",
+          "obligation": "Restore sealed IO predecessor: Exact API35 remote admission is retained even at the private owning controller seam before output/source/helper side effects; unfiltered direct requests also refuse before output or SDK lookup"
+        },
+        {
+          "after": "lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, \"android-io-named-external-storage\", lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS,",
+          "after_fragment_sha256": "a04c7936ec0ed7c9bb4b0d757f64e7c3d686c78addceefc4c1f5c01aaa3a9ff8",
+          "before": "*lt.ANDROID_IO_REMOTE_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, \"android-io-named-external-storage\", lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS,",
+          "before_fragment_sha256": "5d5080243a185636cfb5de6015c4a9d31c2cd68e43ee8804155ebb9f2b512c96",
+          "obligation": "Restore sealed IO predecessor: Only three exact remote focus CLI choices; no full remote fixture broadening"
+        },
+        {
+          "after": "    observing = kvm_timeline.active(api_level, focus)\n",
+          "after_fragment_sha256": "eccef8f5bf8b5fe93495bcb377ed2e424c6126e44fc30c40f6ff160ebd7e1cba",
+          "before": "    if focus is None:\n        # Unfiltered remote discovery is source-refused before host checks, output or locks.\n        lt.plan(root, \"android-device\", only_modules=only_modules)\n    observing = kvm_timeline.active(api_level, focus)\n",
+          "before_fragment_sha256": "4fedd00b05cb38a42481c466100fd08c5479d0ffd5489a875d53b06560240359",
+          "obligation": "Restore sealed IO predecessor: Explicit full-discovery refusal precedes host and output side effects"
+        },
+        {
+          "after": "    if focus in (lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, \"android-io-named-external-storage\"):\n",
+          "after_fragment_sha256": "997a28c7fe932ec7ff25c347e56a96a0750d1594605dff0d3ae77b2f43b07422",
+          "before": "    if focus in lt.ANDROID_IO_REMOTE_FOCUSES:\n        if type(api_level) is not int or api_level != 35 or modules != (\"calf-io\",):\n            raise ValueError(\"Controlled remote IO requires exact integer API35 calf-io-only focus\")\n        return\n    if focus in (lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, \"android-io-named-external-storage\"):\n",
+          "before_fragment_sha256": "f54fe66399ecacefbf3a47b7429f490efbe9e92bd5bc717d8a99ca44d39fc100",
+          "obligation": "Restore sealed IO predecessor: No bool/string/wrong API/module expansion is a remote route"
+        },
+        {
+          "after": "                            (not io_documents_required or (result.get(\"io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n",
+          "after_fragment_sha256": "0459bdbc1fe30a1668e220c3ffe3d9fa4110bc614a98ebbb3b66956d72726e05",
+          "before": "                            (not remote_documents_required or (result.get(\"remote_io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n                             result[\"remote_io_documents\"].get(\"cleanup_status\") == \"passed\" and\n                             result[\"remote_io_documents\"].get(\"owned_recipient_removed\") is True and\n                             not result[\"remote_io_documents\"].get(\"prepare_error\") and not result[\"remote_io_documents\"].get(\"cleanup_error\") and\n                             result.get(\"remote_guest_disposal\", {}).get(\"disposal_status\") == \"passed\" and\n                             result[\"remote_guest_disposal\"].get(\"roots_absent\") is True and\n                             result[\"remote_guest_disposal\"].get(\"identity_confined_disposal\") is True and\n                             not result[\"remote_guest_disposal\"].get(\"errors\"))) and\n                            (not io_documents_required or (result.get(\"io_documents\", {}).get(\"prepare_status\") == \"passed\" and\n",
+          "before_fragment_sha256": "8e489b0efc2da3ab407f5f7b34764969870a537ff4aceaf7ccedef4af5b670b7",
+          "obligation": "Restore sealed IO predecessor: Remote helper cleanup and confined owned guest disposal are separate mandatory pass conditions"
+        },
+        {
+          "after": "                    result[\"camera_guest_disposal\"] = dict(guest.receipt) | {\n",
+          "after_fragment_sha256": "df981d4eccd0adfb56d2aa479ff7573cf24463d1cdb1d1bf329c84ecc5e26d95",
+          "before": "                    result[\"remote_guest_disposal\" if remote_documents_required else \"camera_guest_disposal\"] = dict(guest.receipt) | {\n",
+          "before_fragment_sha256": "30cae2e00f471a833021b4a6188490cb5e89296860268ab681cca4da63c86f1a",
+          "obligation": "Restore sealed IO predecessor: Remote disposal exception cannot overwrite Camera or earlier preparation facts"
+        },
+        {
+          "after": "                    result[\"camera_guest_disposal\"] = guest.dispose(\n",
+          "after_fragment_sha256": "5b84c55e22c5870647604f3d738adb10dd4e83a36bac93b2942e2a3e56826de3",
+          "before": "                    result[\"remote_guest_disposal\" if remote_documents_required else \"camera_guest_disposal\"] = guest.dispose(\n",
+          "before_fragment_sha256": "958fdc69260215e1e3539d41f6c54fe6ddccbb4b70ab308c2547d2057967fa94",
+          "obligation": "Restore sealed IO predecessor: Independent remote guest disposal fact envelope; unchanged owned ledger schema"
+        },
+        {
+          "after": "elif ((camera_receiver is not None or io_documents is not None or permission_demo is not None or storage_probe is not None) and verified and\n",
+          "after_fragment_sha256": "235812950fcd110fc79999888340ef44efb1f25072975f0adf166eddac758df5",
+          "before": "elif ((camera_receiver is not None or io_documents is not None or remote_io_documents is not None or permission_demo is not None or storage_probe is not None) and verified and\n",
+          "before_fragment_sha256": "6ec165a88485f7a240088b061433890e0940d78ee2f988a55fb17cb87783df63",
+          "obligation": "Restore sealed IO predecessor: Remote owned transport absence remains necessary after clean shutdown, never inferred from helper cleanup"
+        },
+        {
+          "after": "                if io_documents is not None:\n",
+          "after_fragment_sha256": "920d296b1880e20550b99a7a40a05b85ea08f2d9fe8bf53ba6aac2890c923c47",
+          "before": "                if remote_io_documents is not None:\n                    try:\n                        result[\"remote_io_documents\"] = remote_io_documents.close()\n                    except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:\n                        result[\"remote_io_documents\"] = dict(remote_io_documents.receipt) | {\n                            \"cleanup_status\": \"failed\", \"owned_recipient_removed\": False, \"cleanup_error\": type(error).__name__}\n                        result[\"remote_io_documents_cleanup_error_origin\"] = preflight_error_origin(error)\n                if io_documents is not None:\n",
+          "before_fragment_sha256": "825f0c8e1dd3f7a92b5aaa20d80c798b998776f41292cb41b264cb9290c285fb",
+          "obligation": "Restore sealed IO predecessor: Independent close even on partial prepare; preserve source/APK primary facts and cleanup failure"
+        },
+        {
+          "after": "                         **({\"android_io_documents_receipt\": dict(io_documents.receipt)} if io_documents is not None else {}),\n",
+          "after_fragment_sha256": "7b342995321816a22816990529d614633ae9edb229949e6af94cab6be5d25242",
+          "before": "                         **({\"android_io_documents_receipt\": dict(io_documents.receipt)} if io_documents is not None else {}),\n                         **({\"android_io_remote_documents_receipt\": dict(remote_io_documents.receipt)} if remote_io_documents is not None else {}),\n",
+          "before_fragment_sha256": "179bd9b76a6c60122db39a5a4560e5728539219d7b8b8a5cc523f8956beef055",
+          "obligation": "Restore sealed IO predecessor: Separate remote receipt reaches lt.run only after successful preparation and reporter assembly"
+        },
+        {
+          "after": "        if lt.android_io_documents_required(plan):\n",
+          "after_fragment_sha256": "be7046c8c2ec1d9aceda990085bd2caaf95a372e2a9752e9fdb70436af01fdf6",
+          "before": "        if remote_documents_required:\n            # Assign the owner before prepare so every partial source/APK/install failure reaches close.\n            remote_io_documents = android_io_remote_documents.OwnedRemoteIoDocuments(root, output, home, SERIAL,\n                lambda: process.poll() is None and avd_name(home) == name, environment=env)\n            result[\"remote_io_documents\"] = remote_io_documents.prepare()\n            android_io_remote_documents.validate_prepared_receipt(result[\"remote_io_documents\"],\n                plan[\"android_io_remote_documents\"][\"source_contract\"])\n            execution = lt.execute(root, assemble, output / \"apk-assembly.log\", 900, RESERVE_MIB, env=env)\n            result[\"setup_stages\"][\"apk-assembly\"] = execution\n            if execution[\"exit_code\"] != 0 or execution.get(\"stop_reason\"):\n                raise RuntimeError(\"Reporter setup failed before any controlled remote IO native execution\")\n            if android_io_remote_documents.source_contract(root) != plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote exact source map changed during reporter compilation\")\n        if lt.android_io_documents_required(plan):\n",
+          "before_fragment_sha256": "8f26f0873d0c6f799a7935afddddb8964a4bfb1b2b0e7c1b5235c504fbeaef50",
+          "obligation": "Restore sealed IO predecessor: Actual source/APK/compiled policy/private signer/install/readback and revalidation precede reporter/native"
+        },
+        {
+          "after": "        if guest is not None:\n            # Read-only original custody may fail fast",
+          "after_fragment_sha256": "2f6f7bdf102e425467adf926323ca99cd87cc31cf64a7efab9ea69c394ef62b3",
+          "before": "        if guest is not None and camera_developer_required:\n            # Read-only original custody may fail fast",
+          "before_fragment_sha256": "b07b42dc82c894e7d702825dfa53842e97b6469f4ec0e3b7dda51e0c65772beb",
+          "obligation": "Restore sealed IO predecessor: Camera developer prerequisite remains original C1-only even when IO reuses root ledger"
+        },
+        {
+          "after": "                        result[\"camera_guest_capture_error_origin\"] = {\n",
+          "after_fragment_sha256": "e6cbe9929c99f6762c71f616c8b1866630d837ad3c22e485abb88374c724a4b5",
+          "before": "                        result[\"remote_guest_capture_error_origin\" if remote_documents_required else \"camera_guest_capture_error_origin\"] = {\n",
+          "before_fragment_sha256": "641caaf9a9e7fa75764aa279da392282777db83f96e968889c4c0e7cd1e7c441",
+          "obligation": "Restore sealed IO predecessor: Distinct remote unavailable guest capture origin; no Camera result relabel"
+        },
+        {
+          "after": "                        result[\"camera_guest_capture_error_origin\"] = preflight_error_origin(\n",
+          "after_fragment_sha256": "b9b6ee12295defe0ac1c80229958131244f00bb5867823f81ab67a4495bd05e1",
+          "before": "                        result[\"remote_guest_capture_error_origin\" if remote_documents_required else \"camera_guest_capture_error_origin\"] = preflight_error_origin(\n",
+          "before_fragment_sha256": "e4108a2961414d7d9d617e6a2c51bbdb77f40599618187e95e9eec9f753113de",
+          "obligation": "Restore sealed IO predecessor: Distinct remote guest capture error key; original Camera schema and facts retained"
+        },
+        {
+          "after": "        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required or camera_developer_required:\n",
+          "after_fragment_sha256": "64f9d2cef0d57777629f765198ccb1055b916c23998682dadcbb253421fa845a",
+          "before": "        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required or remote_documents_required or camera_developer_required:\n",
+          "before_fragment_sha256": "684e29ad7030948092e8ad0ddbde7601c1b6f90334e152f14dd6ed26744fbe81",
+          "obligation": "Restore sealed IO predecessor: No reporter compile before remote helper identity and verified owned boot"
+        },
+        {
+          "after": "        if camera_developer_required:\n            # Assign the exclusive owner",
+          "after_fragment_sha256": "f7508851895e00cbe0afa81fe217c2c81e2c3bbf22709520ab13b3a67d8e25db",
+          "before": "        if camera_developer_required or remote_documents_required:\n            # Assign the exclusive owner",
+          "before_fragment_sha256": "cce38e2ccda129d08a5245b1250b4e1c01e42adf75009908aac3fe4a37579054",
+          "obligation": "Restore sealed IO predecessor: Reuse unchanged camera-owned root/FD/process ledger; no new implementation or schema"
+        },
+        {
+          "after": "    if io_documents_required:\n        result[\"reporter_compile_deferred_until_io_documents_identity\"] = True\n",
+          "after_fragment_sha256": "9667ecaa5dc534f1a12a63270f948400f272aabd795e0fa88c0db80d2311e782",
+          "before": "    if remote_documents_required:\n        result[\"reporter_compile_deferred_until_remote_io_documents_identity\"] = True\n    if io_documents_required:\n        result[\"reporter_compile_deferred_until_io_documents_identity\"] = True\n",
+          "before_fragment_sha256": "c75240529022990552840db987c8d6e0966c21a8dc117105cefcedf93d9ff34f",
+          "obligation": "Restore sealed IO predecessor: Remote compile explicitly deferred until exact source/APK/signer/install/readback identity"
+        },
+        {
+          "after": "    io_documents = None\n",
+          "after_fragment_sha256": "38fa11a0c798663420dcaa4253b23160e07256abb75318f263976f5972d34b1a",
+          "before": "    io_documents = None\n    remote_io_documents = None\n",
+          "before_fragment_sha256": "de5b745b2e32af4a137738225d3943fdbe34ab4257e2a1d385d934eba7632096",
+          "obligation": "Restore sealed IO predecessor: Assign the separate remote owner slot before the protected try/finally"
+        },
+        {
+          "after": "    if io_documents_required or permission_demo_required or storage_required:\n",
+          "after_fragment_sha256": "31fcde46f78cb0b137ac00df0725904c97c6d2b3aa56724e8219172039732914",
+          "before": "    if io_documents_required or permission_demo_required or storage_required or remote_documents_required:\n",
+          "before_fragment_sha256": "8ba180ef7f76ec3fe02dc33f070dcc7dc71965640ea81b9f76c677f656e52c98",
+          "obligation": "Restore sealed IO predecessor: Remote reporter assembly-only command has no connected or prepared argument"
+        },
+        {
+          "after": "    if not camera_developer_required:\n        (output / \"avd\").mkdir()\n",
+          "after_fragment_sha256": "051e565365fd7422a098129abcc28cf7a93f0234debfaa0e09d06f6ed383f0e0",
+          "before": "    if not camera_developer_required and not remote_documents_required:\n        (output / \"avd\").mkdir()\n",
+          "before_fragment_sha256": "619356bf94a745d8bfc9eb40461c8fa2e0bf988e5cf76ab9622d5faa4c51bce9",
+          "obligation": "Restore sealed IO predecessor: Remote route reuses unchanged exclusive owned-root ledger instead of precreating unowned roots"
+        },
+        {
+          "after": "} or permission_demo_required or storage_required\n",
+          "after_fragment_sha256": "7c68431947aebd7745dd2fe103c9762afe9794de48be6f7eb66cb0d750836871",
+          "before": "} or permission_demo_required or storage_required or remote_documents_required\n",
+          "before_fragment_sha256": "e25d6ee48fb46074073542a7706bd1cd5e7dc401cfe19337735a8bf88031a0fd",
+          "obligation": "Restore sealed IO predecessor: Keep bounded remote source/preparation/cleanup diagnostics without raw device payloads"
+        },
+        {
+          "after": "    io_documents_required = lt.android_io_documents_required(plan)\n",
+          "after_fragment_sha256": "e2ba24d8d5f5a51be4bc3c7bfd704f81a451c65e5c79666739b1f83c894355ac",
+          "before": "    io_documents_required = lt.android_io_documents_required(plan)\n    remote_documents_required = lt.android_io_remote_documents_required(plan)\n",
+          "before_fragment_sha256": "c7f5eeee16601696f2873da60b00bc8aa246efb06811b8620c1cd0be1d34d064",
+          "obligation": "Restore sealed IO predecessor: Distinct exact remote preparation predicate, never a receipt alias"
+        },
+        {
+          "after": "\"android_geo_probe.py\", \"android_io_documents.py\", \"android_permission_demo.py\",",
+          "after_fragment_sha256": "c42f24c1a5de7525c4c4e83b11aa84c54896a08ca1ca0962f7635837073d06f8",
+          "before": "\"android_geo_probe.py\", \"android_io_documents.py\", \"android_io_remote_documents.py\", \"android_io_remote_routing_source_projection.py\", \"android_permission_demo.py\",",
+          "before_fragment_sha256": "07e84c7982e9a80ef7d770173e519c663d7f6735b2c625888ceb065cab4b54e3",
+          "obligation": "Restore sealed IO predecessor: Only public bounded source origin for the new remote refusal"
+        },
+        {
+          "after": "import android_io_documents\n",
+          "after_fragment_sha256": "47163769f33b82d5b9beb580ac64f7178b3939324e8238b718380c72941af650",
+          "before": "import android_io_documents\nimport android_io_remote_documents\n",
+          "before_fragment_sha256": "20e572a78543f1620c3a8c7fdde9f300f7a20f2cad454630aaf6f7c6aef4d2aa",
+          "obligation": "Restore sealed IO predecessor: Separate owned remote implementation; existing IO helper not repurposed"
+        },
+        {
+          "after": "def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:\n    lt.camera_callback.validate_discovery(\"android-device\", modules, focus, lt.ANDROID_CAMERA_FOCUSES)\n    if focus == lt.camera_callback.FOCUS:\n        lt.camera_callback.validate_api(api_level, modules)\n        return\n",
+          "after_fragment_sha256": "a198c34defd65448b2114de82d134e3199dd2d85a73f720b8bcf0bfca7cdc769",
+          "before": "def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:\n",
+          "before_fragment_sha256": "faeb440daa2638fd7dd4ccfe9437c0111021cb9d6a920a2ff16cc1038980659c",
+          "obligation": "Reconstruct sealed isolated callback: Refuse unrestricted Camera/default-all and callback API23/foreign selection before host/KVM/output/setup"
+        },
+        {
+          "after": "    validate_api_selection(api_level, only_modules, focus)\n    if focus == lt.camera_callback.FOCUS:\n        lt.plan(root, \"android-device\", only_modules=only_modules, focus=focus)\n    observing = kvm_timeline.active(api_level, focus)\n",
+          "after_fragment_sha256": "d000a59c5afe9ebcf1de26e0de2d191c5deee53b5a33d1652fe02e9d4f0b890f",
+          "before": "    validate_api_selection(api_level, only_modules, focus)\n    observing = kvm_timeline.active(api_level, focus)\n",
+          "before_fragment_sha256": "275b92bf1bb5120221a1ca62a820fbbf41389ff9c04483435bfb5b8f81fe27e1",
+          "obligation": "Reconstruct sealed isolated callback: Validate exact current callback source plan before even require_host; leave unrelated controller admission unchanged"
+        }
+      ]
+    },
+    "scripts/ci/fresh-tests.init.gradle.kts": {
+      "after_bytes": 9304,
+      "after_sha256": "e0c82a5c9c2461e5e18ce4e71e495c5cbdf5f3694d2bd19bbfbe855134112ffb",
+      "before_bytes": 9304,
+      "before_sha256": "e0c82a5c9c2461e5e18ce4e71e495c5cbdf5f3694d2bd19bbfbe855134112ffb",
+      "fragments": []
+    },
+    "scripts/ci/library_tests.py": {
+      "after_bytes": 397920,
+      "after_sha256": "f106cf3fe4ed33a5ec5e681b080b0732d9310727878a03bcefc649e22fe0b183",
+      "before_bytes": 409120,
+      "before_sha256": "ddd7b38615bef7ec99bfefddb625bf0816d9c90c297604d7baaea898a6e90aa6",
+      "fragments": [
+        {
+          "after": "    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n",
+          "after_fragment_sha256": "e6427a17e2b4b095635b16bc2c5b31634a052737522b282431f0231b8ce63883",
+          "before": "    if focus == camera_callback.FOCUS:\n        return camera_callback.validate_plan(test_plan)\n    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n",
+          "before_fragment_sha256": "07149262d2f48126c7eff19229ba72494561c1cc7a65175a4ca062cf175f94d9",
+          "obligation": "Remove exact callback above IO/UI: Validate callback only after every existing foreign-source/helper contract-placement refusal, never bypass those guards"
+        },
+        {
+          "after": "        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if android_io_remote_documents_required(test_plan):\n            import android_io_remote_documents as remote\n            if context.get(\"android_emulator\", {}).get(\"api_level\") != \"35\":\n                raise ValueError(\"Remote controlled-loopback native execution requires actual API35\")\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n            if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote current source map changed before native execution\")\n        if android_permission_demo_required(test_plan):\n",
+          "after_fragment_sha256": "70478d341132419abb172459971182ef01db6870725fff4103742bede272a575",
+          "before": "        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if focus == camera_callback.FOCUS:\n            camera_callback.validate_context(context, android_serial)\n        if android_io_remote_documents_required(test_plan):\n            import android_io_remote_documents as remote\n            if context.get(\"android_emulator\", {}).get(\"api_level\") != \"35\":\n                raise ValueError(\"Remote controlled-loopback native execution requires actual API35\")\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n            if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote current source map changed before native execution\")\n        if android_permission_demo_required(test_plan):\n",
+          "before_fragment_sha256": "cb81d46919fc11fcbd2404f587e2740084838b7d10fd7c667c9dea2c855f146f",
+          "obligation": "Remove exact callback above IO/UI: Actual runtime must be exact enforcing/Booted API35 Linux x64 and the captured same serial before native task execution"
+        },
+        {
+          "after": "        if android_camera_receiver_required(test_plan):\n            command.append(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true\")\n",
+          "after_fragment_sha256": "3ea3ee4b6285a2246f78a84a36cdfd1f519d8472c8c6bf8d5dd1d379a7928f79",
+          "before": "        if android_camera_receiver_required(test_plan):\n            command.append(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true\")\n        if test_plan.get(\"explicit_test_focus\") == camera_callback.FOCUS:\n            command.append(\"-P\" + camera_callback.GRADLE_PROPERTY + \"=\" + camera_callback.FOCUS)\n",
+          "before_fragment_sha256": "298a6506bda800075616c80b0dbe5dec852e216f6fb56209920591d0d491eb77",
+          "obligation": "Remove exact callback above IO/UI: Explicit receiver marker plus exact callback/delayed focus guard only on the new one-method route; no native grant/result injection"
+        },
+        {
+          "after": "    if boundary_focus and suite != test_plan[\"suite\"]:\n        raise ValueError(\"A focused test plan cannot run as another suite\")\n",
+          "after_fragment_sha256": "41e77cac479d3ecf0ba6842e59699c6d6f464ac5d80ce6d9976dde18721ae0ea",
+          "before": "    if boundary_focus and suite != test_plan[\"suite\"]:\n        raise ValueError(\"A focused test plan cannot run as another suite\")\n    if test_plan.get(\"explicit_test_focus\") == camera_callback.FOCUS:\n        camera_callback.validate_serial(android_serial)\n        if camera_callback.source_contract(root) != test_plan[\"expected\"][0][camera_callback.CONTRACT_KEY]:\n            raise ValueError(\"Exact callback source/recipient/filter identity changed before the command\")\n",
+          "before_fragment_sha256": "c178862fabe73a12b5da2dc1de23d43afcf246a3dc8768ed534a6c6b9d270a36",
+          "obligation": "Remove exact callback above IO/UI: Require a passed-in valid captured emulator serial and unchanged complete callback source contract, including assembly"
+        },
+        {
+          "after": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_CAMERA_RESTORATION_FOCUSES:\n",
+          "after_fragment_sha256": "47c6ae288ffde77f09b019a429625b3aae1b3bbcd24918450027ae23fdbabdd4",
+          "before": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] == camera_callback.FOCUS:\n            scenarios, policy_errors = camera_callback.outcomes(module_cases, host_system or platform.system())\n            if len(paths) != 1 or len(reports) != 1:\n                policy_errors.append(\"Callback requires exactly one fresh original one-method XML; no extra empty report\")\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_CAMERA_RESTORATION_FOCUSES:\n",
+          "before_fragment_sha256": "3f72ff504372895f7108dee69317f7add1d4d483ff8f85684388d9b7c00fe41d",
+          "obligation": "Remove exact callback above IO/UI: Collect exactly one genuine callback XML/case/task; old provider/restoration and failed/skipped/missing/stale cases cannot substitute"
+        },
+        {
+          "after": "    focus = test_plan.get(\"explicit_test_focus\")\n    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n",
+          "after_fragment_sha256": "3df954beaa19145c77eb4f5f12e1e825d333fe2e0baef44503e54966873f8417",
+          "before": "    focus = test_plan.get(\"explicit_test_focus\")\n    camera_callback.validate_contract_placement(test_plan, ANDROID_CAMERA_FOCUSES)\n    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n",
+          "before_fragment_sha256": "1d8b44c2542b01e3ff245772daa8f7643330e29e245a557690d0d4c4aff4d63c",
+          "obligation": "Remove exact callback above IO/UI: Reject unrestricted/mixed/foreign callback claims and exact selector/contract mutations before Gradle"
+        },
+        {
+          "after": "    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:\n        source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding=\"utf-8\")\n",
+          "after_fragment_sha256": "6e43de71aa2f78badf1165e1747932394829a3f24d06b2c63d96f5d6bebb4bcc",
+          "before": "    elif focus == camera_callback.FOCUS:\n        camera_callback.configure_item(root, selected[0])\n        result[\"explicit_test_focus\"] = focus\n        result[\"scope\"] = camera_callback.SCOPE\n    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:\n        source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding=\"utf-8\")\n",
+          "before_fragment_sha256": "5793c1d91eb697207d66b75788c3a93bc6f03ff0b8c5023a3b44de847a65b00b",
+          "obligation": "Remove exact callback above IO/UI: Only one exact callback classname#method, current source contract and fresh XML; normal inherited source list unchanged"
+        },
+        {
+          "after": "    task_name, inherited = SUITES[suite]\n    selected, uncovered = [], []\n    for module, project in projects(root).items():\n",
+          "after_fragment_sha256": "4e1c20c3ba1c32cf1d88f800b04a7d1b5619b2a0a211b029440e1d35da681a00",
+          "before": "    task_name, inherited = SUITES[suite]\n    declared_projects = projects(root)\n    camera_callback.validate_discovery(\n        suite, only_modules, focus, ANDROID_CAMERA_FOCUSES,\n        declared_modules=tuple(declared_projects), minimum_modules=minimum_modules)\n    selected, uncovered = [], []\n    for module, project in declared_projects.items():\n",
+          "before_fragment_sha256": "b0f2faeeda61191612b2ade9b7c806a89d9586bd33b51a29a623028638026201",
+          "obligation": "Remove exact callback above IO/UI: Reuse one rejecting complete literal project declaration map; only an explicit entirely declared non-Camera fixture minimum can enter source discovery; Camera/defaults refuse before source traversal/host/output"
+        },
+        {
+          "after": "    if suite == \"android-device\" and only_modules and ANDROID_STORAGE_MODULE in only_modules and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:\n",
+          "after_fragment_sha256": "530c6e4285cd3267cfb68ed8b1c11d02f1d3a3144d7ae80a24a58bfd461253c8",
+          "before": "    if minimum_modules is None or only_modules:\n        camera_callback.validate_discovery(suite, only_modules, focus, ANDROID_CAMERA_FOCUSES)\n    if suite == \"android-device\" and only_modules and ANDROID_STORAGE_MODULE in only_modules and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:\n",
+          "before_fragment_sha256": "aaf1f2050d3dd64dbf1add24800d68dfc930fa92678846167c8529c577f9be2a",
+          "obligation": "Remove exact callback above IO/UI: Keep the strict request-domain guard before project reads for actual/default/explicit-module requests; only an explicit unfiltered source-fixture minimum may reach rejecting declarations"
+        },
+        {
+          "after": "ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES)\n",
+          "after_fragment_sha256": "40142a7b8188ad525a5143a3f708a43bf294069eba25ee8a264f5493590f70c1",
+          "before": "ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES, camera_callback.FOCUS)\n",
+          "before_fragment_sha256": "b33157da489968cd17aaa3c2edda94f0c7769fe5fa9468e57eec5224f9fa73a1",
+          "obligation": "Remove exact callback above IO/UI: Add one callback focus without changing either original provider/restoration tuple"
+        },
+        {
+          "after": "import camera_ios_ownership_native_focus as camera_ios\n",
+          "after_fragment_sha256": "3e9e4a2b5c5039aeef4b53648368ee4746d5158c841eaac71814fdf970a76537",
+          "before": "import camera_ios_ownership_native_focus as camera_ios\nimport android_camera_callback_native_focus as camera_callback\n",
+          "before_fragment_sha256": "00f36bc474e2c81c6f84ffdab6cb68676a5d0d547225fccf4481a6e9a72d8b68",
+          "obligation": "Remove exact callback above IO/UI: Load only the exact Android callback source owner; no native work at import"
+        },
+        {
+          "after": "    task_name, inherited = SUITES[suite]\n",
+          "after_fragment_sha256": "75af6efe280cd3498ed88da3d92436eb7a2c85232b9e6b90bf3784b264aeaf0b",
+          "before": "    if suite == \"android-device\" and focus is None and (not only_modules or \"calf-io\" in only_modules):\n        # Requested-domain admission is independent of class/file existence or a synthetic minimum.\n        raise ValueError(\"Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked\")\n    task_name, inherited = SUITES[suite]\n",
+          "before_fragment_sha256": "00039f89ecc95419d2e201e954c8241ebeeaea8ce87c359951b00b425fb66c8d",
+          "obligation": "Restore sealed IO predecessor: Unconditional requested-domain full/default or unfiltered calf-io refusal before source discovery; no class/path/minimum loophole"
+        },
+        {
+          "after": "                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS,",
+          "after_fragment_sha256": "b4d5303e3cf16d6be1b975283324bc1f163f59106f775a11e9969dded3768820",
+          "before": "                                           ANDROID_PERMISSION_COMPLETION_FOCUS, *ANDROID_IO_REMOTE_FOCUSES, ANDROID_IO_PROVIDER_FOCUS,",
+          "before_fragment_sha256": "e787d7b64a8ab762a243fb13b2347321dbee5f4a75c39cea7981de1b10552b53",
+          "obligation": "Restore sealed IO predecessor: Finite remote CLI choice union; no broad/default route"
+        },
+        {
+          "after": "                             and not receipt.get(\"device_context_error\"))\n",
+          "after_fragment_sha256": "ac8144b6615c970b840fa0dda8a6efad02ee4ef9a2733a2a70c41e776cc4b29b",
+          "before": "                             and not receipt.get(\"device_context_error\") and not receipt.get(\"remote_source_capture_error\"))\n",
+          "before_fragment_sha256": "14a7cb0277dd4f094d0c55617319ca0a9a51ce735b75b9faefd63d244f7eeb26",
+          "obligation": "Restore sealed IO predecessor: Remote post-execution source refusal cannot pass the library gate"
+        },
+        {
+          "after": "        markers = execution_markers(output / \"gradle.log\")\n",
+          "after_fragment_sha256": "5c7a79f1c77d0b31d48c2d4e933bc0dca1090fb814139804fccf96f81aa9db62",
+          "before": "        if android_io_remote_documents_required(test_plan):\n            try:\n                import android_io_remote_documents as remote\n                if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                    receipt[\"remote_source_capture_error\"] = \"Remote source/fixture/controller inputs changed after native execution\"\n            except (OSError, ValueError, UnicodeError):\n                receipt[\"remote_source_capture_error\"] = \"Unable to establish the exact remote source map after execution\"\n        markers = execution_markers(output / \"gradle.log\")\n",
+          "before_fragment_sha256": "a57a8cbbb9ba0d561e08087c9984890517653d5c13034257eeb7f2c9c85ca8e1",
+          "obligation": "Restore sealed IO predecessor: Exact remote source receipt is independently held after native, in addition to unchanged global input maps"
+        },
+        {
+          "after": "        if android_permission_demo_required(test_plan):\n            receipt[\"android_permission_demo\"] = dict(android_permission_demo_receipt)\n",
+          "after_fragment_sha256": "fbbf96e9ea24961136e99e8b0080bb01c99bc6b84a24e90e75e797fa79ecf89c",
+          "before": "        if android_io_remote_documents_required(test_plan):\n            receipt[\"android_io_remote_documents\"] = dict(android_io_remote_documents_receipt)\n        if android_permission_demo_required(test_plan):\n            receipt[\"android_permission_demo\"] = dict(android_permission_demo_receipt)\n",
+          "before_fragment_sha256": "cdc9d5c6aac2ac4d23ac437c33cc0038bd4f04917001f1318b9b9ecadba18929",
+          "obligation": "Restore sealed IO predecessor: Attach the distinct remote preparation facts without relabelling old IO/native facts"
+        },
+        {
+          "after": "        if android_permission_demo_required(test_plan):\n            import android_permission_demo\n",
+          "after_fragment_sha256": "de1d409b2858d3c9ef7fc8182b2b7006c88eaf05ac07f43f332d6e28749e96f2",
+          "before": "        if android_io_remote_documents_required(test_plan):\n            import android_io_remote_documents as remote\n            if context.get(\"android_emulator\", {}).get(\"api_level\") != \"35\":\n                raise ValueError(\"Remote controlled-loopback native execution requires actual API35\")\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n            if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote current source map changed before native execution\")\n        if android_permission_demo_required(test_plan):\n            import android_permission_demo\n",
+          "before_fragment_sha256": "a6ff1cd080488ee158257938d1f85478dc22fb4b9effeb3b1820edd122099190",
+          "obligation": "Restore sealed IO predecessor: Actual captured API35 and source map required before native; no compile/source inference"
+        },
+        {
+          "after": "                             android_serial=android_serial, android_io_documents_receipt=android_io_documents_receipt,\n",
+          "after_fragment_sha256": "a620dc18f5a87056d603c17d7a04ea90bf51a2e73c2841fe4834721c0f6f6d02",
+          "before": "                             android_serial=android_serial, android_io_documents_receipt=android_io_documents_receipt,\n                             android_io_remote_documents_receipt=android_io_remote_documents_receipt,\n",
+          "before_fragment_sha256": "3200ae521b8d6c61273dcc3e269e0ae8cf4df9687269051a7345bcf1f27a1c5a",
+          "obligation": "Restore sealed IO predecessor: Separate remote prepared receipt reaches the actual guarded command"
+        },
+        {
+          "after": "    if android_io_documents_required(test_plan) and android_user_home is None:\n",
+          "after_fragment_sha256": "808170412bc91a598204c60017490a55fb49615993930c10c8e7c582c9bc6abb",
+          "before": "    if android_io_remote_documents_required(test_plan) and android_user_home is None:\n        raise ValueError(\"Remote instrumentation requires the controller's same existing private signing home\")\n    if android_io_documents_required(test_plan) and android_user_home is None:\n",
+          "before_fragment_sha256": "43efee8b8264f3c490fac0006ee3992dc43b95ed41c10661e5a27838b718a8d9",
+          "obligation": "Restore sealed IO predecessor: Remote source APK/reporter/native share only the existing private debug signer"
+        },
+        {
+          "after": "        android_io_documents_receipt: dict | None = None,\n",
+          "after_fragment_sha256": "7025eb531d820418a635f457fca26f6fa5361a90445f391b5f333bfda08a70dc",
+          "before": "        android_io_documents_receipt: dict | None = None,\n        android_io_remote_documents_receipt: dict | None = None,\n",
+          "before_fragment_sha256": "239f87fd1a47d3e25927d725dacdd82da3abedcd789e9c488ef324594290a2e9",
+          "obligation": "Restore sealed IO predecessor: Distinct remote library run receipt handoff"
+        },
+        {
+          "after": "        if permission_required and not for_assembly:\n",
+          "after_fragment_sha256": "6556b807cf49b1e8a388d8518def561dced44bedac17675488d81ff1d094b2d7",
+          "before": "        if remote_required and not for_assembly:\n            # Preparation identity only; neither this argument nor a source receipt proves native success.\n            command.append(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedRemoteIoDocuments=true\")\n        if permission_required and not for_assembly:\n",
+          "before_fragment_sha256": "e014328e1df731bc1471066ef0246c6b33cd5b1d67db956f66b03070953b1638",
+          "obligation": "Restore sealed IO predecessor: Remote prepared bit never emitted by assembly-only; not a native assertion or acceptance claim"
+        },
+        {
+          "after": "    io_required = android_io_documents_required(test_plan)\n",
+          "after_fragment_sha256": "51ed2c5947ca6d6e9e43befafdc9414b5b5eaa7839c116d39b2e932643305656",
+          "before": "    io_required = android_io_documents_required(test_plan)\n    remote_required = android_io_remote_documents_required(test_plan)\n    if android_io_remote_documents_receipt is not None and (not remote_required or for_assembly):\n        raise ValueError(\"No remote prepared receipt on unrelated or assembly-only commands\")\n    if remote_required:\n        import android_io_remote_documents as remote\n        if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n            raise ValueError(\"Remote current source/fixture/controller identities changed before the owning command\")\n        if not for_assembly:\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n",
+          "before_fragment_sha256": "9a349c5620799103bc59e57babed91f906718a09cfb4f3f75383125426e74f9c",
+          "obligation": "Restore sealed IO predecessor: Exact current source and separate prepared lease revalidated before native command; assembly has no lease"
+        },
+        {
+          "after": "                   android_serial: str | None = None, android_io_documents_receipt: dict | None = None,\n",
+          "after_fragment_sha256": "4e14c90aa6c093d727fb98a63f0fb61cd6ec5b979c1cde13bc77d828c3e91370",
+          "before": "                   android_serial: str | None = None, android_io_documents_receipt: dict | None = None,\n                   android_io_remote_documents_receipt: dict | None = None,\n",
+          "before_fragment_sha256": "d5cbddd37da0a65b85465d24c7e65541f97ce2cc69f528b3bab1a91d197d749d",
+          "obligation": "Restore sealed IO predecessor: Distinct remote receipt parameter; old helper remains distinct"
+        },
+        {
+          "after": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "after_fragment_sha256": "e26f19192035dfb9f6c8f93e9e2d98e765b69dd71de0d964cd7ca6783ce7483c",
+          "before": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_IO_REMOTE_FOCUSES:\n            required = {(c[\"classname\"], c[\"name\"]) for c in expected[\"required_testcases\"]}\n            actual = {(c[\"classname\"], c[\"name\"]) for c in module_cases}\n            policy_errors = ([] if actual == required and len(module_cases) == len(required) and\n                             len(reports) == len(paths) == expected[\"required_original_xml\"] == 1 and\n                             all(c[\"status\"] == \"passed\" for c in module_cases) else\n                             [\"Controlled remote IO XML requires only the exact selected NEW identities in one fresh original report; duplicate/skipped/stale/missing/foreign cases refuse\"])\n            if native_test_policy.canonical_host(host_system or platform.system()) != \"linux\":\n                policy_errors.append(\"Controlled remote IO requires the exact Linux API35 owned-emulator slot\")\n            scenarios = [{**c, \"source\": ANDROID_IO_REMOTE_SOURCE, \"required_on_host\": True,\n                          \"verification_api_level\": 35,\n                          \"disposition\": \"required-executed\" if c[\"status\"] == \"passed\" else \"required-not-passed\"}\n                         for c in module_cases]\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "before_fragment_sha256": "45821cd59476bd61a13206de63160cc821e2e78b1cd1e8f8b98d4baf9ae5580a",
+          "obligation": "Restore sealed IO predecessor: One fresh original XML only exact selected identities; no duplicate skip stale unrelated host admission"
+        },
+        {
+          "after": "    if focus == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "after_fragment_sha256": "bc5638d3393f84e811621d510db1a022b781f776abab00869b4acd4f184b75dd",
+          "before": "    if focus in ANDROID_IO_REMOTE_FOCUSES:\n        return True  # The separate strict remote plan validator above already owns every finite operand.\n    if focus == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "before_fragment_sha256": "2c28b5a4824fe7e6ad5b2cb72fd1a6d13b4ef9421490e38afd55e62f3f891577",
+          "obligation": "Restore sealed IO predecessor: Remote focused path returns only after its separate complete validator"
+        },
+        {
+          "after": "    validate_android_io_documents_plan(test_plan)\n",
+          "after_fragment_sha256": "6b32421f84296a2a2e6c00c807f1a919d03056367104b490af8917956c64b128",
+          "before": "    validate_android_io_documents_plan(test_plan)\n    validate_android_io_remote_documents_plan(test_plan)\n",
+          "before_fragment_sha256": "f8cd8f46c58f3c3b47deee215ec334dee4b47bd953f8bd76be291113a1b1d5ac",
+          "obligation": "Restore sealed IO predecessor: Revalidate remote plan whenever the existing focus gate is consumed"
+        },
+        {
+          "after": "    elif focus == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "after_fragment_sha256": "bed4172d67a21b05014835736dc004c7dcb6a0d0fd0ca069218cc5c8d2e72b8e",
+          "before": "    elif focus in ANDROID_IO_REMOTE_FOCUSES:\n        import android_io_remote_documents as remote\n        remote.validate_direct_native_population(safe_path(root, ANDROID_IO_REMOTE_SOURCE).read_text(encoding=\"utf-8\"))\n        result[\"explicit_test_focus\"] = focus\n        selected[0][\"test_filter\"] = remote.instrumentation_filter(focus)\n        selected[0][\"test_filter_argument\"] = \"class\"\n        selected[0][\"required_testcases\"] = list(remote.identities(focus))\n        selected[0][\"verification_api_level\"] = 35\n        selected[0][\"required_original_xml\"] = 1\n        result[\"android_io_remote_documents\"] = {\"package\": remote.PACKAGE, \"source_fixture\": remote.FIXTURE,\n            \"verification_api_level\": 35, \"source_contract\": remote.source_contract(root)}\n        validate_android_io_remote_documents_plan(result)\n        result[\"scope\"] = \"Only the two NEW controlled-loopback TCP DocumentsProvider methods, or one justified missing-only follow-up, on exact owned API35 calf-io. Real system tree grants/live HTTP/public bounded source and separate framework pending-open CancellationSignal before PFD transfer remain native assertions. Not commercial cloud/account, Downloads, process restart, automatic coroutine/post-transfer cancellation, TLS/security, full IO/device/consumer/API-ABI or issue/release acceptance; Downloads remains unresolved, not N/A.\"\n    elif focus == ANDROID_IO_PROVIDER_FOCUS:\n",
+          "before_fragment_sha256": "adb595ab7903f743ef702e50c35aa1c5830a4c9294afb2e672c10475053b1a23",
+          "obligation": "Restore sealed IO predecessor: Pure source refusal and exact remote2/1 selection precede controller side effects"
+        },
+        {
+          "after": "def android_io_documents_required(test_plan: dict) -> bool:\n",
+          "after_fragment_sha256": "6ffc9c54b7078e74ad62929e23e0c57b0b6ce02190738c96a4eb5f2941542955",
+          "before": "def android_io_remote_documents_required(test_plan: dict) -> bool:\n    return (test_plan.get(\"suite\") == \"android-device\" and\n            test_plan.get(\"explicit_test_focus\") in ANDROID_IO_REMOTE_FOCUSES)\n\n\ndef validate_android_io_remote_documents_plan(test_plan: dict) -> None:\n    contract = test_plan.get(\"android_io_remote_documents\")\n    if not android_io_remote_documents_required(test_plan):\n        if contract is not None:\n            raise ValueError(\"A remote helper/source receipt cannot replace an unrelated or accepted IO route\")\n        return\n    import android_io_remote_documents as remote\n    focus = test_plan[\"explicit_test_focus\"]\n    expected = test_plan.get(\"expected\")\n    if (type(contract) is not dict or set(contract) != {\"package\", \"source_fixture\", \"verification_api_level\", \"source_contract\"} or\n            contract.get(\"package\") != remote.PACKAGE or contract.get(\"source_fixture\") != remote.FIXTURE or\n            type(contract.get(\"verification_api_level\")) is not int or contract[\"verification_api_level\"] != 35 or\n            type(expected) is not list or len(expected) != 1 or test_plan.get(\"explicit_module_subset\") != [\"calf-io\"] or\n            test_plan.get(\"complete_suite_requested\") is not False or test_plan.get(\"android_io_documents\") is not None):\n        raise ValueError(\"Only the separate exact API35 calf-io remote source/fixture plan is admitted\")\n    item = expected[0]\n    dependencies = tuple(remote.KOTLIN + name + \".kt\" for name in remote.KOTLIN_NAMES) + tuple(remote.REUSED_PINS)\n    if (type(item) is not dict or item.get(\"module\") != \"calf-io\" or item.get(\"project\") != \":calf-io\" or\n            item.get(\"task\") != \":calf-io:connectedAndroidDeviceTest\" or\n            item.get(\"report_directory\") != \"calf-io/build/outputs/androidTest-results/connected/androidMain\" or\n            item.get(\"utp_results_directory\") != item.get(\"report_directory\") or\n            item.get(\"agp_declared_xml_directory\") != \"calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest\" or\n            item.get(\"test_filter\") != remote.instrumentation_filter(focus) or item.get(\"test_filter_argument\") != \"class\" or\n            item.get(\"test_exclusion_annotation\") is not None or item.get(\"required_testcases\") != list(remote.identities(focus)) or\n            type(item.get(\"verification_api_level\")) is not int or item[\"verification_api_level\"] != 35 or\n            type(item.get(\"required_original_xml\")) is not int or item[\"required_original_xml\"] != 1 or\n            any(relative not in item.get(\"test_source_files\", []) for relative in dependencies)):\n        raise ValueError(\"Invalid exact remote class/two-or-one-method/API35/task/XML plan\")\n    remote.validate_source_receipt(contract[\"source_contract\"])\n\n\ndef android_io_documents_required(test_plan: dict) -> bool:\n",
+          "before_fragment_sha256": "3128962fdebde292e3178fc3875aca2f3977f0c9da69a4af0d48978fe1678c31",
+          "obligation": "Restore sealed IO predecessor: Separate remote predicate and strict finite class/API/source receipt plan; old helper never substitutes"
+        },
+        {
+          "after": "            (focus == ANDROID_IO_PROVIDER_FOCUS and suite == \"android-device\" and modules == (\"calf-io\",)) or\n",
+          "after_fragment_sha256": "5ca4318168b903368447d6d077b84aff616e181bab800d96a61fda8d5619b932",
+          "before": "            (focus in ANDROID_IO_REMOTE_FOCUSES and suite == \"android-device\" and modules == (\"calf-io\",)) or\n            (focus == ANDROID_IO_PROVIDER_FOCUS and suite == \"android-device\" and modules == (\"calf-io\",)) or\n",
+          "before_fragment_sha256": "f6b68c277c80fe4719a6bd11a381d9d91b5b10296096eafdba5fc577e252e48c",
+          "obligation": "Restore sealed IO predecessor: Only exact Android-device calf-io tuple admits the three remote focuses"
+        },
+        {
+          "after": "ANDROID_IO_PROVIDER_FOCUS = \"android-io-provider-lifecycle\"\n",
+          "after_fragment_sha256": "aa7d80e5409a4108df5cf9b424ffc57880f6303cdf372cc82a7ef41f3ff41afb",
+          "before": "# NEW controlled-loopback routes; no full/default fixture population is admitted.\nANDROID_IO_REMOTE_FOCUSES = (\"android-io-controlled-remote\", \"android-io-controlled-remote-positive\",\n                            \"android-io-controlled-remote-cancel\")\nANDROID_IO_REMOTE_SOURCE = \"calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteDocumentsTest.kt\"\nANDROID_IO_PROVIDER_FOCUS = \"android-io-provider-lifecycle\"\n",
+          "before_fragment_sha256": "d3b5ecbb7ace2ee366174fa5e750d392cbbac75cf8ceaf62bb5516174d380c84",
+          "obligation": "Restore sealed IO predecessor: Literal separate remote focuses and direct owning source; no old focus aliases"
+        },
+        {
+          "after": "                                          android_serial=android_serial,\n                                          browser=suite in {\"js\", \"wasm\"},\n                                          **({\"adaptive_focus\": ui_related.runtime_focus(focus), \"require_clean\": True,\n                                              \"expected_arch\": \"arm64\"} if focus in ui_related.FOCUSES else {}))\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if android_permission_demo_required(test_plan):\n            import android_permission_demo\n",
+          "after_fragment_sha256": "6a1745f15bbe2043e6178b68e21ba94a745bdd9aec432cd02bbeb05e41f00e4a",
+          "before": "                                          android_serial=android_serial,\n                                          browser=suite in {\"js\", \"wasm\"},\n                                          **({\"adaptive_focus\": ui_related.runtime_focus(focus), \"require_clean\": True,\n                                              \"expected_arch\": \"arm64\"} if focus in ui_related.ALL_FOCUSES else {}))\n        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if android_permission_demo_required(test_plan):\n            import android_permission_demo\n",
+          "before_fragment_sha256": "722e590560ff75db0576bfbe181997770e4d5ac00650c9ffaf0949365954e939",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "            observed = document.get(when)\n            need(isinstance(observed, dict) and observed.get(\"source_revision\") == context[\"source_revision\"] and\n                 observed.get(\"source_tree_dirty\") is False, \"Application runtime source identity changed\")\n            if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n                ui_related.validate_context(observed, test_plan[\"explicit_test_focus\"], udid=context[\"simulator\"][\"udid\"])\n            for key in (\"host\", \"java\", \"rust\", \"xcode\", \"apple_sdks\", \"simulator\"):\n                need(key in context and observed.get(key) == context[key], \"Application compiler/SDK/selected-simulator runtime mismatch\")\n",
+          "after_fragment_sha256": "ee0c187155322a11f17e3f6c2e7773efd74005c0cf610a21634b09ff85138620",
+          "before": "            observed = document.get(when)\n            need(isinstance(observed, dict) and observed.get(\"source_revision\") == context[\"source_revision\"] and\n                 observed.get(\"source_tree_dirty\") is False, \"Application runtime source identity changed\")\n            if test_plan.get(\"explicit_test_focus\") in ui_related.ALL_FOCUSES:\n                ui_related.validate_context(observed, test_plan[\"explicit_test_focus\"], udid=context[\"simulator\"][\"udid\"])\n            for key in (\"host\", \"java\", \"rust\", \"xcode\", \"apple_sdks\", \"simulator\"):\n                need(key in context and observed.get(key) == context[key], \"Application compiler/SDK/selected-simulator runtime mismatch\")\n",
+          "before_fragment_sha256": "b217f4753b117e00f1327aa51caf7d9f3d331ed35bbdb022e3a73d806a77634a",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "                 \"Camera requires fresh exact three-source native-task admission; not historical KLIB or compiler execution\")\n        else:\n            need(\"camera_photos\" not in document, \"No Camera Photos lease claim on unrelated application\")\n        if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n            need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan[\"explicit_test_focus\"]),\n                 \"Related UI requires fresh exact source/selection admission, not a historical KLIB receipt\")\n        if test_plan.get(\"explicit_test_focus\") == IOS_POPOVER_ANCHOR_FOCUS:\n            import ios_popover_anchor_plan\n            need(ios_popover_anchor_plan.validate_compilation(root, started_ns, ended_ns),\n",
+          "after_fragment_sha256": "eda0993e007c99d718d216fc09a20c0d2c1e040ebd324854d5070b7a338b0686",
+          "before": "                 \"Camera requires fresh exact three-source native-task admission; not historical KLIB or compiler execution\")\n        else:\n            need(\"camera_photos\" not in document, \"No Camera Photos lease claim on unrelated application\")\n        if test_plan.get(\"explicit_test_focus\") in ui_related.ALL_FOCUSES:\n            need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan[\"explicit_test_focus\"]),\n                 \"Related UI requires fresh exact source/selection admission, not a historical KLIB receipt\")\n        if test_plan.get(\"explicit_test_focus\") in ui_related.SPLIT_FOCUSES:\n            accounting = ui_related.timeout_accounting(test_plan[\"explicit_test_focus\"])\n            transport = document.get(\"application_transport\")\n            need(document.get(\"ui_split_timeout_accounting\") == accounting and\n                 all(type(document[\"ui_split_timeout_accounting\"].get(key)) is int for key in accounting) and\n                 type(transport) is dict and type(transport.get(\"timeout_seconds\")) is int and\n                 transport[\"timeout_seconds\"] == accounting[\"transport_timeout_seconds\"],\n                 \"Split UI requires its independent exact transport/native-task timeout accounting\")\n        if test_plan.get(\"explicit_test_focus\") == IOS_POPOVER_ANCHOR_FOCUS:\n            import ios_popover_anchor_plan\n            need(ios_popover_anchor_plan.validate_compilation(root, started_ns, ended_ns),\n",
+          "before_fragment_sha256": "3e05fcc991aef967701051d2066dfbb487957a045e5092d416415879e861b857",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "    try:\n        import ios_ui_application as app\n        host = app.APPLICATION_HOSTS[expected[\"module\"]]\n        task = host[\"task\"]\n        need(expected[\"task\"] == task and expected.get(\"native_test_host\") == \"genuine-uikit-application\",\n             \"The iOS UI plan must use the genuine application task, not a Skiko fallback\")\n",
+          "after_fragment_sha256": "6c47d31bdb95394f337e2fb5d1c03acb31d4cc4f3921abdd39c60e2e0b311581",
+          "before": "    try:\n        import ios_ui_application as app\n        host = app.APPLICATION_HOSTS[expected[\"module\"]]\n        if test_plan.get(\"explicit_test_focus\") in ui_related.SPLIT_FOCUSES:\n            host = app.application_host(host[\"binary_directory\"] + \"/application.kexe\", test_plan[\"explicit_test_focus\"])\n        task = host[\"task\"]\n        need(expected[\"task\"] == task and expected.get(\"native_test_host\") == \"genuine-uikit-application\",\n             \"The iOS UI plan must use the genuine application task, not a Skiko fallback\")\n",
+          "before_fragment_sha256": "c9a24a0f8b74874d6cb9ed2a3d9e057f3ac70f5a45d595116872ce9eeff2036e",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "                     for v in (classname, name)), \"Invalid application testcase identity\")\n            need(status in {\"passed\", \"failed\", \"error\", \"skipped\"}, \"Unknown application testcase status\")\n            if xml:\n                prefix, suffix = IOS_APPLICATION_TASK + \".\", \"[iosSimulatorArm64]\"\n                need(classname.startswith(prefix) and name.endswith(suffix), \"XML lacks the exact observed KGP task prefix/target suffix\")\n                classname, name = classname[len(prefix):], name[:-len(suffix)]\n            key = (classname, name)\n",
+          "after_fragment_sha256": "218217e1853d26516ab69baa3bd7678a01bf867dcce5e7dcd8c3948a8824b8b2",
+          "before": "                     for v in (classname, name)), \"Invalid application testcase identity\")\n            need(status in {\"passed\", \"failed\", \"error\", \"skipped\"}, \"Unknown application testcase status\")\n            if xml:\n                focus = test_plan.get(\"explicit_test_focus\")\n                prefix = (ui_related.task_name(focus) if focus in ui_related.SPLIT_FOCUSES else IOS_APPLICATION_TASK) + \".\"\n                suffix = \"[iosSimulatorArm64]\"\n                need(classname.startswith(prefix) and name.endswith(suffix), \"XML lacks the exact observed KGP task prefix/target suffix\")\n                classname, name = classname[len(prefix):], name[:-len(suffix)]\n            key = (classname, name)\n",
+          "before_fragment_sha256": "a240fd5919f86d5b94ac6201b5126fb8f30d9df5482227ea5f2a7072194e58a7",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "    \"\"\"\n    if test_plan[\"suite\"] != \"ios\" or not any(i.get(\"native_test_host\") == \"genuine-uikit-application\" for i in test_plan[\"expected\"]):\n        return None\n    relative = (output / \"native-ui-application\").relative_to(root).as_posix()\n    safe_path(root, relative)\n    environment = os.environ.copy()\n    if environment.get(\"NATIVECMPKIT_UIKIT_RESULT_ROOT\") not in (None, relative):\n",
+          "after_fragment_sha256": "1e3d311bafab5402f09f96eb8160447f7800bf342d88c76de0822dc43ac196e3",
+          "before": "    \"\"\"\n    if test_plan[\"suite\"] != \"ios\" or not any(i.get(\"native_test_host\") == \"genuine-uikit-application\" for i in test_plan[\"expected\"]):\n        return None\n    focus = test_plan.get(\"explicit_test_focus\")\n    subdirectory = ui_related.receipt_subdirectory(focus) if focus in ui_related.SPLIT_FOCUSES else \"native-ui-application\"\n    relative = (output / subdirectory).relative_to(root).as_posix()\n    safe_path(root, relative)\n    environment = os.environ.copy()\n    if environment.get(\"NATIVECMPKIT_UIKIT_RESULT_ROOT\") not in (None, relative):\n",
+          "before_fragment_sha256": "2809d81253295aacdee7dba7c3e2bde50274edf064c805a8e778efa047040653",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "            raise ValueError(\"Camera exact inputs changed before the owning native command\")\n        command.extend([\"--init-script\", camera_ios.INIT_SCRIPT,\n                        \"-P\" + camera_ios.FOCUS_PROPERTY + \"=\" + camera_ios.FOCUS])\n    if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n        focus = test_plan[\"explicit_test_focus\"]\n        if ui_related.source_contract(root, focus) != test_plan[\"expected\"][0][\"ui_related_source_contract\"]:\n            raise ValueError(\"Related UI exact source admission changed before the native command\")\n",
+          "after_fragment_sha256": "88714dd9939874a012306cf47759f681c74aa20c6e70d28781e19793d6add86b",
+          "before": "            raise ValueError(\"Camera exact inputs changed before the owning native command\")\n        command.extend([\"--init-script\", camera_ios.INIT_SCRIPT,\n                        \"-P\" + camera_ios.FOCUS_PROPERTY + \"=\" + camera_ios.FOCUS])\n    if test_plan.get(\"explicit_test_focus\") in ui_related.ALL_FOCUSES:\n        focus = test_plan[\"explicit_test_focus\"]\n        if ui_related.source_contract(root, focus) != test_plan[\"expected\"][0][\"ui_related_source_contract\"]:\n            raise ValueError(\"Related UI exact source admission changed before the native command\")\n",
+          "before_fragment_sha256": "a554028d1e99792be978ad1366341b852a08134b0031d788ed0f08649bc96972",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "                cases_by_report=cases_by_report)\n            if len(paths) != 1 or len(reports) != 1:\n                policy_errors.append(\"Camera requires one original fresh five-case class XML, no extra empty reports\")\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ui_related.FOCUSES:\n            scenarios, policy_errors = ui_related.outcomes(module_cases, host_system or platform.system(),\n                test_plan[\"explicit_test_focus\"], cases_by_report=cases_by_report)\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in UI_APPLICATION_FOCUS_SPECS:\n",
+          "after_fragment_sha256": "09f34ffc54b5bbb373829153bd2f810d466ce6eee493b27b1a31a4b1a2d6d1ac",
+          "before": "                cases_by_report=cases_by_report)\n            if len(paths) != 1 or len(reports) != 1:\n                policy_errors.append(\"Camera requires one original fresh five-case class XML, no extra empty reports\")\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ui_related.ALL_FOCUSES:\n            scenarios, policy_errors = ui_related.outcomes(module_cases, host_system or platform.system(),\n                test_plan[\"explicit_test_focus\"], cases_by_report=cases_by_report)\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in UI_APPLICATION_FOCUS_SPECS:\n",
+          "before_fragment_sha256": "682de771cb4419506fe245595660ff3431c81a8111b2d17b35d0aa6bd10e4f25",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "        if (not allowed_test_focus(test_plan[\"suite\"], tuple(test_plan[\"explicit_module_subset\"]), focus) or\n                test_plan[\"complete_suite_requested\"] is not False or len(expected) != 1 or\n                expected[0][\"module\"] != application_module or\n                expected[0][\"task\"] != \":\" + application_module + \":\" + IOS_APPLICATION_TASK or\n                expected[0].get(\"native_test_host\") != \"genuine-uikit-application\" or\n                expected[0].get(\"test_filter\") != ui_application_focus_filter(focus) or\n                expected[0].get(\"required_testcases\") != ui_application_focus_identities(focus) or\n",
+          "after_fragment_sha256": "9042e4d984fe01d8968d80b8764a2ed6de7ac906201005b1a9306fd7fa9cc542",
+          "before": "        if (not allowed_test_focus(test_plan[\"suite\"], tuple(test_plan[\"explicit_module_subset\"]), focus) or\n                test_plan[\"complete_suite_requested\"] is not False or len(expected) != 1 or\n                expected[0][\"module\"] != application_module or\n                expected[0][\"task\"] != (ui_related.task(focus) if focus in ui_related.SPLIT_FOCUSES else\n                                       \":\" + application_module + \":\" + IOS_APPLICATION_TASK) or\n                expected[0].get(\"native_test_host\") != \"genuine-uikit-application\" or\n                expected[0].get(\"test_filter\") != ui_application_focus_filter(focus) or\n                expected[0].get(\"required_testcases\") != ui_application_focus_identities(focus) or\n",
+          "before_fragment_sha256": "054aa23268e69af9c9a1ea94031b78184f080a5257708092d6719844047e347e",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "    if focus in UI_APPLICATION_FOCUS_SPECS:\n        if focus == camera_ios.FOCUS:\n            camera_ios.validate_plan(test_plan)\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_plan(test_plan)\n        if focus == secure_alert.FOCUS:\n            if len(expected) != 1:\n",
+          "after_fragment_sha256": "6d2264dcc1151dda6bb8c64090d2a6c54e17452cbc17ff547063c777ca371258",
+          "before": "    if focus in UI_APPLICATION_FOCUS_SPECS:\n        if focus == camera_ios.FOCUS:\n            camera_ios.validate_plan(test_plan)\n        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_plan(test_plan)\n        if focus == secure_alert.FOCUS:\n            if len(expected) != 1:\n",
+          "before_fragment_sha256": "1f8358dffc41213fbe3b4f32988f5922026db03c1c44bfbf4c23ba876bdc029f",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "            selected[0][\"test_source_sets\"] = [\"iosTest\"]\n            selected[0][camera_ios.CONTRACT_KEY] = camera_ios.source_contract(root)\n            selected[0][\"required_original_xml\"] = 1\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_sources(root, focus)\n            selected[0][\"test_source_files\"] = sorted(ui_related.sources(focus))\n            selected[0][\"test_source_sets\"] = [\"iosTest\"]\n",
+          "after_fragment_sha256": "baca5e13a3809c10c27463fc32039cfaa1c26e8b32f2ab42e47db436cf4d56f3",
+          "before": "            selected[0][\"test_source_sets\"] = [\"iosTest\"]\n            selected[0][camera_ios.CONTRACT_KEY] = camera_ios.source_contract(root)\n            selected[0][\"required_original_xml\"] = 1\n        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_sources(root, focus)\n            selected[0][\"test_source_files\"] = sorted(ui_related.sources(focus))\n            selected[0][\"test_source_sets\"] = [\"iosTest\"]\n",
+          "before_fragment_sha256": "2e2799c4cd43a5cf915a099a09a836f89e88081359eff5a31ae54f103e1e3d85",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "            actual_task = (IOS_APPLICATION_TASK if suite == \"ios\" and (\n                           (module in IOS_APPLICATION_HOST_SOURCES and not (module == \"calf-file-picker\" and focus == IOS_SAVE_WRITE_FOCUS)) or\n                           (module == camera_ios.MODULE and focus == camera_ios.FOCUS)) else task_name)\n            report_directory = (f\"{module}/build/outputs/androidTest-results/connected/androidMain\"\n                                if suite == \"android-device\" else f\"{module}/build/test-results/{actual_task}\")\n            item = {\"module\": module, \"project\": project, \"task\": f\"{project}:{actual_task}\",\n                    \"report_directory\": report_directory,\n                    \"test_source_sets\": source_sets, \"test_source_files\": sorted(inputs)}\n            if actual_task == IOS_APPLICATION_TASK:\n                application_sources = (camera_ios.SOURCES if module == camera_ios.MODULE and focus == camera_ios.FOCUS\n                                       else IOS_APPLICATION_HOST_SOURCES[module])\n                if not all(source in inputs for source in application_sources):\n",
+          "after_fragment_sha256": "e758aa0268f77b2e6e9eff9f2e2736646eed5d4c85d67ffa7cbffb7c73858200",
+          "before": "            actual_task = (IOS_APPLICATION_TASK if suite == \"ios\" and (\n                           (module in IOS_APPLICATION_HOST_SOURCES and not (module == \"calf-file-picker\" and focus == IOS_SAVE_WRITE_FOCUS)) or\n                           (module == camera_ios.MODULE and focus == camera_ios.FOCUS)) else task_name)\n            if suite == \"ios\" and module == ui_related.MODULE and focus in ui_related.SPLIT_FOCUSES:\n                actual_task = ui_related.task_name(focus)\n            report_directory = (f\"{module}/build/outputs/androidTest-results/connected/androidMain\"\n                                if suite == \"android-device\" else f\"{module}/build/test-results/{actual_task}\")\n            item = {\"module\": module, \"project\": project, \"task\": f\"{project}:{actual_task}\",\n                    \"report_directory\": report_directory,\n                    \"test_source_sets\": source_sets, \"test_source_files\": sorted(inputs)}\n            if actual_task == IOS_APPLICATION_TASK or (suite == \"ios\" and module == ui_related.MODULE and\n                                                       focus in ui_related.SPLIT_FOCUSES):\n                application_sources = (camera_ios.SOURCES if module == camera_ios.MODULE and focus == camera_ios.FOCUS\n                                       else IOS_APPLICATION_HOST_SOURCES[module])\n                if not all(source in inputs for source in application_sources):\n",
+          "before_fragment_sha256": "8b69b63403028b0f8224f7ee0f16e799776a59cbab64a327e98a91e2d3f36899",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "\n\ndef ui_application_focus_identities(focus: str) -> list[dict]:\n    return [{\"classname\": IOS_APPLICATION_TASK + \".\" + group[\"classname\"],\n             \"name\": method + \"[iosSimulatorArm64]\"}\n            for group in ui_application_focus_groups(focus) for method in group[\"methods\"]]\n",
+          "after_fragment_sha256": "42a422221d4123fc029b0085e7e3c8041ba6d34e4c699b9dfcc8aca4a266da06",
+          "before": "\n\ndef ui_application_focus_identities(focus: str) -> list[dict]:\n    if focus in ui_related.SPLIT_FOCUSES:\n        return ui_related.identities(focus)\n    return [{\"classname\": IOS_APPLICATION_TASK + \".\" + group[\"classname\"],\n             \"name\": method + \"[iosSimulatorArm64]\"}\n            for group in ui_application_focus_groups(focus) for method in group[\"methods\"]]\n",
+          "before_fragment_sha256": "071d17620df9f0cee0b87f9ea3ee11ecafde7db71f3b7d7285d869ab8dc7791c",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "UI_APPLICATION_FOCUS_SPECS[camera_ios.FOCUS] = camera_ios.focus_spec()\nUI_APPLICATION_FOCUS_SPECS[\"ui-native-adaptive-pre26\"] = ui_related.focus_spec(\"ui-native-adaptive-pre26\")\nUI_APPLICATION_FOCUS_SPECS[\"ui-native-adaptive-drag-shader-ios26plus\"] = ui_related.focus_spec(\"ui-native-adaptive-drag-shader-ios26plus\")\n\n\nUI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {\n",
+          "after_fragment_sha256": "934d9f01225a0e85ecf46a97ba0ff7c4c4f9c56d1c34595cd46719ba0cc65af6",
+          "before": "UI_APPLICATION_FOCUS_SPECS[camera_ios.FOCUS] = camera_ios.focus_spec()\nUI_APPLICATION_FOCUS_SPECS[\"ui-native-adaptive-pre26\"] = ui_related.focus_spec(\"ui-native-adaptive-pre26\")\nUI_APPLICATION_FOCUS_SPECS[\"ui-native-adaptive-drag-shader-ios26plus\"] = ui_related.focus_spec(\"ui-native-adaptive-drag-shader-ios26plus\")\nfor _focus in ui_related.SPLIT_FOCUSES:\n    UI_APPLICATION_FOCUS_SPECS[_focus] = ui_related.focus_spec(_focus)\n\n\nUI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {\n",
+          "before_fragment_sha256": "8548ae05793df070aa19873a474c8164e5446b8d3ec9582e4ee2f15951e5e0ac",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/library_tests.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "import camera_ios_ownership_native_focus as camera_ios\nimport android_camera_callback_native_focus as camera_callback\n",
+          "after_fragment_sha256": "00f36bc474e2c81c6f84ffdab6cb68676a5d0d547225fccf4481a6e9a72d8b68",
+          "before": "import camera_ios_ownership_native_focus as camera_ios\n",
+          "before_fragment_sha256": "3e9e4a2b5c5039aeef4b53648368ee4746d5158c841eaac71814fdf970a76537",
+          "obligation": "Reconstruct sealed isolated callback: Load only the exact Android callback source owner; no native work at import"
+        },
+        {
+          "after": "ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES, camera_callback.FOCUS)\n",
+          "after_fragment_sha256": "b33157da489968cd17aaa3c2edda94f0c7769fe5fa9468e57eec5224f9fa73a1",
+          "before": "ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES)\n",
+          "before_fragment_sha256": "40142a7b8188ad525a5143a3f708a43bf294069eba25ee8a264f5493590f70c1",
+          "obligation": "Reconstruct sealed isolated callback: Add one callback focus without changing either original provider/restoration tuple"
+        },
+        {
+          "after": "    if minimum_modules is None or only_modules:\n        camera_callback.validate_discovery(suite, only_modules, focus, ANDROID_CAMERA_FOCUSES)\n    if suite == \"android-device\" and only_modules and ANDROID_STORAGE_MODULE in only_modules and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:\n",
+          "after_fragment_sha256": "aaf1f2050d3dd64dbf1add24800d68dfc930fa92678846167c8529c577f9be2a",
+          "before": "    if suite == \"android-device\" and only_modules and ANDROID_STORAGE_MODULE in only_modules and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:\n",
+          "before_fragment_sha256": "530c6e4285cd3267cfb68ed8b1c11d02f1d3a3144d7ae80a24a58bfd461253c8",
+          "obligation": "Reconstruct sealed isolated callback: Keep the strict request-domain guard before project reads for actual/default/explicit-module requests; only an explicit unfiltered source-fixture minimum may reach rejecting declarations"
+        },
+        {
+          "after": "    task_name, inherited = SUITES[suite]\n    declared_projects = projects(root)\n    camera_callback.validate_discovery(\n        suite, only_modules, focus, ANDROID_CAMERA_FOCUSES,\n        declared_modules=tuple(declared_projects), minimum_modules=minimum_modules)\n    selected, uncovered = [], []\n    for module, project in declared_projects.items():\n",
+          "after_fragment_sha256": "b0f2faeeda61191612b2ade9b7c806a89d9586bd33b51a29a623028638026201",
+          "before": "    task_name, inherited = SUITES[suite]\n    selected, uncovered = [], []\n    for module, project in projects(root).items():\n",
+          "before_fragment_sha256": "4e1c20c3ba1c32cf1d88f800b04a7d1b5619b2a0a211b029440e1d35da681a00",
+          "obligation": "Reconstruct sealed isolated callback: Reuse one rejecting complete literal project declaration map; only an explicit entirely declared non-Camera fixture minimum can enter source discovery; Camera/defaults refuse before source traversal/host/output"
+        },
+        {
+          "after": "    elif focus == camera_callback.FOCUS:\n        camera_callback.configure_item(root, selected[0])\n        result[\"explicit_test_focus\"] = focus\n        result[\"scope\"] = camera_callback.SCOPE\n    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:\n        source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding=\"utf-8\")\n",
+          "after_fragment_sha256": "5793c1d91eb697207d66b75788c3a93bc6f03ff0b8c5023a3b44de847a65b00b",
+          "before": "    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:\n        source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding=\"utf-8\")\n",
+          "before_fragment_sha256": "6e43de71aa2f78badf1165e1747932394829a3f24d06b2c63d96f5d6bebb4bcc",
+          "obligation": "Reconstruct sealed isolated callback: Only one exact callback classname#method, current source contract and fresh XML; normal inherited source list unchanged"
+        },
+        {
+          "after": "    focus = test_plan.get(\"explicit_test_focus\")\n    camera_callback.validate_contract_placement(test_plan, ANDROID_CAMERA_FOCUSES)\n    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n",
+          "after_fragment_sha256": "1d8b44c2542b01e3ff245772daa8f7643330e29e245a557690d0d4c4aff4d63c",
+          "before": "    focus = test_plan.get(\"explicit_test_focus\")\n    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n",
+          "before_fragment_sha256": "3df954beaa19145c77eb4f5f12e1e825d333fe2e0baef44503e54966873f8417",
+          "obligation": "Reconstruct sealed isolated callback: Reject unrestricted/mixed/foreign callback claims and exact selector/contract mutations before Gradle"
+        },
+        {
+          "after": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] == camera_callback.FOCUS:\n            scenarios, policy_errors = camera_callback.outcomes(module_cases, host_system or platform.system())\n            if len(paths) != 1 or len(reports) != 1:\n                policy_errors.append(\"Callback requires exactly one fresh original one-method XML; no extra empty report\")\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_CAMERA_RESTORATION_FOCUSES:\n",
+          "after_fragment_sha256": "3f72ff504372895f7108dee69317f7add1d4d483ff8f85684388d9b7c00fe41d",
+          "before": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_CAMERA_RESTORATION_FOCUSES:\n",
+          "before_fragment_sha256": "47c6ae288ffde77f09b019a429625b3aae1b3bbcd24918450027ae23fdbabdd4",
+          "obligation": "Reconstruct sealed isolated callback: Collect exactly one genuine callback XML/case/task; old provider/restoration and failed/skipped/missing/stale cases cannot substitute"
+        },
+        {
+          "after": "    if boundary_focus and suite != test_plan[\"suite\"]:\n        raise ValueError(\"A focused test plan cannot run as another suite\")\n    if test_plan.get(\"explicit_test_focus\") == camera_callback.FOCUS:\n        camera_callback.validate_serial(android_serial)\n        if camera_callback.source_contract(root) != test_plan[\"expected\"][0][camera_callback.CONTRACT_KEY]:\n            raise ValueError(\"Exact callback source/recipient/filter identity changed before the command\")\n",
+          "after_fragment_sha256": "c178862fabe73a12b5da2dc1de23d43afcf246a3dc8768ed534a6c6b9d270a36",
+          "before": "    if boundary_focus and suite != test_plan[\"suite\"]:\n        raise ValueError(\"A focused test plan cannot run as another suite\")\n",
+          "before_fragment_sha256": "41e77cac479d3ecf0ba6842e59699c6d6f464ac5d80ce6d9976dde18721ae0ea",
+          "obligation": "Reconstruct sealed isolated callback: Require a passed-in valid captured emulator serial and unchanged complete callback source contract, including assembly"
+        },
+        {
+          "after": "        if android_camera_receiver_required(test_plan):\n            command.append(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true\")\n        if test_plan.get(\"explicit_test_focus\") == camera_callback.FOCUS:\n            command.append(\"-P\" + camera_callback.GRADLE_PROPERTY + \"=\" + camera_callback.FOCUS)\n",
+          "after_fragment_sha256": "298a6506bda800075616c80b0dbe5dec852e216f6fb56209920591d0d491eb77",
+          "before": "        if android_camera_receiver_required(test_plan):\n            command.append(\"-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true\")\n",
+          "before_fragment_sha256": "3ea3ee4b6285a2246f78a84a36cdfd1f519d8472c8c6bf8d5dd1d379a7928f79",
+          "obligation": "Reconstruct sealed isolated callback: Explicit receiver marker plus exact callback/delayed focus guard only on the new one-method route; no native grant/result injection"
+        },
+        {
+          "after": "        if focus in ui_related.FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if focus == camera_callback.FOCUS:\n            camera_callback.validate_context(context, android_serial)\n        if android_permission_demo_required(test_plan):\n",
+          "after_fragment_sha256": "47edf48fc58a025716b2ced0353f24aa387fac65d2c8b5fe2cdc5610168e5373",
+          "before": "        if focus in ui_related.FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if android_permission_demo_required(test_plan):\n",
+          "before_fragment_sha256": "ac6bad14557f24433a3bd62404260d717aabbc47472fe8eee0d489f89807852f",
+          "obligation": "Reconstruct sealed isolated callback: Actual runtime must be exact enforcing/Booted API35 Linux x64 and the captured same serial before native task execution"
+        },
+        {
+          "after": "    if focus == camera_callback.FOCUS:\n        return camera_callback.validate_plan(test_plan)\n    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n",
+          "after_fragment_sha256": "07149262d2f48126c7eff19229ba72494561c1cc7a65175a4ca062cf175f94d9",
+          "before": "    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n",
+          "before_fragment_sha256": "e6427a17e2b4b095635b16bc2c5b31634a052737522b282431f0231b8ce63883",
+          "obligation": "Reconstruct sealed isolated callback: Validate callback only after every existing foreign-source/helper contract-placement refusal, never bypass those guards"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_provider.py": {
+      "after_bytes": 67806,
+      "after_sha256": "99c48b09ac8a49bb5f1a35802296d2f78195e5e9867eb527afdc2bbe6218a3d7",
+      "before_bytes": 67806,
+      "before_sha256": "99c48b09ac8a49bb5f1a35802296d2f78195e5e9867eb527afdc2bbe6218a3d7",
+      "fragments": []
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "after_bytes": 60435,
+      "after_sha256": "552fbfddc1a63924098a825e26a9bc7d7616af7721075c0dd001ccf8415793e7",
+      "before_bytes": 61935,
+      "before_sha256": "7f5b8c8404c4ec83a9c634b0a6e0636957e4e080b30a24ff272c4df79d306df9",
+      "fragments": [
+        {
+          "after": "    if profile == \"android-camera-restoration-dont-keep\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-real-restoration-dont-keep\"\n",
+          "after_fragment_sha256": "a5c69290c2eb692eabbb79040daec650f5105192e941fbb81f0b03fbbdf54dc1",
+          "before": "    if profile == \"android-camera-restoration-dont-keep\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-real-restoration-dont-keep\"\n    if profile == \"android-camera-callback-substitution\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-callback-substitution\"\n",
+          "before_fragment_sha256": "6d245c48362dfe00ca875301dfaa8aa13fde80e05d6056baaa052a34671ae4f1",
+          "obligation": "Remove exact callback above IO/UI: Exact named callback focus, no serial-emulator API field and unchanged original provider/restoration rows"
+        },
+        {
+          "after": "    \"android-camera-restoration-dont-keep\": \"calf-camera-picker\",\n",
+          "after_fragment_sha256": "c4f02781fb88ad00eaee459debc3933e72593cd9e9688f5ed4f86da7a6357a41",
+          "before": "    \"android-camera-restoration-dont-keep\": \"calf-camera-picker\",\n    \"android-camera-callback-substitution\": \"calf-camera-picker\",\n",
+          "before_fragment_sha256": "86ba004ef2cd4a450aaeee4bbd5f4136cce2c59df14884bf7d63d46c37574afe",
+          "obligation": "Remove exact callback above IO/UI: Exactly the library Camera module; no sample/native-provider suite broadening"
+        },
+        {
+          "after": "    \"android-camera-restoration-dont-keep\": (\"android-device-api35\",),\n",
+          "after_fragment_sha256": "121404705db3646bbd6a1c4bdebfeed1af1305e61e2cbe04b8385b3815c606fb",
+          "before": "    \"android-camera-restoration-dont-keep\": (\"android-device-api35\",),\n    \"android-camera-callback-substitution\": (\"android-device-api35\",),\n",
+          "before_fragment_sha256": "052998a4873efb12b216766bb1ad88172e7f03f33eb7cea937f4a0c34ad6b2a5",
+          "obligation": "Remove exact callback above IO/UI: One API35 reservation only, never the provider API23 serial pair"
+        },
+        {
+          "after": "    if profile == \"android-io-reference-regressions\":\n",
+          "after_fragment_sha256": "4c999f8f424bfd68fa166d04f2b804c24eeb1d2891b5ce0763a49a5f5ec07d9b",
+          "before": "    if profile in {\"android-io-controlled-remote\", \"android-io-controlled-remote-positive\", \"android-io-controlled-remote-cancel\"}:\n        for row in rows:\n            row[\"test-focus\"] = profile\n    if profile == \"android-io-reference-regressions\":\n",
+          "before_fragment_sha256": "7295f4d7ee769a69956aab00c4be2627d11f1fd44d1dae46cbf65c0e0bf65c9a",
+          "obligation": "Restore sealed IO predecessor: Each fixed remote row carries only its exact2/1 class selection"
+        },
+        {
+          "after": "    \"android-io-reference-regressions\": \"calf-io\",\n",
+          "after_fragment_sha256": "69568751a6b7b4026e8b1bffd7703df3aa379ba4c841aac713005721973aac0c",
+          "before": "    \"android-io-reference-regressions\": \"calf-io\",\n    \"android-io-controlled-remote\": \"calf-io\",\n    \"android-io-controlled-remote-positive\": \"calf-io\",\n    \"android-io-controlled-remote-cancel\": \"calf-io\",\n",
+          "before_fragment_sha256": "c4bd23b812117859c0cd7a26d25a9e0ecae60eb9da9450c7daea823ad9641a79",
+          "obligation": "Restore sealed IO predecessor: Literal calf-io-only profile modules; no inherited aggregate"
+        },
+        {
+          "after": "    \"android-io-reference-regressions\": (\"android-device-api35\",),\n",
+          "after_fragment_sha256": "83101f7fc24b9a2260ee23d36b2e853f3f181d7defc7748769934c5a23e0e65e",
+          "before": "    \"android-io-reference-regressions\": (\"android-device-api35\",),\n    \"android-io-controlled-remote\": (\"android-device-api35\",),\n    \"android-io-controlled-remote-positive\": (\"android-device-api35\",),\n    \"android-io-controlled-remote-cancel\": (\"android-device-api35\",),\n",
+          "before_fragment_sha256": "23c8a017dbbc628d48ecbe2efb777fa05922a586bb54b2ac7bf5c48b0667bdee",
+          "obligation": "Restore sealed IO predecessor: Three single API35 Linux x64 rows; no added all/11-slot work"
+        },
+        {
+          "after": "            raise ValueError(\"Related adaptive UI verification requires its exact single iPhone native row\")\n        rows[0][\"test-focus\"] = (\"ui-native-adaptive-pre26\" if profile == \"ios-ui-adaptive-pre26\" else\n                                \"ui-native-adaptive-drag-shader-ios26plus\")\n    if profile == calendar_native.PROFILE:\n        canonical = {\"slot\": \"ios-iphone\", \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": \"iphone\", \"test-modules\": calendar_native.MODULE}\n",
+          "after_fragment_sha256": "edec121fe762f7ae4023fc42c84b1be55d9592f2993ba5f4601f833431a1a110",
+          "before": "            raise ValueError(\"Related adaptive UI verification requires its exact single iPhone native row\")\n        rows[0][\"test-focus\"] = (\"ui-native-adaptive-pre26\" if profile == \"ios-ui-adaptive-pre26\" else\n                                \"ui-native-adaptive-drag-shader-ios26plus\")\n    if profile in {\"ios-ui-related-nine-ios26plus\", \"ios-ui-adaptive-customization-ios26plus\"}:\n        canonical = {\"slot\": \"ios-iphone\", \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": \"iphone\", \"test-modules\": \"calf-ui\"}\n        if PROFILES[profile] != (\"ios-iphone\",) or MODULE_SUBSETS.get(profile) != \"calf-ui\" or rows != [canonical]:\n            raise ValueError(\"Split UI650 verification requires its exact independent single iPhone native row\")\n        rows[0][\"test-focus\"] = (\"ui-native-related-nine-ios26plus\" if profile == \"ios-ui-related-nine-ios26plus\" else\n                                \"ui-native-adaptive-customization-ios26plus\")\n    if profile == calendar_native.PROFILE:\n        canonical = {\"slot\": \"ios-iphone\", \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": \"iphone\", \"test-modules\": calendar_native.MODULE}\n",
+          "before_fragment_sha256": "5ad6f207bafb494d8850d0b1fb05485338a21f370e90458b0eaddf21f9483036",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/workflow_matrix.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "    \"ios-ui\": \"calf-ui\",\n    \"ios-ui-adaptive-pre26\": \"calf-ui\",\n    \"ios-ui-adaptive-drag-shader-ios26plus\": \"calf-ui\",\n    \"ios-date-bounds\": \"calf-ui\",\n    \"ios-date-replacement\": \"calf-ui\",\n    \"ios-date-compact\": \"calf-ui\",\n",
+          "after_fragment_sha256": "6c13b88f68156778e33ad47d2db05455ef61c204d756be889ae988cccdabb8af",
+          "before": "    \"ios-ui\": \"calf-ui\",\n    \"ios-ui-adaptive-pre26\": \"calf-ui\",\n    \"ios-ui-adaptive-drag-shader-ios26plus\": \"calf-ui\",\n    \"ios-ui-related-nine-ios26plus\": \"calf-ui\",\n    \"ios-ui-adaptive-customization-ios26plus\": \"calf-ui\",\n    \"ios-date-bounds\": \"calf-ui\",\n    \"ios-date-replacement\": \"calf-ui\",\n    \"ios-date-compact\": \"calf-ui\",\n",
+          "before_fragment_sha256": "eee9e419b7e8bc842172ae123e6dbcfc4e6b2e329b8671b4afafdbcb1028b211",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/workflow_matrix.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "    \"ios-ui\": (\"ios-iphone\",),\n    \"ios-ui-adaptive-pre26\": (\"ios-iphone\",),\n    \"ios-ui-adaptive-drag-shader-ios26plus\": (\"ios-iphone\",),\n    \"ios-secure-alert-input\": (\"ios-iphone\",),\n    \"ios-date-bounds\": (\"ios-iphone\",),\n    \"ios-date-replacement\": (\"ios-iphone\",),\n",
+          "after_fragment_sha256": "43be25d2b411ea2a23242271b7edde0aacbf63788d3f3ec9509c94441cc622f0",
+          "before": "    \"ios-ui\": (\"ios-iphone\",),\n    \"ios-ui-adaptive-pre26\": (\"ios-iphone\",),\n    \"ios-ui-adaptive-drag-shader-ios26plus\": (\"ios-iphone\",),\n    \"ios-ui-related-nine-ios26plus\": (\"ios-iphone\",),\n    \"ios-ui-adaptive-customization-ios26plus\": (\"ios-iphone\",),\n    \"ios-secure-alert-input\": (\"ios-iphone\",),\n    \"ios-date-bounds\": (\"ios-iphone\",),\n    \"ios-date-replacement\": (\"ios-iphone\",),\n",
+          "before_fragment_sha256": "3e2bbe8cf330c169c21e032c58e94d017cbfd6396e075ffdb341581043da0eb9",
+          "obligation": "Restore sealed UI predecessor: Exact finite accepted667 predecessor/UI664 inverse-forward custody for scripts/ci/workflow_matrix.py; no assertion, native cleanup, old pin or outcome waiver."
+        },
+        {
+          "after": "    \"android-camera-restoration-dont-keep\": (\"android-device-api35\",),\n    \"android-camera-callback-substitution\": (\"android-device-api35\",),\n",
+          "after_fragment_sha256": "052998a4873efb12b216766bb1ad88172e7f03f33eb7cea937f4a0c34ad6b2a5",
+          "before": "    \"android-camera-restoration-dont-keep\": (\"android-device-api35\",),\n",
+          "before_fragment_sha256": "121404705db3646bbd6a1c4bdebfeed1af1305e61e2cbe04b8385b3815c606fb",
+          "obligation": "Reconstruct sealed isolated callback: One API35 reservation only, never the provider API23 serial pair"
+        },
+        {
+          "after": "    \"android-camera-restoration-dont-keep\": \"calf-camera-picker\",\n    \"android-camera-callback-substitution\": \"calf-camera-picker\",\n",
+          "after_fragment_sha256": "86ba004ef2cd4a450aaeee4bbd5f4136cce2c59df14884bf7d63d46c37574afe",
+          "before": "    \"android-camera-restoration-dont-keep\": \"calf-camera-picker\",\n",
+          "before_fragment_sha256": "c4f02781fb88ad00eaee459debc3933e72593cd9e9688f5ed4f86da7a6357a41",
+          "obligation": "Reconstruct sealed isolated callback: Exactly the library Camera module; no sample/native-provider suite broadening"
+        },
+        {
+          "after": "    if profile == \"android-camera-restoration-dont-keep\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-real-restoration-dont-keep\"\n    if profile == \"android-camera-callback-substitution\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-callback-substitution\"\n",
+          "after_fragment_sha256": "6d245c48362dfe00ca875301dfaa8aa13fde80e05d6056baaa052a34671ae4f1",
+          "before": "    if profile == \"android-camera-restoration-dont-keep\":\n        for row in rows:\n            row[\"test-focus\"] = \"android-camera-real-restoration-dont-keep\"\n",
+          "before_fragment_sha256": "a5c69290c2eb692eabbb79040daec650f5105192e941fbb81f0b03fbbdf54dc1",
+          "obligation": "Reconstruct sealed isolated callback: Exact named callback focus, no serial-emulator API field and unchanged original provider/restoration rows"
+        }
+      ]
+    }
+  },
+  "lead_context_sha256": "4c26c8e8b880c1185a985f1323e0bc704e7484ac008210eab7b620c3aa5d5e4b",
+  "lead_result_sha256": "f1703531c4e54459475e4d6087ad711f8504da9776e7ab71a2454b006e9f3c97",
+  "origin_manifests": {
+    "scripts/ci/fixtures/android-camera-callback672-source-inverse.json": "1c14d6fcb7dc49716de3688169c9280fde51f62564d1593a6a95707f85f19f7a",
+    "scripts/ci/fixtures/android-io-controlled-remote-routing-source-inverse.json": "4dee514d6aa6bdfaf5856a24416cfb7a677f67daeed9f7fed9b43215e31e95de",
+    "scripts/ci/fixtures/ios-ui-split664-source-inverse.json": "1455a8edb3553a87a409f7fc30568ede9f7f52fe97042690b668dc6ebc145f4a"
+  },
+  "root_predecessor": "afc0a727f60a9278c96cf9721157ba7413229c10",
+  "schema_version": 1,
+  "scope": "Exactly seven complete lead680 callback-over-IO/UI byte views; never restored-source execution or native acceptance"
+}

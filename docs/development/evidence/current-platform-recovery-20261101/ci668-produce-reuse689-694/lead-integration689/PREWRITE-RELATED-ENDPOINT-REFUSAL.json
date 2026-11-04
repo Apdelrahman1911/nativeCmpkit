@@ -1,0 +1,45 @@
+{
+  "ROOT_integration_started": false,
+  "all_six_exact_preimages_held": {
+    ".github/workflows/gradle.yml": {
+      "bytes": 70598,
+      "mode": "0o600",
+      "sha256": "46de0540c5e252a1bb9016e96758e79de2f0e728ca4ba2a746b709b88652106b"
+    },
+    "scripts/ci/test_android_io_remote_routing.py": {
+      "bytes": 33559,
+      "mode": "0o644",
+      "sha256": "b6b3bd00add19ca0500130b835ebdf68a6683643570f1bd3c2517eef048911ec"
+    },
+    "scripts/ci/test_android_io_remote_routing_source_projection.py": {
+      "bytes": 28634,
+      "mode": "0o644",
+      "sha256": "b46e6d436ccc8eb498af76f611dbce17b30beb563f2c766830a81a970c65e708"
+    },
+    "scripts/ci/test_ios_ui_split664_native_routing.py": {
+      "bytes": 42573,
+      "mode": "0o600",
+      "sha256": "dc0b1f4a5a4bd9dc22989043a3e1f65137a0466adb1543fb36b2a1686079e5a7"
+    },
+    "scripts/ci/test_shared_tooling_recovery671.py": {
+      "bytes": 15158,
+      "mode": "0o600",
+      "sha256": "f53e0edd6dc4ea991a07453468a6f0a2560dd79b0e957e1dc5626b087f89edcf"
+    },
+    "scripts/ci/tooling_recovery671_source_projection.py": {
+      "bytes": 33105,
+      "mode": "0o600",
+      "sha256": "40467cf06076eb57ac68e64d9db147245051d8f020e6c1c6117b68640e09b057"
+    }
+  },
+  "all_ten_additions_absent": true,
+  "cause": "Lead driver wrongly assumed prior Android37 and later shared26 accepted receipt endpoints were disjoint. Named callback endpoint is deliberately changed by the accepted shared671 manifest, not candidate/test drift.",
+  "driver_sha256": "fb7f0206c623983fb76506167a8f971e6786075131cc75419a0998caaf661b6d",
+  "location": "integrate_once.py main line69 before start journal and source writes",
+  "observed_utc": "2026-11-04T13:23:10.560982+00:00",
+  "original_refusal": "ValueError: Prior unrelated endpoint conflict",
+  "original_tool_chunk": "887932",
+  "returncode": 1,
+  "schema": "lead-final-ci689-original-prewrite-refusal-v1",
+  "tests_native_Git_source_writes": 0
+}

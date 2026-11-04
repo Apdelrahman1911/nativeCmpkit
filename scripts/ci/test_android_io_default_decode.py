@@ -83,9 +83,25 @@ class AndroidIoDefaultDecodeGuards(unittest.TestCase):
         row, = matrix.matrix(FOCUS)['include']
         self.assertEqual(('android-device-api35', 'calf-io', FOCUS), (row['slot'], row['test-modules'], row['test-focus']))
         self.assertEqual(11, len(matrix.matrix('all')['include'])); self.assertEqual(9, len(r.MINIMUM_MODULES['android-device']))
-        default = r.plan(r.ROOT, "android-device")
-        self.assertEqual(8, len(default["expected"]))
-        self.assertEqual(["calf-permissions/core"], default["finite_only_device_modules_not_requested"])
+        # Eight ordinary hosts remain inventory metadata, not executable default coverage.
+        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')
+        self.assertEqual(8, len(inventory))
+        self.assertEqual((*inventory, "calf-permissions/core"), r.MINIMUM_MODULES["android-device"])
+        with self.assertRaises(ValueError) as refused:
+            r.plan(r.ROOT, "android-device")
+        self.assertIn(str(refused.exception), (
+            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',
+            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',
+        ))
+        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.
+        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')
+        plan = r.plan(r.ROOT, "android-device", minimum_modules=unrelated, only_modules=unrelated)
+        self.assertEqual(list(unrelated), [item["module"] for item in plan["expected"]])
+        self.assertEqual(list(unrelated), plan["explicit_module_subset"])
+        self.assertFalse(plan["complete_suite_requested"])
+        self.assertEqual(["calf-permissions/core"], plan["finite_only_device_modules_not_requested"])
+        self.assertEqual(["calf-camera-picker", "calf-io", "calf-permissions/core"],
+                         plan["test_bearing_modules_not_requested"])
         self.assertEqual(5, len(r.android_io_provider_identities()))
         choices = re.search(r'options: \[([^\n]+)\]', (r.ROOT / '.github/workflows/gradle.yml').read_text()).group(1)
         self.assertEqual(set(matrix.PROFILES), {part.strip() for part in choices.split(',')})

@@ -140,8 +140,16 @@ class Supplement:
                                      for path, payload in self.provenance_payloads(prefix).items()]}
 
 
-def load_supplement(catalog: Path, package: dict) -> Supplement | None:
+def load_supplement(catalog: Path, package: dict, *, source_root: Path | None = None) -> Supplement | None:
     """Only the exact requested catalog entry is read; never scan/export other roots."""
+    from native_license_objc2_material import SELECTED_NAMES, load_adopted_set
+    if package["name"] in SELECTED_NAMES:
+        adopted = load_adopted_set(catalog, source_root)
+        if adopted:
+            selected = adopted.get(package["id"])
+            if selected is None or dict(selected.manifest["package"]) != package:
+                raise InvalidArtifact("Schema4 supplement differs from the exact requested registry package")
+            return selected
     identity = package["name"] + "-" + package["version"]
     canonical_path(identity)
     entry = catalog / identity
@@ -223,8 +231,34 @@ def load_supplement(catalog: Path, package: dict) -> Supplement | None:
     return Supplement(identity, data, contents)
 
 
+def load_supplements(catalog: Path, packages: list[dict], *, source_root: Path | None = None) -> dict[str, Supplement]:
+    """Hold the finite active index once; old v1/schema3 entries stay unchanged."""
+    from native_license_objc2_material import SELECTED_NAMES, load_adopted_set
+    registry = [package for package in packages if package["source_kind"] == "crates.io"]
+    adopted = load_adopted_set(catalog, source_root) if any(package["name"] in SELECTED_NAMES for package in registry) else {}
+    result = {}
+    for package in registry:
+        if adopted and package["name"] in SELECTED_NAMES:
+            selected = adopted.get(package["id"])
+            if selected is None or dict(selected.manifest["package"]) != package:
+                raise InvalidArtifact("Schema4 supplement differs from the exact requested registry package")
+        else:
+            selected = load_supplement(catalog, package, source_root=source_root)
+        if selected is not None:
+            if package["id"] in result:
+                raise InvalidArtifact("Duplicate requested supplement identity")
+            result[package["id"]] = selected
+    return result
+
+
 def verify_crate_correspondence(path: Path, supplement: Supplement) -> None:
     """Recheck captured exact .crate bytes; fallback cannot hide checksum/link/path errors."""
+    if supplement.manifest.get("schema_version") == 4:
+        from native_license_objc2_material import AdoptedObjc2Supplement, verify_archive
+        if not isinstance(supplement, AdoptedObjc2Supplement):
+            raise InvalidArtifact("Unreviewed active schema4 implementation")
+        verify_archive(path, supplement)
+        return
     if supplement.manifest.get("schema_version") == 3:
         from native_license_legacy_winapi import LegacyWinapiSupplement, verify_archive
         if not isinstance(supplement, LegacyWinapiSupplement):

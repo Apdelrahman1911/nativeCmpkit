@@ -30,6 +30,7 @@ import android_geo_probe
 import android_share_recipient
 import android_camera_receiver
 import android_io_documents
+import android_io_remote_documents
 import android_permission_demo
 import android_storage_probe
 import android_kvm_timeline as kvm_timeline
@@ -45,7 +46,7 @@ IMAGE = f"system-images;android-{API};google_apis;x86_64"
 def preflight_error_origin(error: Exception, *, skip_prerequisite_require: bool = False) -> dict:
     """Public source location only; never exception text, locals or machine paths."""
     allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py",
-               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py", "android_io_documents.py", "android_permission_demo.py", "android_storage_probe.py", "android_camera_developer_prerequisite.py", "android_camera_boot_fallback.py"}
+               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py", "android_io_documents.py", "android_io_remote_documents.py", "android_io_remote_routing_source_projection.py", "android_permission_demo.py", "android_storage_probe.py", "android_camera_developer_prerequisite.py", "android_camera_boot_fallback.py"}
     directory = Path(__file__).resolve().parent
     origin = {"source": "unavailable", "symbol": "unavailable", "line": 0}
     frame = error.__traceback__
@@ -211,6 +212,10 @@ def stop_owned_emulator(home: Path, process: subprocess.Popen, name: str, verifi
 
 
 def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None, api_level: int = API) -> dict:
+    if focus in lt.ANDROID_IO_REMOTE_FOCUSES:
+        validate_api_selection(api_level, only_modules, focus)  # Even direct owning-controller calls cannot expand the remote route.
+    if focus is None:
+        lt.plan(root, "android-device", only_modules=only_modules)  # Refuse unfiltered IO before output or SDK lookup, including direct calls.
     output = lt.safe_path(root, relative)
     base = root / "build/ci-verification"
     if output == base or not output.is_relative_to(base) or output.exists():
@@ -225,9 +230,10 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     camera_developer_required = camera_developer.is_required(api_level, only_modules, focus)
     plan = lt.plan(root, "android-device", only_modules=only_modules, **focus_options)
     io_documents_required = lt.android_io_documents_required(plan)
+    remote_documents_required = lt.android_io_remote_documents_required(plan)
     permission_demo_required = lt.android_permission_demo_required(plan)
     storage_required = lt.android_storage_probe_required(plan)
-    diagnostics = focus in lt.ANDROID_CAMERA_FOCUSES or focus in {lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, "android-io-named-external-storage"} or permission_demo_required or storage_required
+    diagnostics = focus in lt.ANDROID_CAMERA_FOCUSES or focus in {lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, "android-io-named-external-storage"} or permission_demo_required or storage_required or remote_documents_required
     if diagnostics:
         output.mkdir(parents=True)
     preflight = {"api_level": api_level, "status": "running", "stage": "sdk-assets",
@@ -262,10 +268,10 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     env = os.environ.copy()
     env.update(ANDROID_AVD_HOME=str(output / "avd"), ANDROID_EMULATOR_HOME=str(output / "avd"),
                ANDROID_USER_HOME=str(output / "android-user"), ANDROID_SERIAL=SERIAL)
-    if not camera_developer_required:
+    if not camera_developer_required and not remote_documents_required:
         (output / "avd").mkdir()
         (output / "android-user").mkdir()
-    if io_documents_required or permission_demo_required or storage_required:
+    if io_documents_required or permission_demo_required or storage_required or remote_documents_required:
         # This is an actual assembly-only command: no connected task or helper
         # instrumentation bit can exist before the helper identity passes.
         assemble = lt.gradle_command("android-device", plan, android_serial=SERIAL, root=root, for_assembly=True)
@@ -299,6 +305,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     share_documents = None
     camera_receiver = None
     io_documents = None
+    remote_io_documents = None
     permission_demo = None
     storage_probe = None
     verified = False
@@ -306,6 +313,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     deferred_api23_assembly = diagnostics and api_level == 23
     if deferred_api23_assembly:
         result["reporter_compile_deferred_until_receiver_byte_identity"] = True
+    if remote_documents_required:
+        result["reporter_compile_deferred_until_remote_io_documents_identity"] = True
     if io_documents_required:
         result["reporter_compile_deferred_until_io_documents_identity"] = True
     if permission_demo_required:
@@ -315,7 +324,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     if camera_developer_required:
         result["reporter_compile_deferred_until_camera_read_only_prerequisite"] = True
     try:
-        if camera_developer_required:
+        if camera_developer_required or remote_documents_required:
             # Assign the exclusive owner before creating either root so partial
             # setup failures enter the same signal-protected disposal path.
             guest = camera_developer.OwnedFreshGuest(root, output, name, env)
@@ -326,7 +335,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             # compilation. Only sole Dont-keep may then boot for read-only original
             # capture before assembly; every other profile keeps its existing order.
             stages = stages[::-1]
-        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required or camera_developer_required:
+        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required or remote_documents_required or camera_developer_required:
             # An IO helper/source/APK/signature/manifest refusal or a
             # minimum-only receiver/package-path refusal must not waste a full
             # library APK compilation. Both APKs still use the exact private key
@@ -345,10 +354,10 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                     # Additional bounded source-only caller facts; keep the original
                     # innermost controller_error_origin and primary failure intact.
                     try:
-                        result["camera_guest_capture_error_origin"] = preflight_error_origin(
+                        result["remote_guest_capture_error_origin" if remote_documents_required else "camera_guest_capture_error_origin"] = preflight_error_origin(
                             error, skip_prerequisite_require=True)
                     except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt):
-                        result["camera_guest_capture_error_origin"] = {
+                        result["remote_guest_capture_error_origin" if remote_documents_required else "camera_guest_capture_error_origin"] = {
                             "source": "unavailable", "symbol": "unavailable", "line": 0}
                     raise
         log = (output / "emulator.log").open("w", encoding="utf-8")
@@ -362,7 +371,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         identity = wait_for_owned_boot(home, process, name, root, **({"api_level": api_level} if api_level != API else {}))
         verified = True
         lt.write_json(output / "boot.json", identity)
-        if guest is not None:
+        if guest is not None and camera_developer_required:
             # Read-only original custody may fail fast on this already-owned booted
             # guest. No helper install, master write, reporter dispatch or native
             # success precedes the unchanged actual reporter assembly and revalidation.
@@ -408,6 +417,19 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                 result["setup_stages"]["apk-assembly"] = execution
                 if execution["exit_code"] != 0 or execution.get("stop_reason"):
                     raise RuntimeError("Reporter setup failed before any device test execution")
+        if remote_documents_required:
+            # Assign the owner before prepare so every partial source/APK/install failure reaches close.
+            remote_io_documents = android_io_remote_documents.OwnedRemoteIoDocuments(root, output, home, SERIAL,
+                lambda: process.poll() is None and avd_name(home) == name, environment=env)
+            result["remote_io_documents"] = remote_io_documents.prepare()
+            android_io_remote_documents.validate_prepared_receipt(result["remote_io_documents"],
+                plan["android_io_remote_documents"]["source_contract"])
+            execution = lt.execute(root, assemble, output / "apk-assembly.log", 900, RESERVE_MIB, env=env)
+            result["setup_stages"]["apk-assembly"] = execution
+            if execution["exit_code"] != 0 or execution.get("stop_reason"):
+                raise RuntimeError("Reporter setup failed before any controlled remote IO native execution")
+            if android_io_remote_documents.source_contract(root) != plan["android_io_remote_documents"]["source_contract"]:
+                raise ValueError("Remote exact source map changed during reporter compilation")
         if lt.android_io_documents_required(plan):
             io_documents = android_io_documents.OwnedIoDocuments(root, output, home, SERIAL,
                 lambda: process.poll() is None and avd_name(home) == name, environment=env)
@@ -452,6 +474,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                          android_user_home=(output / "android-user").relative_to(root).as_posix(),
                          only_modules=only_modules,
                          **({"android_io_documents_receipt": dict(io_documents.receipt)} if io_documents is not None else {}),
+                         **({"android_io_remote_documents_receipt": dict(remote_io_documents.receipt)} if remote_io_documents is not None else {}),
                          **({"android_permission_demo_receipt": dict(permission_demo.receipt)} if permission_demo is not None else {}),
                          **({"android_storage_probe_receipt": dict(storage_probe.receipt)} if storage_probe is not None else {}),
                          **focus_options)
@@ -518,6 +541,13 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                         result["storage_probe"] = dict(storage_probe.receipt) | {
                             "cleanup_status": "failed", "owned_recipient_removed": False, "cleanup_error": type(error).__name__}
                         result["storage_probe_cleanup_error_origin"] = preflight_error_origin(error)
+                if remote_io_documents is not None:
+                    try:
+                        result["remote_io_documents"] = remote_io_documents.close()
+                    except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+                        result["remote_io_documents"] = dict(remote_io_documents.receipt) | {
+                            "cleanup_status": "failed", "owned_recipient_removed": False, "cleanup_error": type(error).__name__}
+                        result["remote_io_documents_cleanup_error_origin"] = preflight_error_origin(error)
                 if io_documents is not None:
                     try:
                         result["io_documents"] = io_documents.close()
@@ -561,7 +591,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                         result["emulator_shutdown"]["owned_adb_transport_removed"] = removed
                         result["emulator_shutdown"]["clean_shutdown"] = (
                             result["emulator_shutdown"].get("clean_shutdown") is True and removed)
-                    elif ((camera_receiver is not None or io_documents is not None or permission_demo is not None or storage_probe is not None) and verified and
+                    elif ((camera_receiver is not None or io_documents is not None or remote_io_documents is not None or permission_demo is not None or storage_probe is not None) and verified and
                             result["emulator_shutdown"].get("clean_shutdown") is True):
                         removed = wait_for_owned_transport_removal(home)
                         result["emulator_shutdown"]["owned_adb_transport_removed"] = removed
@@ -576,12 +606,12 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         finally:
             if guest is not None:
                 try:
-                    result["camera_guest_disposal"] = guest.dispose(
+                    result["remote_guest_disposal" if remote_documents_required else "camera_guest_disposal"] = guest.dispose(
                         engine_exited=process is not None and process.poll() is not None,
                         transport_absent=result.get("emulator_shutdown", {}).get("owned_adb_transport_removed") is True,
                         clean_shutdown=result.get("emulator_shutdown", {}).get("clean_shutdown") is True)
                 except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
-                    result["camera_guest_disposal"] = dict(guest.receipt) | {
+                    result["remote_guest_disposal" if remote_documents_required else "camera_guest_disposal"] = dict(guest.receipt) | {
                         "disposal_status": "failed", "disposal_error": type(error).__name__}
             if log is not None:
                 log.close()
@@ -595,6 +625,12 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             result["source_unchanged"] = not result["changed_inputs"] and result["source_revision_after"] == context["source_revision"]
         except (OSError, ValueError, subprocess.SubprocessError):
             result["source_unchanged"] = False
+        if remote_documents_required:
+            try:
+                result["remote_source_unchanged_after_cleanup"] = (
+                    android_io_remote_documents.source_contract(root) == plan["android_io_remote_documents"]["source_contract"])
+            except (OSError, ValueError, UnicodeError):
+                result["remote_source_unchanged_after_cleanup"] = False
         result["passed"] = (result["test_suite_passed"] and result["source_unchanged"]
                             and result.get("emulator_shutdown", {}).get("clean_shutdown") is True
                             and not result.get("controller_error") and
@@ -619,6 +655,15 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                              result["storage_probe"].get("owned_recipient_removed") is True and
                              not result["storage_probe"].get("prepare_error") and not result["storage_probe"].get("reporter_prepare_error") and
                              not result["storage_probe"].get("cleanup_error"))) and
+                            (not remote_documents_required or (result.get("remote_source_unchanged_after_cleanup") is True and
+                             result.get("remote_io_documents", {}).get("prepare_status") == "passed" and
+                             result["remote_io_documents"].get("cleanup_status") == "passed" and
+                             result["remote_io_documents"].get("owned_recipient_removed") is True and
+                             not result["remote_io_documents"].get("prepare_error") and not result["remote_io_documents"].get("cleanup_error") and
+                             result.get("remote_guest_disposal", {}).get("disposal_status") == "passed" and
+                             result["remote_guest_disposal"].get("roots_absent") is True and
+                             result["remote_guest_disposal"].get("identity_confined_disposal") is True and
+                             not result["remote_guest_disposal"].get("errors"))) and
                             (not io_documents_required or (result.get("io_documents", {}).get("prepare_status") == "passed" and
                              result["io_documents"].get("cleanup_status") == "passed" and
                              result["io_documents"].get("owned_recipient_removed") is True and
@@ -629,9 +674,17 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
 
 
 def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:
+    lt.camera_callback.validate_discovery("android-device", modules, focus, lt.ANDROID_CAMERA_FOCUSES)
+    if focus == lt.camera_callback.FOCUS:
+        lt.camera_callback.validate_api(api_level, modules)
+        return
     if focus == lt.content_policy.ANDROID_FOCUS:
         if type(api_level) is not int or api_level != 35 or modules != ("calf-webview",):
             raise ValueError("Content-policy NEW4 plus affected saver1 requires exact API35 calf-webview only")
+        return
+    if focus in lt.ANDROID_IO_REMOTE_FOCUSES:
+        if type(api_level) is not int or api_level != 35 or modules != ("calf-io",):
+            raise ValueError("Controlled remote IO requires exact integer API35 calf-io-only focus")
         return
     if focus in (lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, "android-io-named-external-storage"):
         if type(api_level) is not int or api_level != 35 or modules != ("calf-io",):
@@ -666,6 +719,11 @@ def run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, 
     if focus is not None and not lt.allowed_test_focus("android-device", only_modules, focus):
         raise ValueError("Device focus requires its exact reviewed suite and single module")
     validate_api_selection(api_level, only_modules, focus)
+    if focus is None:
+        # Unfiltered remote discovery is source-refused before host checks, output or locks.
+        lt.plan(root, "android-device", only_modules=only_modules)
+    if focus == lt.camera_callback.FOCUS:
+        lt.plan(root, "android-device", only_modules=only_modules, focus=focus)
     observing = kvm_timeline.active(api_level, focus)
     if observing:
         kvm_timeline.emit("admission-before")
@@ -699,7 +757,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[23, 28, 29, 30, 33, 34, API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.content_policy.ANDROID_FOCUS, *lt.ANDROID_STORAGE_FOCUSES, lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, "android-io-named-external-storage", lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_WEBVIEW_REQUEST_FOCUS, lt.ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES, *lt.ANDROID_PERMISSION_DEVICE_SPECS,
+    parser.add_argument("--focus", choices=[lt.content_policy.ANDROID_FOCUS, *lt.ANDROID_STORAGE_FOCUSES, lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, *lt.ANDROID_IO_REMOTE_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, "android-io-named-external-storage", lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_WEBVIEW_REQUEST_FOCUS, lt.ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES, *lt.ANDROID_PERMISSION_DEVICE_SPECS,
                                             lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()

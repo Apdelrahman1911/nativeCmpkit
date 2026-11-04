@@ -18,7 +18,7 @@ import tarfile
 from verify_artifacts import (CHECKSUM, CRATE_NAME, CRATE_VERSION, InvalidArtifact,
                               autodiscovered_license_path, load_json_bytes, relative_notice_path, sha256,
                               validate_native_metadata)
-from native_license_supplements import load_supplement, verify_crate_correspondence
+from native_license_supplements import load_supplements, verify_crate_correspondence
 
 MAX_MEMBERS = 100_000
 MAX_NOTICE_BYTES = 1024 * 1024
@@ -98,7 +98,7 @@ def collect_archive(path: Path, name: str, version: str, checksum: str,
 
 
 def collect(metadata_path: Path, cache_roots: list[Path], output: Path,
-            *, vcs_supplements: Path | None = None) -> dict:
+            *, vcs_supplements: Path | None = None, source_root: Path | None = None) -> dict:
     metadata_bytes = metadata_path.read_bytes()
     data = load_json_bytes(metadata_bytes)
     module = data.get("module") if isinstance(data, dict) else None
@@ -107,19 +107,21 @@ def collect(metadata_path: Path, cache_roots: list[Path], output: Path,
         raise InvalidArtifact("Explicit existing public registry cache roots are required")
     # Reject malformed/private/unbounded catalog inputs BEFORE creating output.
     # Missing entries are not a waiver; the ordinary archive gap remains below.
-    supplements, supplement_bytes = {}, 0
+    supplements, supplement_bytes, held_supplement_payloads = {}, 0, {}
     if vcs_supplements is not None:
         if not vcs_supplements.is_dir() or vcs_supplements.is_symlink():
             raise InvalidArtifact("Explicit existing public VCS supplement catalog is required")
-        for package in data["packages"]:
-            if package["source_kind"] != "crates.io":
-                continue
-            supplement = load_supplement(vcs_supplements, package)
-            if supplement is not None:
-                supplements[package["id"]] = supplement
-                supplement_bytes += sum(map(len, supplement.contents.values()))
-                if len(supplements) > MAX_SUPPLEMENT_PACKAGES or supplement_bytes > MAX_ALL_SUPPLEMENT_BYTES:
-                    raise InvalidArtifact("Supplement catalog exceeds package/aggregate byte bounds")
+        supplements = load_supplements(vcs_supplements, data["packages"], source_root=source_root)
+        for supplement in supplements.values():
+            prefix = f"META-INF/nativecmpkit/native-dependencies/{module}/{supplement.identity}/"
+            for entry, content in (supplement.license_payloads(prefix) | supplement.provenance_payloads(prefix)).items():
+                relative_notice_path(entry)
+                if entry in held_supplement_payloads and held_supplement_payloads[entry] != content:
+                    raise InvalidArtifact("Conflicting reviewed shared supplement output bytes")
+                held_supplement_payloads[entry] = content
+        supplement_bytes = sum(map(len, held_supplement_payloads.values()))
+        if len(supplements) > MAX_SUPPLEMENT_PACKAGES or supplement_bytes > MAX_ALL_SUPPLEMENT_BYTES:
+            raise InvalidArtifact("Supplement catalog exceeds package/aggregate byte bounds")
     if output.is_symlink() or (output.exists() and any(output.iterdir())):
         raise InvalidArtifact("Output must be a new/empty directory; stale notices must not be merged silently")
     output.mkdir(parents=True, exist_ok=True)
@@ -128,6 +130,7 @@ def collect(metadata_path: Path, cache_roots: list[Path], output: Path,
               "scope": "Exact license texts from checksum-verified crates.io archives in conservative locked target union; not legal clearance"
                        + ("; explicit pinned-VCS missing-text supplements retain full origin/proofs" if vcs_supplements is not None else ""),
               "license_obligations_reviewed": False, "packages": [], "gaps": []}
+    written_supplement_paths = set()
     for package in data["packages"]:
         name, version = package["name"], package["version"]
         identity = name + "-" + version
@@ -142,9 +145,9 @@ def collect(metadata_path: Path, cache_roots: list[Path], output: Path,
                     raise InvalidArtifact("Expected exactly one cached public .crate archive")
                 supplement = supplements.get(package["id"])
                 external = False
-                if supplement is not None and supplement.manifest.get("schema_version") == 3:
-                    # Only two known missing-text legacy archives: their complete
-                    # payload/source correspondence was sealed before this adapter.
+                if supplement is not None and supplement.manifest.get("schema_version") in (3, 4):
+                    # Only two legacy archives and fifteen explicit schema4 gaps:
+                    # their released payload correspondence was sealed separately.
                     # Rebind exact compressed bytes, never rescan accepted payloads
                     # or synthesize a Cargo VCS declaration. Ordinary v1 stays below.
                     verify_crate_correspondence(archives[0], supplement)
@@ -176,9 +179,12 @@ def collect(metadata_path: Path, cache_roots: list[Path], output: Path,
                     record["files"] = supplement.license_entries(prefix)
                     record["external_vcs_material"] = supplement.material_record(prefix)
                     for entry, content in (supplement.license_payloads(prefix) | supplement.provenance_payloads(prefix)).items():
+                        if entry in written_supplement_paths:
+                            continue  # Immutable shared proof pool is copied once, never rewritten per package.
                         target = output / entry
                         target.parent.mkdir(parents=True, exist_ok=True)
                         target.write_bytes(content)
+                        written_supplement_paths.add(entry)
             except (InvalidArtifact, OSError, tarfile.TarError) as exc:
                 report["gaps"].append({"package": identity, "reason": str(exc)})
         report["packages"].append(record)
@@ -202,9 +208,12 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True, help="New/empty build/native-notices/<module> directory, merged at notices ZIP root")
     parser.add_argument("--vcs-supplements", type=Path,
                         help="Explicit reviewed public catalog for missing-text crates only; default remains archive-only")
+    parser.add_argument("--source-root", type=Path,
+                        help="Explicit current source checkout; required only for active schema4 four-Cargo-input binding")
     args = parser.parse_args()
     try:
-        report = collect(args.metadata, args.registry_cache, args.output, vcs_supplements=args.vcs_supplements)
+        report = collect(args.metadata, args.registry_cache, args.output, vcs_supplements=args.vcs_supplements,
+                         source_root=args.source_root)
         print(json.dumps({"module": report["module"], "packages": len(report["packages"]), "gaps": len(report["gaps"]),
                           "complete_material_collection": report["complete_material_collection"], "license_obligations_reviewed": False}))
         return 0 if report["complete_material_collection"] else 1

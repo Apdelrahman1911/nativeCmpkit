@@ -223,11 +223,25 @@ class WebViewRequestFocusTests(unittest.TestCase):
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])
         self.assertTrue(all(row["test-modules"] == "calf-webview" and row["test-focus"] == FOCUS for row in rows))
         self.assertEqual(11, len(matrix.matrix("all")["include"]))
-        self.assertEqual(("calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui",
-                          "calf-navigation", "calf-share", "calf-camera-picker", "calf-permissions/core"), lt.MINIMUM_MODULES["android-device"])
-        default = lt.plan(lt.ROOT, "android-device")
-        self.assertEqual(8, len(default["expected"]))
-        self.assertEqual(["calf-permissions/core"], default["finite_only_device_modules_not_requested"])
+        # Eight ordinary hosts remain inventory metadata, not executable default coverage.
+        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')
+        self.assertEqual(8, len(inventory))
+        self.assertEqual((*inventory, "calf-permissions/core"), lt.MINIMUM_MODULES["android-device"])
+        with self.assertRaises(ValueError) as refused:
+            lt.plan(lt.ROOT, "android-device")
+        self.assertIn(str(refused.exception), (
+            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',
+            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',
+        ))
+        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.
+        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')
+        plan = lt.plan(lt.ROOT, "android-device", minimum_modules=unrelated, only_modules=unrelated)
+        self.assertEqual(list(unrelated), [item["module"] for item in plan["expected"]])
+        self.assertEqual(list(unrelated), plan["explicit_module_subset"])
+        self.assertFalse(plan["complete_suite_requested"])
+        self.assertEqual(["calf-permissions/core"], plan["finite_only_device_modules_not_requested"])
+        self.assertEqual(["calf-camera-picker", "calf-io", "calf-permissions/core"],
+                         plan["test_bearing_modules_not_requested"])
         for suite in ("js", "wasm"):
             plan = self.plan(suite)
             selected, = plan["expected"]

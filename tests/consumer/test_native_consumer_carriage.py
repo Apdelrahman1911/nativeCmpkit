@@ -58,10 +58,10 @@ class NativeConsumerCarriageTest(unittest.TestCase):
             self.prepare()
         self.assertFalse(self.output.exists())
 
-    def test_exact13_consumer_and22_inert_material_files_are_independent_byte_copies(self):
+    def test_exact15_consumer_and22_inert_material_files_are_independent_byte_copies(self):
         report = self.prepare()
-        self.assertEqual(35, len(report["files"]))
-        self.assertEqual(13, report["consumer_source_count"])
+        self.assertEqual(37, len(report["files"]))
+        self.assertEqual(15, report["consumer_source_count"])
         self.assertEqual(22, report["inert_original_material_count"])
         self.assertEqual(report, carriage.verify(self.source, self.output, expected_source_revision=self.revision))
         for record in report["files"]:
@@ -70,7 +70,7 @@ class NativeConsumerCarriageTest(unittest.TestCase):
             self.assertEqual(original.read_bytes(), copied.read_bytes())
             self.assertNotEqual(original.stat().st_ino, copied.stat().st_ino)
             self.assertEqual(1, copied.stat().st_nlink)
-        self.assertEqual(36, len([path for path in self.output.rglob('*') if path.is_file()]))
+        self.assertEqual(38, len([path for path in self.output.rglob('*') if path.is_file()]))
         self.assertEqual("7d6b6d5b43f93ae085dc66a3377b3c7967400bf7", report["preserved_native_metadata_producer_revision"])
         self.assertNotEqual(self.revision, report["preserved_native_metadata_producer_revision"])
         for field in ("inert_context_is_native_producer_source_root", "complete_current_native_material_collection",
@@ -166,7 +166,7 @@ class NativeConsumerCarriageTest(unittest.TestCase):
         with mock.patch.object(carriage, 'verify_material', side_effect=mutate), self.assertRaises(InvalidArtifact):
             self.prepare()
         self.assertTrue(self.output.exists())
-        self.assertEqual(35, len([path for path in self.output.rglob('*') if path.is_file()]))
+        self.assertEqual(37, len([path for path in self.output.rglob('*') if path.is_file()]))
         self.assertFalse((self.output / 'carriage.json').exists())
         self.assertEqual('preserve unrelated material', sentinel.read_text())
 
@@ -207,7 +207,7 @@ class NativeConsumerCarriageTest(unittest.TestCase):
         self.assertNotIn('collect', calls)
         self.assertNotIn('ArtifactVerifier', calls)
         self.assertNotIn('subprocess.run', calls)
-        self.assertEqual(13, len(set(carriage.CONSUMER_FILES)))
+        self.assertEqual(15, len(set(carriage.CONSUMER_FILES)))
         self.assertEqual(22, len(carriage.MATERIAL_INPUTS))
         self.assertEqual(7, len(carriage.PRESERVED_CONSUMER_INPUTS))
 

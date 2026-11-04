@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Real loopback TCP source, not commercial cloud. No Activity or manual grant. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.CONTROL_REMOTE_IO"
+        android:protectionLevel="signature" />
+    <queries><package android:name="com.mohamedrejeb.calf.calfio.test" /></queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit controlled remote IO source">
+        <service android:name=".RemoteIoControlService" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.CONTROL_REMOTE_IO" />
+        <service android:name=".RemoteIoProviderWitnessService" android:exported="true"
+            android:process=":nativecmpkit_io_remote_provider"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.CONTROL_REMOTE_IO" />
+        <provider android:name=".RemoteIoDocumentsProvider" android:authorities="${applicationId}.documents"
+            android:exported="true" android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS" android:process=":nativecmpkit_io_remote_provider">
+            <intent-filter><action android:name="android.content.action.DOCUMENTS_PROVIDER" /></intent-filter>
+        </provider>
+    </application>
+</manifest>

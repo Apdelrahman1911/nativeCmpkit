@@ -1,0 +1,13 @@
+{
+  "reviewer": "/root/consumer_independent610",
+  "source_recipe_sha256": "3f451e495617c830a7cadcbacffd2fc4061ba0b95ea5372c11726fefc6bb1a51",
+  "original_exit_code": 1,
+  "original_output": "Traceback (most recent call last):\n  File \"<stdin>\", line 107, in <module>\n  File \"<stdin>\", line 18, in ordinary\nAssertionError: ('ordinary single-link nonexecutable', '/root/nativecmpkit-worktrees/tooling-shared-recovery671/scripts/ci/ios_ui_application.py')\n",
+  "refusal_boundary": "The reviewer required a pre-existing executable accepted-worktree source to be nonexecutable.",
+  "correction": "Preserve existing accepted-worktree modes; read their SHA-bound ordinary single-link bytes without a new nonexecutable constraint. New afterimages/candidate leaf checks retain the nonexecutable condition.",
+  "preceding_assertions_reached": "All sixteen source data roundtrips and twenty-six frozen afterimage checks completed before this baseline-mode classification refusal.",
+  "candidate_failure_inferred": false,
+  "candidate_API_test_compiler_native_executions": 0,
+  "ROOT_worktree_source_writes": 0,
+  "source_verdict_at_refusal": "Not yet sealed"
+}

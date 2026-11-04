@@ -1,5 +1,6 @@
 """Owning profile PID/readiness regressions; synthetic tooling, never native/profile passes."""
 import copy
+import hashlib
 import io
 import json
 import os
@@ -19,6 +20,22 @@ import test_ios_application_receipts as receipt_fixtures
 
 BUNDLE = 'io.github.apdelrahman1911.nativecmpkit.verification.ui.r' + 'a' * 12 + '.t' + 'b' * 32
 PID = 12345
+
+
+def retain_owned_image_sidecar_model(fixture):
+    """Retain one bound fabricated sidecar; never produce native/profile evidence."""
+    import apple_image_sidecar_evidence as sidecar
+    from test_apple_image_sidecar_evidence import canonical, observation
+    record = observation()
+    record.update(source_revision=fixture.context["source_revision"],
+                  simulator_uuid_sha256=hashlib.sha256(fixture.context["simulator"]["udid"].encode()).hexdigest(),
+                  bundle_identifier_sha256=hashlib.sha256(fixture.document["bundle_id"].encode()).hexdigest())
+    for key in ("installed_executable_before", "installed_executable_after"):
+        record[key]["signed_executable_sha256"] = fixture.document["signed_application_executable_sha256"]
+    fixture.document[sidecar.INLINE_KEY] = record
+    path = fixture.receipt_path.with_name(sidecar.RECORD_NAME)
+    path.write_bytes(canonical(record)); path.chmod(0o600)
+    return record
 
 
 class ImageProfileReadinessTests(unittest.TestCase):
@@ -204,6 +221,7 @@ for line in json.loads(sys.argv[3]): print(line,flush=True)
         fixture.document.update(explicit_test_focus=lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS, image_diagnostics_mode='darwin-tools',
                                 strict_runtime_assertions_attested=False)
         fixture.document['application_protocol'].update(testcases=cases, counts=lt.case_counts(cases))
+        retain_owned_image_sidecar_model(fixture)
         fixture.modules[0]['testcases'] = fixture.xml_cases(cases); fixture.save()
         self.assertEqual([], fixture.collect()['errors'])
         original = copy.deepcopy(fixture.document)
@@ -214,6 +232,7 @@ for line in json.loads(sys.argv[3]): print(line,flush=True)
                        lambda d: d['image_memory_profile'].update(owned_readiness_removed=False),
                        lambda d: d['image_memory_profile'].update(native_console_pid_correlated=False),
                        lambda d: d['cleanup'].update(owned_app_absence_verified=False),
+                       lambda d: d['cleanup'].update(owned_app_stopped_verified=False),
                        lambda d: d.update(strict_runtime_assertions_attested=True)):
             fixture.document = copy.deepcopy(original); change(fixture.document); fixture.save()
             self.assertTrue(fixture.collect()['errors'])

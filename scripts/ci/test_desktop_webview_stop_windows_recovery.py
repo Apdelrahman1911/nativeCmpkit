@@ -334,8 +334,10 @@ class DesktopWebViewStopWindowsRecoveryTests(unittest.TestCase):
             "convention-plugins/src/main/kotlin/DesktopJavaFx.kt": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5",
             "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
         }
+        from platform_recovery659_source_projection import current_source_before_platform_recovery659
         for relative, expected in preserved.items():
-            self.assertEqual(expected, hashlib.sha256((lt.ROOT / relative).read_bytes()).hexdigest())
+            preserved_source = current_source_before_platform_recovery659(relative, (lt.ROOT / relative).read_bytes())
+            self.assertEqual(expected, hashlib.sha256(preserved_source).hexdigest())
         source = (lt.ROOT / "scripts/ci/library_tests.py").read_text()
         # Pin only the owning existing XML branch, not unrelated report/control methods.
         start = '        elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n'

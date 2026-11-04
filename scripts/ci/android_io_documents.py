@@ -40,11 +40,35 @@ SOURCE_FILES = tuple(sorted(("gradle/libs.versions.toml", "calf-io/build.gradle.
 SIGNER_REVISION = "36.0.0"
 MAX_HOST_BYTES = 1024**2
 ANDROID = "{http://schemas.android.com/apk/res/android}"
+# Source-only extension of the reporter, never a new accepted helper/package pair.
+# The four complete fragments inverse to the exact previously accepted reporter.
+REMOTE_REPORTER_SHA256 = "397d45d9201637e6a696b3c4148376bb02fe5c4bb1070c541616bdcdaefeeb19"
+REMOTE_REPORTER_FRAGMENTS = (
+    b'    <uses-permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.CONTROL_REMOTE_IO" />\n',
+    b'        <package android:name="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments" />\n',
+    b'        <provider android:authorities="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.documents" />\n',
+    b'        <activity android:name="com.mohamedrejeb.calf.io.AndroidIoRemoteTreeGrantActivity" android:exported="false"\n'
+    b'            android:theme="@android:style/Theme.Material.Light.NoActionBar" />\n',
+)
 
 
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def normalize_remote_reporter_source(payload: bytes) -> bytes:
+    """Only the exact complete NEW remote source union precedes old constraints."""
+    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536, "Bounded IO reporter source bytes required")
+    if not any(fragment in payload for fragment in REMOTE_REPORTER_FRAGMENTS):
+        return payload  # Old source constraints, not this reader, admit/refuse it.
+    result = payload
+    for fragment in REMOTE_REPORTER_FRAGMENTS:
+        require(result.count(fragment) == 1, "Only the complete exact remote reporter source union is permitted")
+        result = result.replace(fragment, b"", 1)
+    require(hashlib.sha256(result).hexdigest() == REMOTE_REPORTER_SHA256,
+            "Remote reporter inverse cannot replace or hide changed accepted reporter bytes")
+    return result
 
 
 def validate_manifest(payload: bytes, *, compiled: bool) -> dict:
@@ -313,6 +337,8 @@ def source_contract(root: Path) -> dict:
     require(actual == {FIXTURE + "/src/main/AndroidManifest.xml", *(JAVA + name + ".java" for name in JAVA_NAMES)},
             "Unexpected helper source inventory")
     validate_manifest(texts[FIXTURE + "/src/main/AndroidManifest.xml"].encode(), compiled=False)
+    texts["calf-io/src/androidDeviceTest/AndroidManifest.xml"] = normalize_remote_reporter_source(
+        texts["calf-io/src/androidDeviceTest/AndroidManifest.xml"].encode("utf-8")).decode("utf-8")
     reporter = ET.fromstring(texts["calf-io/src/androidDeviceTest/AndroidManifest.xml"],
                              parser=ET.XMLParser(target=lt.NoDtdBuilder()))
     permissions = [node.get(ANDROID + "name") for node in reporter.findall("uses-permission")]

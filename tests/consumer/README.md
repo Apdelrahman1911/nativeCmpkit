@@ -123,8 +123,9 @@ python3 -B tests/consumer/native_consumer_carriage.py \
   --output "$FRESH_EXTERNAL_INDEPENDENT_BUNDLE"
 ```
 
-This copies exactly13 consumer/config/checker files, including
-`native_license_legacy_winapi.py`, without altering the full21 dependency or
+This copies exactly15 consumer/config/checker files, including
+`native_license_legacy_winapi.py`, the active schema4 reader and its unchanged
+inert-v2 primitive dependency, without altering the full21 dependency or
 original17 desktop-method source. Its separate `inert-material-context/` contains
 only the exact20 legacy catalog files and original clean7d6 full93/48 metadata;
 that archival context is **not** a native producer source root or a complete
@@ -134,6 +135,15 @@ The carrier source revision is not inferred from metadata or a candidate.
 Preparation/readback imports no native code or material loader, stages nothing,
 and leaves every consumer/native/material/legal/security/readiness gate open.
 See [the bounded carriage and remaining15 source prerequisites](../../docs/development/evidence/current-platform-recovery-20261101/native-carriage20261104/README.md).
+
+The separately reviewed [schema4 notice material and exact-original
+carry-forward procedure](../../docs/testing/native-license-schema4.md) preserve
+the original failed93/48 reports and their17/15 gaps. Its NEW controls and
+verification-only original captures are not actual complete material derivation,
+staging, consumer/native acceptance, legal clearance or release readiness. The
+active public catalog is producer-source material, not part of the carriage's
+22-file inert context. Do not rerun the original ordinary registry payload scans
+to repair these gaps, and do not infer a producer revision from the carrier.
 
 Native-only focus disables UP-TO-DATE/build-cache reuse and uses a new UUID XML
 directory. The result checker is both an explicit task depending on desktopTest

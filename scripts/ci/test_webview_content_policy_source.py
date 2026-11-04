@@ -113,8 +113,10 @@ class WebViewContentPolicyNewSourceTest(unittest.TestCase):
             self.assertIn(value, text)
 
     def test_owning_common_native_and_accepted_fixture_helper_bytes_remain_unchanged(self):
+        from platform_recovery659_source_projection import current_source_before_platform_recovery659
         for path, digest in UNCHANGED_INPUTS.items():
-            self.assertEqual(digest, hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), path)
+            original = current_source_before_platform_recovery659(path, (ROOT / path).read_bytes())
+            self.assertEqual(digest, hashlib.sha256(original).hexdigest(), path)
 
     def test_authored_native_tests_never_inject_callbacks_loading_title_url_errors_or_saver_results(self):
         forbidden = (r"\.(?:pageTitle|lastLoadedUrl|loadingState|errorsForCurrentRequest)\s*=(?!=)",
@@ -177,8 +179,10 @@ class WebViewContentPolicyNewSourceTest(unittest.TestCase):
                 self.assertIn(value, text)
 
     def test_desktop_browser_unsupported_both_entry_points_preserve_current_dom_with_zero_real_requests(self):
+        from platform_recovery659_source_projection import current_source_before_platform_recovery659
         for klass in ("DesktopWebViewContentPolicyAcceptanceTest", "BrowserWebViewContentPolicyAcceptanceTest"):
-            text = source(klass)
+            relative = PREFIX.format(set=CLASSES[klass][0]) + klass + ".kt"
+            text = current_source_before_platform_recovery659(relative, (ROOT / relative).read_bytes()).decode()
             for value in ('listOf("state", "navigator")', '"additionalHttpHeaders"', '"baseUrl"', 'it.code == -2',
                           '"$entry-headers", "get" to 0', '"$entry-base", "get" to 0, "script" to 0, "style" to 0, "image" to 0',
                           'listOf("utf-8", "utf8")', 'assertSame(native, state.'):

@@ -585,14 +585,16 @@ class ArtifactVerifier:
             self.check(label + ":native-license-metadata-lock-coverage", metadata_actual == expected,
                        "Sanitized graph contains the entire conservative locked registry union")
             expected_entries = {report_path, metadata_path}
+            from native_license_supplements import CATALOG_RELATIVE, load_supplements
+            reviewed_supplements = load_supplements(self.root / CATALOG_RELATIVE,
+                list(sanitized_packages.values()), source_root=self.root)
+            held_external_proofs = {}
             for package in registry_packages:
                 name, version = package.get("name"), package.get("version")
                 package_label = label + ":crate-license:" + str(name) + "@" + str(version)
                 # External bytes must match source-reviewed origin/proof/texts,
                 # not merely a producer report hash or "complete" boolean.
-                from native_license_supplements import CATALOG_RELATIVE, load_supplement
-                approved = load_supplement(self.root / CATALOG_RELATIVE,
-                                           sanitized_packages[name + "@" + version])
+                approved = reviewed_supplements.get(name + "@" + version)
                 package_prefix = prefix + name + "-" + version + "/"
                 external = package.get("external_vcs_material")
                 if approved is not None:
@@ -604,8 +606,10 @@ class ArtifactVerifier:
                                "All approved external texts and their immutable origins retained, no reclassification as archive material")
                     for path, payload in approved.provenance_payloads(package_prefix).items():
                         expected_entries.add(path)
+                        if path not in held_external_proofs:
+                            held_external_proofs[path] = archive.read(path) if path in names else None
                         self.check(package_label + ":external-proof:" + path,
-                                   path in names and archive.read(path) == payload,
+                                   held_external_proofs[path] == payload,
                                    "Exact complete crate/VCS/catalog proof bytes, independently compared with reviewed source inputs")
                     for path, payload in approved.license_payloads(package_prefix).items():
                         self.check(package_label + ":external-text:" + path,

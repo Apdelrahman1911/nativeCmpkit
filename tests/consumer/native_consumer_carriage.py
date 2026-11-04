@@ -27,6 +27,7 @@ from verify_artifacts import InvalidArtifact
 CONSUMER_FILES = (
     "README.md", "build.gradle.kts", "settings.gradle.kts", "gradle.properties",
     "verify_artifacts.py", "native_license_supplements.py", "native_license_legacy_winapi.py",
+    "native_license_objc2_material.py", "native_license_material_v2.py",
     "collect_native_licenses.py", "verify_native_test_results.py",
     "src/commonMain/kotlin/nativecmpkit/consumer/PublicApiConsumer.kt",
     "src/commonTest/kotlin/nativecmpkit/consumer/PublishedCommonContractTest.kt",
@@ -35,6 +36,7 @@ CONSUMER_FILES = (
 )
 CHECKER_MODULES = (
     "verify_artifacts", "native_license_supplements", "native_license_legacy_winapi",
+    "native_license_objc2_material", "native_license_material_v2",
     "collect_native_licenses", "verify_native_test_results",
 )
 MAX_INPUT_BYTES = 4 * 1024 * 1024
@@ -149,7 +151,7 @@ def snapshot(root: Path, expected: str) -> tuple[Input, ...]:
         else:
             target = "inert-material-context/metadata/" + Path(relative).name
         held.append(Input(relative, target, payload))
-    require(len(held) == 35 and len({item.target for item in held}) == len(held)
+    require(len(held) == 37 and len({item.target for item in held}) == len(held)
             and sum(len(item.payload) for item in held) <= MAX_INPUT_BYTES,
             "Carriage source/material inventory differs or exceeds its bound")
     # Clean status alone must not admit ignored/untracked input or an edited
@@ -173,7 +175,7 @@ def snapshot(root: Path, expected: str) -> tuple[Input, ...]:
 def receipt(expected: str, inputs: tuple[Input, ...]) -> dict:
     return {"schema_version": 1, "scope": SCOPE, "carrier_source_revision": expected,
             "preserved_native_metadata_producer_revision": METADATA_ORIGIN_REVISION,
-            "consumer_source_count": 13, "inert_original_material_count": 22,
+            "consumer_source_count": 15, "inert_original_material_count": 22,
             "files": [item.record() for item in inputs],
             "full21_consumer_dependencies_preserved": True,
             "original17_desktop_consumer_methods_preserved": True,
@@ -280,6 +282,7 @@ root = pathlib.Path(sys.argv[1])
 assert root.is_absolute() and root.is_dir()
 sys.path.insert(0, str(root))
 modules = ("verify_artifacts", "native_license_supplements", "native_license_legacy_winapi",
+           "native_license_objc2_material", "native_license_material_v2",
            "collect_native_licenses", "verify_native_test_results")
 records = {}
 for name in modules:
@@ -310,7 +313,7 @@ def main() -> int:
         report = (verify if args.verify_only else prepare)(args.source_root, args.output,
             expected_source_revision=args.expected_source_revision)
         print(json.dumps({"carrier_source_revision": report["carrier_source_revision"],
-                          "consumer_source_count": 13, "inert_original_material_count": 22,
+                          "consumer_source_count": 15, "inert_original_material_count": 22,
                           "release_readiness_certified": False}, sort_keys=True))
         return 0
     except (InvalidArtifact, OSError) as error:

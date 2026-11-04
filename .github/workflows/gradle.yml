@@ -10,7 +10,33 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-content-policy-linux, webview-content-policy-android, webview-content-policy-js, webview-content-policy-wasm, ios-webview-content-policy, webview-offline-destination, webview-desktop-request-state, webview-desktop-stop-windows-recovery, webview-desktop-security-regressions, webview-desktop-request-state-linux-pair, webview-desktop-request-state-macos-pair, webview-desktop-request-state-windows-single, webview-desktop-security-linux-arm64-windows-pair, webview-desktop-security-macos-pair, webview-desktop-policy-macos-recovery, webview-desktop-tls-windows-recovery, webview-wasm, share-browser, share-clipboard-native, share-clipboard-native-wasm, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-ios-calendar-configuration, macos-share-lifecycle, macos-share-missing-lifecycle, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-ui-adaptive-pre26, ios-ui-adaptive-drag-shader-ios26plus, ios-secure-alert-input, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-alert-date-important, ios-alert-important-recovery, ios-modal-ownership-batch, ios-modal-ownership-ipad, ios-modal-lifecycle-replacement, ios-modal-lifecycle-replacement-ipad, ios-modal-lifecycle-memory-recovery, ios-modal-worker-memory-recovery, ios-sheet-cancellation-repeat, ios-modal-completion-cancellation, ios-xctest-startup, ios-modal-xcui-batch, ios-modal-xcui-batch-ipad, ios-popover-anchor, ios-popover-anchor-ipad, ios-popover-bar-recovery, ios-popover-bar-ipad-recovery, ios-popover-geometry-iphone, ios-popover-geometry-ipad, ios-date-year-predicate-red, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-picker-provider-cancellation, ios-camera-ownership-memory-callback, ios-share-presentation-disposal, ios-share-remembered-failure-observation, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-webview-stop-redirect-recovery, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-provider-unavailable, android-io-named-system-providers, android-io-named-external-storage, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-permission-demo-call-denial-recovery, android-permission-demo-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, ios-ui-related-nine-ios26plus, ios-ui-adaptive-customization-ios26plus, tooling]
+        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-content-policy-linux, webview-content-policy-android, webview-content-policy-js, webview-content-policy-wasm, ios-webview-content-policy, webview-offline-destination, webview-desktop-request-state, webview-desktop-stop-windows-recovery, webview-desktop-security-regressions, webview-desktop-request-state-linux-pair, webview-desktop-request-state-macos-pair, webview-desktop-request-state-windows-single, webview-desktop-security-linux-arm64-windows-pair, webview-desktop-security-macos-pair, webview-desktop-policy-macos-recovery, webview-desktop-tls-windows-recovery, webview-wasm, share-browser, share-clipboard-native, share-clipboard-native-wasm, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-ios-calendar-configuration, macos-share-lifecycle, macos-share-missing-lifecycle, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-ui-adaptive-pre26, ios-ui-adaptive-drag-shader-ios26plus, ios-secure-alert-input, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-alert-date-important, ios-alert-important-recovery, ios-modal-ownership-batch, ios-modal-ownership-ipad, ios-modal-lifecycle-replacement, ios-modal-lifecycle-replacement-ipad, ios-modal-lifecycle-memory-recovery, ios-modal-worker-memory-recovery, ios-sheet-cancellation-repeat, ios-modal-completion-cancellation, ios-xctest-startup, ios-modal-xcui-batch, ios-modal-xcui-batch-ipad, ios-popover-anchor, ios-popover-anchor-ipad, ios-popover-bar-recovery, ios-popover-bar-ipad-recovery, ios-popover-geometry-iphone, ios-popover-geometry-ipad, ios-date-year-predicate-red, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-picker-provider-cancellation, ios-camera-ownership-memory-callback, ios-share-presentation-disposal, ios-share-remembered-failure-observation, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-webview-stop-redirect-recovery, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-camera-callback-substitution, android-io-provider-lifecycle, android-io-provider-unavailable, android-io-named-system-providers, android-io-named-external-storage, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-io-controlled-remote, android-io-controlled-remote-positive, android-io-controlled-remote-cancel, android-permission-demo, android-permission-demo-call-denial-recovery, android-permission-demo-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, ios-ui-related-nine-ios26plus, ios-ui-adaptive-customization-ios26plus, tooling]
+
+      offline_tooling_mode:
+        description: Explicit offline scopes mode; reuse never waives platform or security gates
+        type: string
+        required: false
+        default: 'off'
+      producer_run_id:
+        description: Exact reviewed original producer run ID; reuse only
+        type: string
+        required: false
+        default: ''
+      producer_attempt:
+        description: Exact reviewed original producer attempt; reuse only
+        type: string
+        required: false
+        default: ''
+      producer_job_id:
+        description: Exact reviewed sole original successful tooling job ID; reuse only
+        type: string
+        required: false
+        default: ''
+      producer_artifact_id:
+        description: Exact reviewed original signature receipt artifact ID; reuse only
+        type: string
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -24,6 +50,9 @@ jobs:
     if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
       libraries: ${{ steps.plan.outputs.libraries }}
@@ -43,12 +72,180 @@ jobs:
           python3 scripts/audit/source_inventory.py --check
           python3 scripts/development/validate_resolutions.py --check
           python3 scripts/development/generate_icon_catalogues.py --check
-      - name: Offline verification-tool adversarial fixtures (not library passes)
+      - name: Validate explicit offline tooling mode and exact producer selectors
+        env:
+          TOOLING_MODE: ${{ inputs.offline_tooling_mode }}
+          PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+          PRODUCER_ATTEMPT: ${{ inputs.producer_attempt }}
+          PRODUCER_JOB_ID: ${{ inputs.producer_job_id }}
+          PRODUCER_ARTIFACT_ID: ${{ inputs.producer_artifact_id }}
         run: |
-          for directory in scripts/audit scripts/migration scripts/development scripts/ci scripts/native scripts/dependencies scripts/dependencies/yarn scripts/docs tests/consumer; do
-            python3 -B -m unittest discover -s "$directory" -p 'test_*.py' -v
-          done
-          python3 -B -m unittest discover -s scripts/development -p upstream_sync_tests.py -v
+          python3 -B - <<'PYTHON'
+          import os, sys
+          sys.path.insert(0, "scripts/ci")
+          import offline_tooling_provenance as provenance
+          try:
+              fields = dict(zip(provenance.SELECTORS, (os.environ["PRODUCER_RUN_ID"], os.environ["PRODUCER_ATTEMPT"],
+                            os.environ["PRODUCER_JOB_ID"], os.environ["PRODUCER_ARTIFACT_ID"])))
+              provenance.configuration(os.environ["TOOLING_MODE"], "build/ci-tooling-reuse/tooling-execution", fields)
+          except BaseException as error:
+              print(provenance.reuse.canonical({"schema": provenance.SCHEMA, "outcome": "refused",
+                    "boundary": "workflow-configuration", "primary_refusal": provenance.sanitized_error(error)}).decode(), file=sys.stderr)
+              code = error.code if type(error) is SystemExit and type(error.code) is int else 130 if type(error) is KeyboardInterrupt else 2
+              raise SystemExit(code if code != 0 and -255 <= code <= 255 else 2) from None
+          PYTHON
+      - name: Install the exact offline tooling Rust runtime before eligibility capture
+        if: inputs.offline_tooling_mode == 'produce' || inputs.offline_tooling_mode == 'reuse'
+        run: |
+          command -v rustup
+          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
+      - name: Record exact offline tooling signature
+        if: inputs.offline_tooling_mode == 'produce' || inputs.offline_tooling_mode == 'reuse'
+        run: |
+          python3 -B scripts/ci/offline_tooling_reuse.py capture \
+            --output build/ci-tooling-reuse/tooling-record/signature.json
+      - name: Offline verification-tool adversarial fixtures (not library passes)
+        id: offline
+        env:
+          TOOLING_MODE: ${{ inputs.offline_tooling_mode }}
+          PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+          PRODUCER_ATTEMPT: ${{ inputs.producer_attempt }}
+          PRODUCER_JOB_ID: ${{ inputs.producer_job_id }}
+          PRODUCER_ARTIFACT_ID: ${{ inputs.producer_artifact_id }}
+          NATIVECMPKIT_ACTIONS_READ_TOKEN: ${{ inputs.offline_tooling_mode == 'reuse' && github.token || '' }}
+        run: |
+          arguments=(--mode "$TOOLING_MODE" --output-dir build/ci-tooling-reuse/tooling-execution)
+          case "$TOOLING_MODE" in
+            off) ;;
+            produce)
+              arguments+=(--recorded-signature build/ci-tooling-reuse/tooling-record/signature.json)
+              ;;
+            reuse)
+              arguments+=(--recorded-signature build/ci-tooling-reuse/tooling-record/signature.json
+                          --producer-run-id "$PRODUCER_RUN_ID" --producer-attempt "$PRODUCER_ATTEMPT"
+                          --producer-job-id "$PRODUCER_JOB_ID" --producer-artifact-id "$PRODUCER_ARTIFACT_ID")
+              ;;
+            *) echo 'Unrecognized explicit offline tooling mode' >&2; exit 2 ;;
+          esac
+          python3 -B scripts/ci/offline_tooling_provenance.py "${arguments[@]}"
+          unset NATIVECMPKIT_ACTIONS_READ_TOKEN
+          python3 -B - <<'PYTHON'
+          import os, sys
+          mode = os.environ["TOOLING_MODE"]
+          if mode == "off":
+              raise SystemExit(0)
+          sys.path.insert(0, "scripts/ci")
+          import offline_tooling_provenance as provenance
+          try:
+              reuse = provenance.reuse
+              if mode == "produce":
+                  result = reuse.parse_json(reuse.read_owned(provenance.ROOT, "build/ci-tooling-reuse/tooling-execution/producer-result.json"))
+                  reuse.require(result["mode"] == "produce" and result["outcome"] == "passed"
+                                and result["reusable_producer_certificate"] is True
+                                and type(result["new_scope_executions"]) is int and result["new_scope_executions"] == len(reuse.SCOPES)
+                                and result["authentication_requested"] is False
+                                and type(result["signature_sha256"]) is str and reuse.SHA256.fullmatch(result["signature_sha256"]),
+                                "Fresh producer output is required")
+                  name = reuse.ARTIFACT_PREFIX + result["signature_sha256"]
+                  reuse.require(result["artifact_name"] == name, "Producer signature artifact name drift")
+                  with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+                      output.write("artifact_name=" + name + "\n")
+              elif mode == "reuse":
+                  leaves = ("signature.json", "signature-after.json", "reuse-decision.json", "acquisition-summary.json")
+                  raw = {leaf: reuse.read_owned(provenance.ROOT, "build/ci-tooling-reuse/tooling-execution/" + leaf) for leaf in leaves}
+                  before, after, decision, ledger = (reuse.parse_json(raw[leaf]) for leaf in leaves)
+                  reuse.validate_signature(before)
+                  reuse.validate_signature(after)
+                  reuse.require(before == after and type(decision) is dict and set(decision) == {"schema", "mode", "outcome",
+                                "fresh_index_and_profile_checks_reused", "library_or_native_results_reused", "consumer_results_reused",
+                                "native_failure_waived", "release_readiness_certified", "checker_decision", "new_scope_executions", "signature_sha256",
+                                "authenticated_acquisition_completed", "reusable_producer_certificate", "original_zip_sha256", "original_zip_bytes"}
+                                and decision["schema"] == provenance.SCHEMA and decision["mode"] == "reuse"
+                                and decision["outcome"] == "passed" and decision["authenticated_acquisition_completed"] is True
+                                and decision["reusable_producer_certificate"] is False
+                                and type(decision["new_scope_executions"]) is int and decision["new_scope_executions"] == 0
+                                and decision["signature_sha256"] == before["signature_sha256"], "Original reuse decision and signatures required")
+                  checked = decision["checker_decision"]
+                  ids = dict(zip(provenance.SELECTORS, (provenance.selector(os.environ[key]) for key in
+                             ("PRODUCER_RUN_ID", "PRODUCER_ATTEMPT", "PRODUCER_JOB_ID", "PRODUCER_ARTIFACT_ID"))))
+                  reuse.require(type(checked) is dict and set(checked) == {"schema", "eligible", "signature_sha256", *provenance.SELECTORS,
+                                "producer_workflow_conclusion", "offline_scopes_reused", "new_scope_executions", "native_failure_waived",
+                                "library_or_native_results_reused", "consumer_results_reused", "release_readiness_certified", "authenticated_transport_by_helper"}
+                                and checked["schema"] == reuse.SCHEMA and checked["eligible"] is True
+                                and checked["producer_workflow_conclusion"] in ("success", "failure")
+                                and checked["signature_sha256"] == before["signature_sha256"]
+                                and all(type(checked[key]) is int and checked[key] == value for key, value in ids.items())
+                                and type(checked["offline_scopes_reused"]) is int and checked["offline_scopes_reused"] == len(reuse.SCOPES)
+                                and type(checked["new_scope_executions"]) is int and checked["new_scope_executions"] == 0
+                                and checked["authenticated_transport_by_helper"] is False, "Exact original four-ID checker decision required")
+                  gates = ("library_or_native_results_reused", "consumer_results_reused", "native_failure_waived", "release_readiness_certified")
+                  reuse.require(all(decision[key] is False and checked[key] is False for key in gates)
+                                and decision["fresh_index_and_profile_checks_reused"] is False, "Independent gates stay fresh")
+                  reuse.require(type(ledger) is dict and set(ledger) == {"schema", "api_requests_started", "storage_hops_started", "requests",
+                                "automatic_retries", "automatic_redirects", "raw_headers_or_signed_urls_exported"}
+                                and ledger["schema"] == provenance.SCHEMA and ledger["automatic_retries"] is False
+                                and ledger["automatic_redirects"] is False and ledger["raw_headers_or_signed_urls_exported"] is False,
+                                "Original sanitized once-only ledger required")
+                  requests = ledger["requests"]
+                  reuse.require(type(requests) is list and 0 < len(requests) <= provenance.MAX_JOB_PAGES + 5
+                                and all(type(item) is dict and set(item) == {"number", "operation", "parameters", "channel", "started",
+                                "completion_attempted", "response"} for item in requests), "Original finite request inventory required")
+                  pages = sum(item["operation"] == "jobs-page" for item in requests)
+                  storage = ledger["storage_hops_started"]
+                  reuse.require(type(pages) is int and 0 < pages <= provenance.MAX_JOB_PAGES and type(storage) is int and storage in (0, 1)
+                                and type(ledger["api_requests_started"]) is int and ledger["api_requests_started"] == pages + 4
+                                and len(requests) == pages + 4 + storage
+                                and [item["operation"] for item in requests] == ["run-attempt"] + ["jobs-page"] * pages +
+                                    ["job", "artifact", "artifact-zip"] + (["storage-zip"] if storage else []), "Once-only request counts and order required")
+                  page = 0
+                  for number, item in enumerate(requests, 1):
+                      page += item["operation"] == "jobs-page"
+                      parameters = {**ids, **({"page": page} if item["operation"] == "jobs-page" else {})}
+                      reuse.require(type(item["number"]) is int and item["number"] == number and item["parameters"] == parameters
+                                    and all(type(value) is int and reuse.positive(value) for value in item["parameters"].values())
+                                    and item["channel"] == ("signed-storage" if item["operation"] == "storage-zip" else "authenticated-api")
+                                    and item["started"] is True and item["completion_attempted"] is True, "Completed original request identities required")
+                      response = item["response"]
+                      reuse.require(type(response) is dict and set(response) == {"status", "outcome", "body"}, "Known sanitized response witness required")
+                      body = response["body"]
+                      redirect = item["operation"] == "artifact-zip" and storage == 1
+                      reuse.require(type(response["status"]) is int and response["status"] == (302 if redirect else 200)
+                                    and response["outcome"] == ("approved-storage-redirect" if redirect else "complete-original-response")
+                                    and type(body) is dict, "Complete original response witness required")
+                      reuse.require(body == {"availability": "unread"} if redirect else set(body) == {"complete", "bytes", "sha256"}
+                                    and body["complete"] is True and type(body["bytes"]) is int and 0 < body["bytes"] <=
+                                        (reuse.MAX_ARCHIVE_BYTES if item["operation"] in ("artifact-zip", "storage-zip") else reuse.MAX_JSON_BYTES)
+                                    and type(body["sha256"]) is str and reuse.SHA256.fullmatch(body["sha256"]), "Bounded complete original body witness required")
+                  reuse.require(type(decision["original_zip_bytes"]) is int and 0 < decision["original_zip_bytes"] <= reuse.MAX_ARCHIVE_BYTES
+                                and type(decision["original_zip_sha256"]) is str and reuse.SHA256.fullmatch(decision["original_zip_sha256"])
+                                and requests[-1]["response"]["body"]["bytes"] == decision["original_zip_bytes"]
+                                and requests[-1]["response"]["body"]["sha256"] == decision["original_zip_sha256"],
+                                "Observed original ZIP byte count required")
+                  reuser = reuse.producer_context(before)
+                  reuser.update({"revision": before["source"]["revision"], "tree": before["source"]["tree"], "job_id": None})
+                  capsule = {"schema": "nativecmpkit-offline-reuse-workflow668-review-v1",
+                             "producer": {"repository": reuse.REPOSITORY, "workflow": reuse.WORKFLOW, "branch": reuse.BRANCH,
+                                          "revision": before["source"]["revision"], "tree": before["source"]["tree"], **ids},
+                             "reuser": reuser,
+                             "digests": {"signature_sha256": before["signature_sha256"], **{leaf: reuse.digest(raw[leaf]) for leaf in leaves}},
+                             "counts": {"api_requests_started": pages + 4, "storage_hops_started": storage, "job_pages": pages,
+                                        "offline_scopes_reused": len(reuse.SCOPES), "new_scope_executions": 0, "original_zip_bytes": decision["original_zip_bytes"]},
+                             "reason_codes": ["exact-source-authenticated-reuse-held", "zero-new-offline-scopes",
+                                              "native-consumer-fresh-index-profile-gates-independent", "reuser-job-id-unavailable-in-platform-environment"],
+                             "limits": {"review_capsule_bytes": 8192, "json_body_bytes": reuse.MAX_JSON_BYTES, "archive_bytes": reuse.MAX_ARCHIVE_BYTES,
+                                        "total_acquired_bytes": provenance.MAX_ACQUIRED_BYTES, "job_pages": provenance.MAX_JOB_PAGES,
+                                        "acquisition_seconds": provenance.ACQUISITION_SECONDS, "socket_operation_seconds": provenance.IO_SECONDS}}
+                  public = reuse.canonical(capsule)
+                  reuse.require(len(public) <= 8192, "Bounded sanitized review capsule required")
+                  print(public.decode())
+              else:
+                  reuse.require(False, "Explicit review mode required")
+          except BaseException as error:
+              print(provenance.reuse.canonical({"schema": provenance.SCHEMA, "outcome": "refused",
+                    "boundary": "workflow-producer-artifact-name" if mode == "produce" else "workflow-reuse-review", "primary_refusal": provenance.sanitized_error(error)}).decode(), file=sys.stderr)
+              code = error.code if type(error) is SystemExit and type(error.code) is int else 130 if type(error) is KeyboardInterrupt else 2
+              raise SystemExit(code if code != 0 and -255 <= code <= 255 else 2) from None
+          PYTHON
       - name: Select only the requested verification profile
         id: plan
         env:
@@ -84,6 +281,14 @@ jobs:
               output.write("sample_matrix=" + json.dumps(sample_matrix, separators=(",", ":")) + "\n")
               output.write("samples=" + str(bool(sample_matrix["include"])).lower() + "\n")
           PYTHON
+      - name: Keep successful fixed offline tooling scope receipt
+        if: success() && inputs.offline_tooling_mode == 'produce'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: ${{ steps.offline.outputs.artifact_name }}
+          retention-days: 7
+          if-no-files-found: error
+          path: build/ci-tooling-reuse/tooling-execution/receipt.json
 
   apple-xctest-startup:
     needs: tooling
@@ -445,6 +650,22 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
+      - name: Admit finite Android discovery before host setup
+        if: matrix.suite == 'android-device'
+        run: |
+          # Enabled API-specific Camera methods are never hidden, skipped or
+          # admitted by an unrestricted/all selector before costly host work.
+          if [[ -n "$ANDROID_BATCH" ]]; then
+            "$PYTHON" scripts/ci/android_device_batch.py plan --batch "$ANDROID_BATCH" > /dev/null
+          else
+            args=(plan --api-level "$EMULATOR_API" --output build/ci-plan)
+            if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi
+            if [[ -n "$TEST_MODULES" ]]; then
+              IFS=',' read -ra modules <<< "$TEST_MODULES"
+              for module in "${modules[@]}"; do args+=(--module "$module"); done
+            fi
+            "$PYTHON" scripts/ci/android_device_tests.py "${args[@]}" > /dev/null
+          fi
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
         with:
           distribution: temurin
@@ -480,7 +701,7 @@ jobs:
         with:
           # v3's SDK16 bootstrap installs SDK23 through the official registry.
           # SDK23 has distinct macOS arm64/x64 archives; do not invent mac URLs.
-          packages: ${{ inputs.profile == 'android-io-permission-storage-api35' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-api35-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64 system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || inputs.profile == 'android-media-selection-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || inputs.profile == 'android-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api28') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64' || (inputs.profile == 'android-storage-api29-target28' || inputs.profile == 'android-storage-api29-legacy' || inputs.profile == 'android-storage-api29-scoped') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-29;google_apis;x86_64' || (inputs.profile == 'android-storage-api30-normal' || inputs.profile == 'android-storage-api30-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api35-normal' || inputs.profile == 'android-storage-api35-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || (inputs.profile == 'android-camera-provider-minimum' || inputs.profile == 'android-camera-no-handler-minimum') && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-camera-provider' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64 system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-permission-demo' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-demo-call-denial-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-demo-denial-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-media-selection-api33' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64' || inputs.profile == 'android-media-selection-api34' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-34;google_apis;x86_64' || matrix.suite == 'android-device' && (inputs.profile == 'android-io-provider-lifecycle' || inputs.profile == 'android-io-provider-unavailable' || inputs.profile == 'android-io-named-system-providers' || inputs.profile == 'android-io-named-external-storage' || inputs.profile == 'android-io-default-decode' || inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-device' || inputs.profile == 'all') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
+          packages: ${{ inputs.profile == 'android-io-permission-storage-api35' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-api35-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64 system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || inputs.profile == 'android-media-selection-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || inputs.profile == 'android-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api28') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64' || (inputs.profile == 'android-storage-api29-target28' || inputs.profile == 'android-storage-api29-legacy' || inputs.profile == 'android-storage-api29-scoped') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-29;google_apis;x86_64' || (inputs.profile == 'android-storage-api30-normal' || inputs.profile == 'android-storage-api30-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api35-normal' || inputs.profile == 'android-storage-api35-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || (inputs.profile == 'android-camera-provider-minimum' || inputs.profile == 'android-camera-no-handler-minimum') && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-camera-provider' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64 system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-permission-demo' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-demo-call-denial-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-demo-denial-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-media-selection-api33' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64' || inputs.profile == 'android-media-selection-api34' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-34;google_apis;x86_64' || matrix.suite == 'android-device' && (inputs.profile == 'android-io-provider-lifecycle' || inputs.profile == 'android-io-provider-unavailable' || inputs.profile == 'android-io-named-system-providers' || inputs.profile == 'android-io-named-external-storage' || inputs.profile == 'android-io-default-decode' || inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-io-controlled-remote' || inputs.profile == 'android-io-controlled-remote-positive' || inputs.profile == 'android-io-controlled-remote-cancel' || inputs.profile == 'android-device' || inputs.profile == 'all') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
           accept-android-sdk-licenses: true
           log-accepted-android-sdk-licenses: false
       - name: Select the installed official SDK23 command-line tools

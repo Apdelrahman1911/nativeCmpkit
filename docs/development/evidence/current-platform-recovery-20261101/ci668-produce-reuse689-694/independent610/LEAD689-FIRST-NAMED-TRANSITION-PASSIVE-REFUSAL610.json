@@ -1,0 +1,225 @@
+{
+  "accepted_named_callback": {
+    "all_fragment_hashes_unique_inverse_forward": true,
+    "ancestor_bytes": 24884,
+    "ancestor_sha256": "f0a9123eda4525f8eb8d308100747c8b7a19f68184ade071e073885e3cb38538",
+    "binding_endpoints": {
+      "after_bytes": 26749,
+      "after_sha256": "503ca18b83311b557908a50dc9683dec3e74ba1708f23e9515b356c4361459a6",
+      "before_bytes": 24884,
+      "before_sha256": "f0a9123eda4525f8eb8d308100747c8b7a19f68184ade071e073885e3cb38538"
+    },
+    "current": {
+      "bytes": 26749,
+      "mode": "0o644",
+      "path": "/root/projects/nativeCmpKit/scripts/ci/android_camera_callback_native_focus.py",
+      "sha256": "503ca18b83311b557908a50dc9683dec3e74ba1708f23e9515b356c4361459a6"
+    },
+    "exact_fragments": 7,
+    "manifest": {
+      "bytes": 114673,
+      "mode": "0o600",
+      "path": "/root/projects/nativeCmpKit/scripts/ci/fixtures/tooling-recovery671-source-inverse.json",
+      "sha256": "9def6c416e199237600bdcdc2a16a3fd22dc2158796e1116f999b8681c96a110"
+    },
+    "roundtrip_raw_bytes_equal": true
+  },
+  "all_six_exact_ROOT_preimages": {
+    ".github/workflows/gradle.yml": {
+      "bytes": 70598,
+      "mode": "0o600",
+      "path": "/root/projects/nativeCmpKit/.github/workflows/gradle.yml",
+      "sha256": "46de0540c5e252a1bb9016e96758e79de2f0e728ca4ba2a746b709b88652106b"
+    },
+    "scripts/ci/test_android_io_remote_routing.py": {
+      "bytes": 33559,
+      "mode": "0o644",
+      "path": "/root/projects/nativeCmpKit/scripts/ci/test_android_io_remote_routing.py",
+      "sha256": "b6b3bd00add19ca0500130b835ebdf68a6683643570f1bd3c2517eef048911ec"
+    },
+    "scripts/ci/test_android_io_remote_routing_source_projection.py": {
+      "bytes": 28634,
+      "mode": "0o644",
+      "path": "/root/projects/nativeCmpKit/scripts/ci/test_android_io_remote_routing_source_projection.py",
+      "sha256": "b46e6d436ccc8eb498af76f611dbce17b30beb563f2c766830a81a970c65e708"
+    },
+    "scripts/ci/test_ios_ui_split664_native_routing.py": {
+      "bytes": 42573,
+      "mode": "0o600",
+      "path": "/root/projects/nativeCmpKit/scripts/ci/test_ios_ui_split664_native_routing.py",
+      "sha256": "dc0b1f4a5a4bd9dc22989043a3e1f65137a0466adb1543fb36b2a1686079e5a7"
+    },
+    "scripts/ci/test_shared_tooling_recovery671.py": {
+      "bytes": 15158,
+      "mode": "0o600",
+      "path": "/root/projects/nativeCmpKit/scripts/ci/test_shared_tooling_recovery671.py",
+      "sha256": "f53e0edd6dc4ea991a07453468a6f0a2560dd79b0e957e1dc5626b087f89edcf"
+    },
+    "scripts/ci/tooling_recovery671_source_projection.py": {
+      "bytes": 33105,
+      "mode": "0o600",
+      "path": "/root/projects/nativeCmpKit/scripts/ci/tooling_recovery671_source_projection.py",
+      "sha256": "40467cf06076eb57ac68e64d9db147245051d8f020e6c1c6117b68640e09b057"
+    }
+  },
+  "all_ten_additions_absent": true,
+  "final_source_and_original12_acceptance_reused_unchanged": {
+    "bytes": 2628,
+    "path": "/root/nativecmpkit-source-proposals-20261104/ci668-outer-independent610/SEAL-ORIGINAL-RESULTS-COMPLETION610.json",
+    "sha256": "2859d2f71f61db4cb06d442ac72e8fb393be45157242b2279f7802cd05677e03"
+  },
+  "findings": [
+    {
+      "after_sha256": "e54d0d68283ef8b93498bd50e11322fb51b50b8fcb7cd26edd4ae12270796e15",
+      "before_sha256": "c58f5bac87ee83e132a0a14ed0b2bf3fba315d4a53532aa530ee5f1ec663b0a0",
+      "effect": "After valid named callback, recovery driver next refuses IO guard transition as Undeclared prior endpoint conflict; no new driver execution performed.",
+      "kind": "undeclared_second_non_final_binding_transition",
+      "required_correction": "Exactly qualify named accepted Android680\u2192shared686 IO guard through unchanged9def6c manifest/current raw/unique inverse-forward; no generic last-writer override.",
+      "source": "scripts/ci/android_io_remote_routing_source_projection.py"
+    },
+    {
+      "effect": "The existing fallback copies dict values into held; eventual sha(read(ROOT/name)) == dict cannot pass.",
+      "entries": 164,
+      "kind": "exact683_structured_afterimage_schema_not_handled",
+      "receipt": {
+        "bytes": 37242,
+        "callback_entry": null,
+        "endpoint_count": 164,
+        "first_entry": [
+          "docs/development/evidence/current-platform-recovery-20261101/objc2-adoption676-677/AFFECTED-V1-677.json",
+          {
+            "bytes": 2600,
+            "sha256": "c95e43708286a1a9dae17e1b387f977369b9d22240942f4ef631779aba0ebc76"
+          }
+        ],
+        "mode": "0o600",
+        "path": "/root/nativecmpkit-source-proposals-20261104/lead-consumer-final-readback683/FINAL-READBACK-RESULT.json",
+        "sha256": "ae11bbbd30a96af84575a9ff17d0ae5462c16b3dd83879d274e84a5254e89e49",
+        "source_key": "afterimages",
+        "string_digests": 0,
+        "structured_entries": 164,
+        "structured_value_keys": [
+          [
+            "bytes",
+            "sha256"
+          ]
+        ]
+      },
+      "required_correction": "Normalize only the exact named SHA-bound683 receipt after strict path/count/key/type/value checks, preserving raw bytes+hash endpoint custody; other unexpected schemas refuse.",
+      "value_schema": [
+        "bytes",
+        "sha256"
+      ]
+    }
+  ],
+  "journal_and_result_absent": true,
+  "lead_acceptance": {
+    "bytes": 2439,
+    "path": "/root/nativecmpkit-source-proposals-20261104/lead-final-ci-integration689/LEAD-ACCEPTANCE.json",
+    "sha256": "fbbaa5dadf7c464e59a42f40dfd1c5b03912a711ed9ccbd33cf6c0ad675738d2"
+  },
+  "no_integration_native_consumer_security_legal_readiness_or_publication_acceptance": true,
+  "no_source_control_or_original12_re_review_replay": true,
+  "original_driver": {
+    "bytes": 9034,
+    "path": "/root/nativecmpkit-source-proposals-20261104/lead-final-ci-integration689/integrate_once.py",
+    "sha256": "fb7f0206c623983fb76506167a8f971e6786075131cc75419a0998caaf661b6d"
+  },
+  "own_readback_verified": true,
+  "passive_data_only_conflicts": [
+    {
+      "after": "503ca18b83311b557908a50dc9683dec3e74ba1708f23e9515b356c4361459a6",
+      "before": "f0a9123eda4525f8eb8d308100747c8b7a19f68184ade071e073885e3cb38538",
+      "name": "scripts/ci/android_camera_callback_native_focus.py",
+      "receipt": "shared686"
+    },
+    {
+      "after": "e54d0d68283ef8b93498bd50e11322fb51b50b8fcb7cd26edd4ae12270796e15",
+      "before": "c58f5bac87ee83e132a0a14ed0b2bf3fba315d4a53532aa530ee5f1ec663b0a0",
+      "name": "scripts/ci/android_io_remote_routing_source_projection.py",
+      "receipt": "shared686"
+    }
+  ],
+  "plan": {
+    "bytes": 1344,
+    "path": "/root/nativecmpkit-source-proposals-20261104/lead-final-ci-integration689/NAMED-PRIOR-TRANSITION-RECOVERY-PLAN.json",
+    "sha256": "2f8d0e9dd69d2953a9dbb503a37d35f9d9098adab768bc1562ff62ebe8bd49c4"
+  },
+  "preserved_original_prewrite_refusal": {
+    "bytes": 1946,
+    "path": "/root/nativecmpkit-source-proposals-20261104/lead-final-ci-integration689/PREWRITE-RELATED-ENDPOINT-REFUSAL.json",
+    "sha256": "7b1cacee831c099468b2cd9118df295922910ccb53a90b437390847ecc9e190c"
+  },
+  "prior_endpoint_union_after_exact683_data_extraction": 220,
+  "prior_receipt_metadata": {
+    "android680": {
+      "bytes": 23173,
+      "callback_entry": "f0a9123eda4525f8eb8d308100747c8b7a19f68184ade071e073885e3cb38538",
+      "endpoint_count": 37,
+      "first_entry": [
+        ".github/workflows/gradle.yml",
+        "46de0540c5e252a1bb9016e96758e79de2f0e728ca4ba2a746b709b88652106b"
+      ],
+      "mode": "0o600",
+      "path": "/root/nativecmpkit-source-proposals-20261104/lead-composition680/ROOT-INTEGRATION-RESULT.json",
+      "sha256": "f1703531c4e54459475e4d6087ad711f8504da9776e7ab71a2454b006e9f3c97",
+      "source_key": "root_after_sha256",
+      "string_digests": 37,
+      "structured_entries": 0,
+      "structured_value_keys": []
+    },
+    "consumer683": {
+      "bytes": 37242,
+      "callback_entry": null,
+      "endpoint_count": 164,
+      "first_entry": [
+        "docs/development/evidence/current-platform-recovery-20261101/objc2-adoption676-677/AFFECTED-V1-677.json",
+        {
+          "bytes": 2600,
+          "sha256": "c95e43708286a1a9dae17e1b387f977369b9d22240942f4ef631779aba0ebc76"
+        }
+      ],
+      "mode": "0o600",
+      "path": "/root/nativecmpkit-source-proposals-20261104/lead-consumer-final-readback683/FINAL-READBACK-RESULT.json",
+      "sha256": "ae11bbbd30a96af84575a9ff17d0ae5462c16b3dd83879d274e84a5254e89e49",
+      "source_key": "afterimages",
+      "string_digests": 0,
+      "structured_entries": 164,
+      "structured_value_keys": [
+        [
+          "bytes",
+          "sha256"
+        ]
+      ]
+    },
+    "shared686": {
+      "bytes": 5848,
+      "callback_entry": "503ca18b83311b557908a50dc9683dec3e74ba1708f23e9515b356c4361459a6",
+      "endpoint_count": 26,
+      "first_entry": [
+        "scripts/ci/android_camera_callback_native_focus.py",
+        "503ca18b83311b557908a50dc9683dec3e74ba1708f23e9515b356c4361459a6"
+      ],
+      "mode": "0o600",
+      "path": "/root/nativecmpkit-source-proposals-20261104/lead-shared-integration686/ROOT-INTEGRATION-RESULT.json",
+      "sha256": "5d2e2b81416c588a493a8720382330b540f6000e4437e7ccc2edb2d1f11179cd",
+      "source_key": "afterimages",
+      "string_digests": 26,
+      "structured_entries": 0,
+      "structured_value_keys": []
+    }
+  },
+  "recovery_driver": {
+    "bytes": 10891,
+    "path": "/root/nativecmpkit-source-proposals-20261104/lead-final-ci-integration689/integrate_named_prior_transition_once.py",
+    "sha256": "7cd4a83ec9ef05c410b5060e4147487c2c07f9c1a79e3783bb663e349117f577"
+  },
+  "retained_passive_transport_refusal": "LEAD689-FIRST-PASSIVE-TRANSPORT-REFUSAL610.json",
+  "reviewed_at_utc": "2026-11-04T13:28:55.992530+00:00",
+  "reviewer": "/root/consumer_independent610",
+  "reviewer_ROOT_worktree_source_writes": 0,
+  "reviewer_candidate_driver_APIs_tests_compiler_native_execution": 0,
+  "reviewer_network_Git_GitHub_operations": 0,
+  "schema": "lead689-first-named-transition-passive-refusal610-v1",
+  "verdict": "PASSIVE_DRIVER_CORRECTION_REFUSED_BEFORE_LAUNCH"
+}

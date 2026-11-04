@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.iodocuments.CONTROL_IO" />
+    <uses-permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.CONTROL_REMOTE_IO" />
     <queries>
         <package android:name="io.github.apdelrahman1911.nativecmpkit.verification.iodocuments" />
+        <package android:name="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments" />
+        <provider android:authorities="io.github.apdelrahman1911.nativecmpkit.verification.ioremotedocuments.documents" />
         <provider android:authorities="media;com.android.externalstorage.documents;com.android.providers.downloads.documents" />
         <intent><action android:name="android.intent.action.OPEN_DOCUMENT_TREE" /></intent>
     </queries>
     <application>
+        <activity android:name="com.mohamedrejeb.calf.io.AndroidIoRemoteTreeGrantActivity" android:exported="false"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
         <activity android:name="com.mohamedrejeb.calf.io.AndroidIoSystemTreeGrantActivity" android:exported="false"
             android:theme="@android:style/Theme.Material.Light.NoActionBar" />
         <activity android:name="com.mohamedrejeb.calf.io.AndroidIoGrantActivity" android:exported="false"

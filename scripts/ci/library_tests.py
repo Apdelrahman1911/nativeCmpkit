@@ -38,6 +38,7 @@ import ios_calendar_native_focus as calendar_native
 import macos_share_native_focus as macos_share_native
 import ios_ui_related_native_focus as ui_related
 import camera_ios_ownership_native_focus as camera_ios
+import android_camera_callback_native_focus as camera_callback
 import webview_content_policy_native_focus as content_policy
 import macos_share_missing_ci as share_missing
 
@@ -208,6 +209,10 @@ ANDROID_PERMISSION_DEVICE_SPECS = {
         "scope": "One media method on the exact actual API: API33 public-library image/video request/full scope; API34 real platform explicit selected-photo request followed by public library Limited/denied observation. Platform selection is not a library request result; no accepted Call/denial/picker replay or foreign-media/packaged/ABI/release inference.",
     },
 }
+# NEW controlled-loopback routes; no full/default fixture population is admitted.
+ANDROID_IO_REMOTE_FOCUSES = ("android-io-controlled-remote", "android-io-controlled-remote-positive",
+                            "android-io-controlled-remote-cancel")
+ANDROID_IO_REMOTE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteDocumentsTest.kt"
 ANDROID_IO_PROVIDER_FOCUS = "android-io-provider-lifecycle"
 ANDROID_IO_PROVIDER_CLASS = "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest"
 ANDROID_IO_PROVIDER_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt"
@@ -1287,7 +1292,7 @@ ANDROID_CAMERA_RESTORATION_METHODS = (
     "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
     "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
 )
-ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES)
+ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES, camera_callback.FOCUS)
 
 
 def android_camera_restoration_identities(focus: str = ANDROID_CAMERA_RESTORATION_FOCUS) -> list[dict]:
@@ -1943,6 +1948,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == UI_DATE_YEAR_MATERIAL_FOCUS and suite == "desktop" and modules == ("calf-ui",)) or
             (focus in DROPDOWN_FOCUSES and suite in DROPDOWN_SOURCE_SETS and modules == ("calf-ui",) and
              (focus != DROPDOWN_ANDROID_RECOVERY_FOCUS or suite == "android-device")) or
+            (focus in ANDROID_IO_REMOTE_FOCUSES and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_UNAVAILABLE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_DEFAULT_DECODE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
@@ -2077,6 +2083,42 @@ def android_io_named_system_filter(focus: str = ANDROID_IO_NAMED_SYSTEM_FOCUS) -
 
 def android_io_reference_identities() -> list[dict]:
     return [{"classname": ANDROID_IO_REFERENCE_CLASS, "name": method} for method in ANDROID_IO_REFERENCE_METHODS]
+
+
+def android_io_remote_documents_required(test_plan: dict) -> bool:
+    return (test_plan.get("suite") == "android-device" and
+            test_plan.get("explicit_test_focus") in ANDROID_IO_REMOTE_FOCUSES)
+
+
+def validate_android_io_remote_documents_plan(test_plan: dict) -> None:
+    contract = test_plan.get("android_io_remote_documents")
+    if not android_io_remote_documents_required(test_plan):
+        if contract is not None:
+            raise ValueError("A remote helper/source receipt cannot replace an unrelated or accepted IO route")
+        return
+    import android_io_remote_documents as remote
+    focus = test_plan["explicit_test_focus"]
+    expected = test_plan.get("expected")
+    if (type(contract) is not dict or set(contract) != {"package", "source_fixture", "verification_api_level", "source_contract"} or
+            contract.get("package") != remote.PACKAGE or contract.get("source_fixture") != remote.FIXTURE or
+            type(contract.get("verification_api_level")) is not int or contract["verification_api_level"] != 35 or
+            type(expected) is not list or len(expected) != 1 or test_plan.get("explicit_module_subset") != ["calf-io"] or
+            test_plan.get("complete_suite_requested") is not False or test_plan.get("android_io_documents") is not None):
+        raise ValueError("Only the separate exact API35 calf-io remote source/fixture plan is admitted")
+    item = expected[0]
+    dependencies = tuple(remote.KOTLIN + name + ".kt" for name in remote.KOTLIN_NAMES) + tuple(remote.REUSED_PINS)
+    if (type(item) is not dict or item.get("module") != "calf-io" or item.get("project") != ":calf-io" or
+            item.get("task") != ":calf-io:connectedAndroidDeviceTest" or
+            item.get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+            item.get("utp_results_directory") != item.get("report_directory") or
+            item.get("agp_declared_xml_directory") != "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
+            item.get("test_filter") != remote.instrumentation_filter(focus) or item.get("test_filter_argument") != "class" or
+            item.get("test_exclusion_annotation") is not None or item.get("required_testcases") != list(remote.identities(focus)) or
+            type(item.get("verification_api_level")) is not int or item["verification_api_level"] != 35 or
+            type(item.get("required_original_xml")) is not int or item["required_original_xml"] != 1 or
+            any(relative not in item.get("test_source_files", []) for relative in dependencies)):
+        raise ValueError("Invalid exact remote class/two-or-one-method/API35/task/XML plan")
+    remote.validate_source_receipt(contract["source_contract"])
 
 
 def android_io_documents_required(test_plan: dict) -> bool:
@@ -2226,11 +2268,20 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
          only_modules: tuple[str, ...] | None = None, *, focus: str | None = None) -> dict:
     if focus is not None and not allowed_test_focus(suite, only_modules, focus):
         raise ValueError("Test focus requires its exact reviewed suite and single module")
+    if minimum_modules is None or only_modules:
+        camera_callback.validate_discovery(suite, only_modules, focus, ANDROID_CAMERA_FOCUSES)
     if suite == "android-device" and only_modules and ANDROID_STORAGE_MODULE in only_modules and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:
         raise ValueError("Explicit storage device requests require one exact finite API/flavor profile")
+    if suite == "android-device" and focus is None and (not only_modules or "calf-io" in only_modules):
+        # Requested-domain admission is independent of class/file existence or a synthetic minimum.
+        raise ValueError("Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked")
     task_name, inherited = SUITES[suite]
+    declared_projects = projects(root)
+    camera_callback.validate_discovery(
+        suite, only_modules, focus, ANDROID_CAMERA_FOCUSES,
+        declared_modules=tuple(declared_projects), minimum_modules=minimum_modules)
     selected, uncovered = [], []
-    for module, project in projects(root).items():
+    for module, project in declared_projects.items():
         source_root = safe_path(root, module + "/src")
         if source_root.is_dir():
             unknown = {path.name for path in source_root.iterdir()
@@ -2425,6 +2476,10 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             selected[0]["secure_alert_input_contract"] = secure_alert.source_contract(root)
             secure_alert.validate_contract(selected[0]["secure_alert_input_contract"], selected[0]["test_source_files"])
         result["scope"] = spec["scope"]
+    elif focus == camera_callback.FOCUS:
+        camera_callback.configure_item(root, selected[0])
+        result["explicit_test_focus"] = focus
+        result["scope"] = camera_callback.SCOPE
     elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
         source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding="utf-8")
         client = safe_path(root, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text(encoding="utf-8")
@@ -2695,6 +2750,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["required_testcases"] = android_save_identity_identities(focus)
         result["scope"] = ("Nine missing real Android inode/provider/refusal/Activity-recreation methods; separately accepted descriptor calibration not replayed; "
                 if focus == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS else "Ten exact real Android inode/provider/refusal/Activity-recreation methods only; ") + "original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification"
+    elif focus in ANDROID_IO_REMOTE_FOCUSES:
+        import android_io_remote_documents as remote
+        remote.validate_direct_native_population(safe_path(root, ANDROID_IO_REMOTE_SOURCE).read_text(encoding="utf-8"))
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = remote.instrumentation_filter(focus)
+        selected[0]["test_filter_argument"] = "class"
+        selected[0]["required_testcases"] = list(remote.identities(focus))
+        selected[0]["verification_api_level"] = 35
+        selected[0]["required_original_xml"] = 1
+        result["android_io_remote_documents"] = {"package": remote.PACKAGE, "source_fixture": remote.FIXTURE,
+            "verification_api_level": 35, "source_contract": remote.source_contract(root)}
+        validate_android_io_remote_documents_plan(result)
+        result["scope"] = "Only the two NEW controlled-loopback TCP DocumentsProvider methods, or one justified missing-only follow-up, on exact owned API35 calf-io. Real system tree grants/live HTTP/public bounded source and separate framework pending-open CancellationSignal before PFD transfer remain native assertions. Not commercial cloud/account, Downloads, process restart, automatic coroutine/post-transfer cancellation, TLS/security, full IO/device/consumer/API-ABI or issue/release acceptance; Downloads remains unresolved, not N/A."
     elif focus == ANDROID_IO_PROVIDER_FOCUS:
         source = safe_path(root, ANDROID_IO_PROVIDER_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -3066,9 +3134,11 @@ def native_share_boundary_identities() -> list[dict]:
 def validate_test_focus(test_plan: dict) -> bool:
     """No arbitrary Gradle filters, module escape, skip list or broad pass claim."""
     validate_android_io_documents_plan(test_plan)
+    validate_android_io_remote_documents_plan(test_plan)
     validate_android_permission_demo_plan(test_plan)
     validate_android_storage_probe_plan(test_plan)
     focus = test_plan.get("explicit_test_focus")
+    camera_callback.validate_contract_placement(test_plan, ANDROID_CAMERA_FOCUSES)
     if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan["expected"]):
         raise ValueError("No Camera application/Photos source contract on unrelated or unfocused plans")
     if focus not in content_policy.FOCUSES and any(content_policy.CONTRACT_FIELD in item for item in test_plan["expected"]):
@@ -3079,6 +3149,8 @@ def validate_test_focus(test_plan: dict) -> bool:
         raise ValueError("No security-only trust/isolation fixture on an unrelated or default focus")
     if focus != share_missing.FOCUS and any(share_missing.CONTRACT_KEY in item for item in test_plan["expected"]):
         raise ValueError("No Share630 recovery source fixture on an unrelated or accepted focus")
+    if focus == camera_callback.FOCUS:
+        return camera_callback.validate_plan(test_plan)
     if focus in content_policy.FOCUSES:
         return content_policy.validate_plan(test_plan)
     if focus is None:
@@ -3113,6 +3185,8 @@ def validate_test_focus(test_plan: dict) -> bool:
                 any(source not in expected[0].get("test_source_files", []) for source in ANDROID_STORAGE_SOURCES)):
             raise ValueError("Invalid finite storage method/API/flavor/module plan")
         return True
+    if focus in ANDROID_IO_REMOTE_FOCUSES:
+        return True  # The separate strict remote plan validator above already owns every finite operand.
     if focus == ANDROID_IO_PROVIDER_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -3853,6 +3927,10 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == camera_callback.FOCUS:
+            scenarios, policy_errors = camera_callback.outcomes(module_cases, host_system or platform.system())
+            if len(paths) != 1 or len(reports) != 1:
+                policy_errors.append("Callback requires exactly one fresh original one-method XML; no extra empty report")
         elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_CAMERA_RESTORATION_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
@@ -4001,6 +4079,19 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
                              [f"Android saver XML must contain exactly all {len(required)} selected methods, no missing or unrelated cases"])
             sources = {group["classname"]: group["source"] for group in ANDROID_SAVE_IDENTITY_GROUPS}
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_IO_REMOTE_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+                             len(reports) == len(paths) == expected["required_original_xml"] == 1 and
+                             all(c["status"] == "passed" for c in module_cases) else
+                             ["Controlled remote IO XML requires only the exact selected NEW identities in one fresh original report; duplicate/skipped/stale/missing/foreign cases refuse"])
+            if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
+                policy_errors.append("Controlled remote IO requires the exact Linux API35 owned-emulator slot")
+            scenarios = [{**c, "source": ANDROID_IO_REMOTE_SOURCE, "required_on_host": True,
+                          "verification_api_level": 35,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_PROVIDER_FOCUS:
@@ -4218,12 +4309,23 @@ def quarantine_reports(root: Path, output: Path, test_plan: dict) -> list[str]:
 def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                    kotlin_user_home: str | None = None, root: Path = ROOT,
                    android_serial: str | None = None, android_io_documents_receipt: dict | None = None,
+                   android_io_remote_documents_receipt: dict | None = None,
                    android_permission_demo_receipt: dict | None = None,
                    for_assembly: bool = False, android_storage_probe_receipt: dict | None = None) -> list[str]:
     boundary_focus = validate_test_focus(test_plan)
     if for_assembly and suite != "android-device":
         raise ValueError("Only the device controller may request an assembly-only command")
     io_required = android_io_documents_required(test_plan)
+    remote_required = android_io_remote_documents_required(test_plan)
+    if android_io_remote_documents_receipt is not None and (not remote_required or for_assembly):
+        raise ValueError("No remote prepared receipt on unrelated or assembly-only commands")
+    if remote_required:
+        import android_io_remote_documents as remote
+        if remote.source_contract(root) != test_plan["android_io_remote_documents"]["source_contract"]:
+            raise ValueError("Remote current source/fixture/controller identities changed before the owning command")
+        if not for_assembly:
+            remote.validate_prepared_receipt(android_io_remote_documents_receipt,
+                test_plan["android_io_remote_documents"]["source_contract"])
     permission_required = android_permission_demo_required(test_plan)
     if android_permission_demo_receipt is not None and not permission_required:
         raise ValueError("No permission preparation on unrelated or accepted suites")
@@ -4248,6 +4350,10 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             raise ValueError("Prepared storage row differs from the selected native method")
     if boundary_focus and suite != test_plan["suite"]:
         raise ValueError("A focused test plan cannot run as another suite")
+    if test_plan.get("explicit_test_focus") == camera_callback.FOCUS:
+        camera_callback.validate_serial(android_serial)
+        if camera_callback.source_contract(root) != test_plan["expected"][0][camera_callback.CONTRACT_KEY]:
+            raise ValueError("Exact callback source/recipient/filter identity changed before the command")
     if test_plan.get("explicit_test_focus") in content_policy.FOCUSES:
         focus = test_plan["explicit_test_focus"]
         content_policy.validate_host(focus, platform.system(), platform.machine())
@@ -4334,12 +4440,17 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true")
         if android_camera_receiver_required(test_plan):
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true")
+        if test_plan.get("explicit_test_focus") == camera_callback.FOCUS:
+            command.append("-P" + camera_callback.GRADLE_PROPERTY + "=" + camera_callback.FOCUS)
         if android_share_recipient_required(test_plan):
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedShareRecipient=true")
         if io_required and not for_assembly:
             # This bit is only emitted after exact source/APK/manifest/private-key
             # identity passed, never for an assembly-only or standalone command.
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedIoDocuments=true")
+        if remote_required and not for_assembly:
+            # Preparation identity only; neither this argument nor a source receipt proves native success.
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedRemoteIoDocuments=true")
         if permission_required and not for_assembly:
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedPermissionDemo=true")
         if storage_required and not for_assembly:
@@ -4865,12 +4976,15 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None,
         android_serial: str | None = None, android_user_home: str | None = None, focus: str | None = None,
         android_io_documents_receipt: dict | None = None,
+        android_io_remote_documents_receipt: dict | None = None,
         android_permission_demo_receipt: dict | None = None, android_storage_probe_receipt: dict | None = None) -> dict:
     output = safe_path(root, output_relative)
     allowed = root / "build/ci-verification"
     if output == allowed or not output.is_relative_to(allowed) or output.exists():
         raise ValueError("Use a new, dedicated output directory below build/ci-verification; old evidence must not be overwritten")
     test_plan = plan(root, suite, only_modules=only_modules, **({"focus": focus} if focus is not None else {}))
+    if android_io_remote_documents_required(test_plan) and android_user_home is None:
+        raise ValueError("Remote instrumentation requires the controller's same existing private signing home")
     if android_io_documents_required(test_plan) and android_user_home is None:
         raise ValueError("Owned IO instrumentation requires the controller's existing private signing home")
     if android_permission_demo_required(test_plan) and android_user_home is None:
@@ -4879,6 +4993,7 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         raise ValueError("Owned storage instrumentation requires the controller private signing home")
     command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root,
                              android_serial=android_serial, android_io_documents_receipt=android_io_documents_receipt,
+                             android_io_remote_documents_receipt=android_io_remote_documents_receipt,
                              android_permission_demo_receipt=android_permission_demo_receipt,
                              android_storage_probe_receipt=android_storage_probe_receipt)
     execution_environment = android_device_environment(android_serial) if android_serial else None
@@ -4919,6 +5034,16 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                                               "expected_arch": "arm64"} if focus in ui_related.ALL_FOCUSES else {}))
         if focus in ui_related.ALL_FOCUSES:
             ui_related.validate_context(context, focus, udid=simulator)
+        if focus == camera_callback.FOCUS:
+            camera_callback.validate_context(context, android_serial)
+        if android_io_remote_documents_required(test_plan):
+            import android_io_remote_documents as remote
+            if context.get("android_emulator", {}).get("api_level") != "35":
+                raise ValueError("Remote controlled-loopback native execution requires actual API35")
+            remote.validate_prepared_receipt(android_io_remote_documents_receipt,
+                test_plan["android_io_remote_documents"]["source_contract"])
+            if remote.source_contract(root) != test_plan["android_io_remote_documents"]["source_contract"]:
+                raise ValueError("Remote current source map changed before native execution")
         if android_permission_demo_required(test_plan):
             import android_permission_demo
             actual_api = context["android_emulator"]["api_level"]
@@ -4978,6 +5103,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
             receipt["explicit_test_focus"] = focus
             receipt["required_focused_testcases"] = test_plan["expected"][0]["required_testcases"]
             receipt["scope"] = test_plan["scope"]
+        if android_io_remote_documents_required(test_plan):
+            receipt["android_io_remote_documents"] = dict(android_io_remote_documents_receipt)
         if android_permission_demo_required(test_plan):
             receipt["android_permission_demo"] = dict(android_permission_demo_receipt)
         try:
@@ -5000,6 +5127,13 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                     receipt["device_context_error"] = "Selected Android emulator identity or security/boot state changed during execution"
             except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
                 receipt["device_context_error"] = "Selected Android emulator identity/security state could not be re-established after execution"
+        if android_io_remote_documents_required(test_plan):
+            try:
+                import android_io_remote_documents as remote
+                if remote.source_contract(root) != test_plan["android_io_remote_documents"]["source_contract"]:
+                    receipt["remote_source_capture_error"] = "Remote source/fixture/controller inputs changed after native execution"
+            except (OSError, ValueError, UnicodeError):
+                receipt["remote_source_capture_error"] = "Unable to establish the exact remote source map after execution"
         markers = execution_markers(output / "gradle.log")
         receipt["task_execution_markers"] = {item["task"]: markers[item["task"]] for item in test_plan["expected"]}
         receipt.update(collect_reports(root, test_plan, started_ns, ended_ns, markers,
@@ -5026,7 +5160,7 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
             receipt["errors"].append({"error": "Owned real picker portal startup/runtime/shutdown failed"})
         receipt["passed"] = (execution["exit_code"] == 0 and not execution.get("stop_reason") and not receipt["errors"]
                              and not receipt.get("input_capture_error") and not receipt.get("changed_inputs")
-                             and not receipt.get("device_context_error"))
+                             and not receipt.get("device_context_error") and not receipt.get("remote_source_capture_error"))
         write_json(output / "receipt.json", receipt)
         return receipt
     finally:
@@ -5064,7 +5198,7 @@ def main() -> int:
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, *LINUX_PICKER_PORTAL_FOCUSES, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS, *ANDROID_IO_NAMED_SYSTEM_FOCUSES, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, *ANDROID_IO_REMOTE_FOCUSES, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS, *ANDROID_IO_NAMED_SYSTEM_FOCUSES, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS, UI_DATE_YEAR_MATERIAL_FOCUS,
                                            *UI_APPLICATION_FOCUS_SPECS])),
                         help="Finite source-reviewed important tests only; never complete suite coverage")

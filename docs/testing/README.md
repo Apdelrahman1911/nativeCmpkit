@@ -1,5 +1,12 @@
 # Verification and testing knowledge base
 
+## Current offline-tooling integration — 2026-11-04
+
+Use the [activation guide](offline-tooling-activation.md) for the explicit
+same-frozen-commit producer/reuse procedure and its independent platform gates.
+The preserved preparation documents and dated checkpoints below are historical
+evidence, not current CI successes or permission restrictions.
+
 ## Direct saver closure and focused cancellation — 2026-10-28, 22:24 UTC
 
 [IO-006/#43](../development/evidence/save-write-important-20261028/README.md) is readback-closed/completed after all six original

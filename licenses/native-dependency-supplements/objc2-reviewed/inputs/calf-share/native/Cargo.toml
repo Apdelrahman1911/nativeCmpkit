@@ -1,0 +1,36 @@
+# Modified for nativeCmpkit migration (2026-10-24); crate/JNI names preserve the native ABI.
+[package]
+name = "calf-share-native"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "Apache-2.0"
+repository = "https://github.com/Apdelrahman1911/nativeCmpkit"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+# Native lifecycle verification is explicit and never part of a release build by default.
+appkit-lifecycle-tests = []
+
+[[test]]
+name = "appkit_lifecycle"
+path = "tests/appkit_lifecycle_main.rs"
+harness = false
+required-features = ["appkit-lifecycle-tests"]
+
+[dependencies]
+jni = "0.21"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-foundation = { version = "0.3", features = ["NSString", "NSURL", "NSArray", "NSObject", "NSThread"] }
+objc2-app-kit = { version = "0.3", features = ["NSWindow", "NSView", "NSResponder", "NSSharingService", "NSEvent", "NSApplication", "NSRunningApplication"] }
+block2 = "0.6"
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true
+codegen-units = 1

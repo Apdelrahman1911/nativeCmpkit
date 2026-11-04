@@ -55,6 +55,9 @@ PROFILES = {
     "android-io-named-system-providers": ("android-device-api35",),
     "android-io-named-external-storage": ("android-device-api35",),
     "android-io-reference-regressions": ("android-device-api35",),
+    "android-io-controlled-remote": ("android-device-api35",),
+    "android-io-controlled-remote-positive": ("android-device-api35",),
+    "android-io-controlled-remote-cancel": ("android-device-api35",),
     "android-permission-demo": ("android-device-api35",),
     "android-permission-demo-call-denial-recovery": ("android-device-api35",),
     "android-permission-demo-denial-recovery": ("android-device-api35",),
@@ -65,6 +68,7 @@ PROFILES = {
     "android-camera-no-handler-minimum": ("android-device-api35",),
     "android-camera-restoration": ("android-device-api35",),
     "android-camera-restoration-dont-keep": ("android-device-api35",),
+    "android-camera-callback-substitution": ("android-device-api35",),
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
     "browser-coil-io": ("browser-js", "browser-wasm"),
@@ -266,6 +270,9 @@ MODULE_SUBSETS = {
     "android-io-named-system-providers": "calf-io",
     "android-io-named-external-storage": "calf-io",
     "android-io-reference-regressions": "calf-io",
+    "android-io-controlled-remote": "calf-io",
+    "android-io-controlled-remote-positive": "calf-io",
+    "android-io-controlled-remote-cancel": "calf-io",
     "android-permission-demo": "calf-permissions/core",
     "android-permission-demo-call-denial-recovery": "calf-permissions/core",
     "android-permission-demo-denial-recovery": "calf-permissions/core",
@@ -276,6 +283,7 @@ MODULE_SUBSETS = {
     "android-camera-no-handler-minimum": "calf-camera-picker",
     "android-camera-restoration": "calf-camera-picker",
     "android-camera-restoration-dont-keep": "calf-camera-picker",
+    "android-camera-callback-substitution": "calf-camera-picker",
     "android-navigation-back": "calf-navigation",
     "ios-webview-lifecycle": "calf-webview",
     "ios-webview-recovery": "calf-webview",
@@ -584,6 +592,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-camera-restoration-dont-keep":
         for row in rows:
             row["test-focus"] = "android-camera-real-restoration-dont-keep"
+    if profile == "android-camera-callback-substitution":
+        for row in rows:
+            row["test-focus"] = "android-camera-callback-substitution"
     if profile == "android-share-grants":
         for row in rows:
             row["test-focus"] = "android-share-uri-grants"
@@ -914,6 +925,9 @@ def matrix(profile: str) -> dict:
         for row in rows:
             row["test-focus"] = "android-io-default-decode"
     if profile in {"android-io-named-system-providers", "android-io-named-external-storage"}:
+        for row in rows:
+            row["test-focus"] = profile
+    if profile in {"android-io-controlled-remote", "android-io-controlled-remote-positive", "android-io-controlled-remote-cancel"}:
         for row in rows:
             row["test-focus"] = profile
     if profile == "android-io-reference-regressions":

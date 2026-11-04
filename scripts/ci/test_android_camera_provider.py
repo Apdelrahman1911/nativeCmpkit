@@ -218,10 +218,13 @@ class CameraProviderPlanTests(unittest.TestCase):
                          tuple(row[k] for k in ("slot", "suite", "test-modules", "emulator-api", "serial-emulator-api", "test-focus")))
         p = self.plan(); self.assertTrue(l.validate_test_focus(p)); self.assertTrue(l.android_camera_receiver_required(p))
         self.assertFalse(p["complete_suite_requested"]); self.assertEqual(4, len(p["expected"][0]["required_testcases"]))
-        self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(8, len(l.plan(l.ROOT, "android-device")["expected"]))
+        self.assertEqual(11, len(w.matrix("all")["include"]))
         self.assertEqual(9, len(l.MINIMUM_MODULES["android-device"]))
-        self.assertEqual(["calf-permissions/core"],
-                         l.plan(l.ROOT, "android-device")["finite_only_device_modules_not_requested"])
+        # The newly enabled API35-only callback cannot be hidden inside an
+        # unrestricted inventory; original finite provider/API23 routes stay.
+        with patch.object(l, "projects") as discovery:
+            with self.assertRaises(ValueError): l.plan(l.ROOT, "android-device")
+            discovery.assert_not_called()
         actual = w.preflight_plans("android-camera-provider")
         self.assertEqual(2, len(actual["slots"]))
         for api, selection in zip(("35", "23"), actual["slots"]):
@@ -234,6 +237,10 @@ class CameraProviderPlanTests(unittest.TestCase):
         self.assertIn("-Pandroid.testInstrumentationRunnerArguments.class=" + l.ANDROID_CAMERA_PROVIDER_CLASS, c)
         self.assertFalse(any("," in x for x in c if x.startswith("-Pandroid.testInstrumentationRunnerArguments.")))
         self.assertFalse(any("OwnedShare" in x or "OwnedGeo" in x for x in c))
+        self.assertFalse(any(x.startswith("-PnativecmpkitCameraCallbackSubstitution=") for x in c))
+        fixture = (l.ROOT / l.ANDROID_CAMERA_PROVIDER_SOURCE).read_text()
+        self.assertIn("var delayedCallbackCapture = false", fixture)
+        self.assertIn("if (missingHandler) \"NonexistentCameraActivity\" else if (delayedCallbackCapture) \"CameraDelayedReceiverActivity\" else \"CameraReceiverActivity\"", fixture)
         self.assertEqual(":calf-camera-picker:connectedAndroidDeviceTest", c[-1])
 
     def test_minimum_only_recovery_selects_api23_and_never_replays_accepted_api35(self):
@@ -305,7 +312,11 @@ class CameraProviderPlanTests(unittest.TestCase):
         self.assertNotIn(str(l.ROOT), json.dumps(origin))
 
     def test_api23_never_escapes_exact_camera_focus_and_default_api35_stays_available(self):
-        device.validate_api_selection(35, None, None)
+        device.validate_api_selection(35, ("calf-camera-picker",), l.ANDROID_CAMERA_PROVIDER_FOCUS)
+        device.validate_api_selection(35, ("calf-io",), None)
+        with patch.object(device, "require_host") as host:
+            with self.assertRaises(ValueError): device.run(l.ROOT, "build/ci-verification/unfiltered-camera-refusal")
+            host.assert_not_called()
         device.validate_api_selection(23, ("calf-camera-picker",), l.ANDROID_CAMERA_PROVIDER_FOCUS)
         for api, modules, focus in [(23, None, None), (23, ("calf-io",), l.ANDROID_CAMERA_PROVIDER_FOCUS),
                                     (23, ("calf-camera-picker",), None), (24, ("calf-camera-picker",), l.ANDROID_CAMERA_PROVIDER_FOCUS),

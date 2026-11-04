@@ -293,8 +293,10 @@ class DesktopWebViewLiteralMatrixTests(unittest.TestCase):
             "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39",
             "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
         }
+        from platform_recovery659_source_projection import current_source_before_platform_recovery659
         for relative, expected in preserved.items():
-            self.assertEqual(expected, hashlib.sha256((lt.ROOT / relative).read_bytes()).hexdigest())
+            preserved_source = current_source_before_platform_recovery659(relative, (lt.ROOT / relative).read_bytes())
+            self.assertEqual(expected, hashlib.sha256(preserved_source).hexdigest())
         # This proposal changes no YAML. Authorized unrelated option additions
         # must not be blocked by a whole-workflow preimage hash. Row focus tokens
         # stay internal to the existing public Desktop dispatch profile only.

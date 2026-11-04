@@ -1,0 +1,56 @@
+{
+  "final_outer671_qualification_required": true,
+  "fragments": [
+    {
+      "after": "    validate_api_selection(api_level, only_modules, focus)\n    if focus is None:\n        # Unfiltered remote discovery is source-refused before host checks, output or locks.\n        lt.plan(root, \"android-device\", only_modules=only_modules)\n    if focus == lt.camera_callback.FOCUS:\n        lt.plan(root, \"android-device\", only_modules=only_modules, focus=focus)\n    observing = kvm_timeline.active(api_level, focus)\n",
+      "after_fragment_sha256": "5490b3f950de9a1e8fc44a9f9cb7e927a076a9e75f52ea8108d2aa57d8d6aeb4",
+      "before": "    validate_api_selection(api_level, only_modules, focus)\n    if focus is None:\n        # Unfiltered remote discovery is source-refused before host checks, output or locks.\n        lt.plan(root, \"android-device\", only_modules=only_modules)\n    observing = kvm_timeline.active(api_level, focus)\n",
+      "before_fragment_sha256": "46edacc7b9e1f615805939275bc481b2168dd668b649cc5d608953d716ca2009",
+      "final_outer671_qualification_required": true,
+      "io_endpoint_sha256": "02ea091a86c08e69bb6356b24fa33060fb08e7973b90b6b3519a7b9c3267f464",
+      "lead_integrates_once_after_all_exact_source_preconditions": true,
+      "obligation": "Validate exact current callback source plan before even require_host; leave unrelated controller admission unchanged",
+      "original_callback_fragment": {
+        "after": "    validate_api_selection(api_level, only_modules, focus)\n    if focus == lt.camera_callback.FOCUS:\n        lt.plan(root, \"android-device\", only_modules=only_modules, focus=focus)\n    observing = kvm_timeline.active(api_level, focus)\n",
+        "after_fragment_sha256": "d000a59c5afe9ebcf1de26e0de2d191c5deee53b5a33d1652fe02e9d4f0b890f",
+        "before": "    validate_api_selection(api_level, only_modules, focus)\n    observing = kvm_timeline.active(api_level, focus)\n",
+        "before_fragment_sha256": "275b92bf1bb5120221a1ca62a820fbbf41389ff9c04483435bfb5b8f81fe27e1",
+        "obligation": "Validate exact current callback source plan before even require_host; leave unrelated controller admission unchanged"
+      },
+      "original_callback_insert_preserved_verbatim": true,
+      "original_refusal_receipt_sha256": "bec9fc040eff9af5efd140ffb4a856fd36cd40a41f0f5524d7784fcb2d12b41d",
+      "path": "scripts/ci/android_device_tests.py",
+      "root_predecessor": "afc0a727f60a9278c96cf9721157ba7413229c10",
+      "schema_version": 1,
+      "scope": "One explicit lead callback672 controller composition above sealed IO665; not original manifest regeneration or source/native acceptance",
+      "unchanged_IO_block_preserved_verbatim": true
+    },
+    {
+      "after": "        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if focus == camera_callback.FOCUS:\n            camera_callback.validate_context(context, android_serial)\n        if android_io_remote_documents_required(test_plan):\n            import android_io_remote_documents as remote\n            if context.get(\"android_emulator\", {}).get(\"api_level\") != \"35\":\n                raise ValueError(\"Remote controlled-loopback native execution requires actual API35\")\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n            if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote current source map changed before native execution\")\n        if android_permission_demo_required(test_plan):\n",
+      "after_fragment_sha256": "cb81d46919fc11fcbd2404f587e2740084838b7d10fd7c667c9dea2c855f146f",
+      "before": "        if focus in ui_related.ALL_FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if android_io_remote_documents_required(test_plan):\n            import android_io_remote_documents as remote\n            if context.get(\"android_emulator\", {}).get(\"api_level\") != \"35\":\n                raise ValueError(\"Remote controlled-loopback native execution requires actual API35\")\n            remote.validate_prepared_receipt(android_io_remote_documents_receipt,\n                test_plan[\"android_io_remote_documents\"][\"source_contract\"])\n            if remote.source_contract(root) != test_plan[\"android_io_remote_documents\"][\"source_contract\"]:\n                raise ValueError(\"Remote current source map changed before native execution\")\n        if android_permission_demo_required(test_plan):\n",
+      "before_fragment_sha256": "70478d341132419abb172459971182ef01db6870725fff4103742bede272a575",
+      "io_endpoint_sha256": "50649230981349294a9aac3dd51b14d629d3596818c2a527d95ea2cf2c48c80d",
+      "obligation": "Actual runtime must be exact enforcing/Booted API35 Linux x64 and the captured same serial before native task execution",
+      "original_callback_fragment": {
+        "after": "        if focus in ui_related.FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if focus == camera_callback.FOCUS:\n            camera_callback.validate_context(context, android_serial)\n        if android_permission_demo_required(test_plan):\n",
+        "after_fragment_sha256": "47edf48fc58a025716b2ced0353f24aa387fac65d2c8b5fe2cdc5610168e5373",
+        "before": "        if focus in ui_related.FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n        if android_permission_demo_required(test_plan):\n",
+        "before_fragment_sha256": "ac6bad14557f24433a3bd62404260d717aabbc47472fe8eee0d489f89807852f",
+        "obligation": "Actual runtime must be exact enforcing/Booted API35 Linux x64 and the captured same serial before native task execution"
+      },
+      "original_callback_insert_preserved_verbatim": true,
+      "path": "scripts/ci/library_tests.py",
+      "unchanged_IO_block_preserved_verbatim": true,
+      "unchanged_UI_ALL_FOCUSES_preserved_verbatim": true
+    }
+  ],
+  "prior_refusals": [
+    "/root/nativecmpkit-source-proposals-20261104/lead-composition676/FIRST-PREWRITE-REFUSAL.json",
+    "/root/nativecmpkit-source-proposals-20261104/lead-composition678/FIRST-PREWRITE-REFUSAL.json"
+  ],
+  "root_predecessor": "afc0a727f60a9278c96cf9721157ba7413229c10",
+  "root_writes": 0,
+  "schema_version": 1,
+  "scope": "Exactly two explicit lead callback672 contexts above sealed UI664/IO665; original manifests untouched; not current-source/native acceptance"
+}

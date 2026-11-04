@@ -75,8 +75,8 @@ def current_source_before_recents_observation(relative, payload):
         raise ValueError("Exact current recents-observation identity and ordinary bytes required")
     from webview_content_policy_source_projection import peel_content_policy_for_history
     payload = peel_content_policy_for_history(relative, payload)
-    from camera_recents_fixture_source_projection import current_source_before_recents_fixture
-    payload = current_source_before_recents_fixture(relative, payload)
+    from camera_recents_fixture_source_projection import recents_fixture_after_qualified_outer_ingress
+    payload = recents_fixture_after_qualified_outer_ingress(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace exact current recents-observation source")

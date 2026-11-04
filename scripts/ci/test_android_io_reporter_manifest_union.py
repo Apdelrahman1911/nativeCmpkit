@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import ast
 from copy import deepcopy
+import hashlib
 import os
 from pathlib import Path
 from types import SimpleNamespace
@@ -62,10 +63,33 @@ def owning_reporter_guard():
     return env["reporter_model"]
 
 
+def owning_reporter_fixture(payload):
+    """Execute only the exact new pure source inverse, then the old parser stage."""
+    syntax = ast.parse((TREE / "scripts/ci/android_io_documents.py").read_text(encoding="utf-8"))
+    names = ("REMOTE_REPORTER_SHA256", "REMOTE_REPORTER_FRAGMENTS")
+    constants = []
+    for name in names:
+        matches = [node for node in syntax.body if isinstance(node, ast.Assign) and
+                   any(isinstance(target, ast.Name) and target.id == name for target in node.targets)]
+        if len(matches) != 1:
+            raise AssertionError("One exact remote reporter fixture constant is required")
+        constants += matches
+    functions = []
+    for name in ("require", "normalize_remote_reporter_source"):
+        matches = [node for node in syntax.body if isinstance(node, ast.FunctionDef) and node.name == name]
+        if len(matches) != 1:
+            raise AssertionError("One exact pure remote reporter fixture source function is required")
+        functions += matches
+    env = {"hashlib": hashlib}
+    exec(compile(ast.fix_missing_locations(ast.Module(body=deepcopy(constants + functions), type_ignores=[])),
+                 "selected-owning-remote-reporter-source-inverse-only", "exec"), env)
+    return env["normalize_remote_reporter_source"](payload)
+
+
 class ReporterManifestUnionSourceControls(unittest.TestCase):
     def setUp(self):
         self.guard = owning_reporter_guard()
-        self.union = ET.fromstring((TREE / MANIFEST).read_bytes())
+        self.union = ET.fromstring(owning_reporter_fixture((TREE / MANIFEST).read_bytes()))
         self.prior = deepcopy(self.union)
         queries = self.prior.find("queries")
         if [node.tag for node in queries] != ["package", "provider", "intent"]:

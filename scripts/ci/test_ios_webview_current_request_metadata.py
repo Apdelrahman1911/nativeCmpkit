@@ -282,9 +282,11 @@ class IosCurrentRequestMetadataSourceTests(unittest.TestCase):
         self.assertIn("state.noteIosNativeLoading()", observer)
 
     def test_original_common_api_and_all_native_method_bodies_remain_byte_identical(self):
+        from platform_recovery659_source_projection import current_source_before_platform_recovery659
         for relative, expected in PINS.items():
             with self.subTest(path=relative):
-                self.assertEqual(expected, hashlib.sha256((ROOT / relative).read_bytes()).hexdigest())
+                original = current_source_before_platform_recovery659(relative, (ROOT / relative).read_bytes())
+                self.assertEqual(expected, hashlib.sha256(original).hexdigest())
 
 
 class IosCurrentRequestMetadataSyntheticTests(unittest.TestCase):

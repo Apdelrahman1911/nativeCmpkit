@@ -114,10 +114,25 @@ class AndroidCombinedFiniteRoutingGuards(unittest.TestCase):
 
     def test_default_keeps_nine_inventory_entries_eight_executions_and_the_core_deletion_guard(self):
         self.assertEqual((*BASE_DEVICE_MODULES, CORE), lt.MINIMUM_MODULES["android-device"])
-        plan = lt.plan(ROOT, "android-device")
-        self.assertEqual(list(BASE_DEVICE_MODULES), [item["module"] for item in plan["expected"]])
-        self.assertEqual([CORE], plan["finite_only_device_modules_not_requested"])
+        # Eight ordinary hosts remain inventory metadata, not executable default coverage.
+        inventory = ('calf-io', 'calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share', 'calf-camera-picker')
+        self.assertEqual(8, len(inventory))
+        self.assertEqual((*inventory, "calf-permissions/core"), lt.MINIMUM_MODULES["android-device"])
+        with self.assertRaises(ValueError) as refused:
+            lt.plan(ROOT, "android-device")
+        self.assertIn(str(refused.exception), (
+            'Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked',
+            'Enabled API35-only callback requires exact finite Camera selection; unrestricted Camera/all discovery refuses before host work',
+        ))
+        # An unrelated explicit subset cannot admit the unfiltered Camera/IO domains.
+        unrelated = ('calf-file-picker', 'calf-geo', 'calf-webview', 'calf-ui', 'calf-navigation', 'calf-share')
+        plan = lt.plan(ROOT, "android-device", minimum_modules=unrelated, only_modules=unrelated)
+        self.assertEqual(list(unrelated), [item["module"] for item in plan["expected"]])
+        self.assertEqual(list(unrelated), plan["explicit_module_subset"])
         self.assertFalse(plan["complete_suite_requested"])
+        self.assertEqual(["calf-permissions/core"], plan["finite_only_device_modules_not_requested"])
+        self.assertEqual(["calf-camera-picker", "calf-io", "calf-permissions/core"],
+                         plan["test_bearing_modules_not_requested"])
         self.assertFalse(lt.validate_test_focus(plan))
         self.assertNotIn("android_permission_demo", plan)
         self.assertNotIn("android_storage_probe", plan)
@@ -127,8 +142,10 @@ class AndroidCombinedFiniteRoutingGuards(unittest.TestCase):
         source_files = lt.source_files
         def without_core_host(root, relative):
             return [] if relative == CORE + "/src/androidDeviceTest" else source_files(root, relative)
-        with patch.object(lt, "source_files", side_effect=without_core_host), self.assertRaises(ValueError):
-            lt.plan(ROOT, "android-device")
+        # Reach the actual missing core host, not the unrelated default refusal.
+        with patch.object(lt, "source_files", side_effect=without_core_host), self.assertRaisesRegex(
+                ValueError, r"^Selected modules do not have android-device library test sources: \['calf-permissions/core'\]$"):
+            lt.plan(ROOT, "android-device", only_modules=(CORE,), focus=lt.ANDROID_PERMISSION_DEMO_FOCUS)
 
     def test_core_cannot_escape_finite_focus_suite_or_single_module_boundaries(self):
         for suite, modules, focus in (("android-device", (CORE,), None),

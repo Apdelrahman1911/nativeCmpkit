@@ -12,6 +12,15 @@ internal fun calendarRequestKind(majorIOSVersion: Int, mode: CalendarAccessMode)
     if (majorIOSVersion < 17) CalendarRequestKind.Legacy
     else if (mode == CalendarAccessMode.Write) CalendarRequestKind.WriteOnly else CalendarRequestKind.FullAccess
 
+/** Each EventKit request requires its own host purpose string; modern keys cannot replace the legacy key. */
+internal fun calendarUsageDescriptionKey(kind: CalendarRequestKind): String = when (kind) {
+    CalendarRequestKind.Legacy -> "NSCalendarsUsageDescription"
+    CalendarRequestKind.FullAccess -> "NSCalendarsFullAccessUsageDescription"
+    CalendarRequestKind.WriteOnly -> "NSCalendarsWriteOnlyAccessUsageDescription"
+}
+
+internal fun calendarUsageDescriptionValid(value: Any?): Boolean = value is String && value.isNotBlank()
+
 internal fun calendarSnapshot(authorization: CalendarAuthorization, mode: CalendarAccessMode): PermissionSnapshot {
     val granted = authorization == CalendarAuthorization.Full ||
         (authorization == CalendarAuthorization.WriteOnly && mode == CalendarAccessMode.Write)

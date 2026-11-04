@@ -1,0 +1,37 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":calf-permissions:calf-permissions-calendar:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.permissions.helper.CalendarConfigurationTest",
+    ":calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64"
+  ],
+  "started_utc": "2026-11-04T02:40:59.684098+00:00",
+  "java_home": "/usr/lib/jvm/java-17-openjdk-amd64",
+  "disk_before_bytes": 11233914880,
+  "input_count": 1339,
+  "revision": "f566078507bbfc000244561ed925565913c3342b",
+  "source_state": "dirty owned permission branch; not immutable release evidence",
+  "scope": "NEW common3 Desktop only plus iOS production/test KLIB typechecking; zero native/Apple links",
+  "exit_code": 0,
+  "wall_seconds": 89.14297071797773,
+  "finished_utc": "2026-11-04T02:42:28.832391+00:00",
+  "inputs_held": true,
+  "disk_after_bytes": 11207897088,
+  "reports": [
+    {
+      "path": "calf-permissions/calendar/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.permissions.helper.CalendarConfigurationTest.xml",
+      "sha256": "873991cc861cd7f25e700758f07a3d184dc05b92b5355a12dc4f57af410c750b",
+      "mtime_ns": 1793760148122146158
+    }
+  ]
+}

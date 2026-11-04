@@ -1,5 +1,21 @@
 # Permissions implementation after the audit
 
+## Calendar purpose-key boundary — 2026-11-04
+
+[Calendar605](evidence/current-platform-recovery-20261101/calendar-purpose-key605/README.md)
+adds a request-time localized main-bundle guard for the exact selected EventKit
+purpose key and Main-confined request/status state. Missing/blank/non-string
+configuration completes `false` with `ConfigurationError`/`PrerequisiteRequired`
+before native privacy, without inventing a permanent denial or broader access.
+NEW common configuration3/3 and NEW source8/8 pass once; fresh calendar iOS
+production/test KLIBs compile in a successful89.14s/JDK17.0.20/Gradle9.7.1 invocation
+with1,339 own-branch inputs held and six warning entries retained. Five real
+EventKit/NSBundle/Darwin library regressions are compiled/prepared, **not executed**;
+see [finite selector and original criteria](../testing/ios-calendar-permissions.md).
+The five previous common capability-policy bodies remain unchanged, not replayed.
+#22/#110 stay partially verified for real approval/Settings/old/minimum-OS evidence.
+No release, consumer, API–ABI or security gate is satisfied by this local batch.
+
 Scope: **PERM-001–017 and PERM-024**, after the lead's upstream synchronization
 completion on 2026-10-24. Geo (PERM-018–023) is owned separately; see [GEO](GEO.md).
 The immutable [baseline findings](../audit/findings/PERM.json) and baseline
@@ -91,7 +107,7 @@ owner's pending callbacks instead of fabricating user denial.
 | Finding | Current source treatment | Remaining platform verification |
 |---|---|---|
 | 009/010 | WhenInUse can explicitly request Always; NotDetermined/unknown and unchanged initial upgrade events are nonterminal; clear pending callback/timer before invocation; dispose delegates; 60s timeout | Actual OS dialog order, Allow Once, deferred Always upgrade/decline, multiple scenes and permission revocation |
-| 011/012 | Pure calendar request/access policy, retained EventKit store, guarded iOS17 APIs, modern full vs write-only requests and usage keys | Minimum supported iOS, missing-key behavior and real calendar grant/upgrade matrix |
+| 011/012 | Pure calendar request/access policy, retained EventKit store, guarded iOS17 APIs, modern full vs write-only requests, exact localized purpose-key guard and Main-confined state | Five native passive/configuration regressions prepared; minimum supported iOS, actual missing-key/native behavior and real calendar grant/upgrade matrix still required |
 | 013 | Passive Wi-Fi/local-network observations; explicit active-app/configuration-checked Bonjour probe; Kotlin adapter strongly owns a separate NSObject protocol delegate; common request owner cleans adapter/timer before callback; failures/timeouts are not denial | Real local-network prompt/probe semantics on physical devices; it is a heuristic, not a definitive authorization-query API or Wi-Fi configuration API |
 | 014 | Kotlin request adapter strongly retains its separate NSObject delegate and manager; polls undetermined authorization until result or 60s timeout; identity-local cleanup and disposal | Weak-delegate/device behavior, powered-off/Bluetooth reset, prompt delays and memory instrumentation |
 | 015 | Existing and fresh eligible notification authorization share the APNs registration-before-callback path on Main | Entitlements, APNs delegate token/error delivery and actual push behavior (never promised by the Boolean result) |

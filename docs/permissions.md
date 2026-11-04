@@ -615,7 +615,18 @@ The helper guards the iOS 17 APIs and uses the legacy request on older systems.
 access and can explicitly request an upgrade from write-only. On older systems,
 EventKit cannot grant only writes, so the legacy request obtains shared access.
 
+Each selected access mode requires its own **nonblank string**. The helper reads
+the host's localized `InfoPlist.strings` through `NSBundle.objectForInfoDictionaryKey`;
+a modern purpose key does not substitute for the legacy key or the other modern
+mode. If a native request would be needed but its selected key is missing, blank
+or not a string, the callback returns `false` with
+`details.lastRequest == PermissionRequestOutcome.ConfigurationError` and
+`details.requestability == PermissionRequestability.PrerequisiteRequired`, without
+invoking EventKit or changing OS authorization. This is an app configuration
+error, not a permanent user denial. Requests and status observations are Main-confined.
+
 The string value is the message that will be displayed to the user when the permission is requested.
+See [library-level EventKit verification and remaining native coverage](testing/ios-calendar-permissions.md).
 
 ### Wi-Fi Permissions
 

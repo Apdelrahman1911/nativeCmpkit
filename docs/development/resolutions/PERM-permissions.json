@@ -1322,12 +1322,17 @@
     "status": "partially-verified",
     "changes": [
       "Choose legacy EventKit request below iOS17 and guarded full-access/write-only methods on modern iOS.",
-      "Retain the event store and document the correct modern/legacy usage-description keys."
+      "Retain the event store and document the correct modern/legacy usage-description keys.",
+      "2026-11-04: fail closed before EventKit on the selected missing/blank/non-string localized main-bundle purpose key; expose ConfigurationError/PrerequisiteRequired rather than a permanent native denial; confine request and status state to Main."
     ],
     "affected_paths": [
       "calf-permissions/calendar/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionPolicy.kt",
       "calf-permissions/calendar/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionHelper.kt",
-      "docs/permissions.md"
+      "docs/permissions.md",
+      "calf-permissions/calendar/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/CalendarConfigurationTest.kt",
+      "calf-permissions/calendar/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/helper/NativeCalendarConfigurationTest.kt",
+      "scripts/ci/test_ios_calendar_configuration.py",
+      "docs/testing/ios-calendar-permissions.md"
     ],
     "tests": [
       {
@@ -1409,11 +1414,25 @@
         },
         "report_count": 1,
         "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. Common EventKit policy only; Apple SDK linking, usage-key and minimum-OS execution remain required."
+      },
+      {
+        "command": "./gradlew --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-permissions:calf-permissions-calendar:desktopTest --tests com.mohamedrejeb.calf.permissions.helper.CalendarConfigurationTest :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64; python3 -m unittest discover -s scripts/ci -p test_ios_calendar_configuration.py -v",
+        "result": "2026-11-04 owned calendar605 branch: NEW common configuration3/3 Desktop in one fresh XML (0 failures/errors/skips), actual Gradle0/89.1429707s/JDK17.0.20/Gradle9.7.1. Calendar production/test iosSimulatorArm64 KLIBs compile; zero Apple SDK links/native/privacy execution. NEW8 source controls pass once (unittest0.002s/wrapper0.3519721s); 1,339 own-branch source maps hold. All six compiler/configuration warning entries are retained, including unchanged core unused-expression and test-only BetaInterop opt-in warning. Existing five capability-policy bodies/registrations are unchanged, not replayed. Actual configured write/full consent, Settings, physical/old/minimum-OS/native/consumer/API-ABI/security/release gates remain.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/source-first.json",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/source-first.log",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/gradle-first.json",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/gradle-first.log",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/reports/TEST-com.mohamedrejeb.calf.permissions.helper.CalendarConfigurationTest.xml",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/review.json"
+        ]
       }
     ],
     "remaining": [
       "iOS simulator-arm64 production/test KLIB compilation passed; Apple SDK linking, minimum-OS and missing/correct usage-key runtime checks remain pending.",
-      "Sample owner separately updated Info.plist; configuration source is not native runtime evidence."
+      "Sample owner separately updated Info.plist; configuration source is not native runtime evidence.",
+      "Calendar605 five new real EventKit/NSBundle/Darwin native regression methods are compiled/prepared, not executed; documented minimum-OS and actual configured key/deny/restricted/Settings matrix remain required."
     ],
     "compatibility": [
       "No arbitrary deployment-target increase; old iOS uses its available shared-access API."
@@ -1424,13 +1443,18 @@
     "status": "partially-verified",
     "changes": [
       "Register WriteCalendar with a write access mode; request modern write-only access and accept WriteOnly/full grant.",
-      "ReadCalendar can request an explicit full-access upgrade from write-only."
+      "ReadCalendar can request an explicit full-access upgrade from write-only.",
+      "2026-11-04: enforce exactly the selected write-only/full/legacy purpose key at the native request boundary without falling back to broader access; retain existing separate write/read policy and registrations."
     ],
     "affected_paths": [
       "calf-permissions/calendar/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionPolicy.kt",
       "calf-permissions/calendar/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/CalendarPermissionHelper.kt",
       "calf-permissions/calendar/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/CalendarPermissions.ios.kt",
-      "docs/permissions.md"
+      "docs/permissions.md",
+      "calf-permissions/calendar/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/helper/CalendarConfigurationTest.kt",
+      "calf-permissions/calendar/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/helper/NativeCalendarConfigurationTest.kt",
+      "scripts/ci/test_ios_calendar_configuration.py",
+      "docs/testing/ios-calendar-permissions.md"
     ],
     "tests": [
       {
@@ -1512,10 +1536,24 @@
         },
         "report_count": 1,
         "scope": "Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification. Common EventKit write/read/full policy only; real iOS17+ grants and upgrade UI remain unverified."
+      },
+      {
+        "command": "./gradlew --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-permissions:calf-permissions-calendar:desktopTest --tests com.mohamedrejeb.calf.permissions.helper.CalendarConfigurationTest :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64; python3 -m unittest discover -s scripts/ci -p test_ios_calendar_configuration.py -v",
+        "result": "2026-11-04 owned calendar605 branch: NEW common configuration3/3 Desktop in one fresh XML (0 failures/errors/skips), actual Gradle0/89.1429707s/JDK17.0.20/Gradle9.7.1. Calendar production/test iosSimulatorArm64 KLIBs compile; zero Apple SDK links/native/privacy execution. NEW8 source controls pass once (unittest0.002s/wrapper0.3519721s); 1,339 own-branch source maps hold. All six compiler/configuration warning entries are retained, including unchanged core unused-expression and test-only BetaInterop opt-in warning. Existing five capability-policy bodies/registrations are unchanged, not replayed. Actual configured write/full consent, Settings, physical/old/minimum-OS/native/consumer/API-ABI/security/release gates remain.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/source-first.json",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/source-first.log",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/gradle-first.json",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/gradle-first.log",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/reports/TEST-com.mohamedrejeb.calf.permissions.helper.CalendarConfigurationTest.xml",
+          "docs/development/evidence/current-platform-recovery-20261101/calendar-purpose-key605/review.json"
+        ]
       }
     ],
     "remaining": [
-      "Real write-only/full/read-upgrade grants and usage descriptions need iOS17+ integration tests."
+      "Real write-only/full/read-upgrade grants and usage descriptions need iOS17+ integration tests.",
+      "Calendar605 five passive/configuration native methods await actual iOS execution and do not replace genuine write-only/full approval/read-upgrade verification."
     ],
     "compatibility": [
       "Legacy iOS cannot offer write-only event authorization; documented shared access remains there."

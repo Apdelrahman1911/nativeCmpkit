@@ -1,0 +1,211 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins
+> Task :convention-plugins:generateScriptPluginAdapters
+> Task :convention-plugins:pluginDescriptors
+> Task :convention-plugins:processResources
+> Task :convention-plugins:compilePluginsBlocks
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors
+> Task :convention-plugins:compileKotlin
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:classes
+> Task :convention-plugins:jar
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-permissions:calf-permissions-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-calendar:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:compileKotlinDesktop FROM-CACHE
+> Task :calf-permissions:calf-permissions-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-core:desktopProcessResources
+> Task :calf-permissions:calf-permissions-core:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-core:desktopMainClasses
+> Task :calf-permissions:calf-permissions-core:prepareEmbeddedPublicationNotices
+> Task :calf-permissions:calf-permissions-core:desktopJar
+> Task :calf-permissions:calf-permissions-core:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-core:downloadKotlinNativeDistribution
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-core:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-core:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-permissions:calf-permissions-core:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+
+> Task :calf-permissions:calf-permissions-core:compileKotlinIosSimulatorArm64
+w: file:///root/projects/nativecmpkit-worktrees/permissions/calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/MutableMultiplePermissionsState.ios.kt:43:119 Expression is unused.
+
+> Task :calf-permissions:calf-permissions-core:exportCrossCompilationMetadataForIosSimulatorArm64ApiElements
+> Task :calf-permissions:calf-permissions-core:assembleIosSimulatorArm64MainResources
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64CopyHierarchicalMultiplatformResources
+> Task :calf-permissions:calf-permissions-core:iosSimulatorArm64ZipMultiplatformResourcesForPublication
+> Task :calf-permissions:calf-permissions-calendar:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-permissions:calf-permissions-calendar:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:generateComposeResClass SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-calendar:assembleDesktopMainResources
+> Task :calf-permissions:calf-permissions-calendar:desktopProcessResources
+> Task :calf-permissions:calf-permissions-calendar:processDesktopMainResources SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:prepareEmbeddedPublicationNotices
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:assembleDesktopTestResources
+> Task :calf-permissions:calf-permissions-calendar:desktopTestProcessResources
+> Task :calf-permissions:calf-permissions-calendar:processDesktopTestResources SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:checkIosSimulatorArm64TestComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-calendar:checkIosSimulatorArm64MainComposeLibrariesCompatibility
+> Task :calf-permissions:calf-permissions-calendar:downloadKotlinNativeDistribution
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForAppleMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForAppleMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForIosMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForIosMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForIosSimulatorArm64Main NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForNativeMain NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForNativeMain SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:generateActualResourceCollectorsForIosSimulatorArm64Main SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:compileKotlinIosSimulatorArm64
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForAppleTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForAppleTest SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForIosSimulatorArm64Test NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForIosSimulatorArm64Test SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForIosTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForIosTest SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:convertXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:copyNonXmlValueResourcesForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:prepareComposeResourcesTaskForNativeTest NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:generateResourceAccessorsForNativeTest SKIPPED
+> Task :calf-permissions:calf-permissions-calendar:iosSimulatorArm64ResolveResourcesFromDependencies
+> Task :calf-permissions:calf-permissions-calendar:assembleIosSimulatorArm64MainResources
+> Task :calf-permissions:calf-permissions-calendar:iosSimulatorArm64ResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-permissions:calf-permissions-calendar:iosSimulatorArm64AggregateResources
+> Task :calf-permissions:calf-permissions-calendar:iosSimulatorArm64ProcessResources
+> Task :calf-permissions:calf-permissions-calendar:iosSimulatorArm64MainKlibrary
+
+> Task :calf-permissions:calf-permissions-calendar:compileTestKotlinIosSimulatorArm64
+w: file:///root/projects/nativecmpkit-worktrees/permissions/calf-permissions/calendar/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/helper/NativeCalendarConfigurationTest.kt:188:29 This declaration needs opt-in. Its usage should be marked with '@kotlinx.cinterop.BetaInteropApi' or '@OptIn(kotlinx.cinterop.BetaInteropApi::class)'
+
+> Task :calf-permissions:calf-permissions-calendar:compileKotlinDesktop
+> Task :calf-permissions:calf-permissions-calendar:compileDesktopMainJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:desktopMainClasses
+> Task :calf-permissions:calf-permissions-calendar:desktopJar
+> Task :calf-permissions:calf-permissions-calendar:compileTestKotlinDesktop
+> Task :calf-permissions:calf-permissions-calendar:compileDesktopTestJava NO-SOURCE
+> Task :calf-permissions:calf-permissions-calendar:desktopTestClasses
+
+> Task :calf-permissions:calf-permissions-calendar:desktopTest
+NATIVECMPKIT_TEST_RUNTIME task=:calf-permissions:calf-permissions-calendar:desktopTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64
+
+[Incubating] Problems report is available at: file:///root/projects/nativecmpkit-worktrees/permissions/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 28s
+45 actionable tasks: 44 executed, 1 from cache

@@ -116,7 +116,7 @@ SOURCE_SHA256 = {'calf-webview/karma.config.d/nativecmpkit-content-policy-fixtur
  'calf-webview/src/androidDeviceTest/res/xml/nativecmpkit_webview_test_network_security.xml': 'd41572dbbaf67ec740c28ed69a8c5fce4223329c4c96d726f1df9a08f95de71d',
  'calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt': 'e7f3e127d3f3293d21f1bc2d84d9dd6761d26f65b1b77102237521197bb045a2',
  'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopContentPolicyWindow.kt': 'e90b00f604cc16db8f26a0b8210d0fb815c0faa1af9d1d5edc11aca8ef9eb007',
- 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt': '8f92e2fb89cf9da4fdb6f8f68d93bef8a339c49e9ba9be3c5d9012c6ea2f8b3c',
+ 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt': '79601573fea41ab8d1a78258b2de74153383a2582d9eac031deb6cfbe7e2c683',
  'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedWebViewContentPolicyHttpFixture.kt': '6b3b15646abec07088135e0de306c10c7fd577eb20a73fc1b3c2ba21df8b8499',
  'calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosContentPolicyFixture.kt': 'fcb6ab01848cd2b4caaa4ac2274aab6062e16cc3b29103e6da4f748aabcac7c4',
  'calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewContentPolicyAcceptanceTest.kt': '36713f1ccec7c2b19ed9abba86dd502f4108485889f7e8bb0719a735f05aead9',

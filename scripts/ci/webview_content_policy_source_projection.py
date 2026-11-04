@@ -37,6 +37,19 @@ ADDED_PATHS = {
 # or source-fixture prerequisite. No other documentation or source is exempted.
 NONEXECUTABLE_MAINTAINER_INPUTS = frozenset({"AGENTS.md"})
 _DIGEST = re.compile(r"[0-9a-f]{64}\Z")
+# Only one repaired historical control is an original WebView unchanged input.
+# Its original manifest pin is not rewritten; latest bytes are an exact derivative.
+_TOOLING656_CONTROL_PATH = 'scripts/ci/test_apple_image_launcher_source_projection.py'
+_TOOLING656_CONTROL_BINDING = {
+    'before_sha256': '9d7870ffcd1cf584c7e2914143d93066defba889638df05f0f91781ab5dd2fa9',
+    'after_sha256': '4dd74834552bb6bf06e8ac79b42d268926dad567dda5430894129c76075b4a26',
+    'before_bytes': 22593,
+    'after_bytes': 22664,
+    'before': '        current = (ROOT / history.LAUNCHER).read_bytes()\n        old = history.source_before_image_launch(history.LAUNCHER, current)\n',
+    'after': '        current = ui_history.peel_ui_related_for_history(\n            history.LAUNCHER, (ROOT / history.LAUNCHER).read_bytes())\n        old = history.source_before_image_launch(history.LAUNCHER, current)\n',
+    'before_fragment_sha256': '175a95eb1e4349708551e6b2c99c624527d471d54816bd124e79d11c400d898c',
+    'after_fragment_sha256': 'ae9875fab6b7c033e65dc6f081e68a9c39d7753dd6d2c51f01d1af81b07143c1',
+}
 
 
 def sha(payload):
@@ -98,6 +111,28 @@ def _document():
 def _identity(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact content-policy relative identity and ordinary source bytes are required")
+
+
+def _current_tooling656_control_source(relative, payload):
+    """Only one exact latest fixture operand; not a historical/current bypass."""
+    _identity(relative, payload)
+    if relative != _TOOLING656_CONTROL_PATH:
+        return payload  # Unlisted bytes are not certified.
+    binding = _TOOLING656_CONTROL_BINDING
+    if (len(payload) != binding["after_bytes"] or not 0 < len(payload) <= MAX_SOURCE_BYTES or
+            sha(payload) != binding["after_sha256"]):
+        raise ValueError("Old or unknown tooling656 fixture cannot replace its exact reviewed current source")
+    before, after = binding["before"].encode(), binding["after"].encode()
+    if (sha(before) != binding["before_fragment_sha256"] or sha(after) != binding["after_fragment_sha256"] or
+            payload.count(after) != 1):
+        raise ValueError("One exact unique tooling656 fixture inverse is required")
+    restored = payload.replace(after, before, 1)
+    sealed = _document()["unchanged_inputs"].get(relative)
+    if (sealed != binding["before_sha256"] or sha(restored) != sealed or len(restored) != binding["before_bytes"]):
+        raise ValueError("Tooling656 fixture must restore its complete original WebView manifest input")
+    if restored.count(before) != 1 or restored.replace(before, after, 1) != payload:
+        raise ValueError("The exact tooling656 fixture forward roundtrip is required")
+    return restored
 
 
 def source_before_content_policy(relative, payload):
@@ -182,7 +217,8 @@ def validate_current_sources(root: Path):
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if sha(camera_history.source_before_camera_ios_ownership(name, _ordinary_bytes(root, name)[0])) != digest:
+        if sha(camera_history.source_before_camera_ios_ownership(
+                name, _current_tooling656_control_source(name, _ordinary_bytes(root, name)[0]))) != digest:
             raise ValueError("Current content-policy input differs from its complete owning image: " + name)
     return True
 

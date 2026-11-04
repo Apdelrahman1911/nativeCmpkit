@@ -10,6 +10,7 @@ from pathlib import Path
 import re
 import subprocess
 import tempfile
+import types
 import unittest
 from unittest.mock import patch
 from test_android_permission_demo_denial_absence import permission_absence_preimage
@@ -66,7 +67,8 @@ def owning_environment():
     functions = ("android_permission_device_filter", "android_permission_device_identities",
                  "validate_android_permission_demo_recovery_annotation")
     nodes += [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in functions]
-    env = {"Path": Path, "re": re, "safe_path": lambda root, relative: root / relative}
+    env = {"Path": Path, "re": re, "safe_path": lambda root, relative: root / relative,
+           "content_policy": types.SimpleNamespace(ANDROID_FOCUS="webview-content-policy-android")}
     compile_nodes(nodes, env)
     selected = ast.parse("def selected_source(root, focus, selected, result):\n    pass\n").body[0]
     selected.body = deepcopy(permission_branch(tree, "plan").body) + ast.parse("return result, selected\n").body

@@ -17,6 +17,7 @@ import android_camera_recents_observation as observation
 import camera_boot_handoff_source_projection as boot
 import camera_handoff_fixture_source_projection as fixture
 import camera_recents_source_projection as history
+import webview_content_policy_source_projection as content_history
 
 ROOT = Path(__file__).resolve().parents[2]
 OLD_REVISION = "dd614a75bba7dda1678f7a0cfcf97943697db92f"
@@ -163,7 +164,11 @@ class CameraRecentsSourceControls(unittest.TestCase):
     def setUpClass(cls):
         cls.spec_bytes = history.SPEC_PATH.read_bytes()
         cls.bindings = history._bindings()
-        cls.current = {relative: (ROOT / relative).read_bytes() for relative in cls.bindings}
+        cls.current = {
+            relative: content_history.current_source_before_content_policy(
+                relative, (ROOT / relative).read_bytes())
+            for relative in cls.bindings
+        }
 
     def test_exact_two_paths_three_fragments_restore_prior_full_source_and_forward_roundtrip(self):
         document = json.loads(self.spec_bytes)

@@ -278,7 +278,8 @@ class WebViewContentPolicySourceProjectionControls(unittest.TestCase):
     def test_every_original_webview_native_and_fixture_body_api_build_dependency_and_other_owners_remain_unchanged(self):
         document = history._document()
         for name, digest in document["unchanged_inputs"].items():
-            self.assertEqual(digest, sha((ROOT / name).read_bytes()), name)
+            self.assertEqual(digest, sha(camera_history.source_before_camera_ios_ownership(
+                name, (ROOT / name).read_bytes())), name)
         self.assertTrue(set(policy.SOURCE_SHA256) - {policy.ANDROID_FILTER_SOURCE} <= set(document["unchanged_inputs"]))
         self.assertNotIn("AGENTS.md", history.BOUND_PATHS)
         self.assertNotIn("scripts/ci/runtime_context.py", history.BOUND_PATHS)

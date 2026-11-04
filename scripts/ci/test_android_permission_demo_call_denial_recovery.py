@@ -330,6 +330,7 @@ class AndroidPermissionDemoCallDenialRecoveryTests(unittest.TestCase):
         self.assertIn("*ANDROID_PERMISSION_DEVICE_SPECS", source_at("scripts/ci/library_tests.py"))
         workflow = matrix_environment()
         native = types.SimpleNamespace(ANDROID_WEBVIEW_REQUEST_FOCUS="android-webview-request-state",
+            content_policy=types.SimpleNamespace(ANDROID_FOCUS="webview-content-policy-android"),
             ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS="android-webview-stop-redirect-recovery",
             ANDROID_IO_NAMED_SYSTEM_FOCUS="android-io-named-system-providers",
             ANDROID_IO_UNAVAILABLE_FOCUS="android-io-provider-unavailable",

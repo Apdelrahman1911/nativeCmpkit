@@ -12,6 +12,7 @@ from unittest.mock import patch
 import android_external328_source_projection as bridge
 import camera_ios_ownership_native_focus as focus
 import camera_ios_ownership_source_projection as camera
+import platform_recovery659_source_projection as newest
 import webview_content_policy_source_projection as webview
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -39,8 +40,9 @@ class CameraIosOwnershipSourceProjectionControls(unittest.TestCase):
         document = camera._document()
         self.assertEqual((9, 45), (len(document["bindings"]), sum(len(row["fragments"]) for row in document["bindings"].values())))
         for name, row in document["bindings"].items():
-            raw = (ROOT / name).read_bytes()
-            prior = camera.current_source_before_camera_ios_ownership(name, raw)
+            raw_current = (ROOT / name).read_bytes()
+            prior = camera.current_source_before_camera_ios_ownership(name, raw_current)
+            raw = newest.source_before_platform_recovery659(name, raw_current)
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(prior), len(prior)))
             self.assertEqual((row["after_sha256"], row["after_bytes"]), (sha(raw), len(raw)))
             self.assertIs(prior, camera.source_before_camera_ios_ownership(name, prior))
@@ -106,7 +108,8 @@ class CameraIosOwnershipSourceProjectionControls(unittest.TestCase):
         self.assertEqual(46, len(expected))
         self.assertNotIn("AGENTS.md", expected)
         self.assertNotIn("AGENTS.md", camera.fixture_inputs())
-        self.assertEqual(expected | {camera.SOURCE_RELATIVE, "scripts/ci/test_camera_ios_ownership_source_projection.py"}, camera.fixture_inputs())
+        self.assertEqual(expected | {camera.SOURCE_RELATIVE, "scripts/ci/test_camera_ios_ownership_source_projection.py"} |
+                         newest.fixture_inputs(), camera.fixture_inputs())
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary).resolve()
             copy_fixture(root)

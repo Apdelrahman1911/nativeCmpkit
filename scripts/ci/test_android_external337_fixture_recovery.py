@@ -103,7 +103,7 @@ class External337FixtureRecoveryControls(unittest.TestCase):
             self.assertEqual(digest(previous), changed_digest(path))
             for payload in (previous, current + b"\n", current[:-1], b"foreign", b""):
                 path.write_bytes(payload)
-                with self.assertRaisesRegex(ValueError, "^A historical image cannot replace exact current recents-observation source$"):
+                with self.assertRaisesRegex(ValueError, "^An old or unknown image cannot replace exact current content-policy source$"):
                     changed_digest(path)
             outside = root.parent / (root.name + "-ordinary-config")
             try:

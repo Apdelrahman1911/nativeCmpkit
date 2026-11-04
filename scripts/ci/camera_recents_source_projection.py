@@ -34,6 +34,8 @@ def _bindings():
 def source_before_recents_observation(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact recents-observation source identity and ordinary bytes required")
+    from webview_content_policy_source_projection import peel_content_policy_for_history
+    payload = peel_content_policy_for_history(relative, payload)
     from camera_recents_fixture_source_projection import source_before_recents_fixture
     payload = source_before_recents_fixture(relative, payload)
     binding = _bindings().get(relative)
@@ -71,6 +73,8 @@ def source_before_recents_observation(relative, payload):
 def current_source_before_recents_observation(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current recents-observation identity and ordinary bytes required")
+    from webview_content_policy_source_projection import peel_content_policy_for_history
+    payload = peel_content_policy_for_history(relative, payload)
     from camera_recents_fixture_source_projection import current_source_before_recents_fixture
     payload = current_source_before_recents_fixture(relative, payload)
     binding = _bindings().get(relative)

@@ -290,7 +290,8 @@ class ImageLauncherSourceProjectionControls(unittest.TestCase):
         document = history._document()
         for name, digest in document["added_inputs"].items():
             self.assertEqual(digest, sha((ROOT / name).read_bytes()), name)
-        current = (ROOT / history.LAUNCHER).read_bytes()
+        current = ui_history.peel_ui_related_for_history(
+            history.LAUNCHER, (ROOT / history.LAUNCHER).read_bytes())
         old = history.source_before_image_launch(history.LAUNCHER, current)
         row = document["bindings"][history.LAUNCHER]["fragments"][0]
         self.assertEqual(10, len(row["after"].splitlines()) - len(row["before"].splitlines()))

@@ -20,6 +20,7 @@ from unittest.mock import patch
 import android_camera_developer_prerequisite as camera
 import android_camera_live_task_refusal_observation as leaf
 import android_camera_recents_observation as observation
+import webview_content_policy_source_projection as content_history
 
 ROOT = Path(__file__).resolve().parents[2]
 PRIVATE = "private-synthetic-live-task-label-not-for-export"
@@ -299,7 +300,8 @@ class LiveLeafSourceScopeControls(unittest.TestCase):
         self.assertNotIn("scripts/ci/android_camera_recents_observation.py", bindings)
         self.assertNotIn("scripts/ci/android_camera_live_task_refusal_observation.py", bindings)
         for name, expected in UNCHANGED.items():
-            self.assertEqual(expected, sha((ROOT / name).read_bytes()), name)
+            self.assertEqual(expected, sha(content_history.current_source_before_content_policy(
+                name, (ROOT / name).read_bytes())), name)
 
 
 if __name__ == "__main__":

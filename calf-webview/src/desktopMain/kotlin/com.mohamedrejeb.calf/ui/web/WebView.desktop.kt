@@ -13,6 +13,7 @@ import javafx.scene.Scene
 import javafx.scene.web.WebView
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.awt.GraphicsEnvironment
+import java.util.Base64
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 import javax.swing.SwingUtilities
@@ -98,6 +99,11 @@ private class DetachedDesktopWebViewException : IllegalStateException("WebView i
 /** Published only at a completed UI notification, never while a settings batch is in progress. */
 internal data class DesktopWebSettingsSnapshot(val javaScriptEnabled: Boolean, val customUserAgent: String?)
 
+// The native data URL contains the caller's complete inline document. Keep it native-only,
+// including when WebHistory returns to it without another declarative load.
+private fun String?.isDesktopInlineLocation(): Boolean = this?.startsWith("data:", ignoreCase = true) == true
+private fun String?.publicDesktopLocation(): String? = this?.takeIf { it.isNotBlank() && !it.isDesktopInlineLocation() }
+
 /** One native view, its listeners and queued work have exactly one disposable owner. */
 internal class DesktopWebViewOwner(
     private val state: WebViewState,
@@ -113,6 +119,7 @@ internal class DesktopWebViewOwner(
     private var workerListener: ChangeListener<Worker.State>? = null
     private var progressListener: ChangeListener<Number>? = null
     private var titleListener: ChangeListener<String>? = null
+    private var inlineRequest = false // FX-confined; no copy of the document/data URL is retained here.
     // FX-confined completed native applications, exposed internally for real-queue regression tests.
     internal var settingsApplicationCount = 0
         private set
@@ -138,17 +145,27 @@ internal class DesktopWebViewOwner(
                     // JavaFX publishes the newly started URL before SCHEDULED. Keeping the
                     // previous requestedUrl here incorrectly attributes native link/history
                     // navigations to the preceding page. Redirects may later change final URL.
-                    Worker.State.SCHEDULED -> state.beginRequest(engine.location.takeIf { it.isNotBlank() })
+                    Worker.State.SCHEDULED -> {
+                        inlineRequest = engine.location.isDesktopInlineLocation()
+                        state.beginRequest(engine.location.publicDesktopLocation())
+                    }
                     Worker.State.RUNNING -> state.loadingState = LoadingState.Loading(0f)
                     Worker.State.SUCCEEDED -> {
                         state.loadingState = LoadingState.Finished
                         state.pageTitle = engine.title
-                        state.lastLoadedUrl = engine.location.takeIf { it.isNotBlank() }
+                        inlineRequest = engine.location.isDesktopInlineLocation()
+                        state.lastLoadedUrl = engine.location.publicDesktopLocation()
+                        if (inlineRequest) state.requestedUrl = null
                         updateHistoryNow(view)
                     }
                     Worker.State.FAILED -> {
                         state.loadingState = LoadingState.Finished
-                        state.errorsForCurrentRequest = listOf(WebViewError(-1, engine.loadWorker.exception?.message ?: "Page load failed"))
+                        val inline = inlineRequest || engine.location.isDesktopInlineLocation()
+                        if (inline) { state.requestedUrl = null; state.lastLoadedUrl = null }
+                        // Native failure messages can contain the complete data URL. Never publish
+                        // that inline source through the library's request/error diagnostics.
+                        state.errorsForCurrentRequest = listOf(WebViewError(-1,
+                            if (inline) "Inline HTML load failed" else engine.loadWorker.exception?.message ?: "Page load failed"))
                     }
                     Worker.State.CANCELLED -> state.loadingState = LoadingState.Finished
                     else -> Unit
@@ -243,14 +260,20 @@ internal class DesktopWebViewOwner(
 
     private fun loadNow(view: WebView, content: WebContent) {
         if (!state.acceptContent(content, WebContentPlatform.Desktop)) return
+        inlineRequest = content is WebContent.Data || (content as? WebContent.Url)?.url.isDesktopInlineLocation()
         try {
             when (content) {
                 is WebContent.Url -> view.engine.load(content.url)
-                is WebContent.Data -> view.engine.loadContent(content.data, content.mimeType ?: "text/html")
+                // Feed exact UTF-8 bytes over an ASCII-only URL. JavaFX21 loadContent corrupts
+                // supplementary characters at document ingress on the observed Linux runtime.
+                // No HTML rewrite/base URL/history emulation or modified native bridge is used.
+                is WebContent.Data -> view.engine.load("data:text/html;charset=utf-8;base64," +
+                    Base64.getEncoder().encodeToString(content.data.toByteArray(Charsets.UTF_8)))
                 WebContent.NavigatorOnly -> Unit
             }
         } catch (error: Exception) {
-            state.errorsForCurrentRequest = listOf(WebViewError(-1, error.message ?: "Invalid WebView content"))
+            state.errorsForCurrentRequest = listOf(WebViewError(-1,
+                if (inlineRequest) "Inline HTML load failed" else error.message ?: "Invalid WebView content"))
             state.loadingState = LoadingState.Finished
         }
     }

@@ -40,7 +40,7 @@ gradle.projectsEvaluated {
         "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt",
     )
     val expectedHashes = mapOf(
-        "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt" to "b9abd3aaccbea97feb02c0bfd076c1f09c83b1828dad2639a0357ec8be6c88c2",
+        "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt" to "5e5a62825d8a47ad7a5880df2a75807aba01ffd79f4ffd601f04082a89797230",
         "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt" to "9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc",
         "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt" to "62cb9f661dea845a7b103b497b3d788cbe3b738a6449e9860855b94575f80f1b",
     )

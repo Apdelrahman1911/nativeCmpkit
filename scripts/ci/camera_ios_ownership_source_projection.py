@@ -105,6 +105,8 @@ def _identity(relative, payload):
 def source_before_camera_ios_ownership(relative, payload):
     """Complete exact inverse or its one exact preimage; never current admission."""
     _identity(relative, payload)
+    from platform_recovery659_source_projection import peel_platform_recovery659_for_history
+    payload = peel_platform_recovery659_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted bytes are not certified, guessed or executed.
@@ -138,6 +140,8 @@ def source_before_camera_ios_ownership(relative, payload):
 def current_source_before_camera_ios_ownership(relative, payload):
     """One raw newest ingress; old/partial/unknown images cannot be current."""
     _identity(relative, payload)
+    from platform_recovery659_source_projection import current_source_before_platform_recovery659
+    payload = current_source_before_platform_recovery659(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and (sha(payload) != binding["after_sha256"] or len(payload) != binding["after_bytes"]):
         raise ValueError("An old or unknown image cannot replace exact current Camera iOS ownership source")
@@ -147,6 +151,8 @@ def current_source_before_camera_ios_ownership(relative, payload):
 def peel_camera_ios_ownership_for_history(relative, payload):
     """Peel only the complete latest image; unknown bytes still need old strict pins."""
     _identity(relative, payload)
+    from platform_recovery659_source_projection import peel_platform_recovery659_for_history
+    payload = peel_platform_recovery659_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and sha(payload) == binding["after_sha256"]:
         return source_before_camera_ios_ownership(relative, payload)
@@ -155,12 +161,14 @@ def peel_camera_ios_ownership_for_history(relative, payload):
 
 def validate_current_sources(root: Path):
     """Source custody only. Own guard/control pins are independent held-review inputs."""
+    import platform_recovery659_source_projection as newest
+    newest.validate_current_sources(root)
     document = _document()
     expected = ({name: row["after_sha256"] for name, row in document["bindings"].items()} |
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if sha(_ordinary_bytes(root, name)[0]) != digest:
+        if sha(newest.source_before_platform_recovery659(name, _ordinary_bytes(root, name)[0])) != digest:
             raise ValueError("Current Camera iOS ownership input differs from its complete owning image: " + name)
     return True
 
@@ -168,6 +176,7 @@ def validate_current_sources(root: Path):
 def fixture_inputs():
     """Only exact source fixtures required by the new owning validator; no execution."""
     document = _document()
+    from platform_recovery659_source_projection import fixture_inputs as newest_fixture_inputs
     return (set(document["bindings"]) | set(document["added_inputs"]) | set(document["unchanged_inputs"]) |
             {SPEC_RELATIVE, "scripts/ci/camera_ios_ownership_source_projection.py",
-             "scripts/ci/test_camera_ios_ownership_source_projection.py"})
+             "scripts/ci/test_camera_ios_ownership_source_projection.py"} | newest_fixture_inputs())

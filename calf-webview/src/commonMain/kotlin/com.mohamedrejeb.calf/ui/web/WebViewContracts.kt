@@ -87,7 +87,12 @@ internal fun WebContent.unsupportedOptions(platform: WebContentPlatform): List<S
 
 internal fun WebViewState.acceptContent(content: WebContent, platform: WebContentPlatform): Boolean {
     if (content == WebContent.NavigatorOnly) return false
-    beginRequest((content as? WebContent.Url)?.url)
+    // Desktop's native inline data URL carries the entire document, not a public request URL.
+    // Also avoid a transient payload publication for an explicitly supplied data URL; options
+    // are still validated against the original content and other targets remain unchanged.
+    beginRequest((content as? WebContent.Url)?.url?.takeUnless {
+        platform == WebContentPlatform.Desktop && it.startsWith("data:", ignoreCase = true)
+    })
     val unsupported = content.unsupportedOptions(platform)
     if (unsupported.isEmpty()) return true
     errorsForCurrentRequest = listOf(WebViewError(-2, "Unsupported on $platform: ${unsupported.joinToString()}"))

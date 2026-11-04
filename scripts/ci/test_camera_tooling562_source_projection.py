@@ -11,6 +11,7 @@ from unittest.mock import patch
 import camera_tooling562_source_projection as history
 import android_external328_source_projection as bridge
 import ios_geometry_simulator_source_projection as owned_history
+import webview_content_policy_source_projection as content_history
 
 ROOT = Path(__file__).resolve().parents[2]
 HELPER = "scripts/ci/android_camera_developer_prerequisite.py"
@@ -126,7 +127,8 @@ class CameraTooling562Controls(unittest.TestCase):
                      "calf-camera-picker/build.gradle.kts",
                      "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt",
                      "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"):
-            self.assertEqual(inputs[path], digest((ROOT / path).read_bytes()))
+            self.assertEqual(inputs[path], digest(content_history.current_source_before_content_policy(
+                path, (ROOT / path).read_bytes())))
         # Workflow is separately held own-Git provenance, not a library input map.
         self.assertEqual("3d5d2ea0313055366bf6bc83550f7e2f40c50438c450508588db778fb6bb75f7",
                          digest(owned_history.current_source_before_owned_geometry(

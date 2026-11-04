@@ -1,4 +1,5 @@
-@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlin.experimental.ExperimentalNativeApi::class)
+@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlin.experimental.ExperimentalNativeApi::class,
+    kotlin.native.runtime.NativeRuntimeApi::class)
 
 package com.mohamedrejeb.calf.camerapicker
 
@@ -80,7 +81,7 @@ class IosCameraOwnershipAcceptanceTest {
         }
         waitForCameraNative { parent.presentedViewController == null && nativePickerHasNoPresentation(parent, picker) && deliveries.size == 1 && rootIsReappeared() }
         runOnIdle {
-            assertEquals(listOf(1 to CameraPickerResult.Cancelled), deliveries)
+            assertEquals<List<Pair<Int, CameraPickerResult>>>(listOf(1 to CameraPickerResult.Cancelled), deliveries)
             assertEquals(listOf(true), mainDeliveries)
             launcher.launch()
             assertIs<CameraPickerResult.Unavailable>(deliveries.last().second,
@@ -123,7 +124,7 @@ class IosCameraOwnershipAcceptanceTest {
         val lateFirstDelegate = runOnIdle {
             callbackPicker = first
             launcher.launch()
-            assertEquals(listOf(CameraPickerResult.Busy), deliveries)
+            assertEquals<List<CameraPickerResult>>(listOf(CameraPickerResult.Busy), deliveries)
             assertTrue(sameNativeObject(first, parent.presentedViewController))
             assertIs<UIImagePickerControllerDelegateProtocol>(first.delegate).also {
                 it.imagePickerControllerDidCancel(first)
@@ -140,7 +141,7 @@ class IosCameraOwnershipAcceptanceTest {
             val secondDelegate = assertIs<NSObject>(second.delegate)
             // Controlled retained old-delegate inputs are deliberately late, not actual user gestures.
             lateFirstDelegate.imagePickerControllerDidCancel(first)
-            lateFirstDelegate.imagePickerController(picker = first, didFinishPickingMediaWithInfo = emptyMap())
+            lateFirstDelegate.imagePickerController(picker = first, didFinishPickingMediaWithInfo = emptyMap<Any?, Any?>())
             assertTrue(sameNativeObject(second, parent.presentedViewController))
             assertTrue(sameNativeObject(secondDelegate, assertIs<NSObject>(second.delegate)))
             assertEquals(2, deliveries.size)
@@ -215,7 +216,7 @@ class IosCameraOwnershipAcceptanceTest {
                 waitForCameraNative { parent.presentedViewController == null && nativePickerHasNoPresentation(parent, ownedPicker) && rootIsReappeared() }
                 runOnIdle {
                     lateDelegate.imagePickerControllerDidCancel(ownedPicker)
-                    lateDelegate.imagePickerController(picker = ownedPicker, didFinishPickingMediaWithInfo = emptyMap())
+                    lateDelegate.imagePickerController(picker = ownedPicker, didFinishPickingMediaWithInfo = emptyMap<Any?, Any?>())
                     assertTrue(deliveries.isEmpty(), "Disposed owners suppress their late controlled terminal inputs")
                     assertTrue(nativePickerHasNoPresentation(parent, ownedPicker))
                     assertTrue(rootIsReappeared())
@@ -375,8 +376,8 @@ class IosCameraOwnershipAcceptanceTest {
                 assertIs<UIImagePickerController>(parent.presentedViewController).also {
                     callbackPicker = it
                     val delegate = assertIs<UIImagePickerControllerDelegateProtocol>(it.delegate)
-                    delegate.imagePickerController(picker = it, didFinishPickingMediaWithInfo = emptyMap())
-                    delegate.imagePickerController(picker = it, didFinishPickingMediaWithInfo = emptyMap())
+                    delegate.imagePickerController(picker = it, didFinishPickingMediaWithInfo = emptyMap<Any?, Any?>())
+                    delegate.imagePickerController(picker = it, didFinishPickingMediaWithInfo = emptyMap<Any?, Any?>())
                 }
             }
             waitForCameraNative { deliveries.size == 4 && parent.presentedViewController == null && nativePickerHasNoPresentation(parent, missing) && rootIsReappeared() }

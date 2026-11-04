@@ -1,5 +1,27 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Share missing-only batch compiled; shared UI index repaired — 2026-11-04
+
+[643–645](docs/development/evidence/current-platform-recovery-20261101/share643-644-ui642-ledger645/README.md)
+integrates carry0a1→3c14/wiring9787→ecff: all17paths exact, eight independent
+essential checks; accepted NEW12+affected9=21/21 once reused, not replayed.
+Actual ecff Desktop-test compiler executes0/41.01s/wrapper41.261s/1,415held/
+clean tree, ZERO native/Apple. Next only AppKit6/JNI timeout1; accepted2+2 excluded,
+JNI independent, original630 FAILED/#84/#85/#150open. UI41784711720 at893b FAILED
+before fixtures/native: generated status stale, only PERM11/12 accepted631 test
+metadata append differs/all statuses unchanged. Seven originals once/33 passive
+checks; only generated status two outputs repaired write0/check0. First overly
+broad passive items/hash assertion refusal preserved/recovered without generator
+replay. Relevant61UI+11test/init compiler635 bytes hold; global1,394 map has
+unrelated WebView production/fixture delta+14 additions, never claim wholly
+unchanged. Both prior hosted reservations freed; read capacity fresh before two
+UI10/Share6+1 requests. Retained103closed/69open/172/22implemented/36partial/
+101verified/five unresolved, ZERO closures/publication. Parallel disjoint source
+patches continue; lead Git/integration/dispatch/acceptance/closure, serial local
+8GiB/max2 combined hosted INCLUDINGqueued/reserved/read-only Actions/all/no
+mandatory SHA pinning and all publishing/Pages/main/history/native/consumer/
+API–ABI/dependency/legal/security/readiness gates remain. Earlier dates retain scope.
+
 ## UI owning fixture recovered; WebView compilers accepted — 2026-11-04
 
 [636/638/640](docs/development/evidence/current-platform-recovery-20261101/ui-ci636-recovery640-webview638/README.md)

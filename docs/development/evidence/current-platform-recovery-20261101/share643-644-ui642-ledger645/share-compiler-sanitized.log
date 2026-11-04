@@ -1,0 +1,173 @@
+{"command": ["./gradlew", "--offline", "--continue", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=1", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m", ":calf-share:compileTestKotlinDesktop"], "cwd": "<checkout>", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-11-04T06:20:47.116135+00:00", "free_bytes_before": 32536371200}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinDesktop UP-TO-DATE
+> Task :calf-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-core:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-core:desktopProcessResources UP-TO-DATE
+> Task :calf-core:processDesktopMainResources SKIPPED
+> Task :calf-core:desktopMainClasses UP-TO-DATE
+> Task :calf-core:prepareEmbeddedPublicationNotices
+> Task :calf-core:desktopJar
+> Task :calf-io:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:compileKotlinDesktop UP-TO-DATE
+> Task :calf-io:compileDesktopMainJava NO-SOURCE
+> Task :calf-io:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-io:desktopProcessResources UP-TO-DATE
+> Task :calf-io:processDesktopMainResources SKIPPED
+> Task :calf-io:desktopMainClasses UP-TO-DATE
+> Task :calf-io:prepareEmbeddedPublicationNotices
+> Task :calf-io:desktopJar
+> Task :calf-share:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-share:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-share:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-share:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-share:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-share:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-share:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-share:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-share:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-share:generateComposeResClass SKIPPED
+> Task :calf-share:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-share:compileKotlinDesktop UP-TO-DATE
+> Task :calf-share:compileDesktopMainJava NO-SOURCE
+> Task :calf-share:assembleDesktopMainResources UP-TO-DATE
+
+> Task :calf-share:buildNativeLib
+   Compiling calf-share-native v0.1.0 (<checkout>/calf-share/native)
+    Finished `release` profile [optimized] target(s) in 3.18s
+{"module": "calf-share", "platform": "linux-x64", "sha256": "37a5461a329ddd23dc2456aef6e4192c223b2c53fffa2fc7d29bdf4e30698a60", "sourceSha256": "510f673f0f6c153f518162cb7d1ff45824b0c7c1e6664c34a51b83c6739f9fd6", "sourceTreeDirty": false}
+
+> Task :calf-share:prepareNativeResources
+{"verified": true, "module": "calf-share", "platforms": ["linux-x64"], "sourceRevision": "ecff7df2b46fd15fb67ec2c077c301da2799fe64", "require_clean": false}
+
+> Task :calf-share:desktopProcessResources
+> Task :calf-share:processDesktopMainResources SKIPPED
+> Task :calf-share:desktopMainClasses
+> Task :calf-share:prepareEmbeddedPublicationNotices
+> Task :calf-share:desktopJar
+> Task :calf-share:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-share:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-share:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-share:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-share:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-share:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-share:generateResourceAccessorsForNonAndroidTest SKIPPED
+
+> Task :calf-share:compileTestKotlinDesktop
+w: file://<checkout>/calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt:221:82 Expression is unused.
+
+[Incubating] Problems report is available at: file://<checkout>/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 40s
+34 actionable tasks: 17 executed, 17 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", "--offline", "--continue", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=1", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m", ":calf-share:compileTestKotlinDesktop"], "cwd": "<checkout>", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-11-04T06:20:47.116135+00:00", "free_bytes_before": 32536371200, "exit_code": 0, "elapsed_seconds": 41.01}

@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Related producer recovery integrated — 2026-11-04
+
+[Recovery701](evidence/current-platform-recovery-20261101/tooling-producer698-recovery701/README.md)
+repairs the related source-fixture failures and adds bounded, message-free failure
+metadata. The previous producer41842636546 remains FAILED, without a reuse
+certificate. Focused regressions and failed-only follow-ups are accepted; full CI
+and the missing Camera/Android native checks are not yet accepted. Freeze a changed
+development HEAD before the next producer; reuse and native requests require a
+successful, independently reviewed producer on that same HEAD. Unrelated patch
+proposals remain isolated, and all publishing/security/readiness gates remain.
+
 ## Shared CI alias blocker repaired; Coil cache runtime accepted — 2026-11-04
 
 [Originals628/repair629](evidence/current-platform-recovery-20261101/matrix-alias-repair628-629/README.md)

@@ -1,0 +1,481 @@
+{
+  "added_inputs": {
+    "scripts/ci/offline_tooling_failure_inventory.py": "2df6e8e67fe614b189b5109ddf0a9272cf140372f2236e9b985926200ce1693d",
+    "scripts/ci/test_camera_producer698_fixture_recovery.py": "23aafbafb58b4f6822c999693dc932c5ac02975a2dfd8ce29308e30a12978b96",
+    "scripts/ci/test_offline_tooling_failure_inventory.py": "c15d05979c26976f07e8a71e0002d0ca394b0633b8c3467cf2c8e700771ecab9",
+    "scripts/ci/test_producer698_batch_source_fixture_recovery.py": "eb10cbd70e035f3aa3b6f63c1628ce17d3a40d81749fe740bc5492009e0ee337",
+    "scripts/ci/test_producer698_shared_fixture_recovery676.py": "59d98496da46334866742972b89d2d44d14074835d9122fdabff48419e04ccf1"
+  },
+  "bindings": {
+    "scripts/ci/ci668_outer_source_projection.py": {
+      "after_bytes": 15269,
+      "after_sha256": "f8bcba4d15a87f0f83b6c0ec3eee640d93704a4ed6d5508a5b4b405bc3ab75c9",
+      "before_bytes": 14044,
+      "before_sha256": "57ea22a07713ee542a14f8d57338767f57e6cab4e2133a14b8096f9269e18337",
+      "fragments": [
+        {
+          "after": "    _identity(relative, payload)\n    from producer698_source_fixture_recovery import peel_producer698_for_history\n    payload = peel_producer698_for_history(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is None:\n",
+          "after_fragment_sha256": "f40d981474834899f8be8870875c21c84668d9c43a9144d04e3d519f95ff7ac4",
+          "before": "    _identity(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is None:\n",
+          "before_fragment_sha256": "b588e28300f8fabee2775750a2c859c6fbd1e10b49aece6ab6648baa794fa676",
+          "obligation": "One exact producer698 current/history ingress before unchanged668 pins and truthful raw APIs 1"
+        },
+        {
+          "after": "    _identity(relative, payload)\n    from producer698_source_fixture_recovery import current_source_before_producer698\n    payload = current_source_before_producer698(relative, payload)\n    document = _document()\n    if relative == SOURCE_RELATIVE:\n",
+          "after_fragment_sha256": "c0cb68f8118ad667fc0a67de6e58bc8739c4471e3cebf5932d7a94ecf646b039",
+          "before": "    _identity(relative, payload)\n    document = _document()\n    if relative == SOURCE_RELATIVE:\n",
+          "before_fragment_sha256": "986bfe1de2dce5296796275fd83da4e522268804a87b7441e3f0f289e49ac973",
+          "obligation": "One exact producer698 current/history ingress before unchanged668 pins and truthful raw APIs 2"
+        },
+        {
+          "after": "    _identity(relative, payload)\n    from producer698_source_fixture_recovery import peel_producer698_for_history\n    payload = peel_producer698_for_history(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is not None and sha(payload) == row[\"after_sha256\"] and len(payload) == row[\"after_bytes\"]:\n",
+          "after_fragment_sha256": "b275c91fccae666b2cd23fb2d52fcc243ca5c492d1ce934354df51e6398f5912",
+          "before": "    _identity(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is not None and sha(payload) == row[\"after_sha256\"] and len(payload) == row[\"after_bytes\"]:\n",
+          "before_fragment_sha256": "30d15ca332be64ba1dcec1beafffe4a9f44547ebb48d1abf0b8d8bbe8632bf85",
+          "obligation": "One exact producer698 current/history ingress before unchanged668 pins and truthful raw APIs 3"
+        },
+        {
+          "after": "def _validate_own_guard(root, document):\n    raw_current = _ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES)\n    from producer698_source_fixture_recovery import current_source_before_producer698\n    raw = current_source_before_producer698(SOURCE_RELATIVE, raw_current)\n    _own_guard_payload(raw, document)\n    return sha(raw_current)\n",
+          "after_fragment_sha256": "6d210ae7037feb1ff399e33894f903ca1a46ef00144c50f365673a459df58794",
+          "before": "def _validate_own_guard(root, document):\n    return _own_guard_payload(_ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES), document)\n",
+          "before_fragment_sha256": "7158ac38a7dd69b63408fcf5d5b95bacc977000061af76b37ba093d7f719d5ca",
+          "obligation": "One exact producer698 current/history ingress before unchanged668 pins and truthful raw APIs 4"
+        },
+        {
+          "after": "def current_input_hashes():\n    \"\"\"Actual combined current custody; named original175 is a separate sealed view.\"\"\"\n    validate_current_sources(ROOT)\n    from producer698_source_fixture_recovery import current_input_hashes as producer698_hashes\n    return producer698_hashes(ROOT)\n\n\ndef sealed_ci668_175_hashes():\n    \"\"\"The immutable original raw175 snapshot, never relabeled as latest current.\"\"\"\n    from producer698_source_fixture_recovery import original_ci668_input_hashes\n    return original_ci668_input_hashes()\n",
+          "after_fragment_sha256": "357a5fccd841d187f010cac5ea1538c6bec08c6f9a3956134efe3bf31606a06e",
+          "before": "def current_input_hashes():\n    \"\"\"Exact final current175 custody; no ancestor hashes relabeled as raw current.\"\"\"\n    validate_current_sources(ROOT)\n    document = _document()\n    return _expected(document) | {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)}\n",
+          "before_fragment_sha256": "50e9f939b6c6dcdab433cb5892a7db32faea3dafa518a7dc4ae8382f244fc27c",
+          "obligation": "One exact producer698 current/history ingress before unchanged668 pins and truthful raw APIs 5"
+        },
+        {
+          "after": "def validate_current_sources(root: Path):\n    \"\"\"Strict latest producer698, then only exact qualified original668 operands.\"\"\"\n    import producer698_source_fixture_recovery as producer698\n    producer698.validate_current_sources(root)\n    document = _document()\n",
+          "after_fragment_sha256": "2a39670f3d67ea220e7a1e5ffc5495bf43400eaac939fa581aeef11b989ebd69",
+          "before": "def validate_current_sources(root: Path):\n    \"\"\"Strict finite ordinary current bytes only; no source/test/native execution.\"\"\"\n    document = _document()\n",
+          "before_fragment_sha256": "235d3f60669e4fab3c14f068b6a001fd8417fc8b1deda0da8d16c506703c5d8c",
+          "obligation": "One exact producer698 current/history ingress before unchanged668 pins and truthful raw APIs 6"
+        },
+        {
+          "after": "        raw_current = _ordinary(root, relative, MAX_SOURCE_BYTES)\n        raw = producer698.current_source_before_producer698(relative, raw_current)\n        if sha(raw) != digest:\n",
+          "after_fragment_sha256": "7b439443a400cdee3826ae877bfd8a5553b85a1b85b49fb83988de2f8c059d14",
+          "before": "        raw = _ordinary(root, relative, MAX_SOURCE_BYTES)\n        if sha(raw) != digest:\n",
+          "before_fragment_sha256": "1610167f79525c154767bd84d86c1bf2412b9e088703311d4e2874b3446845b1",
+          "obligation": "One exact producer698 current/history ingress before unchanged668 pins and truthful raw APIs 7"
+        },
+        {
+          "after": "    from producer698_source_fixture_recovery import fixture_inputs as producer698_fixture_inputs\n    return BOUND_PATHS | ADDED_PATHS | set(document[\"unchanged_inputs\"]) | {SOURCE_RELATIVE, SPEC_RELATIVE} | producer698_fixture_inputs()\n",
+          "after_fragment_sha256": "1ce8dbd6f985ab2a4f7c031d3087169625ad31f1d43b4c831510fcce020167d9",
+          "before": "    return BOUND_PATHS | ADDED_PATHS | set(document[\"unchanged_inputs\"]) | {SOURCE_RELATIVE, SPEC_RELATIVE}\n",
+          "before_fragment_sha256": "18319e0c3b038be7d6ebe65446c6bc1598eac159172edd664dedd4c9fd673267",
+          "obligation": "One exact producer698 current/history ingress before unchanged668 pins and truthful raw APIs 8"
+        }
+      ]
+    },
+    "scripts/ci/offline_tooling_reuse.py": {
+      "after_bytes": 44338,
+      "after_sha256": "6126390c11769f3ea3b111510b7220f5a2d0956171e767c88b50b5def6e74757",
+      "before_bytes": 43632,
+      "before_sha256": "9bd6b6d8daa7d8e6270fc874c28a8b7692f815334d4d77130fb3d81c35d7897b",
+      "fragments": [
+        {
+          "after": "    if not summary[\"passed\"]:\n        # Metadata-only inventory supplements this same output, never eligibility.\n        try:\n            from offline_tooling_failure_inventory import failure_inventory_line\n            inventory = failure_inventory_line(output)\n        except BaseException:\n            inventory = ('[offline-failure-inventory] {\"schema\":\"nativecmpkit-offline-failure-inventory-v1\",'\n                         '\"diagnostic_only\":true,\"status\":\"unknown\",'\n                         '\"reason_codes\":[\"inventory-helper-unavailable\"],\"records\":[]}')\n        try:\n            print(inventory, file=sys.stderr)\n        except BaseException:\n            pass  # Secondary inventory I/O never replaces the known failed outcome.\n        # Bounded failure tail from the same refusing execution, never a retry.\n",
+          "after_fragment_sha256": "9305cd124a2c954ddc22e260df44662d0104a124b9162f97cc1abd11b4fb3b2b",
+          "before": "    if not summary[\"passed\"]:\n        # Bounded failure tail from the same refusing execution, never a retry.\n",
+          "before_fragment_sha256": "66e376adb0fd19d896c8272ba64ad95f7f5eb82863d1905a6e0851cdddf6c96b",
+          "obligation": "Bounded failed-path diagnostic only; exact old9bd6 remains sealed"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_home_baseline_source_projection.py": {
+      "after_bytes": 10225,
+      "after_sha256": "19590fbd0158d6642d2eb63849755587bd4b20882e10c6ad89b14db658ecd2a9",
+      "before_bytes": 9937,
+      "before_sha256": "1afc43d19e87da2f8f66c98a75ea54c45e083b40dc804928c57dcab67738c405",
+      "fragments": [
+        {
+          "after": "        # The latest strict helper ingress strips only reviewed outer source\n        # stages. Camera197 still owns its unchanged complete prior-helper pin,\n        # six caller substitutions and exact suffix/forward inverse checks.\n        current = current_source_before_home_affinity(HELPER, (ROOT / HELPER).read_bytes()).decode()\n        older = camera197_helper_source_before_owned_console(current)\n",
+          "after_fragment_sha256": "fbcaf9e4922544a374f7a24eb08a7065f39cc683c75ba99168116d9a40e666a5",
+          "before": "        current = (ROOT / HELPER).read_text()\n        older = camera197_helper_source_before_owned_console(current)\n",
+          "before_fragment_sha256": "6b5de13f401435863c30cbba2b5c15ca74cc07df9372f94dda3db93359367985",
+          "obligation": "Qualify current full helper once before unchanged strict Camera197 afterimage/inverse; original refusal/old hash assertions remain"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_ios_ownership_application_routing.py": {
+      "after_bytes": 18872,
+      "after_sha256": "4bde4e58ad524f6356363a0ee68446af2fca72ce63812d9bfb345b5142d6f307",
+      "before_bytes": 18477,
+      "before_sha256": "c18dffb16f6a5e4c51f601b4e17d2b7df26ea36a9fdd20ba9f08934beb007b63",
+      "fragments": [
+        {
+          "after": "import ios_ui_application as application\nfrom ios_ui_split664_source_projection import current_source_before_ui_split664\n",
+          "after_fragment_sha256": "a917c9ccf8a6b41aa6fed188e831a54e9b1664ee6c08ddc2b04ec460286b8f45",
+          "before": "import ios_ui_application as application\n",
+          "before_fragment_sha256": "4118dbb27a955ada7a818545fc36bd37c2390e70910b3e7b6c8cc337676663f1",
+          "obligation": "Import only the existing exact UI664 current ingress; no helper/native change"
+        },
+        {
+          "after": "        # UI664 added only its exact finite timeout/host/runtime wiring after\n        # this Camera checkpoint. Admit the complete current image before its\n        # dated predecessor; never relax helper AST or native receipt gates.\n        qualified = current_source_before_ui_split664(APP_SOURCE, raw)\n        current, prior = functions(APP_SOURCE, qualified), functions(APP_SOURCE, before)\n",
+          "after_fragment_sha256": "0b04f9ff7efeb1f6e3b9a50bdd6f31724f5829770fc95761ba6848f5f9a36a68",
+          "before": "        current, prior = functions(APP_SOURCE), functions(APP_SOURCE, before)\n",
+          "before_fragment_sha256": "68727cd0a3271d799c47b5124a5b65c62a75e4b187ea08f7d45f3bce4fba3b20",
+          "obligation": "Compare original helper ASTs at the exact qualified Camera-era predecessor; all original equality/gate assertions remain"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_tooling566_source_projection.py": {
+      "after_bytes": 9390,
+      "after_sha256": "11213a71c53679fa3e736d93e1eb6e06469cd8aeb72ad21a4132902b81f23161",
+      "before_bytes": 8309,
+      "before_sha256": "31eca5b7b20aeb93e86ac33aa7bf0f86285046265b07c4a47c13f0dad91ae65d",
+      "fragments": [
+        {
+          "after": "def qualified_nested_reader(source, function):\n    \"\"\"One exact recents wrapper hop; not an arbitrary helper or current bypass.\"\"\"\n    functions = {node.name: node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}\n    node = functions[function]\n    if function == \"current_source_before_recents_fixture\":\n        expected = ast.parse('''def current_source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    from platform_recovery659_source_projection import current_source_before_platform_recovery659\n    payload = current_source_before_platform_recovery659(relative, payload)\n    return recents_fixture_after_qualified_outer_ingress(relative, payload)\n''').body[0]\n        if ast.dump(node, include_attributes=False) != ast.dump(expected, include_attributes=False):\n            raise ValueError(\"Only the exact qualified current recents outer wrapper is admitted\")\n        node = functions[\"recents_fixture_after_qualified_outer_ingress\"]\n    return node\n\n\nclass CameraTooling566Controls(unittest.TestCase):\n",
+          "after_fragment_sha256": "f2a4ecc5e69e391635c509f1f6241f02acbbb0a6f61dd819abdb044ce0ec3799",
+          "before": "class CameraTooling566Controls(unittest.TestCase):\n",
+          "before_fragment_sha256": "9a0db34648bb797cb8603d9b2a40ab38457a90fc323de05dda40949345f5a226",
+          "obligation": "Bound the named public recents current wrapper exactly before selecting its one owning ancestor-only helper"
+        },
+        {
+          "after": "            node = qualified_nested_reader(source, function)\n",
+          "after_fragment_sha256": "b5cdad910a12168e119fe342d2f7d8cc513ef110b1593f378bc260532062a47d",
+          "before": "            node = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == function)\n",
+          "before_fragment_sha256": "7b15dd83955d00a8ca1aa8afd77821a84d8e080e534c8cae30a153e9a636132a",
+          "obligation": "Inspect exact ancestor-only body; keep both no-current-reader prohibitions and both required dated peel assertions unchanged"
+        }
+      ]
+    },
+    "scripts/ci/test_ci668_outer_source_projection.py": {
+      "after_bytes": 7780,
+      "after_sha256": "ff1f2ac9530135089b55d1f5f82079c2ed17f5a2eea4e9ad35ff4088b639635d",
+      "before_bytes": 7650,
+      "before_sha256": "8e6d2e76f9de755f5d53bdc6a5a29aeb7161e9777ffcf7b5a0a163164889dfce",
+      "fragments": [
+        {
+          "after": "        hashes = ci668.current_input_hashes()\n        sealed175 = ci668.sealed_ci668_175_hashes()\n        self.assertEqual(len(sealed175), 175)\n",
+          "after_fragment_sha256": "aab2492c58dfc5493d4958a94a69de1d98b1ceb72084c419d994c3a2d077d7bc",
+          "before": "        hashes = ci668.current_input_hashes()\n        self.assertEqual(len(hashes), 175)\n",
+          "before_fragment_sha256": "4db1f66f3a2980070dffba36da453128eef35b31e157ff8c4afa7db875e72369",
+          "obligation": "Owning CI668 control separates immutable175 and exact singleton ancestor from truthful latest raw custody 1"
+        },
+        {
+          "after": "        self.assertEqual(ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, raw),\n                         ci668.source_before_ci668(ci668.SOURCE_RELATIVE, raw))\n",
+          "after_fragment_sha256": "f8cdb715cd7eb1604fa99f3c05b8ee8348037801cd59465809307cd7da6ee71a",
+          "before": "        self.assertEqual(ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, raw), raw)\n",
+          "before_fragment_sha256": "9e2da614f0d5ecf56a4706674c6f5004ea5845a53504178707aedb38725658ec",
+          "obligation": "Owning CI668 control separates immutable175 and exact singleton ancestor from truthful latest raw custody 2"
+        }
+      ]
+    },
+    "scripts/ci/test_ios_geometry_simulator_source_projection.py": {
+      "after_bytes": 10169,
+      "after_sha256": "1201e8b8211cccac34960de13008ae93489ff1e98a01669ec6920f13f4e70e29",
+      "before_bytes": 9925,
+      "before_sha256": "a13aa64cdc102fe1d755c5e4c95c7a5e4b24330f32109312927a688713b150d4",
+      "fragments": [
+        {
+          "after": "        from ios_ui_split664_source_projection import current_source_before_ui_split664\n        for name, expected in (document[\"unchanged_native_compiler_inputs\"] | document[\"unchanged_dated_manifests\"]).items():\n            current = (ROOT / name).read_bytes()\n            if name == \"calf-ui/build.gradle.kts\":\n                current = current_source_before_ui_split664(name, current)\n            self.assertEqual(expected, sha(current), name)\n",
+          "after_fragment_sha256": "4eaf106a64f27971de2a629840016ddd3d1215ac7f9cda7391ea519f7af981ec",
+          "before": "        for name, expected in (document[\"unchanged_native_compiler_inputs\"] | document[\"unchanged_dated_manifests\"]).items():\n            self.assertEqual(expected, sha((ROOT / name).read_bytes()), name)\n",
+          "before_fragment_sha256": "09635940f8216c2c9177fe5393f0eee985b779b9a027207a498ce56ceea61f0b",
+          "obligation": "producer698-four676-exact-hunk-1"
+        }
+      ]
+    },
+    "scripts/ci/test_ios_ui_split664_native_routing.py": {
+      "after_bytes": 42767,
+      "after_sha256": "2d581af413ded91349a4828a24aba2eaf7b48d65cf4cc186a0b137f9145d208f",
+      "before_bytes": 42720,
+      "before_sha256": "58a6e93641d2f221fb09a74f2ae69fa28b2b2278624c96605782cd1bc89447a2",
+      "fragments": [
+        {
+          "after": "        self.assertEqual({\"__future__\", \"pathlib\", \"ios_popover_anchor_plan\", \"android_io_remote_routing_source_projection\"}, {node.module for node in imports})\n",
+          "after_fragment_sha256": "fd93cd10dcc527d691785b96f6fddd90370e65e14c3a8559eec60f5d0e85fb88",
+          "before": "        self.assertEqual({\"__future__\", \"pathlib\", \"ios_popover_anchor_plan\"}, {node.module for node in imports})\n",
+          "before_fragment_sha256": "29fab486ab8d1931e0593575e95b4436d6fb628d52a578ce465523a9afc186aa",
+          "obligation": "producer698-four676-exact-hunk-1"
+        }
+      ]
+    },
+    "scripts/ci/test_library_sdk_context.py": {
+      "after_bytes": 9825,
+      "after_sha256": "f42608343e319d7c71cdb2e131c25eb93baeecd0057e39cbc3fbab7a4de00941",
+      "before_bytes": 4151,
+      "before_sha256": "9b5440cd7e52f7b41be1b2c088c2669a6ab6b08e2b4eedacca5e6dd7e8c44aec",
+      "fragments": [
+        {
+          "after": "from contextlib import ExitStack\nimport json\n",
+          "after_fragment_sha256": "89b43d9036d4b9a8eafda915db8e85e9e0464f2ac54152d75dd5c3228b2e167d",
+          "before": "from contextlib import ExitStack\n",
+          "before_fragment_sha256": "a9897bd179935745cd2c2274621d4872cd3456ae8137e8d49c2d1eec9a0462c8",
+          "obligation": "JSON reads certify only the synthetic pre-SDK subset/input plan in NEW control"
+        },
+        {
+          "after": "                # This generic SDK fixture owns no Camera callback source. Keep\n                # Android explicitly non-Camera instead of requesting the real\n                # enabled callback through unrestricted aggregate discovery.\n                runner.run(self.root, suite, output, simulator, 60, 1024,\n                           only_modules=(\"calf-fixture\",) if suite == \"android-device\" else None,\n                           android_serial=serial)\n",
+          "after_fragment_sha256": "cb74d2ae4520c2bf4f520e30b530cee4443d1c60650dea384fb6c3e46219321f",
+          "before": "                runner.run(self.root, suite, output, simulator, 60, 1024, android_serial=serial)\n",
+          "before_fragment_sha256": "0602b54e94623d62a4356c2ab807eb203da3034514aedaf2ff602f52d6c31852",
+          "obligation": "Select synthetic Android non-Camera module explicitly without changing real callback admission"
+        },
+        {
+          "after": "    def test_unrestricted_android_callback_admission_precedes_sdk_capture_and_host_work(self):\n        error = ValueError(\"Configured SDK metadata is unavailable\")\n        message = (\"Enabled API35-only callback requires exact finite Camera selection; \"\n                   \"unrestricted Camera/all discovery refuses before host work\")\n        for modules in (None, (), (runner.camera_callback.MODULE,),\n                        (runner.camera_callback.MODULE, \"calf-fixture\")):\n            with self.subTest(modules=modules), ExitStack() as stack:\n                stack.enter_context(patch.dict(runner.MINIMUM_MODULES,\n                                               {\"android-device\": (\"calf-fixture\",)}))\n                projects = stack.enter_context(patch.object(runner, \"projects\"))\n                command = stack.enter_context(patch.object(runner, \"gradle_command\"))\n                revision = stack.enter_context(patch.object(runner, \"git_revision\"))\n                inputs = stack.enter_context(patch.object(runner, \"snapshot_inputs\"))\n                capture = stack.enter_context(patch.object(runner.runtime_context, \"capture\", side_effect=error))\n                execute = stack.enter_context(patch.object(runner, \"execute\"))\n                quarantine = stack.enter_context(patch.object(runner, \"quarantine_reports\"))\n                with self.assertRaisesRegex(ValueError, \"^\" + message + \"$\") as stopped:\n                    runner.run(self.root, \"android-device\", \"build/ci-verification/refused-sdk\",\n                               None, 60, 1024, only_modules=modules, android_serial=\"emulator-5588\")\n                self.assertIsNot(stopped.exception, error)\n                for operation in (projects, command, revision, inputs, capture, execute, quarantine):\n                    operation.assert_not_called()\n            self.assertFalse((self.root / \"build\").exists())\n            self.assertFalse((self.root / runner.camera_callback.SOURCE).exists())\n\n    def test_explicit_non_camera_android_fixture_reaches_sdk_abort_after_owned_lock_without_native_execution(self):\n        output = self.root / \"build/ci-verification/explicit-sdk-fixture\"\n        lock = self.root / \"build/ci-verification/.library-tests.lock\"\n        report = self.write(\n            \"calf-fixture/build/test-results/connectedAndroidDeviceTest/TEST-prior.xml\",\n            \"preserve prior evidence; not a fresh report\",\n        )\n        before = report.read_bytes()\n        error = ValueError(\"Configured SDK metadata is unavailable\")\n\n        def stop(**context):\n            self.assertTrue(lock.is_file())\n            plan = json.loads((output / \"plan.json\").read_text())\n            self.assertFalse(plan[\"complete_suite_requested\"])\n            self.assertEqual([\"calf-fixture\"], plan[\"explicit_module_subset\"])\n            self.assertEqual([\"calf-fixture\"], [item[\"module\"] for item in plan[\"expected\"]])\n            self.assertNotIn(\"explicit_test_focus\", plan)\n            self.assertNotIn(runner.camera_callback.CONTRACT_KEY, plan[\"expected\"][0])\n            inputs = json.loads((output / \"inputs-before.json\").read_text())\n            self.assertEqual({\n                \"settings.gradle.kts\", \"calf-fixture/build.gradle.kts\",\n                \"calf-fixture/src/commonTest/kotlin/Fixture.kt\",\n                \"calf-fixture/src/androidDeviceTest/kotlin/Fixture.kt\",\n            }, set(inputs))\n            self.assertEqual(before, report.read_bytes())\n            self.assertFalse((output / \"receipt.json\").exists())\n            raise error\n\n        with ExitStack() as stack:\n            stack.enter_context(patch.dict(runner.MINIMUM_MODULES, {\"android-device\": (\"calf-fixture\",)}))\n            stack.enter_context(patch.object(runner, \"git_revision\", return_value=\"a\" * 40))\n            discovery = stack.enter_context(patch.object(\n                runner.camera_callback, \"validate_discovery\", wraps=runner.camera_callback.validate_discovery))\n            capture = stack.enter_context(patch.object(runner.runtime_context, \"capture\", side_effect=stop))\n            execute = stack.enter_context(patch.object(runner, \"execute\"))\n            quarantine = stack.enter_context(patch.object(runner, \"quarantine_reports\"))\n            with self.assertRaises(ValueError) as stopped:\n                runner.run(self.root, \"android-device\", output.relative_to(self.root).as_posix(),\n                           None, 60, 1024, only_modules=(\"calf-fixture\",), android_serial=\"emulator-5588\")\n            self.assertIs(stopped.exception, error)\n            capture.assert_called_once_with(\n                apple=False, device=None, require_booted=False, android_package=\"android-37.0\",\n                android_serial=\"emulator-5588\", browser=False,\n            )\n            args = (\"android-device\", (\"calf-fixture\",), None, runner.ANDROID_CAMERA_FOCUSES)\n            self.assertEqual([\n                (args, {}), (args, {\"declared_modules\": (\"calf-fixture\",), \"minimum_modules\": None}),\n            ], [(entry.args, entry.kwargs) for entry in discovery.call_args_list])\n            execute.assert_not_called()\n            quarantine.assert_not_called()\n        self.assertFalse(lock.exists())\n        self.assertFalse((output / \"receipt.json\").exists())\n        self.assertEqual(before, report.read_bytes())\n\n    def test_workflow_library_and_consumer_setup_keep_the_exact_official_package(self):\n",
+          "after_fragment_sha256": "84ee5633e91312cd4187eb960eb57d4538d2b28246e94a76053a2fd6692b45e7",
+          "before": "    def test_workflow_library_and_consumer_setup_keep_the_exact_official_package(self):\n",
+          "before_fragment_sha256": "69cfcbc524ac3befc70dcded463ca90bf86aca66112057ce952cc484d9ac4420",
+          "obligation": "NEW original-runner precedence/refusal and explicit-subset SDK-lock/cleanup controls; unchanged workflow fixture remains exact and unexecuted"
+        }
+      ]
+    },
+    "scripts/ci/test_tooling656_fixture_recovery.py": {
+      "after_bytes": 13641,
+      "after_sha256": "935bf50eaaa0d07614aa3537d2d27a8fa1794521c2300c02c6f62cf46fcfbf17",
+      "before_bytes": 13493,
+      "before_sha256": "8107f77ebc0e2c74aa4fcf6b55eed9b644160fb8bdfb8e19d8670dee4bd71e33",
+      "fragments": [
+        {
+          "after": "                                 (\"current_source_before_recents_observation\", \"recents_fixture_after_qualified_outer_ingress\")):\n",
+          "after_fragment_sha256": "ebd9da160a631aec93de7adb0d5dda34be8ee55243a24b6edb277e26c2576b4e",
+          "before": "                                 (\"current_source_before_recents_observation\", \"current_source_before_recents_fixture\")):\n",
+          "before_fragment_sha256": "b9bf74c386b1caad6417bf5541163b38198dc2c23c516d9be66c17282c164bf0",
+          "obligation": "producer698-four676-exact-hunk-1"
+        },
+        {
+          "after": "        from tooling_recovery671_source_projection import current_source_before_tooling671\n        current = current_source_before_tooling671(IMAGE_CONTROL, (ROOT / IMAGE_CONTROL).read_bytes())\n        previous = content_history._current_tooling656_control_source(IMAGE_CONTROL, current)\n",
+          "after_fragment_sha256": "cd6185e26e9e88c1605fc00f497a1a3550fc7e3d0a8d3d72b6dd8dd57e7b8193",
+          "before": "        current = (ROOT / IMAGE_CONTROL).read_bytes()\n        previous = content_history._current_tooling656_control_source(IMAGE_CONTROL, current)\n",
+          "before_fragment_sha256": "c1ead625ab8258dd16b5afa523c6af0c05a6769e471ace8e8b9acbf7ce0a6794",
+          "obligation": "producer698-four676-exact-hunk-2-image671-operand"
+        }
+      ]
+    },
+    "scripts/ci/test_webview_content_policy_source_projection.py": {
+      "after_bytes": 22013,
+      "after_sha256": "00634b43d622900c8c0a5319dde44034959407128733213fb4dccef28ab8ae2e",
+      "before_bytes": 21769,
+      "before_sha256": "22d11f050ee284d1002fb1349425cd17e2638964790bf577b83c6844a5e0c3ef",
+      "fragments": [
+        {
+          "after": "        from ios_ui_split664_source_projection import current_source_before_ui_split664\n        for name, changed in affected.items():\n            raw = (ROOT / name).read_bytes()\n            if name == \"scripts/ci/test_ios_ui_related_source_projection.py\":\n                raw = current_source_before_ui_split664(name, raw)\n            prior = history.source_before_content_policy(name, raw)\n",
+          "after_fragment_sha256": "684c9c8797f13b64bdf0715ccc197b00b99e60b938d827e4d11b2c2186899221",
+          "before": "        for name, changed in affected.items():\n            raw = (ROOT / name).read_bytes(); prior = history.source_before_content_policy(name, raw)\n",
+          "before_fragment_sha256": "01f086fbc2cb47c1f28531281c8d4f749789ae34752861f2e7c17588b1c63b18",
+          "obligation": "producer698-four676-exact-hunk-1"
+        }
+      ]
+    },
+    "scripts/ci/test_workflow_source.py": {
+      "after_bytes": 11676,
+      "after_sha256": "bf5ce1ea8d4ac19d811d3252cd547bd89352a9c8afe02d0563286e56d0103b64",
+      "before_bytes": 10349,
+      "before_sha256": "238b118e71e48690b8a8d3a49bc807516ead7ee7d8a059edd68c200ddc83f89b",
+      "fragments": [
+        {
+          "after": "        # The fourth use is the reviewed early Android source-only admission.\n        self.assertEqual(4, source.count('for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done'))\n",
+          "after_fragment_sha256": "6f232b0dc34ee2ba6efdf3969a508fcfdc45b142f12e54df237f2305e01d0bf0",
+          "before": "        self.assertEqual(3, source.count('for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done'))\n",
+          "before_fragment_sha256": "3978e7598a663a39dd20109ea7815bfb86776bd117e4986eb86441f9da93b0bb",
+          "obligation": "Retain all three original finite argument consumers and include exactly one new early Android admission."
+        },
+        {
+          "after": "        # The fourth use is the reviewed early Android source-only admission.\n        self.assertEqual(4, source.count('if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi'))\n",
+          "after_fragment_sha256": "df9fa5ba0ed47a2e718443553867f8fe9ccdd2a16132e7903650df08bba3b110",
+          "before": "        self.assertEqual(3, source.count('if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi'))\n",
+          "before_fragment_sha256": "ab9fe47f659c914b23a85dfdb501ece912080da338a52ce01855dd849ee5d331",
+          "obligation": "Retain all three original finite argument consumers and include exactly one new early Android admission."
+        },
+        {
+          "after": "    def test_early_android_admission_keeps_exact_same_finite_arguments_without_host_execution(self):\n        source = WORKFLOW.read_text()\n        admission = source.split(\"- name: Admit finite Android discovery before host setup\\n\", 1)[1].split(\"- uses:\", 1)[0]\n        self.assertIn(\"if: matrix.suite == 'android-device'\", admission)\n        self.assertEqual(1, admission.count('if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi'))\n        self.assertEqual(1, admission.count('for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done'))\n        self.assertEqual(1, admission.count('args=(plan --api-level \"$EMULATOR_API\" --output build/ci-plan)'))\n        self.assertEqual(1, admission.count('\"$PYTHON\" scripts/ci/android_device_tests.py \"${args[@]}\" > /dev/null'))\n        self.assertIn('\"$PYTHON\" scripts/ci/android_device_batch.py plan --batch \"$ANDROID_BATCH\" > /dev/null', admission)\n        for forbidden in (\"runtime_context.py\", \"setup_android_sdk.py\", \"gradlew\", \"adb \", \"emulator \", \" --run\", \" publish\", \"upload-artifact\"):\n            with self.subTest(forbidden=forbidden):\n                self.assertNotIn(forbidden, admission)\n\n    def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):\n",
+          "after_fragment_sha256": "2062c2488a3f2da21f9388b9fb0a7498037ecf455404ccfff43680a48b1d997b",
+          "before": "    def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):\n",
+          "before_fragment_sha256": "d553f97530ed97f5918281e3f65d6d48c821e26e27a0e4235a31548c4452270b",
+          "obligation": "NEW exact per-stage finite-source-only early admission control, no host execution or selector widening."
+        }
+      ]
+    }
+  },
+  "original_ci668_inputs": {
+    ".github/workflows/gradle.yml": "47878318993f0ca28899f782b1ba8780fe1c6e210e187ef097acfaa4fb1d19f8",
+    "build.gradle.kts": "036a7f0c63c1492278205be67669c20914ea1ed26bc6524552d6b716f5846d99",
+    "calf-camera-picker/build.gradle.kts": "e37eb7a4fab11a6af0ed0ff6af7dea57e081241d41efb9fa7f1dd06f7367192f",
+    "calf-camera-picker/src/androidDeviceTest/AndroidManifest.xml": "c24a6c2498dddb660cafd78d31bfc4f4730f8ae34f1c807eff3f17ff6034962b",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraCallbackSubstitutionTest.kt": "4b722312599a0bd23229d36c9c4efbd98a02e147b2a1add4be67a6680d40b0d0",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt": "53e355fa832c2fe622eeae1627de3847d224393f8656b50a7c6b2f396b7bfab1",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt": "357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt": "8aeb2acf56287c08619c854f4da21c3f0c4f95d7dba19e17ca6ceacff03a0c12",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraVerificationProviders.kt": "09956cd5f88d5c18dff5be3251d9ece6beb679f5c961c3041e1450cf46e96f82",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt": "2010803e066ce0de1a34051ed40a50c9bca08f238a6218dcaabb4e7d0a09bee7",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedCameraReceiver.kt": "a15663164f0b66eccf225a0a24d0af7be77e13c80bc620be501d388224a76a6d",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt": "01771567b969a88094d88a2906dadc6bc4d1e8502e695abc9f145b7ca197e06e",
+    "calf-camera-picker/src/androidDeviceTest/res/xml/nativecmpkit_camera_device_paths.xml": "1448a27bb209ef4b8b99f1d90bf2ac44f8eb86a55fadcab5caf24fe524a98413",
+    "calf-camera-picker/src/androidDeviceTest/res/xml/nativecmpkit_camera_device_wrong_paths.xml": "f008fdc746753acf4e40f56ad01b6eea79ad56eb84254ea09fac1524b91d1f4b",
+    "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt": "b7094d795bfaa209b254bbf2c549de21a7fff07df636fbb68f4cb1a3baa917a7",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt": "abeb590d3f9edacc9fd638d40125d20ccbe3c0814bce1586d398c09c5e0cb493",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt": "b7d906813c66604e76a4f64f55306dbea6e92889bf3e77a66cd3aaa13a9891ab",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt": "0ff1470d93f9580e27b54e499b2dda6843a50c5d7b4f4b5c4cfaca7980c7e841",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaseline.kt": "044d050378036573aa527226130ccb67bdbe4717231b8cc1ff10da70816b3801",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaselineTest.kt": "f46f20ff936c4909ca1b9a96c9dbbe1c970c1363d8616141077bdcc6d9cb7c57",
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt": "5e5a62825d8a47ad7a5880df2a75807aba01ffd79f4ffd601f04082a89797230",
+    "calf-io/build.gradle.kts": "480ef3a1cd3a75dd7b60df1a86812064ea7233ed950a34d1cd9941fff489e449",
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml": "26788255756c239bccb8e7c9ee15d0cf67afdb2cd6231defa494e42747f3573d",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteDocumentsTest.kt": "47313a30c844ddbf33a5f776aec7e4afb0ea616dc362bced298e4d1c51739dc4",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteTreeGrantActivity.kt": "1b49ca749a01e8fd276294d5286c83181c70bd7d8b098504dd49fbf669b1e325",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSystemTreeGrantActivity.kt": "760634c61aa94ffb04b16f94fc20ceb67f4c58aa06477ee6dde14c3dda24fdde",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "941c43e90bd8d32f113b3dc0b863b4885459a4f17716825eb26ffbf8b320a78a",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/NamedSystemDocumentsUi.kt": "e0251e1f3cc8bb4c93791b978d84de5bc4eb18469873c4879c190dbdd93956a0",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt": "c2180ba34f3c825e9060ddc68272b41c9d847f13cd91de7f7e2be54b496216a6",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/RemoteIoEndpoint.kt": "769ea4ec7ac11d29b2af4c85b6e3da7c9b74b3670a368df0a8a25bcc78e3ee82",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt": "c27062ac3be205297ba84337c046bc2921b0d9326236bc9b53a974461bb44227",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileBookmark.android.kt": "580c83bc154d93e4f8b347644c04823ec662b2703cfa2cc73e702d2f04aed751",
+    "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.android.kt": "436d0065214fd781730a1818868ec96d9202f750aa63c2ec2189e970ac6a2ac0",
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+    "calf-ui/build.gradle.kts": "7f83bd970329ad885821f80a0f56cf9a8d27a58e8e5a8c8b354a124e544ee8a4",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt": "68c1d422b0994aeadbd9ac443ea273eac8410b0446cc751f39864552a9be68a3",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt": "efc57f78749bcf4fe81f7fd0e9746159a5edbfaf38596cbd8176f920af400895",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt": "7b111cf30b994374f5780175b790682e75f20f9df8f5aae283103dd5522c14c5",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/button/LiquidButtonConstructionTraceTest.kt": "1b417a078d26c7d2f09dcaa5c5e17ac9be0806fd4f8a88dffb5e616978207954",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt": "b58eafaa3f097de27d0e8babe1059ce818fca903d954a77cdbd2a4c1a73252b9",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt": "5132474a968f50ce40e161049b32700c28d1709d0e6b1bbd6fecb239f6fd9e20",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/PointerCancellation.kt": "5e9aef0d114a3e4b9d992ce3be2fd5fd96951443a527e68f1c6f87f78d6a1b2b",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSliderNativeMatrixTest.kt": "9ed073effcf3b5399f4838887d271a1b893a2a9bb123afc6771fcd15d2ca87d4",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbarFallbackNativeTest.kt": "c7cfac7363f93e1fa880378f5e38c7289faa9e0b3570e3999c9fe11b2bdc2207",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragLifecycleRegressionTest.kt": "d1e96296dce57bb817a08abca87a2943d9924745d1208fd7591751ed9d5dd3e8",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlightResourceLifecycleTest.kt": "9ded1ba61f6702ef2b6f28312b6971a37a112564c1d030dbe22b0f25419fefbf",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UiDragShaderTestHost.kt": "7ce8cef67a1d4df0430852e77d37967574d42fd039b76a0a6ebb347f93b8cb8c",
+    "calf-webview/build.gradle.kts": "6e924d26f988f960ff828383a41901b79d7692d3eea6a07cb38230866b86e908",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewContentPolicyAcceptanceTest.kt": "d292df9838fd7a208d97db9adf69d1b61466b0a5848955bf5e989f2467ab3564",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt": "e7f3e127d3f3293d21f1bc2d84d9dd6761d26f65b1b77102237521197bb045a2",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": "d9813c52ff5b90fbf5fc97e64a2df577f723f3f422656a3837f8e23b95834ce0",
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": "83709fba6de43479d0f5954d931c5f040618649ed3d8321070d556278316d86b",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt": "79601573fea41ab8d1a78258b2de74153383a2582d9eac031deb6cfbe7e2c683",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt": "508c28c1fe336e01537e8ff62bd6249712c3d0eaa4fb591c89b1289f972b773f",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewContentPolicyAcceptanceTest.kt": "36713f1ccec7c2b19ed9abba86dd502f4108485889f7e8bb0719a735f05aead9",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt": "798710ff9b6ce32685e25f3cd13042d13e3568fc36d5e1438bf2e6df6991727f",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentPolicyAcceptanceTest.kt": "e31efb65ee40ba0f22c6e5c3f7dd39ce88356d35cfa7e469824f28a325e49d2d",
+    "convention-plugins/src/main/kotlin/Android.kt": "204b7b0bb30e33144794ffda1d993f925f670cac87c809155d81fe9f09f7a256",
+    "docs/development/android-io-controlled-remote-provider.md": "34c9f4d5176e6e3395805aab2425cf4199af02638662b0121aec3c589adeb486",
+    "docs/testing/android-camera-callback-substitution.md": "a17cc804d29aba1031e9e8f310c5a4c82d68eb25dcf0711f1fdb59dc2b9f9c8d",
+    "docs/testing/offline-tooling-provenance.md": "f4386a3d0e4ba165abf293b121c056f7f431c1e4fe541d1c0f1e4678cd07780b",
+    "docs/testing/offline-tooling-reuse.md": "cf7b74bb55babc6512aa7102a1562f66621fa40c832f2413f0b5e184c3a9c717",
+    "gradle.properties": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470",
+    "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "scripts/ci/android_camera_callback_native_focus.py": "503ca18b83311b557908a50dc9683dec3e74ba1708f23e9515b356c4361459a6",
+    "scripts/ci/android_camera_developer_prerequisite.py": "c61d385634dddc3aac39ce8346f93f2fcd4f7e4df6330ba81528247fba2f5800",
+    "scripts/ci/android_camera_receiver.py": "032ac23053338ec9e839cdae8b3a946a84712ff92a7f821f4972230241eb03a2",
+    "scripts/ci/android_device_tests.py": "954a3fd8ba6f52f9e63900495258d62341c5dffee0c82962c9883edbe2baa38e",
+    "scripts/ci/android_geo_probe.py": "86ee29f08f33f30a1616f18fa9666ee7bb9763f6364c345456e5523bd335c061",
+    "scripts/ci/android_io_documents.py": "d878bdd9d61008c885d089f6f9831c5dd9c361a7ff6484a118a19214e1dc96f7",
+    "scripts/ci/android_io_remote_documents.py": "d7ba70d6957a4b3e7fc7ee99cdc4a46db228cc7abd8f8fee4157ce8cd6fe44e2",
+    "scripts/ci/android_io_remote_routing_source_projection.py": "e54d0d68283ef8b93498bd50e11322fb51b50b8fcb7cd26edd4ae12270796e15",
+    "scripts/ci/android_share_recipient.py": "9877fd03ba2818281d6100fbc134b7be1e2cb60d1959114b332c38397882c608",
+    "scripts/ci/apple_image_launch_readiness.py": "bafea0957404052acfb3a6f6ec56dabb96319448ae736f6b81f9ebdfeae18fc5",
+    "scripts/ci/apple_image_sidecar_evidence.py": "6d72320179d24d190774059b325cceec9e7a5b35139b9b086509091496d75f8c",
+    "scripts/ci/camera_recents_fixture_source_projection.py": "05c445b75a1811db3b98e999cdbbae35f3347d652a9867f344887ce436c5a932",
+    "scripts/ci/camera_recents_source_projection.py": "dcdc53cccbf7d0ffa4c9608d64d6f4a4dd3aee1c634438fb19960914c504dfa0",
+    "scripts/ci/ci668_outer_source_projection.py": "57ea22a07713ee542a14f8d57338767f57e6cab4e2133a14b8096f9269e18337",
+    "scripts/ci/fixtures/android-camera-callback672-source-inverse.json": "1c14d6fcb7dc49716de3688169c9280fde51f62564d1593a6a95707f85f19f7a",
+    "scripts/ci/fixtures/android-io-controlled-remote-routing-source-inverse.json": "4dee514d6aa6bdfaf5856a24416cfb7a677f67daeed9f7fed9b43215e31e95de",
+    "scripts/ci/fixtures/apple-image-launcher-source-inverse.json": "7fd94a3f2249840fb61a6cbe835bc8d3fe0809951dd3e3ed77cb33f422f55cef",
+    "scripts/ci/fixtures/calendar-share-selector-source-inverse.json": "0a9267ec0455668688ce3a4a76dc20f534294bf2d48edf1f4c80fd3e43a34bab",
+    "scripts/ci/fixtures/camera-boot-busy-source-inverse.json": "280c1c631b570d62588458d01dbd02030be3e6d7a0535a34c30e701b6fff1f3e",
+    "scripts/ci/fixtures/camera-boot-handoff-source-inverse.json": "525f7f43222f92ab5730d0154e817dbfc60858e21b1daaa60d5203d954535367",
+    "scripts/ci/fixtures/camera-handoff-fixture-source-inverse.json": "29da5ee28cd1aa1c1859c076895c0d62080743d2ab4bd447983dddd15684b565",
+    "scripts/ci/fixtures/camera-home-baseline-source-inverse.json": "b968373d8de34a53525efd291055ad61f8d034a17236f663d8c58ba4c0716dcb",
+    "scripts/ci/fixtures/camera-ios-ownership-routing-source-inverse.json": "90844a99910a622024f769dd16ffe504308e1a94324d9192e406cda681e680bd",
+    "scripts/ci/fixtures/camera-recents-fixture-source-inverse.json": "4aaaac4178b727c388ae0969985171de0df802d0f1268b4dc6100b255c25d982",
+    "scripts/ci/fixtures/camera-recents-observation-source-inverse.json": "0329eb385d26e9ef90e6c3f92604672e1e76215c9513bbf88c06498eb5f1e028",
+    "scripts/ci/fixtures/camera-tooling562-source-inverse.json": "e91e9f3ccbf98238d7fcb7f82a6cedce492451fb15bfcb381ace6616cd43dfdc",
+    "scripts/ci/fixtures/camera-tooling566-source-inverse.json": "04fe85ecea2e04df03f05386250168b1b12fe1d3c1aae0783e3b22fa6344ee6e",
+    "scripts/ci/fixtures/ci668-outer-source-inverse.json": "bbfdb2454182ce8c1fc90e793c3552e49f317b35437b61fcd3e8743b86f9d86e",
+    "scripts/ci/fixtures/ios-ui-related-source-inverse.json": "5511b49eb4e164735508ccb596013a7ac59a3dadfe8adf2ce2acac710a2393f8",
+    "scripts/ci/fixtures/ios-ui-split664-source-inverse.json": "1455a8edb3553a87a409f7fc30568ede9f7f52fe97042690b668dc6ebc145f4a",
+    "scripts/ci/fixtures/platform-recovery659-source-inverse.json": "c9a56d4288e1d6a71914de27b0218d0877840136e9d24d448e2d192fcf7d90e9",
+    "scripts/ci/fixtures/tooling-recovery671-composed-routing680.json": "b853b524177cfa51c175f9c3bc7d3cd301c5db0aec7e335f6739fdca07332871",
+    "scripts/ci/fixtures/tooling-recovery671-source-inverse.json": "9def6c416e199237600bdcdc2a16a3fd22dc2158796e1116f999b8681c96a110",
+    "scripts/ci/fixtures/webview-content-policy-routing-source-inverse.json": "c44400087570740d3248704c2165c3222229f2c05ff1a2a3840dbda9aa04b916",
+    "scripts/ci/fixtures/webview-current-contract667-source-inverse.json": "56574379b6d9621e8b72009cad3551115401b860250f5c40af23bf3be279f937",
+    "scripts/ci/fresh-tests.init.gradle.kts": "e0c82a5c9c2461e5e18ce4e71e495c5cbdf5f3694d2bd19bbfbe855134112ffb",
+    "scripts/ci/ios_adaptive_controls_native.init.gradle.kts": "90ac4d7f46ee8f88192eb23a3da5b3ce62ef1c00c9a8003a89800b47e305e8e8",
+    "scripts/ci/ios_adaptive_controls_native_focus.py": "696826bbdf9dfff7142f0e5f905d6114a7e0f9fda06c25e155e86d3aa9914a28",
+    "scripts/ci/ios_adaptive_controls_runtime.py": "420ba61013fc790d03fadc00360642fd7d65651b0da3b358027b90b49a2ce67e",
+    "scripts/ci/ios_popover_anchor_plan.py": "ce5a6ea9a1589f8d8bad2c6bfa8b745cf51679b417496822edf9b576a9d53b70",
+    "scripts/ci/ios_ui_adaptive_drag_shader_native.init.gradle.kts": "6f11a305e3ffbe778d4b3aaa6e8a83e50b51c30af63666d2515f26250839e3c8",
+    "scripts/ci/ios_ui_application.py": "b3d0f2c2986e42a5e662ba8c2521393f7564916e27084b9473c354b7328b9605",
+    "scripts/ci/ios_ui_related_native_focus.py": "2828b127fc9413da63340ed635b306eaec09dfd0f6a057a8978fef29746a77fb",
+    "scripts/ci/ios_ui_related_source_projection.py": "19b33c0174e52ab85e603f6f0c7be45dd5b83cff93b278a2430c527692cc1c53",
+    "scripts/ci/ios_ui_split664_source_projection.py": "3fe6ba6239409536db53b1121bf6830b7dedfd521a5aef77c557833f7cda212f",
+    "scripts/ci/ios_ui_split_native.init.gradle.kts": "93bdd4ec3bbd3fac3db6d2e60709bd6945eb96c8cb05b7bdc50d7c3d7b689a9d",
+    "scripts/ci/library_tests.py": "ddd7b38615bef7ec99bfefddb625bf0816d9c90c297604d7baaea898a6e90aa6",
+    "scripts/ci/offline_tooling_provenance.py": "b9f4cfb7465d390bff39141e2ec399c166dc4b9df24bf655eff92f5c50a550a3",
+    "scripts/ci/offline_tooling_reuse.py": "9bd6b6d8daa7d8e6270fc874c28a8b7692f815334d4d77130fb3d81c35d7897b",
+    "scripts/ci/platform_recovery659_source_projection.py": "4505c503a7cf2b354e7d18dbf9129a43071ffc9a0fbb8e2093dfbca8f179960a",
+    "scripts/ci/runtime_context.py": "56a3072e2164c3ff9d8113a94e68dd400a609c0040cf8ce0514d0c1ef1e79a96",
+    "scripts/ci/test_android_camera_callback_native_focus.py": "01d3d4fe37b08ebf78297c2bb249f367a51b5e4975d0a2b6a308ebcc431223d2",
+    "scripts/ci/test_android_camera_provider.py": "99c48b09ac8a49bb5f1a35802296d2f78195e5e9867eb527afdc2bbe6218a3d7",
+    "scripts/ci/test_android_combined_finite_routing.py": "4c8f7ea5ae5c897c9e004b1aba1ca3f1f752c62dd68e15e6096174afd67816d7",
+    "scripts/ci/test_android_geo_ownership.py": "03f4135da8ad441bee502ff7a656b34960f6ac62db2b9286c477437e2df26500",
+    "scripts/ci/test_android_geo_prerequisites.py": "25db964ef418e0ebe70842a3b5bcc9459ade56f352ccefe7f95f339b7f32e45d",
+    "scripts/ci/test_android_geo_provider.py": "998a093c25299bf165ddac62fd31a466d804e2c90ab3dcf522cba965ce5aef91",
+    "scripts/ci/test_android_io_default_decode.py": "f987ddfde0b884dde0c1f176b2bdda8eb91313fa460dfda77d9ee66e13bb12e0",
+    "scripts/ci/test_android_io_remote_documents.py": "d45c62fa7ff78ada440fc723972d860e599cb5869b68ca9210789c7da7bba8c2",
+    "scripts/ci/test_android_io_remote_routing.py": "e0e25800d691e4fc859f22d16c1ca4362da2bae36f80b76a3e976ddf35628018",
+    "scripts/ci/test_android_io_remote_routing_source_projection.py": "4b7b3897078ee1bfbfeac2178f1b18337c48fe0bc6caa915e60ce3ea82ab8aa7",
+    "scripts/ci/test_android_io_reporter_manifest_union.py": "6f59106ef9bd4bfcee15e9527016d8b671ae442c006889fd49a73135807e8977",
+    "scripts/ci/test_android_share_grants.py": "fa46255320d0b6315cdd56b9f1cd043f6e97e4ebaa55245224a2da33ab41a627",
+    "scripts/ci/test_android_storage_probe.py": "c708d2f8b8947a819b53d53fd6f9c141f1bd40e106310baca518a21ef172409d",
+    "scripts/ci/test_android_verification_contract.py": "e90b106570aff96dd6116dc2a5833368e176ace036d16ed1664ae7020cc13686",
+    "scripts/ci/test_android_webview_stop_redirect_recovery.py": "a0b496f88f711108926e6fe3441080d98d2ca52d92bc198bcf0873e439570c34",
+    "scripts/ci/test_apple_image_launcher_source_projection.py": "e9af322336f08c49c6a4456fe60edaa8fa44884c8161dff42f707d94effb4ad7",
+    "scripts/ci/test_apple_image_sidecar_evidence.py": "6c77acc785a5ab326720be87b929de87f1d0d6b1a85385da3ae417b8a53ddfa4",
+    "scripts/ci/test_camera_recents_fixture_recovery.py": "4687dab4e4ae2f180365ab44c8d31c199d27cc649b280e5985786db478b722ce",
+    "scripts/ci/test_ci668_outer_source_projection.py": "8e6d2e76f9de755f5d53bdc6a5a29aeb7161e9777ffcf7b5a0a163164889dfce",
+    "scripts/ci/test_desktop_webview_literal_matrix.py": "f74a94c0b2d00d4d174db31b0f7789ae5052bfc6bf44b3ee4851b7c2d8109b66",
+    "scripts/ci/test_desktop_webview_stop_windows_recovery.py": "cd10042201c3438862b66438d52a5547a55b00f838026e84608eadf2b385b741",
+    "scripts/ci/test_image_profile_readiness.py": "9828002e422556e059b1324c365963a277ad8eee92601674cb6bbc8abf883638",
+    "scripts/ci/test_ios_application_receipts.py": "e149b2dee95d8665105747bed726169951e44c6e9facc0d137a5544b2cd9b68b",
+    "scripts/ci/test_ios_ui_related_source_projection.py": "08e90c1752149f554065eb51e586b41eca913a231fe691c5059e930c32578120",
+    "scripts/ci/test_ios_ui_split664_native_routing.py": "58a6e93641d2f221fb09a74f2ae69fa28b2b2278624c96605782cd1bc89447a2",
+    "scripts/ci/test_ios_webview_current_request_metadata.py": "9edd3b30676414e047f1d06b949845d83b9f06c8a1847677a831c314efd1d104",
+    "scripts/ci/test_offline_tooling_provenance.py": "c0b7c6b869860268d461f9d25db6a2c26041a25c9d3f240d0c231673772b8cef",
+    "scripts/ci/test_offline_tooling_reuse.py": "6012ff90b004ec2631c17c05f65e116c88766d3089113a5ad2fee7a6e61ff94e",
+    "scripts/ci/test_offline_tooling_workflow.py": "2e80e09f8e67add098e1f4f3407c41230ad5ae3f92c97efa214faf93bffa0484",
+    "scripts/ci/test_platform_recovery659_source_projection.py": "c7d3a9239fb5c20bd0cad7a4aaf38261ab50e5e62d26851fee96e9bc27e9070e",
+    "scripts/ci/test_shared_tooling_recovery671.py": "9d5e79ce5774b754336189666f3f736080cea82bc7b18edadd67379443ee9105",
+    "scripts/ci/test_webview_content_policy_native_focus.py": "f5680f235b2b9ee64f5edfa64213c8ec1635c82772af609d4cc5cbd867bc326e",
+    "scripts/ci/test_webview_content_policy_source.py": "2c706881cb5d8d471f26f6b47a381aceff7f2d0f4e74cf65a50cd21562920fbd",
+    "scripts/ci/test_webview_current_contract667_source_projection.py": "06255308b350c7a8480c319998144fa0cfa63d08669cfd63193b2e716f90c335",
+    "scripts/ci/test_webview_request_focus.py": "4b134ad57a19d05aad19ce2e4e9bd7cc7becae9d4859b007721c1e580ac385e0",
+    "scripts/ci/tooling_recovery671_source_projection.py": "311353d09543805a3e2f9f4b9744a45ad73d59ef7812fd47fb1d5d27857f592d",
+    "scripts/ci/webview_content_policy_native_focus.py": "52e9d31c624e3bfbeab6d02fb7c5f97d1b196fb8fbaefe85be86a87587569837",
+    "scripts/ci/webview_current_contract667_source_projection.py": "6e3d560049ceb020db99a6ccd7d72bfc34e05425210900a1a009f44cd592ac23",
+    "scripts/ci/workflow_matrix.py": "7f5b8c8404c4ec83a9c634b0a6e0636957e4e080b30a24ff272c4df79d306df9",
+    "settings.gradle.kts": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c",
+    "tests/consumer/android-camera-receiver/build.gradle.kts": "92000d4bad25e57121cb5c100363d44955f0bdef290372bd3da965342f1523f4",
+    "tests/consumer/android-camera-receiver/settings.gradle.kts": "31507eb3489726a100053c8624e941f2ad0511460a55a4f62edf6a8b9f850c4f",
+    "tests/consumer/android-camera-receiver/src/main/AndroidManifest.xml": "2e507acb6e0ec0f3fbb3c3bbc7908a5d882277804a68f670e8814160e16fadd5",
+    "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraDelayedReceiverActivity.java": "8a5df77d685676fe29842d4231e86d0a8cf7a3bc388ec69ccf95be28c1d59a93",
+    "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverActivity.java": "2df3ad3ab2e985fa87483c18f269f3fbcf98d44210cf2c346c955dc60a13c8c9",
+    "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverService.java": "b7e366c37f91208afafd8fe6db1160a6048e740ead8c6cc334101b7a4a353a53",
+    "tests/consumer/android-io-remote-documents/README.md": "92ef61b5673af421fb48d6812d054fc5c119ac27b9ccf7b7d41d29cfcf083e92",
+    "tests/consumer/android-io-remote-documents/build.gradle.kts": "55967f734407e4e632a17fb9268879ce26979e3f9f96d8a1152af04da32f4160",
+    "tests/consumer/android-io-remote-documents/gradle.properties": "9bdf5fc8f73662d4e80072838783cc65fdae29b6b1c6a53de5d4cf8e20c8d44f",
+    "tests/consumer/android-io-remote-documents/settings.gradle.kts": "31ffb56210c51fc3d8344682b8183c76d55add20e09e5ffb4ea133229be9b981",
+    "tests/consumer/android-io-remote-documents/src/main/AndroidManifest.xml": "b32fd120a12987616d7f641640d3779e832397c25396da298d1fc3bcc5ceb8f7",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoContract.java": "98bac439bc8e6ea1e6f8de5f4d8192ccc9707331c6e5973b93adcdaa5ed49244",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoControlService.java": "731549a3a8cba7647f3e665b0351ca6f804ac48c07c46d1a60545768b0bd7f44",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoDocumentsProvider.java": "41a32e36b8f785a9cba3793c253872e15131977d4276f091fa16b18e73a59c3e",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoHttpBackend.java": "58e2cb1091f16d81595b8065e23ab532a5f18378df5d48d18d50317014a58d89",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoHttpTransport.java": "d6f6af63da9c2a89bc8a71fa306ee089852402919c256ec7fd7419ea819b65cc",
+    "tests/consumer/android-io-remote-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/ioremotedocuments/RemoteIoProviderWitnessService.java": "f6d2e7a107179f3e1992b3868ea6c73075459b9eeb74a59287194416ddb52593"
+  },
+  "original_ci668_spec_sha256": "bbfdb2454182ce8c1fc90e793c3552e49f317b35437b61fcd3e8743b86f9d86e",
+  "own_guard": {
+    "bytes": 15710,
+    "template_sha256": "dac53c647d2a4c7b8ed397d92896ae1f9083ce238c2a05024176374befec8e56"
+  },
+  "schema_version": 1,
+  "scope": "Exact producer698 nine-fixture, diagnostics and owning668 successor; source-only, not original aggregate/cache/native/issue acceptance",
+  "source_before": "97b3013e033ce64b6cc3d5dd3bf24bfbe405cb68"
+}

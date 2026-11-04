@@ -16,6 +16,7 @@ import camera_ios_ownership_native_focus as camera
 import camera_ios_ownership_source_projection as history
 import ios_camera_photo_fixture as photos
 import ios_ui_application as application
+from ios_ui_split664_source_projection import current_source_before_ui_split664
 import library_tests as library
 from test_ios_camera_photo_fixture import BUNDLE, DEVICE, NONCE, PID, SOURCE, native_status
 
@@ -213,7 +214,11 @@ class CameraIosOwnershipApplicationRoutingControls(unittest.TestCase):
     def test_original_argv_deadlines_native_protocol_sdk_helpers_and_native_xml_runtime_worker_cleanup_gates_remain(self):
         raw = (ROOT / APP_SOURCE).read_bytes()
         before = history.source_before_camera_ios_ownership(APP_SOURCE, raw)
-        current, prior = functions(APP_SOURCE), functions(APP_SOURCE, before)
+        # UI664 added only its exact finite timeout/host/runtime wiring after
+        # this Camera checkpoint. Admit the complete current image before its
+        # dated predecessor; never relax helper AST or native receipt gates.
+        qualified = current_source_before_ui_split664(APP_SOURCE, raw)
+        current, prior = functions(APP_SOURCE, qualified), functions(APP_SOURCE, before)
         for name in ("NativeProtocol", "execute_control", "control_status", "installed_identity", "stopped_app",
                      "forward_application", "application_timeout_seconds", "macho_simulator_identity",
                      "profile_debug_entitlements", "provider_c3_observation_route"):

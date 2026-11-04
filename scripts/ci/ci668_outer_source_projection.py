@@ -136,6 +136,8 @@ def _identity(relative, payload):
 def source_before_ci668(relative, payload):
     """Complete reviewed inverse or its one exact declared ancestor, not admission."""
     _identity(relative, payload)
+    from producer698_source_fixture_recovery import peel_producer698_for_history
+    payload = peel_producer698_for_history(relative, payload)
     row = _document()["bindings"].get(relative)
     if row is None:
         return payload  # Unlisted bytes are not certified, guessed, reconstructed or executed.
@@ -177,6 +179,8 @@ def _own_guard_payload(payload, document):
 def current_source_before_ci668(relative, payload):
     """The sole strict final raw ingress; old, partial, displaced and drift refuse."""
     _identity(relative, payload)
+    from producer698_source_fixture_recovery import current_source_before_producer698
+    payload = current_source_before_producer698(relative, payload)
     document = _document()
     if relative == SOURCE_RELATIVE:
         _own_guard_payload(payload, document)
@@ -192,6 +196,8 @@ def current_source_before_ci668(relative, payload):
 def peel_ci668_for_history(relative, payload):
     """Only exact complete final endpoints peel; all other bytes face older pins."""
     _identity(relative, payload)
+    from producer698_source_fixture_recovery import peel_producer698_for_history
+    payload = peel_producer698_for_history(relative, payload)
     row = _document()["bindings"].get(relative)
     if row is not None and sha(payload) == row["after_sha256"] and len(payload) == row["after_bytes"]:
         return source_before_ci668(relative, payload)
@@ -199,7 +205,11 @@ def peel_ci668_for_history(relative, payload):
 
 
 def _validate_own_guard(root, document):
-    return _own_guard_payload(_ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES), document)
+    raw_current = _ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES)
+    from producer698_source_fixture_recovery import current_source_before_producer698
+    raw = current_source_before_producer698(SOURCE_RELATIVE, raw_current)
+    _own_guard_payload(raw, document)
+    return sha(raw_current)
 
 
 def _expected(document):
@@ -208,18 +218,27 @@ def _expected(document):
 
 
 def current_input_hashes():
-    """Exact final current175 custody; no ancestor hashes relabeled as raw current."""
+    """Actual combined current custody; named original175 is a separate sealed view."""
     validate_current_sources(ROOT)
-    document = _document()
-    return _expected(document) | {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)}
+    from producer698_source_fixture_recovery import current_input_hashes as producer698_hashes
+    return producer698_hashes(ROOT)
+
+
+def sealed_ci668_175_hashes():
+    """The immutable original raw175 snapshot, never relabeled as latest current."""
+    from producer698_source_fixture_recovery import original_ci668_input_hashes
+    return original_ci668_input_hashes()
 
 
 def validate_current_sources(root: Path):
-    """Strict finite ordinary current bytes only; no source/test/native execution."""
+    """Strict latest producer698, then only exact qualified original668 operands."""
+    import producer698_source_fixture_recovery as producer698
+    producer698.validate_current_sources(root)
     document = _document()
     _validate_own_guard(root, document)
     for relative, digest in _expected(document).items():
-        raw = _ordinary(root, relative, MAX_SOURCE_BYTES)
+        raw_current = _ordinary(root, relative, MAX_SOURCE_BYTES)
+        raw = producer698.current_source_before_producer698(relative, raw_current)
         if sha(raw) != digest:
             raise ValueError("Current final CI668 input differs from its complete reviewed raw image: " + relative)
     for relative in BOUND_PATHS:
@@ -230,4 +249,5 @@ def validate_current_sources(root: Path):
 def fixture_inputs():
     """Only the exact finite175 current source union, never a test/native selector."""
     document = _document()
-    return BOUND_PATHS | ADDED_PATHS | set(document["unchanged_inputs"]) | {SOURCE_RELATIVE, SPEC_RELATIVE}
+    from producer698_source_fixture_recovery import fixture_inputs as producer698_fixture_inputs
+    return BOUND_PATHS | ADDED_PATHS | set(document["unchanged_inputs"]) | {SOURCE_RELATIVE, SPEC_RELATIVE} | producer698_fixture_inputs()

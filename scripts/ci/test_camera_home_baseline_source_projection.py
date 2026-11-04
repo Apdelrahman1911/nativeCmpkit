@@ -98,7 +98,10 @@ class HomeBaselineHistoryTests(unittest.TestCase):
 
     def test_direct_older_console_reader_retains_exact_hash_refusal_and_inverse(self):
         from camera_scalar_failfast_source_projection import camera197_helper_source_before_owned_console
-        current = (ROOT / HELPER).read_text()
+        # The latest strict helper ingress strips only reviewed outer source
+        # stages. Camera197 still owns its unchanged complete prior-helper pin,
+        # six caller substitutions and exact suffix/forward inverse checks.
+        current = current_source_before_home_affinity(HELPER, (ROOT / HELPER).read_bytes()).decode()
         older = camera197_helper_source_before_owned_console(current)
         self.assertEqual("da07bedb680e9ce36842bbf581f22bf7b3ebf8ab1c5d307b05745069c77bb5a4", sha(older.encode()))
         self.assertNotIn("parse_recent_home_baseline", older)

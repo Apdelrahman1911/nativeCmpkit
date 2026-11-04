@@ -1,0 +1,125 @@
+{
+  "bindings": {
+    "scripts/ci/test_ios_geometry_simulator_source_projection.py": {
+      "after_bytes": 10169,
+      "after_sha256": "1201e8b8211cccac34960de13008ae93489ff1e98a01669ec6920f13f4e70e29",
+      "before_bytes": 9925,
+      "before_sha256": "a13aa64cdc102fe1d755c5e4c95c7a5e4b24330f32109312927a688713b150d4",
+      "changed_class": "OwnedGeometrySourceControls",
+      "changed_method": "test_native_compiler_and_old_manifest_inputs_are_exactly_unchanged",
+      "fragments": [
+        {
+          "after": "        from ios_ui_split664_source_projection import current_source_before_ui_split664\n        for name, expected in (document[\"unchanged_native_compiler_inputs\"] | document[\"unchanged_dated_manifests\"]).items():\n            current = (ROOT / name).read_bytes()\n            if name == \"calf-ui/build.gradle.kts\":\n                current = current_source_before_ui_split664(name, current)\n            self.assertEqual(expected, sha(current), name)\n",
+          "after_fragment_sha256": "4eaf106a64f27971de2a629840016ddd3d1215ac7f9cda7391ea519f7af981ec",
+          "before": "        for name, expected in (document[\"unchanged_native_compiler_inputs\"] | document[\"unchanged_dated_manifests\"]).items():\n            self.assertEqual(expected, sha((ROOT / name).read_bytes()), name)\n",
+          "before_fragment_sha256": "09635940f8216c2c9177fe5393f0eee985b779b9a027207a498ce56ceea61f0b",
+          "id": "producer698-four676-exact-hunk-1"
+        }
+      ],
+      "mode": "0o644"
+    },
+    "scripts/ci/test_ios_ui_split664_native_routing.py": {
+      "after_bytes": 42767,
+      "after_sha256": "2d581af413ded91349a4828a24aba2eaf7b48d65cf4cc186a0b137f9145d208f",
+      "before_bytes": 42720,
+      "before_sha256": "58a6e93641d2f221fb09a74f2ae69fa28b2b2278624c96605782cd1bc89447a2",
+      "changed_class": "UiSplit664SourceControls",
+      "changed_method": "test_one_newest_split_ingress_reaches_sealed667_and659_without_repinning_or_recursive_controller_calls",
+      "fragments": [
+        {
+          "after": "        self.assertEqual({\"__future__\", \"pathlib\", \"ios_popover_anchor_plan\", \"android_io_remote_routing_source_projection\"}, {node.module for node in imports})\n",
+          "after_fragment_sha256": "fd93cd10dcc527d691785b96f6fddd90370e65e14c3a8559eec60f5d0e85fb88",
+          "before": "        self.assertEqual({\"__future__\", \"pathlib\", \"ios_popover_anchor_plan\"}, {node.module for node in imports})\n",
+          "before_fragment_sha256": "29fab486ab8d1931e0593575e95b4436d6fb628d52a578ce465523a9afc186aa",
+          "id": "producer698-four676-exact-hunk-1"
+        }
+      ],
+      "mode": "0o600"
+    },
+    "scripts/ci/test_tooling656_fixture_recovery.py": {
+      "after_bytes": 13641,
+      "after_sha256": "935bf50eaaa0d07614aa3537d2d27a8fa1794521c2300c02c6f62cf46fcfbf17",
+      "before_bytes": 13493,
+      "before_sha256": "8107f77ebc0e2c74aa4fcf6b55eed9b644160fb8bdfb8e19d8670dee4bd71e33",
+      "changed_class": "Tooling656FixtureRecoveryControls",
+      "changed_method": "test_ancestor_hooks_and_exact_image_operand_keep_every_original_method_and_assertion",
+      "fragments": [
+        {
+          "after": "                                 (\"current_source_before_recents_observation\", \"recents_fixture_after_qualified_outer_ingress\")):\n",
+          "after_fragment_sha256": "ebd9da160a631aec93de7adb0d5dda34be8ee55243a24b6edb277e26c2576b4e",
+          "before": "                                 (\"current_source_before_recents_observation\", \"current_source_before_recents_fixture\")):\n",
+          "before_fragment_sha256": "b9bf74c386b1caad6417bf5541163b38198dc2c23c516d9be66c17282c164bf0",
+          "id": "producer698-four676-exact-hunk-1"
+        },
+        {
+          "after": "        from tooling_recovery671_source_projection import current_source_before_tooling671\n        current = current_source_before_tooling671(IMAGE_CONTROL, (ROOT / IMAGE_CONTROL).read_bytes())\n        previous = content_history._current_tooling656_control_source(IMAGE_CONTROL, current)\n",
+          "after_fragment_sha256": "cd6185e26e9e88c1605fc00f497a1a3550fc7e3d0a8d3d72b6dd8dd57e7b8193",
+          "before": "        current = (ROOT / IMAGE_CONTROL).read_bytes()\n        previous = content_history._current_tooling656_control_source(IMAGE_CONTROL, current)\n",
+          "before_fragment_sha256": "c1ead625ab8258dd16b5afa523c6af0c05a6769e471ace8e8b9acbf7ce0a6794",
+          "id": "producer698-four676-exact-hunk-2-image671-operand"
+        }
+      ],
+      "mode": "0o600"
+    },
+    "scripts/ci/test_webview_content_policy_source_projection.py": {
+      "after_bytes": 22013,
+      "after_sha256": "00634b43d622900c8c0a5319dde44034959407128733213fb4dccef28ab8ae2e",
+      "before_bytes": 21769,
+      "before_sha256": "22d11f050ee284d1002fb1349425cd17e2638964790bf577b83c6844a5e0c3ef",
+      "changed_class": "WebViewContentPolicySourceProjectionControls",
+      "changed_method": "test_original_share_ui_manifests_guard_pins_control_assertions_and_unaffected_methods_remain_exact",
+      "fragments": [
+        {
+          "after": "        from ios_ui_split664_source_projection import current_source_before_ui_split664\n        for name, changed in affected.items():\n            raw = (ROOT / name).read_bytes()\n            if name == \"scripts/ci/test_ios_ui_related_source_projection.py\":\n                raw = current_source_before_ui_split664(name, raw)\n            prior = history.source_before_content_policy(name, raw)\n",
+          "after_fragment_sha256": "684c9c8797f13b64bdf0715ccc197b00b99e60b938d827e4d11b2c2186899221",
+          "before": "        for name, changed in affected.items():\n            raw = (ROOT / name).read_bytes(); prior = history.source_before_content_policy(name, raw)\n",
+          "before_fragment_sha256": "01f086fbc2cb47c1f28531281c8d4f749789ae34752861f2e7c17588b1c63b18",
+          "id": "producer698-four676-exact-hunk-1"
+        }
+      ],
+      "mode": "0o600"
+    }
+  },
+  "compiler_native_executed": false,
+  "first_selection_preserved": {
+    "errors": 1,
+    "failed_method": "scripts/ci/test_tooling656_fixture_recovery.py:test_ancestor_hooks_and_exact_image_operand_keep_every_original_method_and_assertion",
+    "failure_stage": "next exact image operand formerly blocked by the recents tuple; approved671 e9af\u21924dd before unchanged656 guard",
+    "not_fresh_all10_green": true,
+    "passes": 9,
+    "tests_run": 10
+  },
+  "new_control_bytes": 38034,
+  "new_control_mode": "0o644",
+  "new_control_relative": "scripts/ci/test_producer698_shared_fixture_recovery676.py",
+  "new_control_sha256": "59d98496da46334866742972b89d2d44d14074835d9122fdabff48419e04ccf1",
+  "old_manifests_immutable": {
+    "scripts/ci/fixtures/android-io-controlled-remote-routing-source-inverse.json": "4dee514d6aa6bdfaf5856a24416cfb7a677f67daeed9f7fed9b43215e31e95de",
+    "scripts/ci/fixtures/ci668-outer-source-inverse.json": "bbfdb2454182ce8c1fc90e793c3552e49f317b35437b61fcd3e8743b86f9d86e",
+    "scripts/ci/fixtures/ios-owned-geometry575-source-inverse.json": "736ef0e38d1e89baa0c7cbdd0707189d28a197b08fb11500943d94cede28efdd",
+    "scripts/ci/fixtures/ios-owned-geometry581-fixture-recovery.json": "441995a9a586509700a8359c744c6a2d7420abed2df2924333c6f111598dcd58",
+    "scripts/ci/fixtures/ios-ui-split664-source-inverse.json": "1455a8edb3553a87a409f7fc30568ede9f7f52fe97042690b668dc6ebc145f4a",
+    "scripts/ci/fixtures/platform-recovery659-source-inverse.json": "c9a56d4288e1d6a71914de27b0218d0877840136e9d24d448e2d192fcf7d90e9",
+    "scripts/ci/fixtures/tooling-recovery671-source-inverse.json": "9def6c416e199237600bdcdc2a16a3fd22dc2158796e1116f999b8681c96a110",
+    "scripts/ci/fixtures/webview-content-policy-routing-source-inverse.json": "c44400087570740d3248704c2165c3222229f2c05ff1a2a3840dbda9aa04b916"
+  },
+  "original": {
+    "complete_failure_headers_retained": 9,
+    "declared_summary": {
+      "errors": 57,
+      "failures": 31,
+      "phase_seconds": 771.198,
+      "reported_tests": 3379
+    },
+    "original_log_sha256": "cf638d0007f9b3e460240e3f3cd03a005d34c766da92ff1c669bf83e44d4a3ae",
+    "original_reacquisitions": 0,
+    "original_tail_sha256": "1f3a7ee5ade668dd822c2b7608ce03abdceb8b1763ab1bd4bd10eec4e7f23074",
+    "run_id": 41842636546,
+    "unknown_unretained_failure_error_details_not_reconstructed": true
+  },
+  "root_mutated": false,
+  "schema_version": 1,
+  "scope": "External producer41842636546 retained four source-fixture recovery; not aggregate/native/compiler acceptance",
+  "single_future_outer_adoption_lead_owned": true,
+  "source_before_lead_supplied": "97b3013e"
+}

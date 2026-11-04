@@ -152,7 +152,7 @@ class Tooling656FixtureRecoveryControls(unittest.TestCase):
     def test_ancestor_hooks_and_exact_image_operand_keep_every_original_method_and_assertion(self):
         tree = ast.parse((ROOT / "scripts/ci/camera_recents_source_projection.py").read_bytes())
         for name, old_reader in (("source_before_recents_observation", "source_before_recents_fixture"),
-                                 ("current_source_before_recents_observation", "current_source_before_recents_fixture")):
+                                 ("current_source_before_recents_observation", "recents_fixture_after_qualified_outer_ingress")):
             owner = function(tree, name)
             payload_calls = [node.value for node in owner.body if isinstance(node, ast.Assign) and any(
                 isinstance(target, ast.Name) and target.id == "payload" for target in node.targets)]
@@ -165,7 +165,8 @@ class Tooling656FixtureRecoveryControls(unittest.TestCase):
         calls = [node for node in ast.walk(setup) if isinstance(node, ast.Call) and
                  call_name(node) == "content_history.current_source_before_content_policy"]
         self.assertEqual(1, len(calls))
-        current = (ROOT / IMAGE_CONTROL).read_bytes()
+        from tooling_recovery671_source_projection import current_source_before_tooling671
+        current = current_source_before_tooling671(IMAGE_CONTROL, (ROOT / IMAGE_CONTROL).read_bytes())
         previous = content_history._current_tooling656_control_source(IMAGE_CONTROL, current)
         old_tree, new_tree = ast.parse(previous), ast.parse(current)
         self.assertEqual([node.name for node in ast.walk(old_tree) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")],

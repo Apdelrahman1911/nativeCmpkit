@@ -485,6 +485,18 @@ def execute_scope(root: Path, scope: tuple[str, str], seconds: float) -> dict:
         output = log.read(MAX_LOG_BYTES + 1)
     summary = scope_summary(scope, process.returncode, output)
     if not summary["passed"]:
+        # Metadata-only inventory supplements this same output, never eligibility.
+        try:
+            from offline_tooling_failure_inventory import failure_inventory_line
+            inventory = failure_inventory_line(output)
+        except BaseException:
+            inventory = ('[offline-failure-inventory] {"schema":"nativecmpkit-offline-failure-inventory-v1",'
+                         '"diagnostic_only":true,"status":"unknown",'
+                         '"reason_codes":["inventory-helper-unavailable"],"records":[]}')
+        try:
+            print(inventory, file=sys.stderr)
+        except BaseException:
+            pass  # Secondary inventory I/O never replaces the known failed outcome.
         # Bounded failure tail from the same refusing execution, never a retry.
         for line in output.decode("utf-8", errors="replace").splitlines()[-100:]:
             print("[redacted diagnostic]" if re.search(r"(?i)password|secret|token|credential|authorization|PRIVATE KEY", line)

@@ -137,8 +137,12 @@ class OwnedGeometrySourceControls(unittest.TestCase):
         document = history._document()
         self.assertGreaterEqual(len(document["unchanged_native_compiler_inputs"]), 7)
         self.assertEqual(3, len(document["unchanged_dated_manifests"]))
+        from ios_ui_split664_source_projection import current_source_before_ui_split664
         for name, expected in (document["unchanged_native_compiler_inputs"] | document["unchanged_dated_manifests"]).items():
-            self.assertEqual(expected, sha((ROOT / name).read_bytes()), name)
+            current = (ROOT / name).read_bytes()
+            if name == "calf-ui/build.gradle.kts":
+                current = current_source_before_ui_split664(name, current)
+            self.assertEqual(expected, sha(current), name)
         self.assertTrue(all(name not in PATHS for name in document["unchanged_native_compiler_inputs"]))
 
     def test_changed_or_aliased_manifest_fails_before_projection(self):

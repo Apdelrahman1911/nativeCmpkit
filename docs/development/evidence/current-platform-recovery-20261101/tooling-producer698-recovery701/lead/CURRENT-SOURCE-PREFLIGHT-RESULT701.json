@@ -1,0 +1,68 @@
+{
+  "actual_root_current190_held": true,
+  "historical175_distinct": true,
+  "native_compiler_or_unittest_methods_executed": 0,
+  "outcome": "passed",
+  "schema": "nativecmpkit-lead701-current-source-preflight-result-v1",
+  "scope": "Actual source admission/profile planning only; not full-CI/native/consumer/security/readiness acceptance",
+  "seconds": 2.8717574139591306,
+  "source_only_plans": [
+    {
+      "Gradle_builds_executed": 0,
+      "library_tests_executed": 0,
+      "operation": "plan",
+      "profile": "ios-camera-ownership-memory-callback",
+      "slots": [
+        {
+          "command": [
+            "/usr/bin/python3",
+            "-B",
+            "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+            "plan",
+            "--suite",
+            "ios",
+            "--module",
+            "calf-camera-picker",
+            "--focus",
+            "ios-camera-ownership-memory-callback"
+          ],
+          "exit_code": 0,
+          "expected_modules": 1,
+          "slot": "ios-iphone",
+          "suite": "ios"
+        }
+      ],
+      "source_only": true
+    },
+    {
+      "Gradle_builds_executed": 0,
+      "library_tests_executed": 0,
+      "operation": "plan",
+      "profile": "webview-content-policy-android",
+      "slots": [
+        {
+          "command": [
+            "/usr/bin/python3",
+            "-B",
+            "/root/projects/nativeCmpKit/scripts/ci/android_device_tests.py",
+            "plan",
+            "--api-level",
+            "35",
+            "--output",
+            "build/ci-plan",
+            "--module",
+            "calf-webview",
+            "--focus",
+            "webview-content-policy-android"
+          ],
+          "exit_code": 0,
+          "expected_modules": 1,
+          "slot": "android-device-api35",
+          "suite": "android-device"
+        }
+      ],
+      "source_only": true
+    }
+  ],
+  "source_readonly_cli_children": 2
+}

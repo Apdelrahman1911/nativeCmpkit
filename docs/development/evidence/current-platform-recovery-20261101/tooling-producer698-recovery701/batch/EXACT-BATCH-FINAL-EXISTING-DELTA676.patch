@@ -1,0 +1,407 @@
+--- a/scripts/ci/ci668_outer_source_projection.py
++++ b/scripts/ci/ci668_outer_source_projection.py
+@@ -136,6 +136,8 @@
+ def source_before_ci668(relative, payload):
+     """Complete reviewed inverse or its one exact declared ancestor, not admission."""
+     _identity(relative, payload)
++    from producer698_source_fixture_recovery import peel_producer698_for_history
++    payload = peel_producer698_for_history(relative, payload)
+     row = _document()["bindings"].get(relative)
+     if row is None:
+         return payload  # Unlisted bytes are not certified, guessed, reconstructed or executed.
+@@ -177,6 +179,8 @@
+ def current_source_before_ci668(relative, payload):
+     """The sole strict final raw ingress; old, partial, displaced and drift refuse."""
+     _identity(relative, payload)
++    from producer698_source_fixture_recovery import current_source_before_producer698
++    payload = current_source_before_producer698(relative, payload)
+     document = _document()
+     if relative == SOURCE_RELATIVE:
+         _own_guard_payload(payload, document)
+@@ -192,6 +196,8 @@
+ def peel_ci668_for_history(relative, payload):
+     """Only exact complete final endpoints peel; all other bytes face older pins."""
+     _identity(relative, payload)
++    from producer698_source_fixture_recovery import peel_producer698_for_history
++    payload = peel_producer698_for_history(relative, payload)
+     row = _document()["bindings"].get(relative)
+     if row is not None and sha(payload) == row["after_sha256"] and len(payload) == row["after_bytes"]:
+         return source_before_ci668(relative, payload)
+@@ -199,7 +205,11 @@
+ 
+ 
+ def _validate_own_guard(root, document):
+-    return _own_guard_payload(_ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES), document)
++    raw_current = _ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES)
++    from producer698_source_fixture_recovery import current_source_before_producer698
++    raw = current_source_before_producer698(SOURCE_RELATIVE, raw_current)
++    _own_guard_payload(raw, document)
++    return sha(raw_current)
+ 
+ 
+ def _expected(document):
+@@ -208,18 +218,27 @@
+ 
+ 
+ def current_input_hashes():
+-    """Exact final current175 custody; no ancestor hashes relabeled as raw current."""
++    """Actual combined current custody; named original175 is a separate sealed view."""
+     validate_current_sources(ROOT)
+-    document = _document()
+-    return _expected(document) | {SOURCE_RELATIVE: _validate_own_guard(ROOT, document)}
++    from producer698_source_fixture_recovery import current_input_hashes as producer698_hashes
++    return producer698_hashes(ROOT)
++
++
++def sealed_ci668_175_hashes():
++    """The immutable original raw175 snapshot, never relabeled as latest current."""
++    from producer698_source_fixture_recovery import original_ci668_input_hashes
++    return original_ci668_input_hashes()
+ 
+ 
+ def validate_current_sources(root: Path):
+-    """Strict finite ordinary current bytes only; no source/test/native execution."""
++    """Strict latest producer698, then only exact qualified original668 operands."""
++    import producer698_source_fixture_recovery as producer698
++    producer698.validate_current_sources(root)
+     document = _document()
+     _validate_own_guard(root, document)
+     for relative, digest in _expected(document).items():
+-        raw = _ordinary(root, relative, MAX_SOURCE_BYTES)
++        raw_current = _ordinary(root, relative, MAX_SOURCE_BYTES)
++        raw = producer698.current_source_before_producer698(relative, raw_current)
+         if sha(raw) != digest:
+             raise ValueError("Current final CI668 input differs from its complete reviewed raw image: " + relative)
+     for relative in BOUND_PATHS:
+@@ -230,4 +249,5 @@
+ def fixture_inputs():
+     """Only the exact finite175 current source union, never a test/native selector."""
+     document = _document()
+-    return BOUND_PATHS | ADDED_PATHS | set(document["unchanged_inputs"]) | {SOURCE_RELATIVE, SPEC_RELATIVE}
++    from producer698_source_fixture_recovery import fixture_inputs as producer698_fixture_inputs
++    return BOUND_PATHS | ADDED_PATHS | set(document["unchanged_inputs"]) | {SOURCE_RELATIVE, SPEC_RELATIVE} | producer698_fixture_inputs()
+--- a/scripts/ci/offline_tooling_reuse.py
++++ b/scripts/ci/offline_tooling_reuse.py
+@@ -485,6 +485,18 @@
+         output = log.read(MAX_LOG_BYTES + 1)
+     summary = scope_summary(scope, process.returncode, output)
+     if not summary["passed"]:
++        # Metadata-only inventory supplements this same output, never eligibility.
++        try:
++            from offline_tooling_failure_inventory import failure_inventory_line
++            inventory = failure_inventory_line(output)
++        except BaseException:
++            inventory = ('[offline-failure-inventory] {"schema":"nativecmpkit-offline-failure-inventory-v1",'
++                         '"diagnostic_only":true,"status":"unknown",'
++                         '"reason_codes":["inventory-helper-unavailable"],"records":[]}')
++        try:
++            print(inventory, file=sys.stderr)
++        except BaseException:
++            pass  # Secondary inventory I/O never replaces the known failed outcome.
+         # Bounded failure tail from the same refusing execution, never a retry.
+         for line in output.decode("utf-8", errors="replace").splitlines()[-100:]:
+             print("[redacted diagnostic]" if re.search(r"(?i)password|secret|token|credential|authorization|PRIVATE KEY", line)
+--- a/scripts/ci/test_camera_home_baseline_source_projection.py
++++ b/scripts/ci/test_camera_home_baseline_source_projection.py
+@@ -98,7 +98,10 @@
+ 
+     def test_direct_older_console_reader_retains_exact_hash_refusal_and_inverse(self):
+         from camera_scalar_failfast_source_projection import camera197_helper_source_before_owned_console
+-        current = (ROOT / HELPER).read_text()
++        # The latest strict helper ingress strips only reviewed outer source
++        # stages. Camera197 still owns its unchanged complete prior-helper pin,
++        # six caller substitutions and exact suffix/forward inverse checks.
++        current = current_source_before_home_affinity(HELPER, (ROOT / HELPER).read_bytes()).decode()
+         older = camera197_helper_source_before_owned_console(current)
+         self.assertEqual("da07bedb680e9ce36842bbf581f22bf7b3ebf8ab1c5d307b05745069c77bb5a4", sha(older.encode()))
+         self.assertNotIn("parse_recent_home_baseline", older)
+--- a/scripts/ci/test_camera_ios_ownership_application_routing.py
++++ b/scripts/ci/test_camera_ios_ownership_application_routing.py
+@@ -16,6 +16,7 @@
+ import camera_ios_ownership_source_projection as history
+ import ios_camera_photo_fixture as photos
+ import ios_ui_application as application
++from ios_ui_split664_source_projection import current_source_before_ui_split664
+ import library_tests as library
+ from test_ios_camera_photo_fixture import BUNDLE, DEVICE, NONCE, PID, SOURCE, native_status
+ 
+@@ -213,7 +214,11 @@
+     def test_original_argv_deadlines_native_protocol_sdk_helpers_and_native_xml_runtime_worker_cleanup_gates_remain(self):
+         raw = (ROOT / APP_SOURCE).read_bytes()
+         before = history.source_before_camera_ios_ownership(APP_SOURCE, raw)
+-        current, prior = functions(APP_SOURCE), functions(APP_SOURCE, before)
++        # UI664 added only its exact finite timeout/host/runtime wiring after
++        # this Camera checkpoint. Admit the complete current image before its
++        # dated predecessor; never relax helper AST or native receipt gates.
++        qualified = current_source_before_ui_split664(APP_SOURCE, raw)
++        current, prior = functions(APP_SOURCE, qualified), functions(APP_SOURCE, before)
+         for name in ("NativeProtocol", "execute_control", "control_status", "installed_identity", "stopped_app",
+                      "forward_application", "application_timeout_seconds", "macho_simulator_identity",
+                      "profile_debug_entitlements", "provider_c3_observation_route"):
+--- a/scripts/ci/test_camera_tooling566_source_projection.py
++++ b/scripts/ci/test_camera_tooling566_source_projection.py
+@@ -23,6 +23,24 @@
+ 
+ def sha(payload):
+     return hashlib.sha256(payload).hexdigest()
++
++
++def qualified_nested_reader(source, function):
++    """One exact recents wrapper hop; not an arbitrary helper or current bypass."""
++    functions = {node.name: node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
++    node = functions[function]
++    if function == "current_source_before_recents_fixture":
++        expected = ast.parse('''def current_source_before_recents_fixture(relative, payload):
++    if type(relative) is not str or type(payload) is not bytes:
++        raise ValueError("Exact current recents-fixture identity and ordinary bytes required")
++    from platform_recovery659_source_projection import current_source_before_platform_recovery659
++    payload = current_source_before_platform_recovery659(relative, payload)
++    return recents_fixture_after_qualified_outer_ingress(relative, payload)
++''').body[0]
++        if ast.dump(node, include_attributes=False) != ast.dump(expected, include_attributes=False):
++            raise ValueError("Only the exact qualified current recents outer wrapper is admitted")
++        node = functions["recents_fixture_after_qualified_outer_ingress"]
++    return node
+ 
+ 
+ class CameraTooling566Controls(unittest.TestCase):
+@@ -110,7 +128,7 @@
+             ("camera_boot_busy_source_projection.py", "current_source_before_boot_busy"),
+         ):
+             source = (ROOT / "scripts/ci" / filename).read_text()
+-            node = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == function)
++            node = qualified_nested_reader(source, function)
+             calls = {n.func.id for n in ast.walk(node) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)}
+             self.assertNotIn("current_source_before_tooling", calls)
+             self.assertNotIn("current_source_before_tooling566", calls)
+--- a/scripts/ci/test_ci668_outer_source_projection.py
++++ b/scripts/ci/test_ci668_outer_source_projection.py
+@@ -41,7 +41,8 @@
+ 
+     def test_current_hash_and_path_apis_report_actual175_not_ancestor_hashes(self):
+         hashes = ci668.current_input_hashes()
+-        self.assertEqual(len(hashes), 175)
++        sealed175 = ci668.sealed_ci668_175_hashes()
++        self.assertEqual(len(sealed175), 175)
+         self.assertEqual(set(hashes), ci668.fixture_inputs())
+         self.assertEqual(hashes, tooling.current_input_hashes())
+         self.assertEqual(set(hashes), tooling.fixture_inputs())
+@@ -109,7 +110,8 @@
+     def test_new_ci_guard_template_and_manifest_partial_drift_refuse(self):
+         document = ci668._document()
+         raw = (ROOT / ci668.SOURCE_RELATIVE).read_bytes()
+-        self.assertEqual(ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, raw), raw)
++        self.assertEqual(ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, raw),
++                         ci668.source_before_ci668(ci668.SOURCE_RELATIVE, raw))
+         for variant in (raw + b'\n', raw[:-1]):
+             with self.assertRaises(ValueError):
+                 ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, variant)
+--- a/scripts/ci/test_ios_geometry_simulator_source_projection.py
++++ b/scripts/ci/test_ios_geometry_simulator_source_projection.py
+@@ -137,8 +137,12 @@
+         document = history._document()
+         self.assertGreaterEqual(len(document["unchanged_native_compiler_inputs"]), 7)
+         self.assertEqual(3, len(document["unchanged_dated_manifests"]))
++        from ios_ui_split664_source_projection import current_source_before_ui_split664
+         for name, expected in (document["unchanged_native_compiler_inputs"] | document["unchanged_dated_manifests"]).items():
+-            self.assertEqual(expected, sha((ROOT / name).read_bytes()), name)
++            current = (ROOT / name).read_bytes()
++            if name == "calf-ui/build.gradle.kts":
++                current = current_source_before_ui_split664(name, current)
++            self.assertEqual(expected, sha(current), name)
+         self.assertTrue(all(name not in PATHS for name in document["unchanged_native_compiler_inputs"]))
+ 
+     def test_changed_or_aliased_manifest_fails_before_projection(self):
+--- a/scripts/ci/test_ios_ui_split664_native_routing.py
++++ b/scripts/ci/test_ios_ui_split664_native_routing.py
+@@ -507,7 +507,7 @@
+         self.assertEqual(SEALED_OWNER, sha((ROOT / contract.SOURCE).read_bytes()))
+         source = (ROOT / split.SOURCE_RELATIVE).read_bytes()
+         imports = [node for node in ast.walk(ast.parse(source)) if isinstance(node, ast.ImportFrom)]
+-        self.assertEqual({"__future__", "pathlib", "ios_popover_anchor_plan"}, {node.module for node in imports})
++        self.assertEqual({"__future__", "pathlib", "ios_popover_anchor_plan", "android_io_remote_routing_source_projection"}, {node.module for node in imports})
+         self.assertFalse(any(isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in {"exec", "eval", "compile"}
+                              for node in ast.walk(ast.parse(source))))
+         raw_guard = (ROOT / contract.SOURCE_RELATIVE).read_bytes()
+--- a/scripts/ci/test_library_sdk_context.py
++++ b/scripts/ci/test_library_sdk_context.py
+@@ -4,6 +4,7 @@
+ runtime capture. Do not invent an SDK/runtime receipt or a passing test report.
+ """
+ from contextlib import ExitStack
++import json
+ from pathlib import Path
+ import tempfile
+ import unittest
+@@ -43,7 +44,12 @@
+             execute = stack.enter_context(patch.object(runner, "execute"))
+             quarantine = stack.enter_context(patch.object(runner, "quarantine_reports"))
+             with self.assertRaises(type(error)) as stopped:
+-                runner.run(self.root, suite, output, simulator, 60, 1024, android_serial=serial)
++                # This generic SDK fixture owns no Camera callback source. Keep
++                # Android explicitly non-Camera instead of requesting the real
++                # enabled callback through unrestricted aggregate discovery.
++                runner.run(self.root, suite, output, simulator, 60, 1024,
++                           only_modules=("calf-fixture",) if suite == "android-device" else None,
++                           android_serial=serial)
+             self.assertIs(stopped.exception, error)
+             execute.assert_not_called()
+             quarantine.assert_not_called()
+@@ -72,6 +78,85 @@
+                 self.stop_at_capture(suite, ValueError("Configured SDK metadata is unavailable"))
+                 self.assertEqual(before, report.read_bytes())
+ 
++    def test_unrestricted_android_callback_admission_precedes_sdk_capture_and_host_work(self):
++        error = ValueError("Configured SDK metadata is unavailable")
++        message = ("Enabled API35-only callback requires exact finite Camera selection; "
++                   "unrestricted Camera/all discovery refuses before host work")
++        for modules in (None, (), (runner.camera_callback.MODULE,),
++                        (runner.camera_callback.MODULE, "calf-fixture")):
++            with self.subTest(modules=modules), ExitStack() as stack:
++                stack.enter_context(patch.dict(runner.MINIMUM_MODULES,
++                                               {"android-device": ("calf-fixture",)}))
++                projects = stack.enter_context(patch.object(runner, "projects"))
++                command = stack.enter_context(patch.object(runner, "gradle_command"))
++                revision = stack.enter_context(patch.object(runner, "git_revision"))
++                inputs = stack.enter_context(patch.object(runner, "snapshot_inputs"))
++                capture = stack.enter_context(patch.object(runner.runtime_context, "capture", side_effect=error))
++                execute = stack.enter_context(patch.object(runner, "execute"))
++                quarantine = stack.enter_context(patch.object(runner, "quarantine_reports"))
++                with self.assertRaisesRegex(ValueError, "^" + message + "$") as stopped:
++                    runner.run(self.root, "android-device", "build/ci-verification/refused-sdk",
++                               None, 60, 1024, only_modules=modules, android_serial="emulator-5588")
++                self.assertIsNot(stopped.exception, error)
++                for operation in (projects, command, revision, inputs, capture, execute, quarantine):
++                    operation.assert_not_called()
++            self.assertFalse((self.root / "build").exists())
++            self.assertFalse((self.root / runner.camera_callback.SOURCE).exists())
++
++    def test_explicit_non_camera_android_fixture_reaches_sdk_abort_after_owned_lock_without_native_execution(self):
++        output = self.root / "build/ci-verification/explicit-sdk-fixture"
++        lock = self.root / "build/ci-verification/.library-tests.lock"
++        report = self.write(
++            "calf-fixture/build/test-results/connectedAndroidDeviceTest/TEST-prior.xml",
++            "preserve prior evidence; not a fresh report",
++        )
++        before = report.read_bytes()
++        error = ValueError("Configured SDK metadata is unavailable")
++
++        def stop(**context):
++            self.assertTrue(lock.is_file())
++            plan = json.loads((output / "plan.json").read_text())
++            self.assertFalse(plan["complete_suite_requested"])
++            self.assertEqual(["calf-fixture"], plan["explicit_module_subset"])
++            self.assertEqual(["calf-fixture"], [item["module"] for item in plan["expected"]])
++            self.assertNotIn("explicit_test_focus", plan)
++            self.assertNotIn(runner.camera_callback.CONTRACT_KEY, plan["expected"][0])
++            inputs = json.loads((output / "inputs-before.json").read_text())
++            self.assertEqual({
++                "settings.gradle.kts", "calf-fixture/build.gradle.kts",
++                "calf-fixture/src/commonTest/kotlin/Fixture.kt",
++                "calf-fixture/src/androidDeviceTest/kotlin/Fixture.kt",
++            }, set(inputs))
++            self.assertEqual(before, report.read_bytes())
++            self.assertFalse((output / "receipt.json").exists())
++            raise error
++
++        with ExitStack() as stack:
++            stack.enter_context(patch.dict(runner.MINIMUM_MODULES, {"android-device": ("calf-fixture",)}))
++            stack.enter_context(patch.object(runner, "git_revision", return_value="a" * 40))
++            discovery = stack.enter_context(patch.object(
++                runner.camera_callback, "validate_discovery", wraps=runner.camera_callback.validate_discovery))
++            capture = stack.enter_context(patch.object(runner.runtime_context, "capture", side_effect=stop))
++            execute = stack.enter_context(patch.object(runner, "execute"))
++            quarantine = stack.enter_context(patch.object(runner, "quarantine_reports"))
++            with self.assertRaises(ValueError) as stopped:
++                runner.run(self.root, "android-device", output.relative_to(self.root).as_posix(),
++                           None, 60, 1024, only_modules=("calf-fixture",), android_serial="emulator-5588")
++            self.assertIs(stopped.exception, error)
++            capture.assert_called_once_with(
++                apple=False, device=None, require_booted=False, android_package="android-37.0",
++                android_serial="emulator-5588", browser=False,
++            )
++            args = ("android-device", ("calf-fixture",), None, runner.ANDROID_CAMERA_FOCUSES)
++            self.assertEqual([
++                (args, {}), (args, {"declared_modules": ("calf-fixture",), "minimum_modules": None}),
++            ], [(entry.args, entry.kwargs) for entry in discovery.call_args_list])
++            execute.assert_not_called()
++            quarantine.assert_not_called()
++        self.assertFalse(lock.exists())
++        self.assertFalse((output / "receipt.json").exists())
++        self.assertEqual(before, report.read_bytes())
++
+     def test_workflow_library_and_consumer_setup_keep_the_exact_official_package(self):
+         workflow = (runner.ROOT / ".github/workflows/gradle.yml").read_text()
+         self.assertIn(
+--- a/scripts/ci/test_tooling656_fixture_recovery.py
++++ b/scripts/ci/test_tooling656_fixture_recovery.py
+@@ -152,7 +152,7 @@
+     def test_ancestor_hooks_and_exact_image_operand_keep_every_original_method_and_assertion(self):
+         tree = ast.parse((ROOT / "scripts/ci/camera_recents_source_projection.py").read_bytes())
+         for name, old_reader in (("source_before_recents_observation", "source_before_recents_fixture"),
+-                                 ("current_source_before_recents_observation", "current_source_before_recents_fixture")):
++                                 ("current_source_before_recents_observation", "recents_fixture_after_qualified_outer_ingress")):
+             owner = function(tree, name)
+             payload_calls = [node.value for node in owner.body if isinstance(node, ast.Assign) and any(
+                 isinstance(target, ast.Name) and target.id == "payload" for target in node.targets)]
+@@ -165,7 +165,8 @@
+         calls = [node for node in ast.walk(setup) if isinstance(node, ast.Call) and
+                  call_name(node) == "content_history.current_source_before_content_policy"]
+         self.assertEqual(1, len(calls))
+-        current = (ROOT / IMAGE_CONTROL).read_bytes()
++        from tooling_recovery671_source_projection import current_source_before_tooling671
++        current = current_source_before_tooling671(IMAGE_CONTROL, (ROOT / IMAGE_CONTROL).read_bytes())
+         previous = content_history._current_tooling656_control_source(IMAGE_CONTROL, current)
+         old_tree, new_tree = ast.parse(previous), ast.parse(current)
+         self.assertEqual([node.name for node in ast.walk(old_tree) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")],
+--- a/scripts/ci/test_webview_content_policy_source_projection.py
++++ b/scripts/ci/test_webview_content_policy_source_projection.py
+@@ -220,8 +220,12 @@
+             "scripts/ci/test_ios_ui_related_source_projection.py": {"test_original_application_launch_argv_deadlines_finally_sdk_and_native_bodies_are_unchanged"},
+             "scripts/ci/test_macos_share_missing_source_projection.py": {"test_exact_six_path_inverse_roundtrip_and_one_newest_raw_ingress", "test_only_transparent_ui_history_hooks_and_narrow_fixture_operands_change"},
+         }
++        from ios_ui_split664_source_projection import current_source_before_ui_split664
+         for name, changed in affected.items():
+-            raw = (ROOT / name).read_bytes(); prior = history.source_before_content_policy(name, raw)
++            raw = (ROOT / name).read_bytes()
++            if name == "scripts/ci/test_ios_ui_related_source_projection.py":
++                raw = current_source_before_ui_split664(name, raw)
++            prior = history.source_before_content_policy(name, raw)
+             old = {node.name: node for node in ast.walk(ast.parse(prior)) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")}
+             new = {node.name: node for node in ast.walk(ast.parse(raw)) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")}
+             self.assertEqual(set(old), set(new))
+--- a/scripts/ci/test_workflow_source.py
++++ b/scripts/ci/test_workflow_source.py
+@@ -62,15 +62,30 @@
+     def test_selected_module_arguments_are_identical_for_discovery_and_execution(self):
+         source = WORKFLOW.read_text()
+         self.assertIn("TEST_MODULES: ${{ matrix.test-modules }}", source)
+-        self.assertEqual(3, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
++        # The fourth use is the reviewed early Android source-only admission.
++        self.assertEqual(4, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
+         self.assertIn('scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json', source)
+ 
+     def test_finite_focus_reaches_discovery_browser_execution_and_device_controller(self):
+         source = WORKFLOW.read_text()
+-        self.assertEqual(3, source.count('if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi'))
++        # The fourth use is the reviewed early Android source-only admission.
++        self.assertEqual(4, source.count('if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi'))
+         controller = source.split('if [[ "$SUITE" == android-device ]]; then', 1)[1].split('exit\n', 1)[0]
+         self.assertIn('args+=(--focus "$TEST_FOCUS")', controller)
+         self.assertIn('scripts/ci/android_device_tests.py "${args[@]}"', controller)
++
++    def test_early_android_admission_keeps_exact_same_finite_arguments_without_host_execution(self):
++        source = WORKFLOW.read_text()
++        admission = source.split("- name: Admit finite Android discovery before host setup\n", 1)[1].split("- uses:", 1)[0]
++        self.assertIn("if: matrix.suite == 'android-device'", admission)
++        self.assertEqual(1, admission.count('if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi'))
++        self.assertEqual(1, admission.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
++        self.assertEqual(1, admission.count('args=(plan --api-level "$EMULATOR_API" --output build/ci-plan)'))
++        self.assertEqual(1, admission.count('"$PYTHON" scripts/ci/android_device_tests.py "${args[@]}" > /dev/null'))
++        self.assertIn('"$PYTHON" scripts/ci/android_device_batch.py plan --batch "$ANDROID_BATCH" > /dev/null', admission)
++        for forbidden in ("runtime_context.py", "setup_android_sdk.py", "gradlew", "adb ", "emulator ", " --run", " publish", "upload-artifact"):
++            with self.subTest(forbidden=forbidden):
++                self.assertNotIn(forbidden, admission)
+ 
+     def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):
+         source = WORKFLOW.read_text()

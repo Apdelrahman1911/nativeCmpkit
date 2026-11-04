@@ -1,0 +1,64 @@
+{
+  "added_source_paths": [],
+  "agent676_coordination": "External four-fixture packet is separate; no shared guard/test/controller ownership edits here",
+  "all_original_tests_and_assertions_preserved": true,
+  "assigned_parent_frozen_head": "97b3013e033ce64b6cc3d5dd3bf24bfbe405cb68",
+  "baseline_source": "baseline/scripts/ci/test_library_sdk_context.py",
+  "bindings": {
+    "scripts/ci/test_library_sdk_context.py": {
+      "after_bytes": 9825,
+      "after_sha256": "f42608343e319d7c71cdb2e131c25eb93baeecd0057e39cbc3fbab7a4de00941",
+      "before_bytes": 4151,
+      "before_sha256": "9b5440cd7e52f7b41be1b2c088c2669a6ab6b08e2b4eedacca5e6dd7e8c44aec",
+      "fragments": [
+        {
+          "after": "from contextlib import ExitStack\nimport json\n",
+          "after_fragment_sha256": "89b43d9036d4b9a8eafda915db8e85e9e0464f2ac54152d75dd5c3228b2e167d",
+          "before": "from contextlib import ExitStack\n",
+          "before_fragment_sha256": "a9897bd179935745cd2c2274621d4872cd3456ae8137e8d49c2d1eec9a0462c8",
+          "obligation": "JSON reads certify only the synthetic pre-SDK subset/input plan in NEW control"
+        },
+        {
+          "after": "                # This generic SDK fixture owns no Camera callback source. Keep\n                # Android explicitly non-Camera instead of requesting the real\n                # enabled callback through unrestricted aggregate discovery.\n                runner.run(self.root, suite, output, simulator, 60, 1024,\n                           only_modules=(\"calf-fixture\",) if suite == \"android-device\" else None,\n                           android_serial=serial)\n",
+          "after_fragment_sha256": "cb74d2ae4520c2bf4f520e30b530cee4443d1c60650dea384fb6c3e46219321f",
+          "before": "                runner.run(self.root, suite, output, simulator, 60, 1024, android_serial=serial)\n",
+          "before_fragment_sha256": "0602b54e94623d62a4356c2ab807eb203da3034514aedaf2ff602f52d6c31852",
+          "obligation": "Select synthetic Android non-Camera module explicitly without changing real callback admission"
+        },
+        {
+          "after": "    def test_unrestricted_android_callback_admission_precedes_sdk_capture_and_host_work(self):\n        error = ValueError(\"Configured SDK metadata is unavailable\")\n        message = (\"Enabled API35-only callback requires exact finite Camera selection; \"\n                   \"unrestricted Camera/all discovery refuses before host work\")\n        for modules in (None, (), (runner.camera_callback.MODULE,),\n                        (runner.camera_callback.MODULE, \"calf-fixture\")):\n            with self.subTest(modules=modules), ExitStack() as stack:\n                stack.enter_context(patch.dict(runner.MINIMUM_MODULES,\n                                               {\"android-device\": (\"calf-fixture\",)}))\n                projects = stack.enter_context(patch.object(runner, \"projects\"))\n                command = stack.enter_context(patch.object(runner, \"gradle_command\"))\n                revision = stack.enter_context(patch.object(runner, \"git_revision\"))\n                inputs = stack.enter_context(patch.object(runner, \"snapshot_inputs\"))\n                capture = stack.enter_context(patch.object(runner.runtime_context, \"capture\", side_effect=error))\n                execute = stack.enter_context(patch.object(runner, \"execute\"))\n                quarantine = stack.enter_context(patch.object(runner, \"quarantine_reports\"))\n                with self.assertRaisesRegex(ValueError, \"^\" + message + \"$\") as stopped:\n                    runner.run(self.root, \"android-device\", \"build/ci-verification/refused-sdk\",\n                               None, 60, 1024, only_modules=modules, android_serial=\"emulator-5588\")\n                self.assertIsNot(stopped.exception, error)\n                for operation in (projects, command, revision, inputs, capture, execute, quarantine):\n                    operation.assert_not_called()\n            self.assertFalse((self.root / \"build\").exists())\n            self.assertFalse((self.root / runner.camera_callback.SOURCE).exists())\n\n    def test_explicit_non_camera_android_fixture_reaches_sdk_abort_after_owned_lock_without_native_execution(self):\n        output = self.root / \"build/ci-verification/explicit-sdk-fixture\"\n        lock = self.root / \"build/ci-verification/.library-tests.lock\"\n        report = self.write(\n            \"calf-fixture/build/test-results/connectedAndroidDeviceTest/TEST-prior.xml\",\n            \"preserve prior evidence; not a fresh report\",\n        )\n        before = report.read_bytes()\n        error = ValueError(\"Configured SDK metadata is unavailable\")\n\n        def stop(**context):\n            self.assertTrue(lock.is_file())\n            plan = json.loads((output / \"plan.json\").read_text())\n            self.assertFalse(plan[\"complete_suite_requested\"])\n            self.assertEqual([\"calf-fixture\"], plan[\"explicit_module_subset\"])\n            self.assertEqual([\"calf-fixture\"], [item[\"module\"] for item in plan[\"expected\"]])\n            self.assertNotIn(\"explicit_test_focus\", plan)\n            self.assertNotIn(runner.camera_callback.CONTRACT_KEY, plan[\"expected\"][0])\n            inputs = json.loads((output / \"inputs-before.json\").read_text())\n            self.assertEqual({\n                \"settings.gradle.kts\", \"calf-fixture/build.gradle.kts\",\n                \"calf-fixture/src/commonTest/kotlin/Fixture.kt\",\n                \"calf-fixture/src/androidDeviceTest/kotlin/Fixture.kt\",\n            }, set(inputs))\n            self.assertEqual(before, report.read_bytes())\n            self.assertFalse((output / \"receipt.json\").exists())\n            raise error\n\n        with ExitStack() as stack:\n            stack.enter_context(patch.dict(runner.MINIMUM_MODULES, {\"android-device\": (\"calf-fixture\",)}))\n            stack.enter_context(patch.object(runner, \"git_revision\", return_value=\"a\" * 40))\n            discovery = stack.enter_context(patch.object(\n                runner.camera_callback, \"validate_discovery\", wraps=runner.camera_callback.validate_discovery))\n            capture = stack.enter_context(patch.object(runner.runtime_context, \"capture\", side_effect=stop))\n            execute = stack.enter_context(patch.object(runner, \"execute\"))\n            quarantine = stack.enter_context(patch.object(runner, \"quarantine_reports\"))\n            with self.assertRaises(ValueError) as stopped:\n                runner.run(self.root, \"android-device\", output.relative_to(self.root).as_posix(),\n                           None, 60, 1024, only_modules=(\"calf-fixture\",), android_serial=\"emulator-5588\")\n            self.assertIs(stopped.exception, error)\n            capture.assert_called_once_with(\n                apple=False, device=None, require_booted=False, android_package=\"android-37.0\",\n                android_serial=\"emulator-5588\", browser=False,\n            )\n            args = (\"android-device\", (\"calf-fixture\",), None, runner.ANDROID_CAMERA_FOCUSES)\n            self.assertEqual([\n                (args, {}), (args, {\"declared_modules\": (\"calf-fixture\",), \"minimum_modules\": None}),\n            ], [(entry.args, entry.kwargs) for entry in discovery.call_args_list])\n            execute.assert_not_called()\n            quarantine.assert_not_called()\n        self.assertFalse(lock.exists())\n        self.assertFalse((output / \"receipt.json\").exists())\n        self.assertEqual(before, report.read_bytes())\n\n    def test_workflow_library_and_consumer_setup_keep_the_exact_official_package(self):\n",
+          "after_fragment_sha256": "84ee5633e91312cd4187eb960eb57d4538d2b28246e94a76053a2fd6692b45e7",
+          "before": "    def test_workflow_library_and_consumer_setup_keep_the_exact_official_package(self):\n",
+          "before_fragment_sha256": "69cfcbc524ac3befc70dcded463ca90bf86aca66112057ce952cc484d9ac4420",
+          "obligation": "NEW original-runner precedence/refusal and explicit-subset SDK-lock/cleanup controls; unchanged workflow fixture remains exact and unexecuted"
+        }
+      ],
+      "preserve_existing_mode": "0o600"
+    }
+  },
+  "candidate_source": "candidate/scripts/ci/test_library_sdk_context.py",
+  "excluded_unchanged_test": "test_library_sdk_context.LibrarySdkContextTests.test_workflow_library_and_consumer_setup_keep_the_exact_official_package",
+  "fragment_count": 3,
+  "head_not_independently_git_observed": true,
+  "modified_paths": [
+    "scripts/ci/test_library_sdk_context.py"
+  ],
+  "new_test_methods": [
+    "test_explicit_non_camera_android_fixture_reaches_sdk_abort_after_owned_lock_without_native_execution",
+    "test_unrestricted_android_callback_admission_precedes_sdk_capture_and_host_work"
+  ],
+  "only_helper_ast_change": "Android-only only_modules=(calf-fixture,) keyword on existing run call",
+  "original_selected_methods": [
+    "test_library_sdk_context.LibrarySdkContextTests.test_unavailable_sdk_capture_stops_before_gradle_or_report_quarantine_and_releases_lock",
+    "test_library_sdk_context.LibrarySdkContextTests.test_every_configured_suite_requests_the_same_official_sdk_as_setup"
+  ],
+  "physical_integration_owner": "Lead alone; require exact new outer-inverse/current-ingress composition without repinning accepted CI175/specs",
+  "root_current_sdk_input_unchanged": {
+    "bytes": 4151,
+    "mode": "0o600",
+    "sha256": "9b5440cd7e52f7b41be1b2c088c2669a6ab6b08e2b4eedacca5e6dd7e8c44aec"
+  },
+  "roundtrip_verified": true,
+  "schema_version": 1,
+  "scope": "SDK source-test fixture-only delta above frozen ROOT97b; no current outer-guard admission"
+}

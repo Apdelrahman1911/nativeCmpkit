@@ -41,7 +41,8 @@ class Ci668OuterIngressTests(unittest.TestCase):
 
     def test_current_hash_and_path_apis_report_actual175_not_ancestor_hashes(self):
         hashes = ci668.current_input_hashes()
-        self.assertEqual(len(hashes), 175)
+        sealed175 = ci668.sealed_ci668_175_hashes()
+        self.assertEqual(len(sealed175), 175)
         self.assertEqual(set(hashes), ci668.fixture_inputs())
         self.assertEqual(hashes, tooling.current_input_hashes())
         self.assertEqual(set(hashes), tooling.fixture_inputs())
@@ -109,7 +110,8 @@ class Ci668OuterIngressTests(unittest.TestCase):
     def test_new_ci_guard_template_and_manifest_partial_drift_refuse(self):
         document = ci668._document()
         raw = (ROOT / ci668.SOURCE_RELATIVE).read_bytes()
-        self.assertEqual(ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, raw), raw)
+        self.assertEqual(ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, raw),
+                         ci668.source_before_ci668(ci668.SOURCE_RELATIVE, raw))
         for variant in (raw + b'\n', raw[:-1]):
             with self.assertRaises(ValueError):
                 ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, variant)

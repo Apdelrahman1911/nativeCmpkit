@@ -1,0 +1,78 @@
+{
+  "NEW_method_count": 6,
+  "added_inputs": {
+    "scripts/ci/test_camera_producer698_fixture_recovery.py": "23aafbafb58b4f6822c999693dc932c5ac02975a2dfd8ce29308e30a12978b96"
+  },
+  "base_head": "97b3013e033ce64b6cc3d5dd3bf24bfbe405cb68",
+  "bindings": {
+    "scripts/ci/test_camera_home_baseline_source_projection.py": {
+      "after_bytes": 10225,
+      "after_sha256": "19590fbd0158d6642d2eb63849755587bd4b20882e10c6ad89b14db658ecd2a9",
+      "before_bytes": 9937,
+      "before_sha256": "1afc43d19e87da2f8f66c98a75ea54c45e083b40dc804928c57dcab67738c405",
+      "fragments": [
+        {
+          "after": "        # The latest strict helper ingress strips only reviewed outer source\n        # stages. Camera197 still owns its unchanged complete prior-helper pin,\n        # six caller substitutions and exact suffix/forward inverse checks.\n        current = current_source_before_home_affinity(HELPER, (ROOT / HELPER).read_bytes()).decode()\n        older = camera197_helper_source_before_owned_console(current)\n",
+          "after_fragment_sha256": "fbcaf9e4922544a374f7a24eb08a7065f39cc683c75ba99168116d9a40e666a5",
+          "before": "        current = (ROOT / HELPER).read_text()\n        older = camera197_helper_source_before_owned_console(current)\n",
+          "before_fragment_sha256": "6b5de13f401435863c30cbba2b5c15ca74cc07df9372f94dda3db93359367985",
+          "obligation": "Qualify current full helper once before unchanged strict Camera197 afterimage/inverse; original refusal/old hash assertions remain"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_ios_ownership_application_routing.py": {
+      "after_bytes": 18872,
+      "after_sha256": "4bde4e58ad524f6356363a0ee68446af2fca72ce63812d9bfb345b5142d6f307",
+      "before_bytes": 18477,
+      "before_sha256": "c18dffb16f6a5e4c51f601b4e17d2b7df26ea36a9fdd20ba9f08934beb007b63",
+      "fragments": [
+        {
+          "after": "import ios_ui_application as application\nfrom ios_ui_split664_source_projection import current_source_before_ui_split664\n",
+          "after_fragment_sha256": "a917c9ccf8a6b41aa6fed188e831a54e9b1664ee6c08ddc2b04ec460286b8f45",
+          "before": "import ios_ui_application as application\n",
+          "before_fragment_sha256": "4118dbb27a955ada7a818545fc36bd37c2390e70910b3e7b6c8cc337676663f1",
+          "obligation": "Import only the existing exact UI664 current ingress; no helper/native change"
+        },
+        {
+          "after": "        # UI664 added only its exact finite timeout/host/runtime wiring after\n        # this Camera checkpoint. Admit the complete current image before its\n        # dated predecessor; never relax helper AST or native receipt gates.\n        qualified = current_source_before_ui_split664(APP_SOURCE, raw)\n        current, prior = functions(APP_SOURCE, qualified), functions(APP_SOURCE, before)\n",
+          "after_fragment_sha256": "0b04f9ff7efeb1f6e3b9a50bdd6f31724f5829770fc95761ba6848f5f9a36a68",
+          "before": "        current, prior = functions(APP_SOURCE), functions(APP_SOURCE, before)\n",
+          "before_fragment_sha256": "68727cd0a3271d799c47b5124a5b65c62a75e4b187ea08f7d45f3bce4fba3b20",
+          "obligation": "Compare original helper ASTs at the exact qualified Camera-era predecessor; all original equality/gate assertions remain"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_tooling566_source_projection.py": {
+      "after_bytes": 9390,
+      "after_sha256": "11213a71c53679fa3e736d93e1eb6e06469cd8aeb72ad21a4132902b81f23161",
+      "before_bytes": 8309,
+      "before_sha256": "31eca5b7b20aeb93e86ac33aa7bf0f86285046265b07c4a47c13f0dad91ae65d",
+      "fragments": [
+        {
+          "after": "def qualified_nested_reader(source, function):\n    \"\"\"One exact recents wrapper hop; not an arbitrary helper or current bypass.\"\"\"\n    functions = {node.name: node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}\n    node = functions[function]\n    if function == \"current_source_before_recents_fixture\":\n        expected = ast.parse('''def current_source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    from platform_recovery659_source_projection import current_source_before_platform_recovery659\n    payload = current_source_before_platform_recovery659(relative, payload)\n    return recents_fixture_after_qualified_outer_ingress(relative, payload)\n''').body[0]\n        if ast.dump(node, include_attributes=False) != ast.dump(expected, include_attributes=False):\n            raise ValueError(\"Only the exact qualified current recents outer wrapper is admitted\")\n        node = functions[\"recents_fixture_after_qualified_outer_ingress\"]\n    return node\n\n\nclass CameraTooling566Controls(unittest.TestCase):\n",
+          "after_fragment_sha256": "f2a4ecc5e69e391635c509f1f6241f02acbbb0a6f61dd819abdb044ce0ec3799",
+          "before": "class CameraTooling566Controls(unittest.TestCase):\n",
+          "before_fragment_sha256": "9a0db34648bb797cb8603d9b2a40ab38457a90fc323de05dda40949345f5a226",
+          "obligation": "Bound the named public recents current wrapper exactly before selecting its one owning ancestor-only helper"
+        },
+        {
+          "after": "            node = qualified_nested_reader(source, function)\n",
+          "after_fragment_sha256": "b5cdad910a12168e119fe342d2f7d8cc513ef110b1593f378bc260532062a47d",
+          "before": "            node = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == function)\n",
+          "before_fragment_sha256": "7b15dd83955d00a8ca1aa8afd77821a84d8e080e534c8cae30a153e9a636132a",
+          "obligation": "Inspect exact ancestor-only body; keep both no-current-reader prohibitions and both required dated peel assertions unchanged"
+        }
+      ]
+    }
+  },
+  "expected_affected_only_selection": 9,
+  "original_known_affected_methods": [
+    "test_camera_ios_ownership_application_routing.CameraIosOwnershipApplicationRoutingControls.test_original_argv_deadlines_native_protocol_sdk_helpers_and_native_xml_runtime_worker_cleanup_gates_remain",
+    "test_camera_tooling566_source_projection.CameraTooling566Controls.test_nested_current_readers_keep_only_exact_ancestor_peeling",
+    "test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_direct_older_console_reader_retains_exact_hash_refusal_and_inverse"
+  ],
+  "original_method_replay_before_repair": 0,
+  "schema_version": 1,
+  "scope": "Exact stale Camera fixture source-stage comparisons/admission only; unchanged native/helper/workflow/dated manifests/assertions; no native/compiler acceptance",
+  "shared_guards_and_native_sources_modified": 0
+}

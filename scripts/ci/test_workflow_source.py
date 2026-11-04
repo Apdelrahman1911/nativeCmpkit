@@ -62,15 +62,30 @@ class WorkflowSourceTests(unittest.TestCase):
     def test_selected_module_arguments_are_identical_for_discovery_and_execution(self):
         source = WORKFLOW.read_text()
         self.assertIn("TEST_MODULES: ${{ matrix.test-modules }}", source)
-        self.assertEqual(3, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
+        # The fourth use is the reviewed early Android source-only admission.
+        self.assertEqual(4, source.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
         self.assertIn('scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json', source)
 
     def test_finite_focus_reaches_discovery_browser_execution_and_device_controller(self):
         source = WORKFLOW.read_text()
-        self.assertEqual(3, source.count('if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi'))
+        # The fourth use is the reviewed early Android source-only admission.
+        self.assertEqual(4, source.count('if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi'))
         controller = source.split('if [[ "$SUITE" == android-device ]]; then', 1)[1].split('exit\n', 1)[0]
         self.assertIn('args+=(--focus "$TEST_FOCUS")', controller)
         self.assertIn('scripts/ci/android_device_tests.py "${args[@]}"', controller)
+
+    def test_early_android_admission_keeps_exact_same_finite_arguments_without_host_execution(self):
+        source = WORKFLOW.read_text()
+        admission = source.split("- name: Admit finite Android discovery before host setup\n", 1)[1].split("- uses:", 1)[0]
+        self.assertIn("if: matrix.suite == 'android-device'", admission)
+        self.assertEqual(1, admission.count('if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi'))
+        self.assertEqual(1, admission.count('for module in "${modules[@]}"; do args+=(--module "$module"); done'))
+        self.assertEqual(1, admission.count('args=(plan --api-level "$EMULATOR_API" --output build/ci-plan)'))
+        self.assertEqual(1, admission.count('"$PYTHON" scripts/ci/android_device_tests.py "${args[@]}" > /dev/null'))
+        self.assertIn('"$PYTHON" scripts/ci/android_device_batch.py plan --batch "$ANDROID_BATCH" > /dev/null', admission)
+        for forbidden in ("runtime_context.py", "setup_android_sdk.py", "gradlew", "adb ", "emulator ", " --run", " publish", "upload-artifact"):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, admission)
 
     def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):
         source = WORKFLOW.read_text()

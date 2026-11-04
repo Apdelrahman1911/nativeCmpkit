@@ -1,5 +1,32 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Producer failure repaired as one related batch — 2026-11-04
+
+[Recovery701](docs/development/evidence/current-platform-recovery-20261101/tooling-producer698-recovery701/README.md)
+integrates 12 existing source files and seven additions with 27 exact reversible
+fragments. Camera, SDK, workflow, UI/geometry/WebView historical fixtures and
+bounded failure diagnostics are repaired together. Original source assertions,
+native criteria, workflow4787, and named CI668/671/175/9bd ancestors remain intact.
+Focused first runs and failed-only recoveries are documented separately; accepted
+populations were not replayed. The new current fixture domain is raw190, not the
+historical175 or a global checkout/consumer/compiler map. The first lead mode
+readback refused after source application; recovery restores prior modes without
+reapplying source bytes, and creates the seven additions with explicit0644 modes.
+
+Original producer **41842636546/attempt1 FAILED**: fourth scope reports3379 tests,
+31 failures/57 errors; nine complete failure blocks and one partial prefix survive.
+Earlier22 failures/all57 error details are unavailable. **No reusable certificate
+exists.** Never dispatch reuse/native against that failed producer or retry it
+unchanged. Next freeze/push development only, obtain a successful changed producer,
+then authenticate all four exact reuse selectors before missing Camera5/Android5
+on that same HEAD. Keep unrelated Cookie/Share/JavaFX successors isolated.
+Last issue readback remains103closed/69open/172; #144/#171 are already closed.
+Local heavy work still requires8GiB disk/compiler6GiB memory; hosted verification
+is permitted when local capacity is unavailable. Max2 combined hosted reservations
+includes queued/reserved. Actions/all/no mandatory SHA pinning/minimum read
+permissions, all publishing/Pages/main/history/security/readiness gates remain.
+No package, release or deployment publication.
+
 ## Final CI ingress integrated; fresh upstream reconciliation — 2026-11-04
 
 [CI668/689–694](docs/development/evidence/current-platform-recovery-20261101/ci668-produce-reuse689-694/README.md)

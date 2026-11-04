@@ -220,8 +220,12 @@ class WebViewContentPolicySourceProjectionControls(unittest.TestCase):
             "scripts/ci/test_ios_ui_related_source_projection.py": {"test_original_application_launch_argv_deadlines_finally_sdk_and_native_bodies_are_unchanged"},
             "scripts/ci/test_macos_share_missing_source_projection.py": {"test_exact_six_path_inverse_roundtrip_and_one_newest_raw_ingress", "test_only_transparent_ui_history_hooks_and_narrow_fixture_operands_change"},
         }
+        from ios_ui_split664_source_projection import current_source_before_ui_split664
         for name, changed in affected.items():
-            raw = (ROOT / name).read_bytes(); prior = history.source_before_content_policy(name, raw)
+            raw = (ROOT / name).read_bytes()
+            if name == "scripts/ci/test_ios_ui_related_source_projection.py":
+                raw = current_source_before_ui_split664(name, raw)
+            prior = history.source_before_content_policy(name, raw)
             old = {node.name: node for node in ast.walk(ast.parse(prior)) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")}
             new = {node.name: node for node in ast.walk(ast.parse(raw)) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")}
             self.assertEqual(set(old), set(new))

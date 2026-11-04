@@ -25,6 +25,24 @@ def sha(payload):
     return hashlib.sha256(payload).hexdigest()
 
 
+def qualified_nested_reader(source, function):
+    """One exact recents wrapper hop; not an arbitrary helper or current bypass."""
+    functions = {node.name: node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
+    node = functions[function]
+    if function == "current_source_before_recents_fixture":
+        expected = ast.parse('''def current_source_before_recents_fixture(relative, payload):
+    if type(relative) is not str or type(payload) is not bytes:
+        raise ValueError("Exact current recents-fixture identity and ordinary bytes required")
+    from platform_recovery659_source_projection import current_source_before_platform_recovery659
+    payload = current_source_before_platform_recovery659(relative, payload)
+    return recents_fixture_after_qualified_outer_ingress(relative, payload)
+''').body[0]
+        if ast.dump(node, include_attributes=False) != ast.dump(expected, include_attributes=False):
+            raise ValueError("Only the exact qualified current recents outer wrapper is admitted")
+        node = functions["recents_fixture_after_qualified_outer_ingress"]
+    return node
+
+
 class CameraTooling566Controls(unittest.TestCase):
     def test_six_complete_own_git_bindings_roundtrip_without_old_pin_changes(self):
         bindings = history._bindings()
@@ -110,7 +128,7 @@ class CameraTooling566Controls(unittest.TestCase):
             ("camera_boot_busy_source_projection.py", "current_source_before_boot_busy"),
         ):
             source = (ROOT / "scripts/ci" / filename).read_text()
-            node = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == function)
+            node = qualified_nested_reader(source, function)
             calls = {n.func.id for n in ast.walk(node) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)}
             self.assertNotIn("current_source_before_tooling", calls)
             self.assertNotIn("current_source_before_tooling566", calls)

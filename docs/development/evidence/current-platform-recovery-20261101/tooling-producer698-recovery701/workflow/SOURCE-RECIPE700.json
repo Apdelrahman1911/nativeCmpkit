@@ -1,0 +1,32 @@
+{
+  "after_sha256": "bf5ce1ea8d4ac19d811d3252cd547bd89352a9c8afe02d0563286e56d0103b64",
+  "before_sha256": "238b118e71e48690b8a8d3a49bc807516ead7ee7d8a059edd68c200ddc83f89b",
+  "fragments": [
+    {
+      "after": "        # The fourth use is the reviewed early Android source-only admission.\n        self.assertEqual(4, source.count('for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done'))\n",
+      "before": "        self.assertEqual(3, source.count('for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done'))\n",
+      "obligation": "Retain all three original finite argument consumers and include exactly one new early Android admission."
+    },
+    {
+      "after": "        # The fourth use is the reviewed early Android source-only admission.\n        self.assertEqual(4, source.count('if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi'))\n",
+      "before": "        self.assertEqual(3, source.count('if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi'))\n",
+      "obligation": "Retain all three original finite argument consumers and include exactly one new early Android admission."
+    },
+    {
+      "after": "    def test_early_android_admission_keeps_exact_same_finite_arguments_without_host_execution(self):\n        source = WORKFLOW.read_text()\n        admission = source.split(\"- name: Admit finite Android discovery before host setup\\n\", 1)[1].split(\"- uses:\", 1)[0]\n        self.assertIn(\"if: matrix.suite == 'android-device'\", admission)\n        self.assertEqual(1, admission.count('if [[ -n \"$TEST_FOCUS\" ]]; then args+=(--focus \"$TEST_FOCUS\"); fi'))\n        self.assertEqual(1, admission.count('for module in \"${modules[@]}\"; do args+=(--module \"$module\"); done'))\n        self.assertEqual(1, admission.count('args=(plan --api-level \"$EMULATOR_API\" --output build/ci-plan)'))\n        self.assertEqual(1, admission.count('\"$PYTHON\" scripts/ci/android_device_tests.py \"${args[@]}\" > /dev/null'))\n        self.assertIn('\"$PYTHON\" scripts/ci/android_device_batch.py plan --batch \"$ANDROID_BATCH\" > /dev/null', admission)\n        for forbidden in (\"runtime_context.py\", \"setup_android_sdk.py\", \"gradlew\", \"adb \", \"emulator \", \" --run\", \" publish\", \"upload-artifact\"):\n            with self.subTest(forbidden=forbidden):\n                self.assertNotIn(forbidden, admission)\n\n    def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):\n",
+      "before": "    def test_native_desktop_packages_do_not_delay_android_or_browser_suites(self):\n",
+      "obligation": "NEW exact per-stage finite-source-only early admission control, no host execution or selector widening."
+    }
+  ],
+  "native_or_compiler_executions": 0,
+  "original_failure_run": 41842636546,
+  "root_source_writes": 0,
+  "schema": "nativecmpkit-workflow-fixture-recovery700-source-v1",
+  "source": "scripts/ci/test_workflow_source.py",
+  "targeted_methods": [
+    "test_selected_module_arguments_are_identical_for_discovery_and_execution",
+    "test_finite_focus_reaches_discovery_browser_execution_and_device_controller",
+    "test_early_android_admission_keeps_exact_same_finite_arguments_without_host_execution"
+  ],
+  "workflow_sha256": "47878318993f0ca28899f782b1ba8780fe1c6e210e187ef097acfaa4fb1d19f8"
+}

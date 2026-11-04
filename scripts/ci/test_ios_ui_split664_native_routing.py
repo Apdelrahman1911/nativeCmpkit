@@ -507,7 +507,7 @@ class UiSplit664SourceControls(unittest.TestCase):
         self.assertEqual(SEALED_OWNER, sha((ROOT / contract.SOURCE).read_bytes()))
         source = (ROOT / split.SOURCE_RELATIVE).read_bytes()
         imports = [node for node in ast.walk(ast.parse(source)) if isinstance(node, ast.ImportFrom)]
-        self.assertEqual({"__future__", "pathlib", "ios_popover_anchor_plan"}, {node.module for node in imports})
+        self.assertEqual({"__future__", "pathlib", "ios_popover_anchor_plan", "android_io_remote_routing_source_projection"}, {node.module for node in imports})
         self.assertFalse(any(isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in {"exec", "eval", "compile"}
                              for node in ast.walk(ast.parse(source))))
         raw_guard = (ROOT / contract.SOURCE_RELATIVE).read_bytes()

@@ -1,5 +1,36 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera preserved-HOME patch qualified; iOS runtime originals retained — 2026-11-04
+
+[Camera556–559](docs/development/evidence/current-platform-recovery-20261101/camera-home-baseline556-559/README.md)
+qualifies complete13-row nonowned HOME parsing, same/new-epoch preservation,
+action-boundary boot/HOME checks and all four owned-vs-preserved ID comparisons.
+Six old paths/18 exact reversible fragments/seven additions; original native
+actions/live-task/cleanup/API/workflow/dependencies stay. NEW22 model/parser and
+eight current history control methods qualify via failed/affected-only recovery;
+affected14 pass once3.531s, common8 real JVM pass/Gradle0/48.03s and fresh Android
+test APK0/40.01s.53passive checks/1320 current maps exactly match compiler; prior
+1317 common map is historical, two common sources unchanged. All nine warnings
+(five Kotlin/four host-native), red/subtest-count/image-domain/classifier refusals
+remain. ZERO Android native; #13 stays open/C1 only next, camera009C2/C3 excluded.
+
+[iOS555 originals](docs/development/evidence/current-platform-recovery-20261101/ios-geometry-runtime555/README.md)
+keep41737269177/41737322523 atafcc8076 FAILED before library/Apple/native. Phone
+terminal DataMigrationFailed thenRust60s timeout; tabletFinished thenGitstatus60s
+timeout—not phone failures. Each24logs/one selection-only member acquired ONCE;
+1313 frozen Git inputs are NOT actual maps, native XML/receipt absent, exact suite
+step skipped. Completed reviewer core reused; artifact/count/host-specific first
+refusals stay. Causes unknown/resource-pressure hypothesis only; #29 remains for
+real geometry/traits/split view, no unchanged redispatch or accepted bar replay.
+
+Batch remains local/uncommitted atafcc8076, no new Git/dispatch/issue-comment/closure;
+103closed69open/172,22implemented36partial101verified/five unresolved unchanged.
+Next finish development freeze/current capacity before only missing cameraC1;
+diagnose iOS startup separately, not a blind geometry retry. SOLO/no assignments,
+serial-local8GiB/max2 INCLUDINGqueued/read-onlyActions/all/no mandatory SHA and
+every publication/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/readiness gate remain. No release/package/deployment publication.
+
 ## Shared geometry CI fixture blocker repaired — 2026-11-03
 
 [550–553](docs/development/evidence/current-platform-recovery-20261101/ios-geometry-tooling550-553/README.md)

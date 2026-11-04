@@ -34,6 +34,8 @@ def _bindings():
 def source_before_boot_busy(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact busy-boot identity and ordinary source bytes are required")
+    from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history
+    payload = peel_current_home_baseline_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -68,6 +70,8 @@ def source_before_boot_busy(relative, payload):
 def current_source_before_boot_busy(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current busy-boot identity and ordinary bytes are required")
+    from camera_home_baseline_source_projection import current_source_before_home_baseline
+    payload = current_source_before_home_baseline(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current busy-boot source")
@@ -78,6 +82,8 @@ def peel_current_boot_busy_for_older_history(relative, payload):
     """Not current admission: untouched old bytes MUST pass their older pinned reader."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor busy-boot identity and ordinary bytes are required")
+    from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history
+    payload = peel_current_home_baseline_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
         return source_before_boot_busy(relative, payload)

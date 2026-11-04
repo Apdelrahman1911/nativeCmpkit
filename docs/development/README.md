@@ -1,5 +1,28 @@
 # NativeCmpKit development after the audit
 
+## Shared camera safety patch qualified; actual iOS startup blockers reviewed — 2026-11-04
+
+[Camera556–559](evidence/current-platform-recovery-20261101/camera-home-baseline556-559/README.md)
+repairs the empty-only HOME contract without destroying/claiming nonowned data,
+adds exact action-boundary checks and excludes both preserved IDs from owned
+task removal. **8 genuine JVM regressions,14 affected fixtures and the new
+parser/controller/history controls qualify; Android test APK Gradle0/40.01s.**
+1,320 current inputs hold;53 passive source/results checks. All red results,
+warning classes and reviewer refusals remain. **ZERO Android device executions;
+#13 stays open**, only missing C1 next after qualified immutable freeze/capacity.
+
+[iOS555](evidence/current-platform-recovery-20261101/ios-geometry-runtime555/README.md)
+preserves both geometry originals FAILED before library/native. The phone has
+terminal migration failure then Rust60s timeout; the tablet saysFinished then
+Git-status60s timeout. Causes unknown; artifacts are selection-only, not receipts
+or XML/actual source maps. No unchanged retry or accepted native/bar replay;
+**#29 remains open** for real geometry/traits/split view.
+
+This local batch makes no Git/dispatch/issue/comment/closure mutation.
+**103closed/69open/172** and all release/security/readiness gates remain.
+SOLO, serial local/8GiB, max2 combined hosted reservations INCLUDINGqueued,
+read-only Actions/all/no mandatory SHA pinning.
+
 ## Related readiness patch; native iPad subset accepted — 2026-11-03
 
 [Camera525–532](evidence/current-platform-recovery-20261101/camera-busy-boot525-532/README.md)

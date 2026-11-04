@@ -635,12 +635,16 @@ class OwnedFreshGuest:
         return dict(self.receipt)
 
 
+from android_camera_home_baseline import SettingsHomeTaskBaseline, parse_recent_home_baseline
+
+
 @dataclass(frozen=True)
 class Snapshot:
     master: Row
     scalar: Row
     native: bool
     boot: str
+    settings_home: SettingsHomeTaskBaseline | None = None
 
     def pair(self) -> tuple[bool, Row]:
         return self.native, self.scalar
@@ -769,6 +773,7 @@ class OwnedDeveloperPrerequisite:
         self._pre_reporter_original, self._pre_reporter_startup_home = None, None
         self._reporter_assembly_completed, self._post_reporter_started = False, False
         self.original, self.new_boot = None, None
+        self.new_epoch_settings_home = None
         self.enable_attempted, self.enable_completed = False, False
         self.reboot_attempted, self.restore_attempted, self.closed = False, False, False
         self.receiver_prepare_attempted, self.receiver_cleanup = False, None
@@ -873,7 +878,12 @@ class OwnedDeveloperPrerequisite:
                 "Actual AVD ownership changed before action")
         require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
                 "Shell UID changed before action; never mutate as root")
-        require(self.boot_id() == (self.new_boot or self.original.boot), "Unrequested epoch before action")
+        action_boot = self.boot_id()
+        require(action_boot == (self.new_boot or self.original.boot), "Unrequested epoch before action")
+        home = parse_recent_home_baseline(result_bytes(
+            self.control("shell", "dumpsys", "activity", "-p", "com.android.settings", "recents"), CONTROL_BYTES))
+        self.require_preserved_home(home, action_boot)
+        require(self.boot_id() == action_boot, "Guest epoch changed around action-boundary HOME preservation")
         self.guest.verify_live()
 
     def devices(self, *, reboot=False) -> str:
@@ -901,6 +911,24 @@ class OwnedDeveloperPrerequisite:
                          self.control("shell", "content", "query", "--user", "0", "--uri",
                                       "content://settings/global/" + key, "--projection", "name:value"), key)
 
+    def require_preserved_home(self, home: SettingsHomeTaskBaseline | None, boot: str) -> None:
+        """Exact same-epoch data preservation; parsing never grants task ownership."""
+        if self.original is None:
+            require(self.new_boot is None and not self.reboot_attempted, "No uncaptured epoch substitution")
+        elif boot == self.original.boot:
+            require(self.new_boot is None and home == self.original.settings_home,
+                    "Original same-epoch HOME baseline changed, appeared, disappeared or was replaced")
+        elif self.new_boot is not None:
+            require(boot == self.new_boot and home == self.new_epoch_settings_home,
+                    "Accepted new-epoch HOME baseline changed or was substituted")
+        else:
+            # Only wait_new_epoch, after the sole owned NORMAL reboot request,
+            # may observe a first new baseline. stable still requires TWO exact
+            # snapshots before close stores that new epoch and baseline together.
+            require(self.reboot_attempted and self.deadline is not None and
+                    self.enable_attempted and boot != self.original.boot,
+                    "No unrequested kernel epoch or HOME baseline substitution")
+
     def snapshot(self, *, fresh: bool) -> Snapshot:
         self.devices()
         before_boot = self.boot_id()
@@ -917,14 +945,16 @@ class OwnedDeveloperPrerequisite:
             parse_settings_activity_absence(self.control("shell", "dumpsys", "activity", "-p",
                                                         "com.android.settings", "activities"))
         require(self.state_row(SCALAR) == scalar and self.state_row(MASTER) == master, "State changed around native read")
-        parse_recents(self.control("shell", "dumpsys", "activity", "-p", "com.android.settings", "recents"))
+        settings_home = parse_recent_home_baseline(result_bytes(
+            self.control("shell", "dumpsys", "activity", "-p", "com.android.settings", "recents"), CONTROL_BYTES))
+        self.require_preserved_home(settings_home, before_boot)
         parse_live_tasks(self.control("shell", "am", "stack", "list"))
         require(self.boot_id() == before_boot, "Guest rebooted during state observation")
         require(owned_avd_console_name(self.control("emu", "avd", "name"), self.guest.name)
                 == self.guest.name.encode(),
                 "Actual AVD name changed")
         self.devices()
-        return Snapshot(master, scalar, native, before_boot)
+        return Snapshot(master, scalar, native, before_boot, settings_home)
 
     def stable(self, *, fresh: bool) -> Snapshot:
         first, second = self.snapshot(fresh=fresh), self.snapshot(fresh=fresh)
@@ -1396,6 +1426,7 @@ class OwnedDeveloperPrerequisite:
                     self.failure("normal-reboot-request", error)
                 current = self.wait_new_epoch()
                 self.new_boot = current.boot
+                self.new_epoch_settings_home = current.settings_home
                 self.receipt.update(kernel_barrier_verified=True, new_boot_id_sha256=hashlib.sha256(current.boot.encode()).hexdigest(),
                                     new_boot_epoch_changed=True, same_popen_avd_userdata_verified=True)
                 self.publish()

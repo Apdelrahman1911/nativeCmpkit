@@ -1,0 +1,169 @@
+{"command": ["./gradlew", ":calf-camera-picker:desktopTest", "--tests", "com.mohamedrejeb.calf.camerapicker.SettingsHomeTaskBaselineTest", "--offline", "--max-workers=2", "--no-configuration-cache", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 360, "reserve_mib": 8192, "started_utc": "2026-11-03T23:36:21.138357+00:00", "free_bytes_before": 17875308544}
+Starting a Gradle Daemon, 1 incompatible and 1 stopped Daemons could not be reused, use --status for details
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: [33m[1m⚠️ Native task 'iosSimulatorArm64Test' is disabled[0m[0m
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+[32m[1mSolution:[0m[0m
+[32m[3mTo suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.[0m[0m
+
+
+> Configure project :calf-webview
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'[0m[0m
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+[32m[1mSolutions:[0m[0m
+[32m * [3mRemove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'[0m[0m
+[32m * [3mBuild on a compatible host platform for this target/cinterop combination[0m[0m
+[32m * [3mTo disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties[0m[0m
+
+w: [33m[1m⚠️ Disabled Kotlin/Native Targets[0m[0m
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+[32m[1mSolution:[0m[0m
+[32m[3mTo hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.[0m[0m
+
+
+> Task :calf-camera-picker:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-core:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-core:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-core:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-core:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-core:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-core:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-core:generateComposeResClass SKIPPED
+> Task :calf-core:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-core:compileKotlinDesktop UP-TO-DATE
+> Task :calf-core:compileDesktopMainJava NO-SOURCE
+> Task :calf-core:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-core:desktopProcessResources UP-TO-DATE
+> Task :calf-core:processDesktopMainResources SKIPPED
+> Task :calf-core:desktopMainClasses UP-TO-DATE
+> Task :calf-core:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-core:desktopJar UP-TO-DATE
+> Task :calf-io:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-io:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-io:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-io:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-io:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-io:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-io:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-io:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-io:generateComposeResClass SKIPPED
+> Task :calf-io:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-io:compileKotlinDesktop UP-TO-DATE
+> Task :calf-io:compileDesktopMainJava NO-SOURCE
+> Task :calf-io:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-io:desktopProcessResources UP-TO-DATE
+> Task :calf-io:processDesktopMainResources SKIPPED
+> Task :calf-io:desktopMainClasses UP-TO-DATE
+> Task :calf-io:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-io:desktopJar UP-TO-DATE
+> Task :calf-camera-picker:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-camera-picker:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-camera-picker:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-camera-picker:generateComposeResClass SKIPPED
+> Task :calf-camera-picker:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-camera-picker:compileKotlinDesktop UP-TO-DATE
+> Task :calf-camera-picker:compileDesktopMainJava NO-SOURCE
+> Task :calf-camera-picker:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-camera-picker:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-camera-picker:desktopProcessResources UP-TO-DATE
+> Task :calf-camera-picker:processDesktopMainResources SKIPPED
+> Task :calf-camera-picker:desktopMainClasses UP-TO-DATE
+> Task :calf-camera-picker:prepareEmbeddedPublicationNotices UP-TO-DATE
+> Task :calf-camera-picker:desktopJar UP-TO-DATE
+> Task :calf-camera-picker:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-camera-picker:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-camera-picker:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-camera-picker:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-camera-picker:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-camera-picker:assembleDesktopTestResources
+> Task :calf-camera-picker:desktopTestProcessResources UP-TO-DATE
+> Task :calf-camera-picker:processDesktopTestResources SKIPPED
+> Task :calf-camera-picker:compileTestKotlinDesktop
+> Task :calf-camera-picker:compileDesktopTestJava NO-SOURCE
+> Task :calf-camera-picker:desktopTestClasses
+> Task :calf-camera-picker:desktopTest
+
+[Incubating] Problems report is available at: file:///root/projects/nativeCmpKit/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 47s
+35 actionable tasks: 10 executed, 25 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", ":calf-camera-picker:desktopTest", "--tests", "com.mohamedrejeb.calf.camerapicker.SettingsHomeTaskBaselineTest", "--offline", "--max-workers=2", "--no-configuration-cache", "-Pkotlin.compiler.execution.strategy=in-process"], "cwd": "/root/projects/nativeCmpKit", "timeout_seconds": 360, "reserve_mib": 8192, "started_utc": "2026-11-03T23:36:21.138357+00:00", "free_bytes_before": 17875308544, "exit_code": 0, "elapsed_seconds": 48.03}

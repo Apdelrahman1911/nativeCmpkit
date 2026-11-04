@@ -49,6 +49,10 @@ def camera197_helper_source_before_owned_console(source: str) -> str:
         raise AssertionError("An exact bounded Camera197 helper source is required")
     try:
         payload = source.encode("utf-8")
+        from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history
+        payload = peel_current_home_baseline_for_older_history(
+            "scripts/ci/android_camera_developer_prerequisite.py", payload)
+        source = payload.decode("utf-8")
     except UnicodeError as error:
         raise AssertionError("An exact bounded Camera197 helper source is required") from error
     if len(payload) > CAMERA197_SOURCE_BYTES or hashlib.sha256(payload).hexdigest() != CAMERA197_AFTER_HELPER_SHA256:

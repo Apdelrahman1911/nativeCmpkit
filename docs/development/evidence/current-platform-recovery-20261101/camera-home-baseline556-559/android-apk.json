@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-11-03T23:51:08.832657+00:00",
+  "finished_utc": "2026-11-03T23:51:49.147369+00:00",
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "/root/projects/nativeCmpKit/scripts/audit/run_bounded_build.py",
+    "--cwd",
+    "/root/projects/nativeCmpKit",
+    "--log",
+    "/root/nativecmpkit-native-reviews-20261101/lead-camera556-preserved-home-baseline/android-apk-gradle.log",
+    "--timeout",
+    "360",
+    "--reserve-mib",
+    "8192",
+    "--",
+    "./gradlew",
+    ":calf-camera-picker:assembleAndroidDeviceTest",
+    "--offline",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "-Pkotlin.compiler.execution.strategy=in-process"
+  ],
+  "driver_exit_code": 0,
+  "inputs_held": 1320,
+  "source_maps_unchanged": true,
+  "dirty_snapshot": true,
+  "head_sha": "afcc8076dd175e36a221b09b446f4213bc4c6bd1",
+  "native_executions": 0,
+  "android_device_executions": 0,
+  "unchanged_accepted_tests_replayed": 0,
+  "local_apks": [
+    {
+      "relative": "calf-camera-picker/build/outputs/apk/androidTest/calf-camera-picker-androidTest.apk",
+      "bytes": 9764774,
+      "sha256": "a668d5c686de721e449635c4d7033bb313b42d95e119ebe7e20f31196d23ffa1",
+      "fresh_mtime": true
+    }
+  ]
+}

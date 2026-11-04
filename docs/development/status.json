@@ -45,16 +45,16 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "818e550c64c5aa0f7ebd5092ac1fe4d73824f8a5f1f37f1650d5453c1d82360c",
     "docs/development/resolutions/IO.json": "c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42",
-    "docs/development/resolutions/NATIVE.json": "d92c537f83f6e35b87e872f3af1aa61a729e201519add2d943ef020527e8d0de",
+    "docs/development/resolutions/NATIVE.json": "7a8090c251ec6c35f78ae03a560b697d4b7c171253d32ec6c0b7dc290cc4eb5e",
     "docs/development/resolutions/NAV.json": "73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
-    "docs/development/resolutions/UI-native.json": "41565e17bb2fb285f5e47ebc6bef0eb50b77178af24a1920bb5419bde554d41f",
+    "docs/development/resolutions/UI-native.json": "4e822554dcc612923415263e460524ecbb5da10754f88d7d5c7f1868d7f6e974",
     "docs/migration/issue-map.json": "5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861",
     "docs/roadmap/backlog.json": "044eb0eb9f7f640035f26f15a86a0fb60887747f6a12e02dd2b94df371273e10"
   },
-  "input_fingerprint": "4b7660d2da477a70874ea1d246f601d2e755bb01235c6938fee36e016fd3e36c",
+  "input_fingerprint": "a91f1df3a80f42002ed21f0853a385e33c1455621fee546bc4081f1c59f3c9b8",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -2712,7 +2712,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "874ac62f39ee3f18b525a7ea76ee5d5f405f14929780e6ba901562b87ea08ae9",
+      "owner_record_sha256": "4c5ed911f446d6697919be734ee2be0de6b47e344709f7224d3d0e265cf1f7fd",
       "owner_record": {
         "id": "NATIVE-019",
         "title": "Android camera loses its output URI across Activity/process recreation",
@@ -2724,11 +2724,25 @@
           "2026-11-01: Correct inherited stricter interpretation additively: original criteria2/3 are accepted from camera009; only Dont-keep remains. This does not rewrite old archives, waive original acceptance, infer camera011 master value/cause or change production.",
           "2026-11-01: Preserve actual013 original prelaunch capture confinement refusal with complete owned evidence; do not infer native success or replay camera009 three.",
           "2026-11-01: Integrate source-qualified complete Settings-Activity absence boundary and retain native/scalar/kernel/cleanup gates. Camera28 plus one stale owning guard pass; original Dont-keep remains.",
-          "2026-11-01: Retain independently reviewed actual camera41286100211 strict Activities absence refusal at interior Display-header grammar; no native criterion, cause or closure is inferred."
+          "2026-11-01: Retain independently reviewed actual camera41286100211 strict Activities absence refusal at interior Display-header grammar; no native criterion, cause or closure is inferred.",
+          "2026-11-04 camera556–559: test-only complete nonowned FallbackHome preservation across snapshots/native Settings leases and owned normal reboot; exact action-boundary revalidation and both preserved-root/leaf exclusion checks, retaining original strict live-task/nonce/native restoration/cleanup. Six-path exact offline fixture bridge retains all old pins. Source/JVM/compiler-qualified only; no public API or original native acceptance change."
         ],
         "affected_paths": [
           "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
-          "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt"
+          "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt",
+          "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaseline.kt",
+          "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaselineTest.kt",
+          "scripts/ci/android_camera_home_baseline.py",
+          "scripts/ci/android_camera_developer_prerequisite.py",
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt",
+          "scripts/ci/android_external328_source_projection.py",
+          "scripts/ci/camera_home_baseline_source_projection.py",
+          "scripts/ci/camera_boot_busy_source_projection.py",
+          "scripts/ci/camera_scalar_failfast_source_projection.py",
+          "scripts/ci/fixtures/camera-home-baseline-source-inverse.json",
+          "scripts/ci/test_android_camera_home_baseline.py",
+          "scripts/ci/test_camera_home_baseline_source_projection.py",
+          "scripts/ci/test_android_camera_boot_busy.py"
         ],
         "tests": [
           {
@@ -3020,9 +3034,22 @@
               "docs/development/evidence/current-platform-recovery-20261101/camera534-536-recents/README.md"
             ],
             "result": "FAIL/ZERO Gradle/APK/native/XML. Forty passive checks/1304 actual own-Git maps. Boot readiness8/7 and strict activity absence qualify, but recents exact_tail=false (19rows/14tail/1124bytes). Bounded shapes are not complete parsing/provenance/ownership/permission to ignore. Original capture/native/master writes/reboots unreached; separate cleanup1375 failed; independent owned guest disposal passed. Tooling3595 invocations is not camera acceptance."
+          },
+          {
+            "checkpoint": "camera-preserved-home-baseline556-559-20261104",
+            "command": "Only NEW/failed/meaningfully affected source models and exact common SettingsHomeTaskBaselineTest desktopTest; fresh serial bounded :calf-camera-picker:assembleAndroidDeviceTest. Original commands/results preserved in the evidence packet.",
+            "result": "SOURCE/JVM/COMPILER ONLY: NEW15 red10pass/onefail/fourerrors then failed5 pass; NEW7 red3pass/fourfailedmethods/fivefailure records then failed4 pass and affected epoch1 passes after action changes. Current history controls qualified via retained current-entry and beforeimage/ancestor-domain failures, changed exact-six roundtrip and failed2 recovery. Related14 source fixtures pass once/3.531s. Genuine common library JVM8/8/onefreshXML/Gradle0/48.03s reused only on unchanged two common sources. Fresh Android test compiler/APK Gradle0/40.01s with1320 held current inputs, nine warnings retained (five Kotlin/four host-native). Solo53passive checks accept six own-Git beforeimages/18 exact reversible fragments/seven additions. Complete nonowned HOME grammar/epoch preservation, action-boundary checks and both owned-vs-both-preserved ID exclusions repaired; original native methods/actions/live-task/cleanup/workflow/dependencies/APIs unchanged. ZERO Android device executions, no C1/issue closure or release/security inference. Original41729467621 remains FAILED; camera009C2/C3 reused, not replayed.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/camera-home-baseline556-559/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/camera-home-baseline556-559/source-results-review559.json",
+              "docs/development/evidence/current-platform-recovery-20261101/camera-home-baseline556-559/common8.json",
+              "docs/development/evidence/current-platform-recovery-20261101/camera-home-baseline556-559/android-apk.json",
+              "docs/development/evidence/current-platform-recovery-20261101/camera-home-baseline556-559/affected-first.json"
+            ]
           }
         ],
         "remaining": [
+          "Current 2026-11-04 camera556–559: complete preserved-HOME and action-boundary safety patch is locally source/JVM/compiler-qualified, not Android native acceptance. Only missing Dont-keep C1 remains; freeze qualified development bytes and inspect fresh max2 combined hosted capacity before requesting it. Retain actual readable exactly-once capture, native/scalar/master/owned cleanup requirements; no unknown-task purge/ignore, live-HOME waiver, unchanged failed retry or accepted camera009 C2/C3 replay. All older dated refusals remain historical evidence.",
           "Current 2026-11-03 534–536: run41729467621 at34a5b35c remains FAILED before Gradle/APK/native/XML. Guarded busy-boot wait passes8 observations/7 waits and original strict activity absence; original snapshot then refuses recents324 on a bounded HOME/FallbackHome-shaped retained baseline. Full task/image provenance/ownership and native C1 remain unverified. Separate cleanup1375 fails; owned guest disposal passes independently. Do not ignore/purge unknown baseline tasks, blind-retry unchanged bytes or replay accepted camera009 C2/C3.",
           "Current 2026-11-03 camera525–532: source-confirmed legitimate-busy readiness gap is repaired/17important controls qualify, not actual hosted FallbackHome or native C1 acceptance. Original first footer300 and separate cleanup733 remain failed; recents diagnostics unreached. Next changed immutable missing-C1 only after current two iOS reservations free, retaining all original capture/readable exactly-once/restoration/owned cleanup requirements and excluding camera009C2/C3.",
           "Run only the remaining actual Dont-keep API35 method on an immutable source with independently proved exclusive-fresh-AVD Developer Options prerequisite. Preserve native/scalar/UI setting reads, actual destruction/rebuilt owner, exactly one readable KmpFile, exact original null/0/1 master/native/scalar restoration and owned app/emulator/AVD/transport disposal. camera011 stopped before mutation/capture; actual master value and root cause remain unknown. Reuse accepted rotation/kernel death/restored cancellation without replay.",
@@ -4532,7 +4559,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "50379970a39793a1f0510ea640de35e1a58a6ed887eb447bd1d0341f6970cec0",
+      "owner_record_sha256": "5ff02348ef0436a9db137c0faf63bc44b03364af4fe2cf4bb335ef115e9ad1a0",
       "owner_record": {
         "affected_paths": [
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt",
@@ -4562,6 +4589,7 @@
         "compatibility": "Safe fallback added without changing public dialog signatures.",
         "id": "UI-013",
         "remaining": [
+          "Current 2026-11-04 iOS555: both afcc8076 geometry originals remain FAILED at host-specific runtime prerequisites before library/native. Investigate actual simulator startup/phone Rust and tablet Git-status capture boundaries before a changed qualified request; do not attribute one host failure to the other, guess pressure as cause, widen/waive toolchain or readiness checks, substitute stale selection or blindly retry unchanged geometry. Genuine OS geometry/explicit traits and legitimate real split view still required; accepted anchor/bar/compiler outcomes are reused without replay.",
           "Current 2026-11-03 550–553: both initial geometry CI originals41735731904/41735787813 FAILED before native at one stale Worker cleanup image-domain fixture. Shared two-fragment fixture fix plus four new controls qualifies failed1+NEW4 once5/5;34passive checks/1313held. Native/Kotlin/init/workflow/production/dependencies unchanged, accepted compiler544/source547/bar outcomes reused. Both original geometry methods remain UNEXECUTED; request only them after corrected immutable freeze. Real split view remains separate and #29 stays open.",
           "Current 2026-11-03 529–548: both missing bar methods now pass once on genuine iPhone/iPad UIKit (41723586208/41725142093), with all original fallback/cleanup assertions. Reuse four earlier accepted methods per host on unchanged applicable bodies. New opt-in actual WindowScene portrait/compact and iPad OS-rotation/regular methods are source-qualified and KLIB-compiled only; both native executions and real split view remain required. No whole UI-013/release closure.",
           "Current 2026-11-03: supported anchors are implemented/compiled; original iPhone and iPad each pass4/5 real UIKit methods with owned transport/cleanup. Both native runs remain FAILED at the unsupported bar nil assertion; source-qualified repaired-bar-only runs41723586208/41725142093 pending original review. Actual OS portrait/landscape rotation, real split view and explicit regular/compact traits still required; no device-type/controlled-bounds substitute.",
@@ -4657,6 +4685,17 @@
             "evidence": [
               "docs/development/evidence/current-platform-recovery-20261101/ios-geometry-tooling550-553/README.md",
               "docs/development/evidence/current-platform-recovery-20261101/ios-geometry-tooling550-553/source-results-review553.json"
+            ]
+          },
+          {
+            "checkpoint": "ios-geometry-runtime-original555-20261104",
+            "command": "Once-acquired originals41737269177/41737322523 atafcc8076; completed cached reviewer cores and exact skipped-library-step readback, with no new native request or original downloads.",
+            "result": "Both originals FAILED before library Gradle/Apple link/native/XML. Phone bootstatus terminal Data Migration Failed then postboot capture rustc --version --verbose TimeoutExpired60s. Tablet bootstatus Finished then postboot capture git status --porcelain --untracked-files=normal TimeoutExpired60s; no tablet migration/Rust failure inferred. Each24original log members/one selection-only artifact member, no library/runtime actual receipt or native source maps;1313 frozen inputs are Git provenance only. Both exact fresh-library steps skipped. Preboot clean own SHA/DarwinArm64/JDK17.0.21/Xcode26.6/iOS26.5 is not postboot readiness. First artifact/count/host-specific reviewer refusals retained; completed phone core reused without rerun. Causes unknown/resource pressure hypothesis only. No new geometry/trait/split-view acceptance, issue closure, Git, publication or security/readiness inference.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/ios-geometry-runtime555/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-geometry-runtime555/41737269177/REVIEW.json",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-geometry-runtime555/41737322523/REVIEW.json",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-geometry-runtime555/NO-LIBRARY-EXECUTION-READBACK.json"
             ]
           }
         ]

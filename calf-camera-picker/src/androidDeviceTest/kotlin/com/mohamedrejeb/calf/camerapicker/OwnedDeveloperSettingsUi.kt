@@ -42,12 +42,14 @@ internal class OwnedDeveloperSettingsUi(
     private var flagsRestored = true
     private var activeLease: Lease? = null
     private var mutationAttempted = false
+    private var homeBaselineCaptured = false
+    private var preservedHomeBaseline: SettingsHomeTaskBaseline? = null
 
     private class Lease(val nonce: String, val intent: Intent) {
         var taskId: Int? = null
         var removalAttempted = false
     }
-    private data class RecentTask(val id: Int, val user: String, val uid: String, val callerUid: String,
+    private data class RecentTask(val id: Int, val rootId: Int, val user: String, val uid: String, val callerUid: String,
         val setup: String, val callerPackage: String, val callerFeature: String, val intentRow: String, val componentRow: String)
     private data class LiveTasks(val ids: Set<Int>, val settings: Set<Int>)
     private data class Tree(val nodes: List<AccessibilityNodeInfo>, val parents: List<Int>)
@@ -64,6 +66,11 @@ internal class OwnedDeveloperSettingsUi(
         check(pm.checkSignatures("android", SETTINGS_PACKAGE) == PackageManager.SIGNATURE_MATCH)
         check(pm.getComponentEnabledSetting(component) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
         check(pm.getApplicationEnabledSetting(SETTINGS_PACKAGE) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
+        val fallback = ComponentName(SETTINGS_PACKAGE, "com.android.settings.FallbackHome")
+        val fallbackInfo = pm.getActivityInfo(fallback, 0)
+        check(fallbackInfo.packageName == SETTINGS_PACKAGE && fallbackInfo.name == fallback.className)
+        check(fallbackInfo.enabled && checkNotNull(fallbackInfo.applicationInfo).uid == 1000)
+        check(pm.getComponentEnabledSetting(fallback) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
         check(checkNotNull(info.metaData).getString("com.android.settings.FRAGMENT_CLASS") ==
             "com.android.settings.development.DevelopmentSettingsDashboardFragment")
         check(pm.checkPermission("android.permission.DUMP", "com.android.shell") == PackageManager.PERMISSION_GRANTED)
@@ -197,6 +204,9 @@ internal class OwnedDeveloperSettingsUi(
     }
 
     private fun assertOwned(task: RecentTask, lease: Lease) {
+        check(task.id != preservedHomeBaseline?.taskId)
+        check(task.id != preservedHomeBaseline?.rootTaskId)
+        check(task.rootId != preservedHomeBaseline?.taskId && task.rootId != preservedHomeBaseline?.rootTaskId)
         check(task.user == "0" && task.uid == "1000" && task.callerUid == "2000" && task.setup == "true")
         check(task.callerPackage == "com.android.shell" && task.callerFeature == "null")
         check(task.intentRow == "    intent={act=$SETTINGS_ACTION id=${lease.nonce} flg=0x18000000 cmp=${component.flattenToShortString()}}")
@@ -212,16 +222,25 @@ internal class OwnedDeveloperSettingsUi(
         check(Regex("mFreezeTaskListReordering=(true|false)").matches(lines[3]))
         check(Regex("mFreezeTaskListReorderingPendingTimeout=(true|false)").matches(lines[4]))
         val remainder = lines.drop(5)
-        if (remainder.isEmpty() || remainder == listOf("  (nothing)")) return emptyList()
+        if (remainder.isEmpty() || remainder == listOf("  (nothing)")) {
+            admitPreservedHome(null, emptyList())
+            return emptyList()
+        }
         check(remainder.first() == "  Recent tasks:" && remainder.count { it == "  Recent tasks:" } == 1)
         check(remainder.count { it == RECENTS_VISIBLE } <= 1)
         val visible = remainder.indexOf(RECENTS_VISIBLE).let { if (it < 0) remainder.size else it }
         val raw = remainder.subList(1, visible).dropLastWhile { it.isEmpty() }
         val starts = raw.indices.filter { raw[it].startsWith("  * Recent #") }
         check(starts.isNotEmpty() && starts.first() == 0)
-        val tasks = starts.mapIndexed { index, start ->
+        var home: SettingsHomeTaskBaseline? = null
+        val tasks = starts.mapIndexedNotNull { index, start ->
             val end = starts.getOrElse(index + 1) { raw.size }
             val block = raw.subList(start, end)
+            if (block.first().contains(" type=home ")) {
+                check(home == null) { "Refuse duplicate or competing HOME baseline tasks" }
+                home = SettingsHomeTaskBaselineParser.parse(block)
+                return@mapIndexedNotNull null // Preserved data only; NEVER a removable owned task.
+            }
             val header = checkNotNull(Regex("""  \* Recent #[0-9]+: Task\{[a-f0-9]+ #([1-9][0-9]*) type=standard[^{}]*}""").matchEntire(block.first()))
             check(Regex("""    lastActiveTime=[0-9]+ \(inactive for [0-9]+s\)""").matches(block.last()))
             check(block.drop(1).all { it.startsWith("    ") })
@@ -229,11 +248,23 @@ internal class OwnedDeveloperSettingsUi(
                 .matchEntire(oneRow(block, "    userId="))).groupValues
             val ids = checkNotNull(Regex("    taskId=([1-9][0-9]*) rootTaskId=([1-9][0-9]*)").matchEntire(oneRow(block, "    taskId="))).groupValues
             check(ids[1] == header.groupValues[1])
-            RecentTask(ids[1].toInt(), identity[1], identity[2], identity[3], identity[4], identity[5], identity[6],
+            RecentTask(ids[1].toInt(), ids[2].toInt(), identity[1], identity[2], identity[3], identity[4], identity[5], identity[6],
                 oneRow(block, "    intent="), oneRow(block, "    mActivityComponent="))
         }
         check(tasks.map { it.id }.distinct().size == tasks.size)
+        check(tasks.none { it.id == home?.taskId })
+        admitPreservedHome(home, tasks)
         return tasks
+    }
+
+    private fun admitPreservedHome(home: SettingsHomeTaskBaseline?, tasks: List<RecentTask>) {
+        if (!homeBaselineCaptured) {
+            check(activeLease == null && tasks.isEmpty()) { "Capture only the prelaunch empty nonowned baseline" }
+            preservedHomeBaseline = home
+            homeBaselineCaptured = true
+        } else {
+            check(home == preservedHomeBaseline) { "Refuse changed, replaced or missing nonowned HOME baseline" }
+        }
     }
 
     private fun assertTop(lease: Lease) {
@@ -309,6 +340,9 @@ internal class OwnedDeveloperSettingsUi(
         var scrolls = 0
         while (true) {
             requireMaster(); assertTop(lease)
+            val owned = readRecentTasks() // Revalidate the preserved baseline before each possible UI action.
+            check(owned.size == 1 && owned.single().id == lease.taskId)
+            assertOwned(owned.single(), lease)
             val tree = readTree()
             val nodes = tree.nodes
             try {

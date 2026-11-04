@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `4b7660d2da477a70874ea1d246f601d2e755bb01235c6938fee36e016fd3e36c`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `a91f1df3a80f42002ed21f0853a385e33c1455621fee546bc4081f1c59f3c9b8`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -60,7 +60,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
-| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 7 |
+| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 8 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
@@ -70,7 +70,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | verified | — | 4 / 0 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | verified | — | 3 / 0 |
-| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 6 |
+| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 7 |
 | 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | verified | — | 3 / 0 |
 | 27 | [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 28 | [UI-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33) | High | 1 | L | partially-verified | UI-020 | 3 / 2 |
@@ -514,6 +514,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
+- Current 2026-11-04 camera556–559: complete preserved-HOME and action-boundary safety patch is locally source/JVM/compiler-qualified, not Android native acceptance. Only missing Dont-keep C1 remains; freeze qualified development bytes and inspect fresh max2 combined hosted capacity before requesting it. Retain actual readable exactly-once capture, native/scalar/master/owned cleanup requirements; no unknown-task purge/ignore, live-HOME waiver, unchanged failed retry or accepted camera009 C2/C3 replay. All older dated refusals remain historical evidence.
 - Current 2026-11-03 534–536: run41729467621 at34a5b35c remains FAILED before Gradle/APK/native/XML. Guarded busy-boot wait passes8 observations/7 waits and original strict activity absence; original snapshot then refuses recents324 on a bounded HOME/FallbackHome-shaped retained baseline. Full task/image provenance/ownership and native C1 remain unverified. Separate cleanup1375 fails; owned guest disposal passes independently. Do not ignore/purge unknown baseline tasks, blind-retry unchanged bytes or replay accepted camera009 C2/C3.
 - Current 2026-11-03 camera525–532: source-confirmed legitimate-busy readiness gap is repaired/17important controls qualify, not actual hosted FallbackHome or native C1 acceptance. Original first footer300 and separate cleanup733 remain failed; recents diagnostics unreached. Next changed immutable missing-C1 only after current two iOS reservations free, retaining all original capture/readable exactly-once/restoration/owned cleanup requirements and excluding camera009C2/C3.
 - Run only the remaining actual Dont-keep API35 method on an immutable source with independently proved exclusive-fresh-AVD Developer Options prerequisite. Preserve native/scalar/UI setting reads, actual destruction/rebuilt owner, exactly one readable KmpFile, exact original null/0/1 master/native/scalar restoration and owned app/emulator/AVD/transport disposal. camera011 stopped before mutation/capture; actual master value and root cause remain unknown. Reuse accepted rotation/kernel death/restored cancellation without replay.
@@ -716,6 +717,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
+- Current 2026-11-04 iOS555: both afcc8076 geometry originals remain FAILED at host-specific runtime prerequisites before library/native. Investigate actual simulator startup/phone Rust and tablet Git-status capture boundaries before a changed qualified request; do not attribute one host failure to the other, guess pressure as cause, widen/waive toolchain or readiness checks, substitute stale selection or blindly retry unchanged geometry. Genuine OS geometry/explicit traits and legitimate real split view still required; accepted anchor/bar/compiler outcomes are reused without replay.
 - Current 2026-11-03 550–553: both initial geometry CI originals41735731904/41735787813 FAILED before native at one stale Worker cleanup image-domain fixture. Shared two-fragment fixture fix plus four new controls qualifies failed1+NEW4 once5/5;34passive checks/1313held. Native/Kotlin/init/workflow/production/dependencies unchanged, accepted compiler544/source547/bar outcomes reused. Both original geometry methods remain UNEXECUTED; request only them after corrected immutable freeze. Real split view remains separate and #29 stays open.
 - Current 2026-11-03 529–548: both missing bar methods now pass once on genuine iPhone/iPad UIKit (41723586208/41725142093), with all original fallback/cleanup assertions. Reuse four earlier accepted methods per host on unchanged applicable bodies. New opt-in actual WindowScene portrait/compact and iPad OS-rotation/regular methods are source-qualified and KLIB-compiled only; both native executions and real split view remain required. No whole UI-013/release closure.
 - Current 2026-11-03: supported anchors are implemented/compiled; original iPhone and iPad each pass4/5 real UIKit methods with owned transport/cleanup. Both native runs remain FAILED at the unsupported bar nil assertion; source-qualified repaired-bar-only runs41723586208/41725142093 pending original review. Actual OS portrait/landscape rotation, real split view and explicit regular/compact traits still required; no device-type/controlled-bounds substitute.
@@ -3595,12 +3597,12 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `818e550c64c5aa0f7ebd5092ac1fe4d73824f8a5f1f37f1650d5453c1d82360c` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d92c537f83f6e35b87e872f3af1aa61a729e201519add2d943ef020527e8d0de` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `7a8090c251ec6c35f78ae03a560b697d4b7c171253d32ec6c0b7dc290cc4eb5e` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `41565e17bb2fb285f5e47ebc6bef0eb50b77178af24a1920bb5419bde554d41f` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `4e822554dcc612923415263e460524ecbb5da10754f88d7d5c7f1868d7f6e974` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `044eb0eb9f7f640035f26f15a86a0fb60887747f6a12e02dd2b94df371273e10` |
 

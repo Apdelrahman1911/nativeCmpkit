@@ -226,7 +226,9 @@ class CameraBootBusyControls(unittest.TestCase):
         import camera_boot_busy_source_projection as history
         document = json.loads(history.SPEC_PATH.read_bytes())
         for relative, expected in document["unchanged_owning_inputs"].items():
-            self.assertEqual(expected, hashlib.sha256((ROOT / relative).read_bytes()).hexdigest(), relative)
+            from camera_home_baseline_source_projection import current_source_before_home_baseline
+            previous = current_source_before_home_baseline(relative, (ROOT / relative).read_bytes())
+            self.assertEqual(expected, hashlib.sha256(previous).hexdigest(), relative)
         relative = "scripts/ci/android_camera_boot_fallback.py"
         current = (ROOT / relative).read_bytes()
         previous = history.current_source_before_boot_busy(relative, current)

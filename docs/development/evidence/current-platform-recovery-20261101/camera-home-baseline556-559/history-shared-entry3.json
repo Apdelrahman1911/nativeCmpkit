@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "failed_methods": [
+    "test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_latest_shared_entry_itself_is_bound_and_refuses_its_old_or_unknown_image",
+    "test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_shared_current_chain_keeps_all_original_source_pins_not_new_behavior"
+  ],
+  "failure_records": 2,
+  "error_records": 0,
+  "observed_utc": "2026-11-03T23:50:07.804398+00:00",
+  "selected": [
+    "test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_shared_current_chain_keeps_all_original_source_pins_not_new_behavior",
+    "test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_exact_six_complete_afterimages_roundtrip_to_unchanged_beforeimages",
+    "test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_latest_shared_entry_itself_is_bound_and_refuses_its_old_or_unknown_image"
+  ],
+  "tests": 3,
+  "passed": 1,
+  "failures": [
+    {
+      "id": "test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_shared_current_chain_keeps_all_original_source_pins_not_new_behavior",
+      "detail": "Traceback (most recent call last):\n  File \"/root/projects/nativeCmpKit/scripts/ci/test_camera_home_baseline_source_projection.py\", line 75, in test_shared_current_chain_keeps_all_original_source_pins_not_new_behavior\n    self.assertEqual(previous, current_source_for_history(relative, current))\nAssertionError: b'\"\"\"[875 chars]n    from android_external328_source_projectio[3998 chars]ed\\n' != b'\"\"\"[875 chars]n    if type(source) is not str or hashlib.sha[3645 chars]ed\\n'\n"
+    },
+    {
+      "id": "test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_latest_shared_entry_itself_is_bound_and_refuses_its_old_or_unknown_image",
+      "detail": "Traceback (most recent call last):\n  File \"/root/projects/nativeCmpKit/scripts/ci/test_camera_home_baseline_source_projection.py\", line 132, in test_latest_shared_entry_itself_is_bound_and_refuses_its_old_or_unknown_image\n    self.assertEqual(previous, current_source_for_history(relative, current))\nAssertionError: b'# S[1882 chars]n    # Preserve the original exact complete pr[3419 chars]))\\n' != b'# S[1882 chars]n    if relative not in bindings:\\n        ret[2733 chars]))\\n'\n"
+    }
+  ],
+  "errors": [],
+  "skipped": 0,
+  "unittest_elapsed_seconds": null,
+  "wrapper_elapsed_seconds": 0.1200069838669151,
+  "inputs_held": 1320,
+  "head_sha": "afcc8076dd175e36a221b09b446f4213bc4c6bd1",
+  "snapshot_is_dirty": true,
+  "native_executions": 0,
+  "unchanged_accepted_tests_replayed": 0,
+  "affected_previously_accepted_methods": 0
+}

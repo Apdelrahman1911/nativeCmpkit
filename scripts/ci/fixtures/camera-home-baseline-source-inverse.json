@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "source_head_sha": "afcc8076dd175e36a221b09b446f4213bc4c6bd1",
+  "scope": "Complete preserved-HOME owning patch and offline ancestor-entry repair; never native admission.",
+  "bindings": {
+    "scripts/ci/android_camera_developer_prerequisite.py": {
+      "before_sha256": "0e47097d10f1886bec0ee8eebc280b29afb704dc47d09df1bbdb41ddaa651b26",
+      "after_sha256": "92f8d79d3a0871f1abb619a0a17b36c87568e11151fb3dbefa4f12773de78bdb",
+      "fragments": [
+        {
+          "before": "        return dict(self.receipt)\n\n\n@dataclass(frozen=True)\nclass Snapshot:\n    master: Row\n    scalar: Row\n    native: bool\n    boot: str\n\n    def pair(self) -> tuple[bool, Row]:\n        return self.native, self.scalar\n",
+          "after": "        return dict(self.receipt)\n\n\nfrom android_camera_home_baseline import SettingsHomeTaskBaseline, parse_recent_home_baseline\n\n\n@dataclass(frozen=True)\nclass Snapshot:\n    master: Row\n    scalar: Row\n    native: bool\n    boot: str\n    settings_home: SettingsHomeTaskBaseline | None = None\n\n    def pair(self) -> tuple[bool, Row]:\n        return self.native, self.scalar\n",
+          "before_fragment_sha256": "f41175b2e22ec49b563466860398456c549872cbe271640ba336108de3ea3b5d",
+          "after_fragment_sha256": "e36e0598fe0070d221812c77c41335ceba6653cb23ee1afe486d8b617f884f2c"
+        },
+        {
+          "before": "        self._pre_reporter_original, self._pre_reporter_startup_home = None, None\n        self._reporter_assembly_completed, self._post_reporter_started = False, False\n        self.original, self.new_boot = None, None\n        self.enable_attempted, self.enable_completed = False, False\n        self.reboot_attempted, self.restore_attempted, self.closed = False, False, False\n        self.receiver_prepare_attempted, self.receiver_cleanup = False, None\n",
+          "after": "        self._pre_reporter_original, self._pre_reporter_startup_home = None, None\n        self._reporter_assembly_completed, self._post_reporter_started = False, False\n        self.original, self.new_boot = None, None\n        self.new_epoch_settings_home = None\n        self.enable_attempted, self.enable_completed = False, False\n        self.reboot_attempted, self.restore_attempted, self.closed = False, False, False\n        self.receiver_prepare_attempted, self.receiver_cleanup = False, None\n",
+          "before_fragment_sha256": "cac7d13b685e8c3af798f63fb886fca955ab2ea608159b75dd8281875b502026",
+          "after_fragment_sha256": "0428138f88695e73ceb5b63d8893bc3a12a1c10b6f2501203e1c34cf1f98bd07"
+        },
+        {
+          "before": "                \"Actual AVD ownership changed before action\")\n        require(line(self.control(\"shell\", \"id\", \"-u\"), 512, rb\"2000\") == b\"2000\",\n                \"Shell UID changed before action; never mutate as root\")\n        require(self.boot_id() == (self.new_boot or self.original.boot), \"Unrequested epoch before action\")\n        self.guest.verify_live()\n\n    def devices(self, *, reboot=False) -> str:\n",
+          "after": "                \"Actual AVD ownership changed before action\")\n        require(line(self.control(\"shell\", \"id\", \"-u\"), 512, rb\"2000\") == b\"2000\",\n                \"Shell UID changed before action; never mutate as root\")\n        action_boot = self.boot_id()\n        require(action_boot == (self.new_boot or self.original.boot), \"Unrequested epoch before action\")\n        home = parse_recent_home_baseline(result_bytes(\n            self.control(\"shell\", \"dumpsys\", \"activity\", \"-p\", \"com.android.settings\", \"recents\"), CONTROL_BYTES))\n        self.require_preserved_home(home, action_boot)\n        require(self.boot_id() == action_boot, \"Guest epoch changed around action-boundary HOME preservation\")\n        self.guest.verify_live()\n\n    def devices(self, *, reboot=False) -> str:\n",
+          "before_fragment_sha256": "79d0bf42e2e6c7758f44bebe69456eaa88ac7909f01293ceb208f0b5436bd73d",
+          "after_fragment_sha256": "14d6e62be2b78850e2c0fcf85eba960a1ac41f219631863b2fb21931687be7ef"
+        },
+        {
+          "before": "                         self.control(\"shell\", \"content\", \"query\", \"--user\", \"0\", \"--uri\",\n                                      \"content://settings/global/\" + key, \"--projection\", \"name:value\"), key)\n\n    def snapshot(self, *, fresh: bool) -> Snapshot:\n        self.devices()\n        before_boot = self.boot_id()\n",
+          "after": "                         self.control(\"shell\", \"content\", \"query\", \"--user\", \"0\", \"--uri\",\n                                      \"content://settings/global/\" + key, \"--projection\", \"name:value\"), key)\n\n    def require_preserved_home(self, home: SettingsHomeTaskBaseline | None, boot: str) -> None:\n        \"\"\"Exact same-epoch data preservation; parsing never grants task ownership.\"\"\"\n        if self.original is None:\n            require(self.new_boot is None and not self.reboot_attempted, \"No uncaptured epoch substitution\")\n        elif boot == self.original.boot:\n            require(self.new_boot is None and home == self.original.settings_home,\n                    \"Original same-epoch HOME baseline changed, appeared, disappeared or was replaced\")\n        elif self.new_boot is not None:\n            require(boot == self.new_boot and home == self.new_epoch_settings_home,\n                    \"Accepted new-epoch HOME baseline changed or was substituted\")\n        else:\n            # Only wait_new_epoch, after the sole owned NORMAL reboot request,\n            # may observe a first new baseline. stable still requires TWO exact\n            # snapshots before close stores that new epoch and baseline together.\n            require(self.reboot_attempted and self.deadline is not None and\n                    self.enable_attempted and boot != self.original.boot,\n                    \"No unrequested kernel epoch or HOME baseline substitution\")\n\n    def snapshot(self, *, fresh: bool) -> Snapshot:\n        self.devices()\n        before_boot = self.boot_id()\n",
+          "before_fragment_sha256": "d7c61ea98983bda02c04e50eb578adced1fb02964ec72d770c9743035cf51efc",
+          "after_fragment_sha256": "ceab4470845342390a8c6a38b2dcff4464d43bc117f049d73af44d3e4a8e742e"
+        },
+        {
+          "before": "            parse_settings_activity_absence(self.control(\"shell\", \"dumpsys\", \"activity\", \"-p\",\n                                                        \"com.android.settings\", \"activities\"))\n        require(self.state_row(SCALAR) == scalar and self.state_row(MASTER) == master, \"State changed around native read\")\n        parse_recents(self.control(\"shell\", \"dumpsys\", \"activity\", \"-p\", \"com.android.settings\", \"recents\"))\n        parse_live_tasks(self.control(\"shell\", \"am\", \"stack\", \"list\"))\n        require(self.boot_id() == before_boot, \"Guest rebooted during state observation\")\n        require(owned_avd_console_name(self.control(\"emu\", \"avd\", \"name\"), self.guest.name)\n                == self.guest.name.encode(),\n                \"Actual AVD name changed\")\n        self.devices()\n        return Snapshot(master, scalar, native, before_boot)\n\n    def stable(self, *, fresh: bool) -> Snapshot:\n        first, second = self.snapshot(fresh=fresh), self.snapshot(fresh=fresh)\n",
+          "after": "            parse_settings_activity_absence(self.control(\"shell\", \"dumpsys\", \"activity\", \"-p\",\n                                                        \"com.android.settings\", \"activities\"))\n        require(self.state_row(SCALAR) == scalar and self.state_row(MASTER) == master, \"State changed around native read\")\n        settings_home = parse_recent_home_baseline(result_bytes(\n            self.control(\"shell\", \"dumpsys\", \"activity\", \"-p\", \"com.android.settings\", \"recents\"), CONTROL_BYTES))\n        self.require_preserved_home(settings_home, before_boot)\n        parse_live_tasks(self.control(\"shell\", \"am\", \"stack\", \"list\"))\n        require(self.boot_id() == before_boot, \"Guest rebooted during state observation\")\n        require(owned_avd_console_name(self.control(\"emu\", \"avd\", \"name\"), self.guest.name)\n                == self.guest.name.encode(),\n                \"Actual AVD name changed\")\n        self.devices()\n        return Snapshot(master, scalar, native, before_boot, settings_home)\n\n    def stable(self, *, fresh: bool) -> Snapshot:\n        first, second = self.snapshot(fresh=fresh), self.snapshot(fresh=fresh)\n",
+          "before_fragment_sha256": "589830680a789dd102e3e1cadd1b9b591f3334403e9c334bbd612e1d34f8caa8",
+          "after_fragment_sha256": "72808bd2d2bdff8b4e0379aac95a7477e8b26c19c5078ee86c46a227c85b09f8"
+        },
+        {
+          "before": "                    self.failure(\"normal-reboot-request\", error)\n                current = self.wait_new_epoch()\n                self.new_boot = current.boot\n                self.receipt.update(kernel_barrier_verified=True, new_boot_id_sha256=hashlib.sha256(current.boot.encode()).hexdigest(),\n                                    new_boot_epoch_changed=True, same_popen_avd_userdata_verified=True)\n                self.publish()\n",
+          "after": "                    self.failure(\"normal-reboot-request\", error)\n                current = self.wait_new_epoch()\n                self.new_boot = current.boot\n                self.new_epoch_settings_home = current.settings_home\n                self.receipt.update(kernel_barrier_verified=True, new_boot_id_sha256=hashlib.sha256(current.boot.encode()).hexdigest(),\n                                    new_boot_epoch_changed=True, same_popen_avd_userdata_verified=True)\n                self.publish()\n",
+          "before_fragment_sha256": "44f8bd010af7d58205e35b2d7ff1945c86817964f87f9f67de88bb971dd6037b",
+          "after_fragment_sha256": "2cc0f1890194b8340dec23cc04d7688bb0d696a2c72119be4b56d1dff35d0fa7"
+        }
+      ]
+    },
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt": {
+      "before_sha256": "a1fb76c6092881a3681ec38002b4820f1d0d8282727a4d18fa89968f6b8c5b50",
+      "after_sha256": "01771567b969a88094d88a2906dadc6bc4d1e8502e695abc9f145b7ca197e06e",
+      "fragments": [
+        {
+          "before": "    private var flagsRestored = true\n    private var activeLease: Lease? = null\n    private var mutationAttempted = false\n\n    private class Lease(val nonce: String, val intent: Intent) {\n        var taskId: Int? = null\n        var removalAttempted = false\n    }\n    private data class RecentTask(val id: Int, val user: String, val uid: String, val callerUid: String,\n        val setup: String, val callerPackage: String, val callerFeature: String, val intentRow: String, val componentRow: String)\n    private data class LiveTasks(val ids: Set<Int>, val settings: Set<Int>)\n    private data class Tree(val nodes: List<AccessibilityNodeInfo>, val parents: List<Int>)\n",
+          "after": "    private var flagsRestored = true\n    private var activeLease: Lease? = null\n    private var mutationAttempted = false\n    private var homeBaselineCaptured = false\n    private var preservedHomeBaseline: SettingsHomeTaskBaseline? = null\n\n    private class Lease(val nonce: String, val intent: Intent) {\n        var taskId: Int? = null\n        var removalAttempted = false\n    }\n    private data class RecentTask(val id: Int, val rootId: Int, val user: String, val uid: String, val callerUid: String,\n        val setup: String, val callerPackage: String, val callerFeature: String, val intentRow: String, val componentRow: String)\n    private data class LiveTasks(val ids: Set<Int>, val settings: Set<Int>)\n    private data class Tree(val nodes: List<AccessibilityNodeInfo>, val parents: List<Int>)\n",
+          "before_fragment_sha256": "975de2c908d0bfc6533f10e887d2a990e584b4069d26c84df46affc5807bb107",
+          "after_fragment_sha256": "a3b76044bf8dc73738a64f24839e6597f0d51225eaaf08802ead16d31fdb1473"
+        },
+        {
+          "before": "        check(pm.checkSignatures(\"android\", SETTINGS_PACKAGE) == PackageManager.SIGNATURE_MATCH)\n        check(pm.getComponentEnabledSetting(component) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)\n        check(pm.getApplicationEnabledSetting(SETTINGS_PACKAGE) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)\n        check(checkNotNull(info.metaData).getString(\"com.android.settings.FRAGMENT_CLASS\") ==\n            \"com.android.settings.development.DevelopmentSettingsDashboardFragment\")\n        check(pm.checkPermission(\"android.permission.DUMP\", \"com.android.shell\") == PackageManager.PERMISSION_GRANTED)\n",
+          "after": "        check(pm.checkSignatures(\"android\", SETTINGS_PACKAGE) == PackageManager.SIGNATURE_MATCH)\n        check(pm.getComponentEnabledSetting(component) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)\n        check(pm.getApplicationEnabledSetting(SETTINGS_PACKAGE) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)\n        val fallback = ComponentName(SETTINGS_PACKAGE, \"com.android.settings.FallbackHome\")\n        val fallbackInfo = pm.getActivityInfo(fallback, 0)\n        check(fallbackInfo.packageName == SETTINGS_PACKAGE && fallbackInfo.name == fallback.className)\n        check(fallbackInfo.enabled && checkNotNull(fallbackInfo.applicationInfo).uid == 1000)\n        check(pm.getComponentEnabledSetting(fallback) == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)\n        check(checkNotNull(info.metaData).getString(\"com.android.settings.FRAGMENT_CLASS\") ==\n            \"com.android.settings.development.DevelopmentSettingsDashboardFragment\")\n        check(pm.checkPermission(\"android.permission.DUMP\", \"com.android.shell\") == PackageManager.PERMISSION_GRANTED)\n",
+          "before_fragment_sha256": "2ec0f511a176fbeb97c0d008863b57066c02ad18a2f83743646cf8d2894a8266",
+          "after_fragment_sha256": "7f2cfa67e38e598a636668960c5aa91a6ece30d3315897ff1244001ff386c330"
+        },
+        {
+          "before": "    }\n\n    private fun assertOwned(task: RecentTask, lease: Lease) {\n        check(task.user == \"0\" && task.uid == \"1000\" && task.callerUid == \"2000\" && task.setup == \"true\")\n        check(task.callerPackage == \"com.android.shell\" && task.callerFeature == \"null\")\n        check(task.intentRow == \"    intent={act=$SETTINGS_ACTION id=${lease.nonce} flg=0x18000000 cmp=${component.flattenToShortString()}}\")\n",
+          "after": "    }\n\n    private fun assertOwned(task: RecentTask, lease: Lease) {\n        check(task.id != preservedHomeBaseline?.taskId)\n        check(task.id != preservedHomeBaseline?.rootTaskId)\n        check(task.rootId != preservedHomeBaseline?.taskId && task.rootId != preservedHomeBaseline?.rootTaskId)\n        check(task.user == \"0\" && task.uid == \"1000\" && task.callerUid == \"2000\" && task.setup == \"true\")\n        check(task.callerPackage == \"com.android.shell\" && task.callerFeature == \"null\")\n        check(task.intentRow == \"    intent={act=$SETTINGS_ACTION id=${lease.nonce} flg=0x18000000 cmp=${component.flattenToShortString()}}\")\n",
+          "before_fragment_sha256": "a7963a0d1a80d2cea46d1e2fdb811662e9d707a3dcbc2798ca45c06a05ee9440",
+          "after_fragment_sha256": "b6369cbf8740ad9606a5339d53fab9edb64dcd0bbc5af9a0b53f564201181589"
+        },
+        {
+          "before": "        check(Regex(\"mFreezeTaskListReordering=(true|false)\").matches(lines[3]))\n        check(Regex(\"mFreezeTaskListReorderingPendingTimeout=(true|false)\").matches(lines[4]))\n        val remainder = lines.drop(5)\n        if (remainder.isEmpty() || remainder == listOf(\"  (nothing)\")) return emptyList()\n        check(remainder.first() == \"  Recent tasks:\" && remainder.count { it == \"  Recent tasks:\" } == 1)\n        check(remainder.count { it == RECENTS_VISIBLE } <= 1)\n        val visible = remainder.indexOf(RECENTS_VISIBLE).let { if (it < 0) remainder.size else it }\n        val raw = remainder.subList(1, visible).dropLastWhile { it.isEmpty() }\n        val starts = raw.indices.filter { raw[it].startsWith(\"  * Recent #\") }\n        check(starts.isNotEmpty() && starts.first() == 0)\n        val tasks = starts.mapIndexed { index, start ->\n            val end = starts.getOrElse(index + 1) { raw.size }\n            val block = raw.subList(start, end)\n            val header = checkNotNull(Regex(\"\"\"  \\* Recent #[0-9]+: Task\\{[a-f0-9]+ #([1-9][0-9]*) type=standard[^{}]*}\"\"\").matchEntire(block.first()))\n            check(Regex(\"\"\"    lastActiveTime=[0-9]+ \\(inactive for [0-9]+s\\)\"\"\").matches(block.last()))\n            check(block.drop(1).all { it.startsWith(\"    \") })\n",
+          "after": "        check(Regex(\"mFreezeTaskListReordering=(true|false)\").matches(lines[3]))\n        check(Regex(\"mFreezeTaskListReorderingPendingTimeout=(true|false)\").matches(lines[4]))\n        val remainder = lines.drop(5)\n        if (remainder.isEmpty() || remainder == listOf(\"  (nothing)\")) {\n            admitPreservedHome(null, emptyList())\n            return emptyList()\n        }\n        check(remainder.first() == \"  Recent tasks:\" && remainder.count { it == \"  Recent tasks:\" } == 1)\n        check(remainder.count { it == RECENTS_VISIBLE } <= 1)\n        val visible = remainder.indexOf(RECENTS_VISIBLE).let { if (it < 0) remainder.size else it }\n        val raw = remainder.subList(1, visible).dropLastWhile { it.isEmpty() }\n        val starts = raw.indices.filter { raw[it].startsWith(\"  * Recent #\") }\n        check(starts.isNotEmpty() && starts.first() == 0)\n        var home: SettingsHomeTaskBaseline? = null\n        val tasks = starts.mapIndexedNotNull { index, start ->\n            val end = starts.getOrElse(index + 1) { raw.size }\n            val block = raw.subList(start, end)\n            if (block.first().contains(\" type=home \")) {\n                check(home == null) { \"Refuse duplicate or competing HOME baseline tasks\" }\n                home = SettingsHomeTaskBaselineParser.parse(block)\n                return@mapIndexedNotNull null // Preserved data only; NEVER a removable owned task.\n            }\n            val header = checkNotNull(Regex(\"\"\"  \\* Recent #[0-9]+: Task\\{[a-f0-9]+ #([1-9][0-9]*) type=standard[^{}]*}\"\"\").matchEntire(block.first()))\n            check(Regex(\"\"\"    lastActiveTime=[0-9]+ \\(inactive for [0-9]+s\\)\"\"\").matches(block.last()))\n            check(block.drop(1).all { it.startsWith(\"    \") })\n",
+          "before_fragment_sha256": "af993662428b2e7487326b9337a0863e14910d457a13ae5f68134f6f3427e169",
+          "after_fragment_sha256": "c3a16e20cb42758da534f30b593fac55e6ef1041f25cbb417c16723f2d89a17f"
+        },
+        {
+          "before": "                .matchEntire(oneRow(block, \"    userId=\"))).groupValues\n            val ids = checkNotNull(Regex(\"    taskId=([1-9][0-9]*) rootTaskId=([1-9][0-9]*)\").matchEntire(oneRow(block, \"    taskId=\"))).groupValues\n            check(ids[1] == header.groupValues[1])\n            RecentTask(ids[1].toInt(), identity[1], identity[2], identity[3], identity[4], identity[5], identity[6],\n                oneRow(block, \"    intent=\"), oneRow(block, \"    mActivityComponent=\"))\n        }\n        check(tasks.map { it.id }.distinct().size == tasks.size)\n        return tasks\n    }\n\n    private fun assertTop(lease: Lease) {\n",
+          "after": "                .matchEntire(oneRow(block, \"    userId=\"))).groupValues\n            val ids = checkNotNull(Regex(\"    taskId=([1-9][0-9]*) rootTaskId=([1-9][0-9]*)\").matchEntire(oneRow(block, \"    taskId=\"))).groupValues\n            check(ids[1] == header.groupValues[1])\n            RecentTask(ids[1].toInt(), ids[2].toInt(), identity[1], identity[2], identity[3], identity[4], identity[5], identity[6],\n                oneRow(block, \"    intent=\"), oneRow(block, \"    mActivityComponent=\"))\n        }\n        check(tasks.map { it.id }.distinct().size == tasks.size)\n        check(tasks.none { it.id == home?.taskId })\n        admitPreservedHome(home, tasks)\n        return tasks\n    }\n\n    private fun admitPreservedHome(home: SettingsHomeTaskBaseline?, tasks: List<RecentTask>) {\n        if (!homeBaselineCaptured) {\n            check(activeLease == null && tasks.isEmpty()) { \"Capture only the prelaunch empty nonowned baseline\" }\n            preservedHomeBaseline = home\n            homeBaselineCaptured = true\n        } else {\n            check(home == preservedHomeBaseline) { \"Refuse changed, replaced or missing nonowned HOME baseline\" }\n        }\n    }\n\n    private fun assertTop(lease: Lease) {\n",
+          "before_fragment_sha256": "b1de20593ce467a5b271d7f9e366ee110ae395daf194cc9456718171969122bb",
+          "after_fragment_sha256": "f634143ed990127e687b85b471996baa7edb19c1de07ca8dd6607e1f084af56a"
+        },
+        {
+          "before": "        var scrolls = 0\n        while (true) {\n            requireMaster(); assertTop(lease)\n            val tree = readTree()\n            val nodes = tree.nodes\n            try {\n",
+          "after": "        var scrolls = 0\n        while (true) {\n            requireMaster(); assertTop(lease)\n            val owned = readRecentTasks() // Revalidate the preserved baseline before each possible UI action.\n            check(owned.size == 1 && owned.single().id == lease.taskId)\n            assertOwned(owned.single(), lease)\n            val tree = readTree()\n            val nodes = tree.nodes\n            try {\n",
+          "before_fragment_sha256": "e0bb4f89411d1005ced2260168712b84c042bbb77a21b04301a424e36529bf6e",
+          "after_fragment_sha256": "bc702efb27e77961396a2e3c02e9be1cb64f00961ff68f860b9ec80ee89238b1"
+        }
+      ]
+    },
+    "scripts/ci/camera_boot_busy_source_projection.py": {
+      "before_sha256": "e005ea099867c8b3e86b69f25882ac7be794c7b38d143d4b3a5ea3f4287523ff",
+      "after_sha256": "80ee4cfcbd2b93fe800da0373c1b17174c32ec2277475cd9791adf1a79c5388e",
+      "fragments": [
+        {
+          "before": "def source_before_boot_busy(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact busy-boot identity and ordinary source bytes are required\")\n    binding = _bindings().get(relative)\n    if binding is None:\n        return payload\n",
+          "after": "def source_before_boot_busy(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact busy-boot identity and ordinary source bytes are required\")\n    from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history\n    payload = peel_current_home_baseline_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n    if binding is None:\n        return payload\n",
+          "before_fragment_sha256": "cce04eadf45a29704a8edf6de0909143fdc22a9efe11fda98ebfc6ecb3290bb7",
+          "after_fragment_sha256": "7b1a531d344b70867f460090baf4da5479632898ab1b5de9e0f2da83cb8b9835"
+        },
+        {
+          "before": "def current_source_before_boot_busy(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current busy-boot identity and ordinary bytes are required\")\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() != binding[\"after_sha256\"]:\n        raise ValueError(\"A historical image cannot replace the exact current busy-boot source\")\n",
+          "after": "def current_source_before_boot_busy(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current busy-boot identity and ordinary bytes are required\")\n    from camera_home_baseline_source_projection import current_source_before_home_baseline\n    payload = current_source_before_home_baseline(relative, payload)\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() != binding[\"after_sha256\"]:\n        raise ValueError(\"A historical image cannot replace the exact current busy-boot source\")\n",
+          "before_fragment_sha256": "ffb69012f903a6d5b4e4faaf98a814b4fa703e9b881a68dacf50ceadb7a5a096",
+          "after_fragment_sha256": "3106d5b30f64ccd876e437a77fa744cdd8e988caa7824bdaa43c0797204bd0b5"
+        },
+        {
+          "before": "    \"\"\"Not current admission: untouched old bytes MUST pass their older pinned reader.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ancestor busy-boot identity and ordinary bytes are required\")\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() == binding[\"after_sha256\"]:\n        return source_before_boot_busy(relative, payload)\n",
+          "after": "    \"\"\"Not current admission: untouched old bytes MUST pass their older pinned reader.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ancestor busy-boot identity and ordinary bytes are required\")\n    from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history\n    payload = peel_current_home_baseline_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() == binding[\"after_sha256\"]:\n        return source_before_boot_busy(relative, payload)\n",
+          "before_fragment_sha256": "0f40f6a38ad68863e3ed6177e88d61608fa50011cc678c14f046ea511af084d7",
+          "after_fragment_sha256": "00f849e9337c2f91cd8216a3065029f5a70ddc92ad15e5868bf58120d548c590"
+        }
+      ]
+    },
+    "scripts/ci/camera_scalar_failfast_source_projection.py": {
+      "before_sha256": "7846c4c15eb2007f24223c76c91ed4691ba65033d94278b14e2011bd506aafa7",
+      "after_sha256": "6d0c6d8e242b6e61ea689ae233d262859ddc475ee25856ba8adc2a290bdbe098",
+      "fragments": [
+        {
+          "before": "        raise AssertionError(\"An exact bounded Camera197 helper source is required\")\n    try:\n        payload = source.encode(\"utf-8\")\n    except UnicodeError as error:\n        raise AssertionError(\"An exact bounded Camera197 helper source is required\") from error\n    if len(payload) > CAMERA197_SOURCE_BYTES or hashlib.sha256(payload).hexdigest() != CAMERA197_AFTER_HELPER_SHA256:\n",
+          "after": "        raise AssertionError(\"An exact bounded Camera197 helper source is required\")\n    try:\n        payload = source.encode(\"utf-8\")\n        from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history\n        payload = peel_current_home_baseline_for_older_history(\n            \"scripts/ci/android_camera_developer_prerequisite.py\", payload)\n        source = payload.decode(\"utf-8\")\n    except UnicodeError as error:\n        raise AssertionError(\"An exact bounded Camera197 helper source is required\") from error\n    if len(payload) > CAMERA197_SOURCE_BYTES or hashlib.sha256(payload).hexdigest() != CAMERA197_AFTER_HELPER_SHA256:\n",
+          "before_fragment_sha256": "6e563de27ac8c945471e6179bb1d850c271d6f256250a0ace32d69e0d57dad47",
+          "after_fragment_sha256": "6f43638d48626bc0841e107863f9500a55620f204096d22dab18efd07d6415c1"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_boot_busy.py": {
+      "before_sha256": "3c28cf4316ce305181269c3943f76a63eac568140e39b2252d2eb581f8ccb93c",
+      "after_sha256": "6c6b65a3e25a3787cb833f43d7140cfd1e11f26202497d7830e5ee925a0915a3",
+      "fragments": [
+        {
+          "before": "        import camera_boot_busy_source_projection as history\n        document = json.loads(history.SPEC_PATH.read_bytes())\n        for relative, expected in document[\"unchanged_owning_inputs\"].items():\n            self.assertEqual(expected, hashlib.sha256((ROOT / relative).read_bytes()).hexdigest(), relative)\n        relative = \"scripts/ci/android_camera_boot_fallback.py\"\n        current = (ROOT / relative).read_bytes()\n        previous = history.current_source_before_boot_busy(relative, current)\n",
+          "after": "        import camera_boot_busy_source_projection as history\n        document = json.loads(history.SPEC_PATH.read_bytes())\n        for relative, expected in document[\"unchanged_owning_inputs\"].items():\n            from camera_home_baseline_source_projection import current_source_before_home_baseline\n            previous = current_source_before_home_baseline(relative, (ROOT / relative).read_bytes())\n            self.assertEqual(expected, hashlib.sha256(previous).hexdigest(), relative)\n        relative = \"scripts/ci/android_camera_boot_fallback.py\"\n        current = (ROOT / relative).read_bytes()\n        previous = history.current_source_before_boot_busy(relative, current)\n",
+          "before_fragment_sha256": "7b4d1e91ab1a4efbaaf96104b5c6be512aecc36a6a828eacc0e258b2def53c9d",
+          "after_fragment_sha256": "e3839d322e4da41b97651b3c8b1d9f5f59c2db45e952cd1aee0fe31e15d660c8"
+        }
+      ]
+    },
+    "scripts/ci/android_external328_source_projection.py": {
+      "before_sha256": "5222c21f373259c2287eb6294a49c934d42e623936d6583da110313db1168202",
+      "after_sha256": "d1e6073d1a0d1c87a014a066fa8522c293b7525fb9e7bca8bb6ed9af8427677f",
+      "fragments": [
+        {
+          "before": "    \"\"\"Admit actual current bytes before constructing a historical fixture view.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current source identity and ordinary bytes are required\")\n    from arm64_stop_candidate_source_projection import current_source_before_arm64_stop_candidate\n    payload = current_source_before_arm64_stop_candidate(relative, payload)\n    bindings = _bindings()\n",
+          "after": "    \"\"\"Admit actual current bytes before constructing a historical fixture view.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current source identity and ordinary bytes are required\")\n    from camera_home_baseline_source_projection import current_source_before_home_baseline\n    payload = current_source_before_home_baseline(relative, payload)\n    from arm64_stop_candidate_source_projection import current_source_before_arm64_stop_candidate\n    payload = current_source_before_arm64_stop_candidate(relative, payload)\n    bindings = _bindings()\n",
+          "before_fragment_sha256": "c88038413fca0826f34d0ca5789398daee84a8cc118800467631a6745eebbf83",
+          "after_fragment_sha256": "1b63f7b6c831af943af7cb6657fe8fd049b6168529d1c93cee257a06de92acf6"
+        }
+      ]
+    }
+  },
+  "added_behavior_sources": {
+    "scripts/ci/android_camera_home_baseline.py": "1a83b99e06c554f0bf4f0db0288fb08be49415265af34f502016b14e234187c5",
+    "scripts/ci/test_android_camera_home_baseline.py": "7d730c800b9fbfb1d7a203632b5fe06161c00bed2382ecc65fa1d0762f9c24da",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaseline.kt": "d52e83f4c58f64c4f333ecc7d2b848a44f4044661caeea4da607f1dce4dc02bd",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaselineTest.kt": "4634afa0478faa5ec5e701a5373ab6deaa262df3480490bbdce4e765e0535f4a"
+  },
+  "unchanged_native_inputs": {
+    "calf-camera-picker/build.gradle.kts": "f074767f7042ac6e07955b361400e672ae43209f99b17986acd27cf5078428c7",
+    "calf-camera-picker/src/androidDeviceTest/AndroidManifest.xml": "c24a6c2498dddb660cafd78d31bfc4f4730f8ae34f1c807eff3f17ff6034962b",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt": "357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt": "2010803e066ce0de1a34051ed40a50c9bca08f238a6218dcaabb4e7d0a09bee7",
+    "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt": "b7094d795bfaa209b254bbf2c549de21a7fff07df636fbb68f4cb1a3baa917a7",
+    "scripts/ci/android_device_tests.py": "f096609a3731628c02966b7f6edd40641d7c0ff8119d0922605f6c7e6e99d7d8",
+    ".github/workflows/gradle.yml": "3d5d2ea0313055366bf6bc83550f7e2f40c50438c450508588db778fb6bb75f7"
+  }
+}

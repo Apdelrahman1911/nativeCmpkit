@@ -29,6 +29,8 @@ def copy_model_checkout(root):
     for tree in ("calf-webview/src", "calf-webview/karma.config.d"):
         sources.update(path.relative_to(ROOT).as_posix() for path in r.source_files(ROOT, tree))
     sources.update((policy.SOURCE, policy.SPEC_RELATIVE, policy.IOS_FIXTURE))
+    from webview_current_contract667_source_projection import contract_input_paths
+    sources.update(contract_input_paths())
     for name in sources:
         target = root / name; target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((ROOT / name).read_bytes())

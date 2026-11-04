@@ -1,0 +1,29 @@
+{
+  "profile": "webview-content-policy-android",
+  "operation": "plan",
+  "source_only": true,
+  "Gradle_builds_executed": 0,
+  "library_tests_executed": 0,
+  "slots": [
+    {
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/android_device_tests.py",
+        "plan",
+        "--api-level",
+        "35",
+        "--output",
+        "build/ci-plan",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-content-policy-android"
+      ],
+      "expected_modules": 1,
+      "exit_code": 0
+    }
+  ]
+}

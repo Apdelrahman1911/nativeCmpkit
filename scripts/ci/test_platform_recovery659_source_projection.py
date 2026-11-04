@@ -14,6 +14,7 @@ from unittest.mock import patch
 import camera_ios_ownership_source_projection as camera
 import platform_recovery659_source_projection as newest
 import webview_content_policy_source_projection as content_history
+import webview_current_contract667_source_projection as contract_history
 
 ROOT = Path(__file__).resolve().parents[2]
 IMAGE_CONTROL = "scripts/ci/test_apple_image_launcher_source_projection.py"
@@ -53,8 +54,9 @@ class PlatformRecovery659SourceProjectionControls(unittest.TestCase):
         self.assertEqual(20, len(document["bindings"]))
         self.assertEqual(newest.BOUND_PATHS, set(document["bindings"]))
         for name, row in document["bindings"].items():
-            raw = (ROOT / name).read_bytes()
-            before = newest.current_source_before_platform_recovery659(name, raw)
+            raw_current = (ROOT / name).read_bytes()
+            raw = contract_history.source_before_contract667(name, raw_current)
+            before = newest.current_source_before_platform_recovery659(name, raw_current)
             self.assertEqual((row["after_sha256"], row["after_bytes"]), (newest.sha(raw), len(raw)), name)
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (newest.sha(before), len(before)), name)
             self.assertIs(before, newest.source_before_platform_recovery659(name, before))
@@ -195,11 +197,12 @@ class PlatformRecovery659SourceProjectionControls(unittest.TestCase):
                 target.write_bytes(raw)
             guard = root / newest.SOURCE_RELATIVE
             raw_guard = guard.read_bytes()
+            approved_guard = contract_history.source_before_contract667(newest.SOURCE_RELATIVE, raw_guard)
             needle = ('SPEC_SHA256 = "' + newest.SPEC_SHA256 + '"\n').encode()
             self.assertEqual(1, raw_guard.count(needle))
-            normalized = raw_guard.replace(needle, ('SPEC_SHA256 = "' + "0" * 64 + '"\n').encode(), 1)
+            normalized = approved_guard.replace(needle, ('SPEC_SHA256 = "' + "0" * 64 + '"\n').encode(), 1)
             self.assertEqual((document["own_guard"]["template_sha256"], document["own_guard"]["bytes"]),
-                             (newest.sha(normalized), len(raw_guard)))
+                             (newest.sha(normalized), len(approved_guard)))
             for bad in (raw_guard.replace(needle, needle + needle, 1), raw_guard.replace(needle, b"", 1),
                         raw_guard.replace(needle, ('SPEC_SHA256 = "' + "a" * 64 + '"\n').encode(), 1),
                         raw_guard.replace(b"return True", b"return None", 1)):

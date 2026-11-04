@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared current-owner routing repaired and ready for native checks — 2026-11-04
+
+[Current667](docs/development/evidence/current-platform-recovery-20261101/camera-webview659-667/current-contract667/README.md)
+repairs the confirmed stale WebView owner hash without rewriting original pins.
+Four derivatives/12 inverse-forward fragments/three additions are integrated;
+lead+independent609 source/results acceptance agrees. NEW6+affected17 passes23/23
+once,1,446 held inputs; Android5 genuine source CLI0/0.215549s. Accepted controls,
+Camera compiler660 and LinuxJavaFX9 are reused where bytes apply, not replayed.
+Lead Camera5/Android5 preflights and source/resolution indexes pass; original666
+refusal and lead API-name mistake remain, ZERO new compiler/native/closure.
+Next only Camera5 and Android5 after development freeze/push/fresh capacity; continue
+isolated UI9/adaptive1, IO remote, Android callback and safe CI reuse source patches
+while actual checks run.103closed/69open/172,22implemented/36partial/101verified/
+five unresolved unchanged. Serial local>=8GiB FREE DISK/compiler>=6GiB MemAvailable,
+max2 combined hosted INCLUDINGqueued/reserved, lead integration/Git/dispatch/
+acceptance/closure. Actions/all/no mandatory SHA pinning/read-only; every publishing/
+Pages/main/history/native/consumer/API–ABI/dependency/legal/security/readiness gate
+remains. No package/release/deployment publication; earlier entries retain dates.
+
 ## Related Camera/WebView recovery compiled and native-tested — 2026-11-04
 
 [659–667](docs/development/evidence/current-platform-recovery-20261101/camera-webview659-667/README.md)

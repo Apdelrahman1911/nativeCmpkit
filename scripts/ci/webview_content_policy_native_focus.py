@@ -196,9 +196,10 @@ def validate_sources(root, focus: str) -> bool:
 
 def _contract(focus: str) -> dict:
     import webview_content_policy_source_projection as history
+    import webview_current_contract667_source_projection as current
     row = spec(focus)
     pins = {name: SOURCE_SHA256[name] for name in sources(focus)}
-    pins[SOURCE] = history._document()["added_inputs"][SOURCE]
+    pins.update(current.current_contract_hashes())
     pins[SPEC_RELATIVE] = history.SPEC_SHA256
     return {"schema_version": 1, "focus": focus, "module": MODULE, "suite": row["suite"],
             "task": row["task"], "selected_testcases": identities(focus), "source_hashes": pins,

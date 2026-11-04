@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-04T09:07:50.396911+00:00",
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "/root/projects/nativeCmpKit/scripts/ci/android_device_tests.py",
+    "plan",
+    "--api-level",
+    "35",
+    "--output",
+    "build/ci-plan",
+    "--module",
+    "calf-webview",
+    "--focus",
+    "webview-content-policy-android"
+  ],
+  "exit_code": 2,
+  "source_only": true,
+  "compiler_native_browser_tests": 0,
+  "purpose": "Exact failed CLI diagnostic acquisition; prior preflight refusal retained",
+  "stderr": "Android instrumentation preflight refused: ValueError\nNATIVECMPKIT_ANDROID_PREFLIGHT_ORIGIN {\"line\": 2347, \"source\": \"library_tests.py\", \"symbol\": \"plan\"}\n"
+}

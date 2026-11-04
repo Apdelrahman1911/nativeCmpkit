@@ -122,6 +122,8 @@ def _identity(relative, payload):
 def source_before_platform_recovery659(relative, payload):
     """Exact complete inverse or its one immutable4697 preimage; not current admission."""
     _identity(relative, payload)
+    from webview_current_contract667_source_projection import peel_contract667_for_history
+    payload = peel_contract667_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted bytes are not certified, reconstructed or executed.
@@ -155,6 +157,8 @@ def source_before_platform_recovery659(relative, payload):
 def current_source_before_platform_recovery659(relative, payload):
     """One newest raw ingress; old, partial and unknown images cannot be current."""
     _identity(relative, payload)
+    from webview_current_contract667_source_projection import current_source_before_contract667
+    payload = current_source_before_contract667(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and (sha(payload) != binding["after_sha256"] or len(payload) != binding["after_bytes"]):
         raise ValueError("An old or unknown image cannot replace exact current platform-recovery659 source")
@@ -164,6 +168,8 @@ def current_source_before_platform_recovery659(relative, payload):
 def peel_platform_recovery659_for_history(relative, payload):
     """Peel only a complete exact latest image; pass-through never certifies current."""
     _identity(relative, payload)
+    from webview_current_contract667_source_projection import peel_contract667_for_history
+    payload = peel_contract667_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and sha(payload) == binding["after_sha256"]:
         return source_before_platform_recovery659(relative, payload)
@@ -179,6 +185,8 @@ def _validate_own_guard(root, document):
     """
     from ios_popover_anchor_plan import _ordinary_bytes
     raw = _ordinary_bytes(root, SOURCE_RELATIVE)[0]
+    from webview_current_contract667_source_projection import current_source_before_contract667
+    raw = current_source_before_contract667(SOURCE_RELATIVE, raw)
     needle = ('SPEC_SHA256 = "' + SPEC_SHA256 + '"\n').encode()
     template = ('SPEC_SHA256 = "' + "0" * 64 + '"\n').encode()
     if (not 0 < len(raw) <= MAX_SOURCE_BYTES or len(raw) != document["own_guard"]["bytes"] or
@@ -188,13 +196,15 @@ def _validate_own_guard(root, document):
 
 def validate_current_sources(root: Path):
     """Independently qualify actual raw finite inputs, own guard and NEW controls."""
+    import webview_current_contract667_source_projection as current
+    current.validate_current_sources(root)
     document = _document()
     _validate_own_guard(root, document)
     expected = ({name: row["after_sha256"] for name, row in document["bindings"].items()} |
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if sha(_ordinary_bytes(root, name)[0]) != digest:
+        if sha(current.source_before_contract667(name, _ordinary_bytes(root, name)[0])) != digest:
             raise ValueError("Current platform-recovery659 input differs from its complete reviewed raw image: " + name)
     return True
 
@@ -202,5 +212,6 @@ def validate_current_sources(root: Path):
 def fixture_inputs():
     """Exactly this finite owning input union, with no native/controller execution."""
     document = _document()
+    from webview_current_contract667_source_projection import fixture_inputs as contract_fixture_inputs
     return (set(document["bindings"]) | set(document["added_inputs"]) | set(document["unchanged_inputs"]) |
-            {SPEC_RELATIVE, SOURCE_RELATIVE})
+            {SPEC_RELATIVE, SOURCE_RELATIVE} | contract_fixture_inputs())

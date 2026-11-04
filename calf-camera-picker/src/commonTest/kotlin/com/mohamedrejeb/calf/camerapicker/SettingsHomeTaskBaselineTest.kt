@@ -104,4 +104,90 @@ class SettingsHomeTaskBaselineTest {
         input[1] = "foreign mutation"
         assertEquals(SettingsHomeTaskBaselineParser.parse(copy), parsed)
     }
+
+    private fun manifestHome() = canonical().toMutableList().apply {
+        this[0] = this[0].replace("A=1000:com.android.settings}", "A=1000:com.android.settings.FallbackHome}")
+        this[2] = "    affinity=1000:com.android.settings.FallbackHome"
+    }
+
+    @Test fun manifestSpecificHomeAffinityAndPreviousPackageFormRemainCompletePreservedRecords() {
+        val specific = SettingsHomeTaskBaselineParser.parse(manifestHome())
+        assertEquals(17, specific.taskId)
+        assertEquals(17, specific.rootTaskId)
+        assertEquals("SettingsHomeTaskBaseline(preserved, not owned)", specific.toString())
+        assertNotEquals(SettingsHomeTaskBaselineParser.parse(canonical()), specific)
+    }
+
+    @Test fun bothDirectionsOfHeaderBodyAffinityMismatchRefuseWithoutNormalizingOrMutatingInput() {
+        for (candidate in listOf(canonical().toMutableList().apply { this[2] = manifestHome()[2] },
+                manifestHome().apply { this[2] = canonical()[2] })) {
+            val before = candidate.toList()
+            assertFailsWith<IllegalStateException> { SettingsHomeTaskBaselineParser.parse(candidate) }
+            assertEquals(before, candidate)
+        }
+    }
+
+    @Test fun onlyTheTwoExactUidQualifiedHomeAffinitiesCanBecomeBaselines() {
+        for (affinity in listOf("1000:com.android.settings.FallbackHome.extra", "1000:com.android.settings.root",
+                "1000:com.android.settings.fallbackhome", "2000:com.android.settings.FallbackHome",
+                "01000:com.android.settings.FallbackHome", "com.android.settings.FallbackHome")) {
+            val candidate = manifestHome().apply {
+                this[0] = this[0].replace("1000:com.android.settings.FallbackHome", affinity)
+                this[2] = "    affinity=$affinity"
+            }
+            assertFailsWith<IllegalStateException> { SettingsHomeTaskBaselineParser.parse(candidate) }
+        }
+        for (suffix in listOf(" root=1000:com.android.settings", " ", "\t", "\r", "é")) {
+            assertFailsWith<IllegalStateException> {
+                SettingsHomeTaskBaselineParser.parse(manifestHome().apply { this[2] += suffix })
+            }
+        }
+    }
+
+    @Test fun manifestAffinityNeverWaivesLiveCallerComponentRowAndIdentityBounds() {
+        val mutations = listOf<Pair<Int, (String) -> String>>(
+            0 to { it.replace("#17", "#2147483648") },
+            0 to { it.replace("Recent #0", "Recent #2147483648") },
+            0 to { it.replace("type=home", "type=standard") },
+            1 to { it.replace("mCallingUid=0", "mCallingUid=2000") },
+            1 to { it.replace("effectiveUid=1000", "effectiveUid=10001") },
+            1 to { it.replace("mUserSetupComplete=false", "mUserSetupComplete=true") },
+            3 to { it.replace("/.FallbackHome", "/.Settings\$DevelopmentSettingsActivity") },
+            4 to { it.replace("/.FallbackHome", "/.Settings\$DevelopmentSettingsActivity") },
+            7 to { it.replace("[]", "[ActivityRecord{abcdef u0 com.android.settings/.FallbackHome t17}]") },
+            8 to { it.replace("taskId=17", "taskId=18") },
+            8 to { it.replace("rootTaskId=17", "rootTaskId=2147483648") },
+            9 to { it.replace("false", "true") },
+            12 to { it.replace("lastActiveTime=1", "lastActiveTime=9223372036854775808") },
+        )
+        for ((index, change) in mutations) {
+            assertFailsWith<IllegalStateException> {
+                SettingsHomeTaskBaselineParser.parse(manifestHome().apply { this[index] = change(this[index]) })
+            }
+        }
+        for (index in canonical().indices) {
+            assertFailsWith<IllegalStateException> {
+                SettingsHomeTaskBaselineParser.parse(manifestHome().filterIndexed { i, _ -> i != index })
+            }
+        }
+        assertFailsWith<IllegalStateException> {
+            SettingsHomeTaskBaselineParser.parse(manifestHome() + "    unknownPolicy=true")
+        }
+    }
+
+    @Test fun manifestAffinityOnlyIgnoresRankElapsedTimeAndPreservesEveryOtherByte() {
+        val baseline = SettingsHomeTaskBaselineParser.parse(manifestHome())
+        val later = manifestHome().apply {
+            this[0] = this[0].replace("Recent #0", "Recent #3")
+            this[12] = this[12].replace("inactive for 2s", "inactive for 999s")
+        }
+        assertEquals(baseline, SettingsHomeTaskBaselineParser.parse(later))
+        for ((index, change) in listOf<Pair<Int, (String) -> String>>(
+                0 to { it.replace("abcdef", "abcde1") }, 8 to { it.replace("rootTaskId=17", "rootTaskId=1") },
+                12 to { it.replace("lastActiveTime=1", "lastActiveTime=2") })) {
+            assertNotEquals(baseline, SettingsHomeTaskBaselineParser.parse(manifestHome().apply {
+                this[index] = change(this[index])
+            }))
+        }
+    }
 }

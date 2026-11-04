@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 """Complete preserved FallbackHome records; never an owned/removable task.
 
-Only the finite Android15 Task.dump source-template branch below is admitted.
-It is not a claim about the installed image's source revision. Callers must
-separately prove the fresh guest, platform Settings identity, no live Settings
-Activity and exact unchanged baseline before/after their own native UI lease.
+Finite Android15 Task.dump templates include the manifest-specific FallbackHome
+affinity and the prior package-affinity form. Neither attests the installed
+image. Callers separately prove the fresh guest, platform Settings identity,
+no live Settings Activity and the exact baseline around their native UI lease.
 """
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ MAX_LONG = 9223372036854775807
 POSITIVE_INT = r"([1-9][0-9]{0,9})"
 DECIMAL = r"(?:0|[1-9][0-9]{0,18})"
 HEADER = re.compile(r"  \* Recent #(0|[1-9][0-9]{0,9}): (Task\{[a-f0-9]{1,8} #" +
-                    POSITIVE_INT + r" type=home A=1000:com\.android\.settings})")
+                    POSITIVE_INT + r" type=home A=(1000:com\.android\.settings(?:\.FallbackHome)?)})")
 INTENT = re.compile(r"    intent=\{act=android\.intent\.action\.MAIN "
                     r"cat=\[android\.intent\.category\.HOME] flg=0x[1-9a-f][0-9a-f]{0,7} "
                     r"cmp=com\.android\.settings/\.FallbackHome}")
@@ -66,7 +66,7 @@ def parse_home_task(rows: list[str] | tuple[str, ...]) -> SettingsHomeTaskBaseli
     task_id = int(header[3])
     require(rows[1] == "    userId=0 effectiveUid=1000 mCallingUid=0 mUserSetupComplete=false "
             "mCallingPackage=null mCallingFeatureId=null", "Exact bootstrap user/UID/caller required")
-    require(rows[2] == "    affinity=1000:com.android.settings" and INTENT.fullmatch(rows[3]) is not None and
+    require(rows[2] == "    affinity=" + header[4] and INTENT.fullmatch(rows[3]) is not None and
             rows[4] == "    mActivityComponent=com.android.settings/.FallbackHome", "Exact HOME affinity/intent/component required")
     require(POLICY.fullmatch(rows[5]) is not None and ROOT_POLICY.fullmatch(rows[6]) is not None and
             rows[6] != "    rootWasReset=false mNeverRelinquishIdentity=false mReuseTask=false mLockTaskAuth=LOCK_TASK_AUTH_PINNABLE",

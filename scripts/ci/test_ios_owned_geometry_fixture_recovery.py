@@ -9,6 +9,7 @@ from unittest.mock import patch
 
 import ios_owned_geometry_fixture_recovery as recovery
 import ios_geometry_simulator_source_projection as owned
+from camera_home_affinity_source_projection import current_source_before_home_affinity
 
 ROOT = Path(__file__).resolve().parents[2]
 HOME = "scripts/ci/test_camera_home_baseline_source_projection.py"
@@ -26,8 +27,8 @@ class SharedGeometryFixtureRecoveryControls(unittest.TestCase):
         document = recovery._document()
         self.assertEqual(PATHS, set(document["bindings"]))
         for name, binding in document["bindings"].items():
-            actual = (ROOT / name).read_bytes()
-            previous = recovery.current_source_before_recovery(name, actual)
+            actual = current_source_before_home_affinity(name, (ROOT / name).read_bytes())
+            previous = recovery.source_before_recovery(name, actual)
             self.assertEqual(binding["before_sha256"], sha(previous), name)
             self.assertEqual(binding["before_bytes"], len(previous), name)
             forward = previous
@@ -36,7 +37,7 @@ class SharedGeometryFixtureRecoveryControls(unittest.TestCase):
                 forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
             self.assertEqual(actual, forward)
         for name, digest in document["unchanged_inputs"].items():
-            self.assertEqual(digest, sha((ROOT / name).read_bytes()), name)
+            self.assertEqual(digest, sha(current_source_before_home_affinity(name, (ROOT / name).read_bytes())), name)
 
     def test_old_partial_displaced_unknown_and_nonordinary_images_never_admit(self):
         for name, binding in recovery._document()["bindings"].items():
@@ -54,7 +55,7 @@ class SharedGeometryFixtureRecoveryControls(unittest.TestCase):
             self.assertEqual(unknown, recovery.peel_current_recovery_for_history(name, unknown))
 
     def test_original_home_assertions_only_qualify_exact_workflow_stage_and_keep_all_methods(self):
-        current = (ROOT / HOME).read_bytes()
+        current = current_source_before_home_affinity(HOME, (ROOT / HOME).read_bytes())
         original = recovery.source_before_recovery(HOME, current)
         class QualificationOnly(ast.NodeTransformer):
             def visit_Call(self, node):

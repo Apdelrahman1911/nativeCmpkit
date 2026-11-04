@@ -21,7 +21,7 @@ internal object SettingsHomeTaskBaselineParser {
     private const val MAX_ROW_LENGTH = 2048
     private val decimal = "(?:0|[1-9][0-9]{0,18})"
     private val positiveInt = "([1-9][0-9]{0,9})"
-    private val header = Regex("""  \* Recent #(0|[1-9][0-9]{0,9}): (Task\{[a-f0-9]{1,8} #$positiveInt type=home A=1000:com\.android\.settings})""")
+    private val header = Regex("""  \* Recent #(0|[1-9][0-9]{0,9}): (Task\{[a-f0-9]{1,8} #$positiveInt type=home A=(1000:com\.android\.settings(?:\.FallbackHome)?)})""")
     private val intent = Regex("""    intent=\{act=android\.intent\.action\.MAIN cat=\[android\.intent\.category\.HOME] flg=0x[1-9a-f][0-9a-f]{0,7} cmp=com\.android\.settings/\.FallbackHome}""")
     private val policy = Regex("    autoRemoveRecents=(true|false) isPersistable=(true|false) activityType=2")
     private val rootPolicy = Regex("    rootWasReset=(true|false) mNeverRelinquishIdentity=(true|false) mReuseTask=(true|false) " +
@@ -32,7 +32,7 @@ internal object SettingsHomeTaskBaselineParser {
         "FORCE_RESIZABLE_PRESERVE_ORIENTATION) mSupportsPictureInPicture=(true|false) isResizeable=(true|false)")
     private val lastActive = Regex("    lastActiveTime=($decimal) \\(inactive for ($decimal)s\\)")
 
-    /** Exact complete thirteen-row task body; unknown/missing/duplicate rows fail. */
+    /** Exact thirteen-row task; only package/manifest HOME affinities, equal in both rows. */
     fun parse(rows: List<String>): SettingsHomeTaskBaseline {
         check(rows.size == 13 && rows.all { row ->
             row.length in 1..MAX_ROW_LENGTH && row.all { it.code in 32..126 }
@@ -41,7 +41,7 @@ internal object SettingsHomeTaskBaselineParser {
         check(heading.groupValues[1].toIntOrNull() != null)
         val taskId = checkNotNull(heading.groupValues[3].toIntOrNull()).also { check(it > 0) }
         check(rows[1] == "    userId=0 effectiveUid=1000 mCallingUid=0 mUserSetupComplete=false mCallingPackage=null mCallingFeatureId=null")
-        check(rows[2] == "    affinity=1000:com.android.settings")
+        check(rows[2] == "    affinity=" + heading.groupValues[4])
         check(intent.matches(rows[3]))
         check(rows[4] == "    mActivityComponent=com.android.settings/.FallbackHome")
         check(policy.matches(rows[5]) && rootPolicy.matches(rows[6]))

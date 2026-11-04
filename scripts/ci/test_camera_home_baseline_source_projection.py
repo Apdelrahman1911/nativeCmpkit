@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 import camera_home_baseline_source_projection as history
 import ios_geometry_simulator_source_projection as owned_history
+from camera_home_affinity_source_projection import current_source_before_home_affinity
 
 ROOT = Path(__file__).resolve().parents[2]
 HELPER = "scripts/ci/android_camera_developer_prerequisite.py"
@@ -128,7 +129,7 @@ class HomeBaselineHistoryTests(unittest.TestCase):
     def test_original_native_actions_cleanup_and_accepted_parser_sources_are_held(self):
         document = json.loads(history.SPEC_PATH.read_bytes())
         for relative, expected in document["added_behavior_sources"].items():
-            self.assertEqual(expected, sha((ROOT / relative).read_bytes()), relative)
+            self.assertEqual(expected, sha(current_source_before_home_affinity(relative, (ROOT / relative).read_bytes())), relative)
         for relative, expected in document["unchanged_native_inputs"].items():
             self.assertEqual(expected, sha(owned_history.current_source_before_owned_geometry(relative, (ROOT / relative).read_bytes())), relative)
         current = (ROOT / NATIVE).read_bytes()

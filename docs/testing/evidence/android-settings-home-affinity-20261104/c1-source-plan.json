@@ -1,0 +1,58 @@
+{
+  "command": [
+    "python3",
+    "scripts/ci/library_tests.py",
+    "plan",
+    "--suite",
+    "android-device",
+    "--module",
+    "calf-camera-picker",
+    "--focus",
+    "android-camera-real-restoration-dont-keep"
+  ],
+  "compiler_executions": 0,
+  "complete_suite_requested": false,
+  "elapsed_seconds": 0.23825544607825577,
+  "exit_code": 0,
+  "finished_at_utc": "2026-11-04T03:19:18.628743+00:00",
+  "focus": "android-camera-real-restoration-dont-keep",
+  "input_count": 1343,
+  "inputs_held_before_after": true,
+  "native_tests_executed": 0,
+  "schema_version": 1,
+  "selected": [
+    {
+      "agp_declared_xml_directory": "calf-camera-picker/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "module": "calf-camera-picker",
+      "project": ":calf-camera-picker",
+      "report_directory": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+        }
+      ],
+      "task": ":calf-camera-picker:connectedAndroidDeviceTest",
+      "test_filter": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest#nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+      "test_source_files": [
+        "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt",
+        "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+        "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraVerificationProviders.kt",
+        "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt",
+        "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedCameraReceiver.kt",
+        "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt",
+        "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt",
+        "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaseline.kt",
+        "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaselineTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "androidDeviceTest"
+      ],
+      "utp_results_directory": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain"
+    }
+  ],
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "892b7294e650c36f51a2b6a995305f0630871a1bffcf242c0f5169ba450eece3"
+}

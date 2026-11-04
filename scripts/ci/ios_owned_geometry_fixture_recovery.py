@@ -84,6 +84,8 @@ def source_before_recovery(relative, payload):
     """Exact reversible ancestor view; never certify an old image as current."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact fixture581 source identity and ordinary bytes are required")
+    from camera_home_affinity_source_projection import peel_home_affinity_for_history
+    payload = peel_home_affinity_for_history(relative, payload)
     payload = _mirror_stage(relative, payload, current=False, strict=True)
     binding = _document()["bindings"].get(relative)
     if binding is None:
@@ -119,6 +121,8 @@ def source_before_recovery(relative, payload):
 def current_source_before_recovery(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current fixture581 identity and ordinary bytes are required")
+    from camera_home_affinity_source_projection import current_source_before_home_affinity
+    payload = current_source_before_home_affinity(relative, payload)
     payload = _mirror_stage(relative, payload, current=True, strict=True)
     binding = _document()["bindings"].get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
@@ -130,6 +134,8 @@ def peel_current_recovery_for_history(relative, payload):
     """No admission: unchanged or unknown bytes still require their next pin."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor fixture581 identity and ordinary bytes are required")
+    from camera_home_affinity_source_projection import peel_home_affinity_for_history
+    payload = peel_home_affinity_for_history(relative, payload)
     payload = _mirror_stage(relative, payload, current=False, strict=False)
     binding = _document()["bindings"].get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
@@ -141,7 +147,8 @@ def validate_current_sources(root: Path):
     document = _document()
     expected = {name: binding["after_sha256"] for name, binding in document["bindings"].items()} | document["added_inputs"]
     from ios_popover_anchor_plan import _ordinary_bytes
+    from camera_home_affinity_source_projection import current_source_before_home_affinity
     for name, digest in expected.items():
-        if hashlib.sha256(_ordinary_bytes(root, name)[0]).hexdigest() != digest:
+        if hashlib.sha256(current_source_before_home_affinity(name, _ordinary_bytes(root, name)[0])).hexdigest() != digest:
             raise ValueError("Current fixture581 source differs from its exact owning image: " + name)
     return True

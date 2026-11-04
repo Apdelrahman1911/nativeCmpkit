@@ -84,7 +84,7 @@ def _task_operand_facts(rows):
         "home_header": header is not None,
         "header_rank_and_task_bounds": header is not None and int(header[1]) <= home.MAX_INT and int(header[3]) <= home.MAX_INT,
         "bootstrap_identity": rows[1] == "    userId=0 effectiveUid=1000 mCallingUid=0 mUserSetupComplete=false mCallingPackage=null mCallingFeatureId=null",
-        "home_affinity": rows[2] == "    affinity=1000:com.android.settings",
+        "home_affinity": header is not None and rows[2] == "    affinity=" + header[4],
         "home_intent": home.INTENT.fullmatch(rows[3]) is not None,
         "home_component": rows[4] == "    mActivityComponent=com.android.settings/.FallbackHome",
         "activity_policy": home.POLICY.fullmatch(rows[5]) is not None,

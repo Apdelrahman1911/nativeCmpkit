@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "original_source_revision": "6fb368eb77a0863cd3d725f75e85d59b41caee71",
+  "original_criteria_reused_unchanged": [
+    {
+      "dependencies": [],
+      "id": "PERM-011",
+      "issue_number": 22,
+      "not_satisfied_by_five_method_success": true,
+      "original_required_tests": [
+        "iOS16 and17+ fresh installs with legacy key only, full-access key, denied/restricted, and grant from Settings.",
+        "Native linker/availability checks at the documented lowest iOS deployment target."
+      ]
+    },
+    {
+      "dependencies": [
+        "PERM-011"
+      ],
+      "id": "PERM-012",
+      "issue_number": 110,
+      "not_satisfied_by_five_method_success": true,
+      "original_required_tests": [
+        "Fresh WriteCalendar requests only write access.",
+        "WriteOnly grants WriteCalendar but not ReadCalendar; full access grants both; restricted/denied remain denied."
+      ]
+    }
+  ],
+  "PERM_011_and_PERM_012_resolution_status_retained": "partially-verified",
+  "closure_criteria_satisfied_by_this_five_method_subset": false,
+  "two_resolution_entries_refer_to_the_same_five_native_methods_not_ten_executions": true
+}

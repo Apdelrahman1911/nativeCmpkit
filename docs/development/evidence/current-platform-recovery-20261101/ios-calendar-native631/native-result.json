@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "run_id": 41775507254,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41775507254",
+  "run_attempt": 1,
+  "event": "workflow_dispatch",
+  "source_revision": "6fb368eb77a0863cd3d725f75e85d59b41caee71",
+  "profile": "permissions-ios-calendar-configuration",
+  "focus": "permission-ios-calendar-configuration",
+  "original_terminal_status": "completed",
+  "original_terminal_conclusion": "success",
+  "original_result_reused_without_reexecution": true,
+  "lead_original_source_result_acceptance": true,
+  "lead_acceptance_utc": "2026-11-04T05:44:44.678431+00:00",
+  "original_review_sha256": "ae528a1e2a970727841a589fe1f6606b0ef8db8cf2cfd19ea9a5cd1cb6045953",
+  "original_library_receipt_sha256": "add789f56b6de40280dc8a643307702d154223e3e6ceae2cec9cead39745ae18",
+  "route": "Normal KGP library task; not UIKit UIApplication/Worker activation.",
+  "command_with_only_selected_simulator_UDID_replaced": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=<selected-simulator>",
+    ":calf-permissions:calf-permissions-calendar:iosSimulatorArm64Test",
+    "--tests",
+    "com.mohamedrejeb.calf.permissions.helper.NativeCalendarConfigurationTest"
+  ],
+  "command_is_archived_evidence_not_a_dispatch_or_replay_instruction": true,
+  "task_execution_markers": {
+    ":calf-permissions:calf-permissions-calendar:iosSimulatorArm64Test": 1
+  },
+  "execution": {
+    "elapsed_seconds": 772.65,
+    "exit_code": 0
+  },
+  "started_at_utc": "2026-11-04T05:12:29.299741+00:00",
+  "finished_at_utc": "2026-11-04T05:25:21.965104+00:00",
+  "totals": {
+    "errors": 0,
+    "executed": 5,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 5,
+    "skipped": 0,
+    "tests": 5,
+    "unexpected_skipped": 0
+  },
+  "native_methods": [
+    {
+      "all_source_assertion_tails_reached": true,
+      "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.helper.NativeCalendarConfigurationTest",
+      "name": "nativeSelectorsMatchTheRunningIOSVersionAndSelectedRequestKind[iosSimulatorArm64]",
+      "source_scope": "Running positive iOS version and actual EventKit selector availability/selected request kind on that runtime only. No old-OS or minimum-link inference.",
+      "status": "passed",
+      "xml_time_seconds": "0.009"
+    },
+    {
+      "all_source_assertion_tails_reached": true,
+      "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.helper.NativeCalendarConfigurationTest",
+      "name": "passivePublicHelpersMatchActualEventKitWithoutPromptingOrChangingAuthorization[iosSimulatorArm64]",
+      "source_scope": "Actual public registrations/helper snapshots in the one observed EventKit authorization state, absent lastRequest and unchanged native authorization. Not every grant/deny/restricted population.",
+      "status": "passed",
+      "xml_time_seconds": "0.012"
+    },
+    {
+      "all_source_assertion_tails_reached": true,
+      "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.helper.NativeCalendarConfigurationTest",
+      "name": "freshUnconfiguredPublicRequestsFailOnceWithoutEnteringEventKitPrivacy[iosSimulatorArm64]",
+      "source_scope": "Fresh actual NotDetermined/no three main-bundle purpose keys; Read/Write false exactly once on Main, ConfigurationError/PrerequisiteRequired and unchanged privacy after real main-loop barriers. No configured consent.",
+      "status": "passed",
+      "xml_time_seconds": "0.0"
+    },
+    {
+      "all_source_assertion_tails_reached": true,
+      "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.helper.NativeCalendarConfigurationTest",
+      "name": "backgroundEntryAndReentrantConfigurationFailuresAreMainConfinedAndRecoverable[iosSimulatorArm64]",
+      "source_scope": "Actual Darwin background entry and Main-confined direct Write helper/reentry, two distinct false callbacks and native NotDetermined retained. Cooperative ten-second barrier, not global concurrency certification.",
+      "status": "passed",
+      "xml_time_seconds": "0.0"
+    },
+    {
+      "all_source_assertion_tails_reached": true,
+      "classname": "iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.helper.NativeCalendarConfigurationTest",
+      "name": "nativeBundleLookupHonorsLocalizedPurposeStringsAndRejectsOtherModeKeys[iosSimulatorArm64]",
+      "source_scope": "Unique synthetic native bundle and actual localized full-purpose lookup, wrong write/legacy keys refused; owned fixture finally-removal and absence assertions. Not main-app configuration, EventKit identity or a grant.",
+      "status": "passed",
+      "xml_time_seconds": "0.0"
+    }
+  ],
+  "xml": {
+    "original_path": "calf-permissions/calendar/build/test-results/iosSimulatorArm64Test/TEST-iosSimulatorArm64Test.com.mohamedrejeb.calf.permissions.helper.NativeCalendarConfigurationTest.xml",
+    "original_sha256": "2718f6187a80c5e0782eecd300aeeb84fe75aa5d373c24b0ce9708c1e4fede98",
+    "public_path": "native-junit-sanitized.xml",
+    "public_sha256": "351bc4185f1c300354f5823c794d65ee3183a96cc91bb989a315c53dcbc9a29e",
+    "transformation": "Only the testsuite hostname attribute is removed. Native identities/status/counts/times/timestamp and empty stdout/stderr remain. These are not the original XML bytes.",
+    "timestamp": "2026-11-04T05:25:18.142Z",
+    "suite_time_seconds": "0.05",
+    "fresh_original_report_count": 1,
+    "foreign_common_duplicate_skipped_or_NA_cases": 0
+  },
+  "compiler_and_link_diagnostics": "The archive does not include gradle.log. Native XML proves the actual library native executable/link-load path reached successful tests; separate compiler/link commands, exits, warnings and phase durations are not available. Do not infer warning-free or minimum-OS linking.",
+  "original_tooling": {
+    "CI_scope_elapsed_seconds": "200.310",
+    "CI_scope_reported_methods": 2896,
+    "not_library_native_passes": true,
+    "reported_test_invocations": 3886,
+    "scopes": [
+      {
+        "elapsed_seconds": "0.062",
+        "following_OK": true,
+        "reported_tests": 35
+      },
+      {
+        "elapsed_seconds": "0.197",
+        "following_OK": true,
+        "reported_tests": 80
+      },
+      {
+        "elapsed_seconds": "1.681",
+        "following_OK": true,
+        "reported_tests": 96
+      },
+      {
+        "elapsed_seconds": "200.310",
+        "following_OK": true,
+        "reported_tests": 2896
+      },
+      {
+        "elapsed_seconds": "0.449",
+        "following_OK": true,
+        "reported_tests": 26
+      },
+      {
+        "elapsed_seconds": "4.979",
+        "following_OK": true,
+        "reported_tests": 380
+      },
+      {
+        "elapsed_seconds": "0.309",
+        "following_OK": true,
+        "reported_tests": 67
+      },
+      {
+        "elapsed_seconds": "0.012",
+        "following_OK": true,
+        "reported_tests": 9
+      },
+      {
+        "elapsed_seconds": "8.165",
+        "following_OK": true,
+        "reported_tests": 291
+      },
+      {
+        "elapsed_seconds": "0.073",
+        "following_OK": true,
+        "reported_tests": 6
+      }
+    ],
+    "six_other_job_placeholders_zero_steps": true,
+    "ten_scopes_passed": true
+  },
+  "original_passive_review": {
+    "final_unique_obligations": 35,
+    "unchanged_initial_accepted_checks_reused": 12,
+    "fresh_failed_or_previously_unreached_recovery_checks": 23,
+    "first_invocations": 13,
+    "first_passed": 12,
+    "first_failed": 1,
+    "total_passive_invocations_including_first_refusal": 36,
+    "replayed_for_this_documentation_commit": 0
+  },
+  "fixture_cleanup": "Passing pinned method5 includes native finally removeItemAtPath success and fileExistsAtPath false for the unique synthetic localized bundle.",
+  "originals_acquired_once": {
+    "successful_endpoints": 3,
+    "run_log_members": 30,
+    "artifacts": 1,
+    "artifact_members": 12,
+    "artifact_JSON_members": 11,
+    "native_XML_members": 1,
+    "automatic_retries": 0
+  },
+  "issue_closures": 0,
+  "publication_or_release_acceptance": false
+}

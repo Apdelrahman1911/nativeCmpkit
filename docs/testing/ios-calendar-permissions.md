@@ -88,3 +88,30 @@ the current Compose/toolchain library minimum remains a separate documented
 compatibility decision, not the sample's minimum or a default SDK inference.
 Physical-device, all-OS privacy behavior, memory/leak, consumer/API–ABI, dependency,
 security and release-readiness gates remain unchanged.
+
+## Accepted current-runtime subset — Calendar 631, 2026-11-04
+
+The preparation text above is retained as its original source checkpoint. The
+lead has now accepted [run 41775507254's finite native originals](../development/evidence/current-platform-recovery-20261101/ios-calendar-native631/README.md)
+at exact `6fb368eb77a0863cd3d725f75e85d59b41caee71`: **five required methods passed once**, one
+fresh native XML with zero failure/error/skip/N/A/foreign cases, **Gradle 0 / 772.65 s**,
+actual Darwin arm64/iPhone Air/iOS 26.5 and **1,373 unchanged own-source inputs**.
+This documentation reuses the completed original review; it performs no replay.
+
+The result covers only actual current-runtime selectors/passive registrations,
+fresh no-purpose-key/NotDetermined refusal once on Main, controlled real Darwin
+background/reentrant false delivery, and unique localized native-bundle lookup
+with passing finally-removal/absence assertions. The fixture is not the main
+application's EventKit identity, and false completion is not OS consent/grant.
+
+Retain the original bootstatus Data Migration Failed before successful Booted
+captures, one hosted Node20-to24 warning, missing archived `gradle.log`, and no
+final simulator-restoration witness. No UIKit Worker/uninstall or geometry-owned
+cleanup evidence is substituted. Compiler/native warning absence is not inferred.
+
+**#22/PERM-011 and #110/PERM-012 remain open/partially verified.** Configured
+write-only/full approval/read-upgrade, denied/restricted/Settings populations,
+iOS16/17+ fresh configured installs and documented minimum-link/availability
+criteria remain exactly as above. Both entries reference the same five-method
+subset, not ten tests. No original criteria/state, production/API/dependency or
+consumer/security/release-readiness gates change.

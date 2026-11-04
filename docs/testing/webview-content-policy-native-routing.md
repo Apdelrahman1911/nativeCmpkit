@@ -74,6 +74,14 @@ functions do not certify current source. The outer guard and its own control are
 independently pinned in source controls and the held map, not self-referentially
 hashed in their own manifest.
 
+The derivative on reviewed `2cf6f5a4` excludes only `AGENTS.md` from this NEW
+executable input contract and fixture prerequisites. Its original dated pin stays
+in the sealed historical packet; no other documentation/source is exempted. The
+149 retained unchanged-input keys include the exact reviewed lead648 fixture
+control predecessor, SHA256 `75b52cd2abc6816bb23e02c01d89b7c5cade3219e737b18a9fe2ca17fd25c550`.
+Here "unchanged" means not modified by this WebView patch, not by an unrelated
+earlier patch. Unknown fixture changes still refuse; no old pins are rewritten.
+
 The original isolated UI-only source packet accepted 38 NEW plus six affected
 controls (44/44) once. Those exact results remain historical branch evidence, not
 fresh acceptance of the composed root. Only NEW or changed essential composition

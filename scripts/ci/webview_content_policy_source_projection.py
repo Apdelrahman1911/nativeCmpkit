@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SOURCE_RELATIVE = "scripts/ci/webview_content_policy_source_projection.py"
 SPEC_RELATIVE = "scripts/ci/fixtures/webview-content-policy-routing-source-inverse.json"
 SPEC_PATH = Path(__file__).parent / "fixtures/webview-content-policy-routing-source-inverse.json"
-SPEC_SHA256 = "828a8364fd21d0c52e5f247b6be626264fe48b43b9c6ebca6ace7d524b04d5a1"
+SPEC_SHA256 = "c44400087570740d3248704c2165c3222229f2c05ff1a2a3840dbda9aa04b916"
 MAX_SOURCE_BYTES = 4 * 1024 * 1024
 MAX_SPEC_BYTES = 512 * 1024
 BOUND_PATHS = {
@@ -32,6 +32,10 @@ ADDED_PATHS = {
     "scripts/ci/test_webview_content_policy_native_focus.py",
     "scripts/ci/test_webview_content_policy_application_routing.py",
 }
+# This exact maintainer-instruction document is not executable source. Its
+# historical bytes stay in the sealed original packet, never in a runtime guard
+# or source-fixture prerequisite. No other documentation or source is exempted.
+NONEXECUTABLE_MAINTAINER_INPUTS = frozenset({"AGENTS.md"})
 _DIGEST = re.compile(r"[0-9a-f]{64}\Z")
 
 
@@ -68,6 +72,9 @@ def _document():
             type(document["added_inputs"]) is not dict or set(document["added_inputs"]) != ADDED_PATHS or
             type(document["unchanged_inputs"]) is not dict):
         raise ValueError("The exact finite content-policy manifest schema is required")
+    if any(NONEXECUTABLE_MAINTAINER_INPUTS & set(document[group])
+           for group in ("bindings", "added_inputs", "unchanged_inputs")):
+        raise ValueError("Maintainer instructions cannot be executable content-policy inputs")
     for name, row in document["bindings"].items():
         if (type(row) is not dict or set(row) != {"before_sha256", "after_sha256", "before_bytes", "after_bytes", "fragments"} or
                 any(type(row[key]) is not int or not 0 < row[key] <= MAX_SOURCE_BYTES for key in ("before_bytes", "after_bytes")) or

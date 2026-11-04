@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+import re
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -16,12 +17,14 @@ import webview_content_policy_native_focus as policy
 import webview_content_policy_source_projection as history
 
 ROOT = Path(__file__).resolve().parents[2]
-GUARD_SHA256 = "444e8a967d376bd60faeaa8534136abadc71b9c30a48515718507a9f7741c72b"
+GUARD_SHA256 = "c8b75a6b06454135db4b6143987855e27588648d4eb3aefc0d72611fc35ac875"
 UI_GUARD_SHA256 = "b6e5bdc9cfd8b86117292d325419acdf4ad2fc7052559a8acdbcc3e8cfbf379e"
 UI_SPEC_SHA256 = "5511b49eb4e164735508ccb596013a7ac59a3dadfe8adf2ce2acac710a2393f8"
 UI_SHARE_GUARD_SHA256 = "19b33c0174e52ab85e603f6f0c7be45dd5b83cff93b278a2430c527692cc1c53"
 SHARE_GUARD_SHA256 = "0b1f39f890df7cdb68db70d027b23340c2da1dd234b4387f68f2c8be41d8d3ad"
 SHARE_SPEC_SHA256 = "79fa2b0394b10026402bef72992385c38684f19b70414606ed1833b40e3178b9"
+UNCHANGED_EXECUTABLE_KEYSET_SHA256 = "b62d4e1c1cad872f790ef47a8ad9ac7359ddee6a978d4d0fa777c291ac22647e"
+FIXTURE648_SHA256 = "75b52cd2abc6816bb23e02c01d89b7c5cade3219e737b18a9fe2ca17fd25c550"
 
 
 def sha(raw):
@@ -40,6 +43,64 @@ def copy_fixture(root):
 
 
 class WebViewContentPolicySourceProjectionControls(unittest.TestCase):
+    def test_only_maintainer_instructions_are_not_executable_inputs_or_fixture_prerequisites(self):
+        document = history._document()
+        for group in ("bindings", "added_inputs", "unchanged_inputs"):
+            self.assertNotIn("AGENTS.md", document[group])
+        self.assertEqual(frozenset({"AGENTS.md"}), history.NONEXECUTABLE_MAINTAINER_INPUTS)
+        self.assertNotIn("AGENTS.md", history.fixture_inputs())
+        self.assertNotIn("AGENTS.md", fixture_inputs())
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve(); copy_fixture(root)
+            from ios_popover_anchor_plan import _ordinary_bytes
+            def executable_only(checkout, relative):
+                if relative == "AGENTS.md":
+                    raise AssertionError("Maintainer instructions must never be opened by an executable source guard")
+                return _ordinary_bytes(checkout, relative)
+            for instructions in (None, b"# unrelated maintainer update\n", b"arbitrary nonexecutable instructions\x00\xff"):
+                if instructions is not None:
+                    (root / "AGENTS.md").write_bytes(instructions)
+                with patch("ios_popover_anchor_plan._ordinary_bytes", side_effect=executable_only):
+                    self.assertTrue(history.validate_current_sources(root))
+                    self.assertTrue(share.validate_current_sources(root))
+                    self.assertTrue(ui.validate_current_sources(root))
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "manifest.json"
+            bad = copy.deepcopy(document); bad["unchanged_inputs"]["AGENTS.md"] = "a" * 64
+            candidate = json.dumps(bad).encode(); path.write_bytes(candidate)
+            with patch.object(history, "SPEC_PATH", path), patch.object(history, "SPEC_SHA256", sha(candidate)):
+                with self.assertRaises(ValueError): history._document()
+
+    def test_exact_reviewed648_predecessor_and_every_other_owned_input_remain_required(self):
+        document = history._document()
+        fixture = "scripts/ci/test_webview_content_policy_fixture.py"
+        self.assertEqual(FIXTURE648_SHA256, document["unchanged_inputs"][fixture])
+        self.assertEqual(FIXTURE648_SHA256, sha((ROOT / fixture).read_bytes()))
+        self.assertEqual(149, len(document["unchanged_inputs"]))
+        self.assertEqual(UNCHANGED_EXECUTABLE_KEYSET_SHA256,
+                         sha(("\n".join(sorted(document["unchanged_inputs"])) + "\n").encode()))
+        # Exact reviewed lead648 is the predecessor, not a waiver for unknown
+        # fixtures or other docs, production, dependencies, guards or new inputs.
+        representatives = (
+            fixture, "docs/testing/webview-content-policy.md", "gradle/libs.versions.toml",
+            "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+            "scripts/ci/android_external328_source_projection.py", "scripts/ci/library_tests.py",
+            "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidContentPolicyVerificationFilter.kt",
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve(); copy_fixture(root)
+            (root / "AGENTS.md").write_bytes(b"another unrelated maintainer update\n")
+            self.assertTrue(history.validate_current_sources(root))
+            for name in representatives:
+                with self.subTest(owned_input=name):
+                    target = root / name; raw = target.read_bytes(); target.write_bytes(raw + b"\n")
+                    with self.assertRaisesRegex(ValueError, re.escape(name)):
+                        history.validate_current_sources(root)
+                    target.unlink()
+                    with self.assertRaises(FileNotFoundError): history.validate_current_sources(root)
+                    target.write_bytes(raw)
+            self.assertTrue(history.validate_current_sources(root))
+
     def test_eight_complete_share_root_routing_images_preserve_all_ecff_bytes_and_finite_unique_fragments(self):
         document = history._document()
         self.assertEqual(8, len(document["bindings"]))

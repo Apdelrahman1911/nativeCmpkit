@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## WebView finite routing compiled; Linux original failure retained — 2026-11-04
+
+[651/654/655](docs/development/evidence/current-platform-recovery-20261101/webview651-655/README.md)
+integrates exact16 reviewed WebView postimages at0d09602f;1,424 actual/committed
+inputs hold and finite5 source plans qualify. Accepted13/44/derivative5 controls
+are reused, not replayed. NEW executable custody excludes only unrelated AGENTS;
+historical pins remain sealed. Android production/device-test compiler executes
+Gradle0/51.01s, fresh13,601,506B APK, nine warnings retained, ZERO device tests.
+Actual Linux655 NEW3 is FAILED:2pass/one inline supplementary-Unicode failure,
+freshXML/Gradle1/35.01s,1,424 held. Reuse applicable accepted remount/GET-opt-out2;
+only failed/new affected scope next. HTML-ingress/native-bridge cause is not yet
+confirmed; do not weaken Unicode assertions or replay accepted2. Owner detach/
+fixture finally and owned PulseAudio shutdown qualify only their stated scope.
+Genericios/all still lacks separate owned content-fixture handoff and is explicitly
+unqualified. UI65041790553079 remains reserved/in-progress; Share65041791895471
+is terminalFAILED/free, AppKit key-window readiness fails before body; separate
+sealed original review accepts only JNI timeout1/1, not AppKit/run/issue closure.
+Retained103closed/69open/172,
+22implemented/36partial/101verified/five unresolved; ZERO closure/publication.
+Lead integration/Git/dispatch/acceptance/closure, isolated parallel patches,
+serial-local8GiB/max2combinedhosted INCLUDINGqueued/reserved/read-onlyActions/all/
+no mandatory SHA pinning and every publication/Pages/main/history/native/consumer/
+API–ABI/dependency/legal/security/readiness gate remain. Earlier dates retain scope.
+
 ## Shared UI/Share tooling recovered; native still missing — 2026-11-04
 
 [647–648](docs/development/evidence/current-platform-recovery-20261101/tooling647-recovery648/README.md)

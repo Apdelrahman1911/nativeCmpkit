@@ -129,6 +129,8 @@ class CalendarShareSelectorSourceControls(unittest.TestCase):
         paths |= (set(ui["bindings"]) | set(ui["added_inputs"]) | set(ui["unchanged_inputs"]) |
                   {ui_history.SPEC_RELATIVE, "scripts/ci/ios_ui_related_source_projection.py",
                    "scripts/ci/test_ios_ui_related_source_projection.py"})
+        from macos_share_missing_source_projection import fixture_inputs as share_fixture_inputs
+        paths |= share_fixture_inputs()
         with tempfile.TemporaryDirectory(prefix="nativecmpkit-selectors617-") as temporary:
             root = Path(temporary)
             for name in paths:

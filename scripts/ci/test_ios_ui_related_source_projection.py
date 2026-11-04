@@ -62,6 +62,8 @@ def fixture_inputs():
     for layer in (history, image, calendar):
         document = layer._document()
         paths |= set(document["bindings"]) | set(document["added_inputs"]) | set(document["unchanged_inputs"]) | {layer.SPEC_RELATIVE}
+    from macos_share_missing_source_projection import fixture_inputs as share_fixture_inputs
+    paths |= share_fixture_inputs()
     return paths
 
 
@@ -76,10 +78,12 @@ class UiRelatedSourceProjectionControls(unittest.TestCase):
         document = history._document()
         self.assertEqual(9, len(document["bindings"]))
         self.assertEqual(36, sum(len(binding["fragments"]) for binding in document["bindings"].values()))
-        self.assertEqual(GUARD_SHA256, sha((ROOT / GUARD).read_bytes()))
+        from macos_share_missing_source_projection import source_before_share_missing_ci
+        self.assertEqual(GUARD_SHA256, sha(source_before_share_missing_ci(GUARD, (ROOT / GUARD).read_bytes())))
         self.assertEqual(history.SPEC_SHA256, sha((ROOT / history.SPEC_RELATIVE).read_bytes()))
         for name, binding in document["bindings"].items():
-            current = (ROOT / name).read_bytes(); old = history.current_source_before_ui_related(name, current)
+            raw_current = (ROOT / name).read_bytes(); current = source_before_share_missing_ci(name, raw_current)
+            old = history.current_source_before_ui_related(name, raw_current)
             self.assertEqual((binding["after_sha256"], binding["after_bytes"]), (sha(current), len(current)))
             self.assertEqual((binding["before_sha256"], binding["before_bytes"]), (sha(old), len(old)))
             self.assertIs(old, history.source_before_ui_related(name, old))
@@ -213,8 +217,10 @@ class UiRelatedSourceProjectionControls(unittest.TestCase):
                 "test_complete_image_calendar_and_control_inverses_restore_exact_parents_and_forward",
                 "test_latest_three_hooks_and_mirror_qualification_preserve_original_bodies"},
         }
+        from macos_share_missing_source_projection import source_before_share_missing_ci
         for name, changed in affected.items():
-            current = (ROOT / name).read_bytes(); old = history.source_before_ui_related(name, current)
+            current = source_before_share_missing_ci(name, (ROOT / name).read_bytes())
+            old = history.source_before_ui_related(name, current)
             old_methods = {node.name: node for node in ast.walk(ast.parse(old)) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")}
             new_methods = {node.name: node for node in ast.walk(ast.parse(current)) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")}
             self.assertEqual(set(old_methods), set(new_methods))

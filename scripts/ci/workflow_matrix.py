@@ -15,6 +15,7 @@ import android_device_batch_plan as android_batch_plan
 import desktop_security_plan
 import ios_calendar_native_focus as calendar_native
 import macos_share_native_focus as macos_share_native
+import macos_share_missing_ci as share_missing
 
 SLOTS = (
     {"slot": "desktop-linux-x64", "suite": "desktop", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3"},
@@ -133,6 +134,7 @@ PROFILES = {
     "permissions-ios-empty-batch": ("ios-iphone",),
     calendar_native.PROFILE: ("ios-iphone",),
     macos_share_native.PROFILE: ("desktop-macos-arm64",),
+    share_missing.PROFILE: ("desktop-macos-arm64",),
     "permissions-completion-android": ("android-host",),
     "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
@@ -359,6 +361,7 @@ MODULE_SUBSETS = {
     "permissions-ios-empty-batch": "calf-permissions/core",
     calendar_native.PROFILE: calendar_native.MODULE,
     macos_share_native.PROFILE: macos_share_native.MODULE,
+    share_missing.PROFILE: share_missing.MODULE,
     "permissions-completion-android": "calf-permissions/core",
     # A changed common test requires its own JVM/browser/Native execution, not
     # reuse of the older source tests or repetition of unrelated UIKit/consumer
@@ -664,6 +667,13 @@ def matrix(profile: str) -> dict:
                 MODULE_SUBSETS.get(profile) != macos_share_native.MODULE or rows != [canonical]):
             raise ValueError("AppKit lifecycle requires one fixed opted-in macos-arm64 library row")
         rows[0]["test-focus"] = macos_share_native.FOCUS
+    if profile == share_missing.PROFILE:
+        canonical = {"slot": "desktop-macos-arm64", "suite": "desktop", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "native-ui": "true", "test-modules": share_missing.MODULE}
+        if (PROFILES[profile] != ("desktop-macos-arm64",) or
+                MODULE_SUBSETS.get(profile) != share_missing.MODULE or rows != [canonical]):
+            raise ValueError("Missing Share630 verification requires one fixed opted-in macos-arm64 library row")
+        rows[0]["test-focus"] = share_missing.FOCUS
     if profile == "permissions-completion-android":
         for row in rows:
             row["test-focus"] = "permission-android-completion"

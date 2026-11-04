@@ -37,6 +37,7 @@ import secure_alert_input_plan as secure_alert
 import ios_calendar_native_focus as calendar_native
 import macos_share_native_focus as macos_share_native
 import ios_ui_related_native_focus as ui_related
+import macos_share_missing_ci as share_missing
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {
@@ -1897,6 +1898,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
     return ((focus in ANDROID_STORAGE_FOCUSES and suite == "android-device" and modules == (ANDROID_STORAGE_MODULE,)) or
             (focus == calendar_native.FOCUS and suite == "ios" and modules == (calendar_native.MODULE,)) or
             (focus == macos_share_native.FOCUS and suite == "desktop" and modules == (macos_share_native.MODULE,)) or
+            (focus == share_missing.FOCUS and suite == "desktop" and modules == (share_missing.MODULE,)) or
             (focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus in ANDROID_PERMISSION_DEVICE_SPECS and suite == "android-device" and modules == ("calf-permissions/core",)) or
             (focus == ANDROID_NAV_BACK_FOCUS and suite == "android-device" and modules == ("calf-navigation",)) or
@@ -2786,6 +2788,12 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = macos_share_native.CLASS + ".*"
         selected[0]["required_testcases"] = macos_share_native.identities()
         result["scope"] = macos_share_native.SCOPE
+    elif focus == share_missing.FOCUS:
+        selected[0][share_missing.CONTRACT_KEY] = share_missing.source_contract(root, selected[0]["test_source_files"])
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = share_missing.FILTER
+        selected[0]["required_testcases"] = share_missing.identities()
+        result["scope"] = share_missing.SCOPE
     elif focus in IOS_PERMISSION_SAFETY_SPECS:
         spec = IOS_PERMISSION_SAFETY_SPECS[focus]
         source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
@@ -3035,6 +3043,8 @@ def validate_test_focus(test_plan: dict) -> bool:
         raise ValueError("No secure-input source fixture on an unrelated or accepted focus")
     if focus not in desktop_security_plan.FOCUSES and test_plan.get("desktop_security_fixture") is not None:
         raise ValueError("No security-only trust/isolation fixture on an unrelated or default focus")
+    if focus != share_missing.FOCUS and any(share_missing.CONTRACT_KEY in item for item in test_plan["expected"]):
+        raise ValueError("No Share630 recovery source fixture on an unrelated or accepted focus")
     if focus is None:
         if any("test_filter" in item or "required_testcases" in item for item in test_plan["expected"]):
             raise ValueError("Test filters require the finite reviewed focus")
@@ -3487,6 +3497,21 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("required_testcases") != macos_share_native.identities() or
                 macos_share_native.SOURCE not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite three-method macOS AppKit coroutine plan")
+        return True
+    if focus == share_missing.FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != share_missing.MODULE or expected[0].get("project") != ":calf-share" or
+                expected[0]["task"] != share_missing.TASK or
+                expected[0].get("report_directory") != "calf-share/build/test-results/desktopTest" or
+                expected[0].get("test_filter") != share_missing.FILTER or
+                expected[0].get("test_filter_argument") is not None or
+                expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != share_missing.identities() or
+                share_missing.SOURCE not in expected[0]["test_source_files"] or
+                test_plan.get("scope") != share_missing.SCOPE):
+            raise ValueError("Invalid exact one-method missing Share630 timeout plan")
+        share_missing.validate_contract(expected[0].get(share_missing.CONTRACT_KEY))
         return True
     if focus in IOS_PERMISSION_SAFETY_SPECS:
         spec = IOS_PERMISSION_SAFETY_SPECS[focus]
@@ -4000,6 +4025,11 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
                                                                    native_ui_opt_in)
             if len(reports) != 1 or len(paths) != 1:
                 policy_errors.append("AppKit coroutine focus needs one fresh original report for its exact three methods")
+        elif boundary_focus and test_plan["explicit_test_focus"] == share_missing.FOCUS:
+            scenarios, policy_errors = share_missing.outcomes(module_cases, host_system or platform.system(),
+                                                             native_ui_opt_in)
+            if len(reports) != 1 or len(paths) != 1:
+                policy_errors.append("Share630 timeout needs one fresh original report for only the missing JNI method")
         elif boundary_focus and (test_plan["explicit_test_focus"] == IOS_PERMISSION_FOCUS or
                                  test_plan["explicit_test_focus"] in IOS_PERMISSION_SAFETY_SPECS):
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
@@ -4168,6 +4198,13 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         validate_webview_desktop_request_host(platform.system(), platform.machine(), test_plan["explicit_test_focus"])
     if test_plan.get("explicit_test_focus") == macos_share_native.FOCUS:
         macos_share_native.validate_host(platform.system(), platform.machine())
+    if test_plan.get("explicit_test_focus") == share_missing.FOCUS:
+        share_missing.validate_host(platform.system(), platform.machine())
+        if os.environ.get("NATIVECMPKIT_NATIVE_UI_TESTS") != "true":
+            raise ValueError("Share630 timeout execution requires the exact native GUI opt-in")
+        if (share_missing.source_contract(root, test_plan["expected"][0]["test_source_files"]) !=
+                test_plan["expected"][0][share_missing.CONTRACT_KEY]):
+            raise ValueError("Share630 exact recovery inputs changed before the owning JNI command")
     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
         raise ValueError("iOS execution requires an explicitly selected, recorded simulator UDID")
     if suite != "ios" and simulator:
@@ -4883,7 +4920,7 @@ def main() -> int:
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
                                            WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, SHARE_CLIPBOARD_NATIVE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
-                                           IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, calendar_native.FOCUS, macos_share_native.FOCUS, IOS_SAVE_WRITE_FOCUS,
+                                           IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, calendar_native.FOCUS, macos_share_native.FOCUS, share_missing.FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
                                            IOS_SLIDER_NUMERIC_FOCUS,

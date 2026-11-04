@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `4f48d270b2923e8dc8f611b644910f8edf7d08fe0f0820773ea758abbcd075ed`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `db1bca80a835f49bcda7ae332e14e315eee783fabd8f80e4d48676c27d4ca428`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -3606,7 +3606,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `a82cd101d2a629e7e83837e6f5e837b9abebcda2ae750ddc38f90032dc17dfa8` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
-| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `811a6c4b51016b0dd2dc7376056663d51badbd3cccecd83dd242cc522bf16154` |
+| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `0bd7764999081afea7b516bf214fef0a55f365d2605656da59012ba9b2767339` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `4815ff0798a380c6ae3ebd4d0092e129ce21bc7282b6621b467027e61a70a453` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `4e822554dcc612923415263e460524ecbb5da10754f88d7d5c7f1868d7f6e974` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |

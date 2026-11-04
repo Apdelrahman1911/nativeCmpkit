@@ -112,9 +112,40 @@ context. Four shared packages retain explicit MIT; the other11 inherit the
 workspace OR-license declaration. Exact inheritance is not text applicability,
 license selection, native/consumer/readiness acceptance or a new collector run.
 
-The bounded genuine copy and separate isolated copied-checker import smoke are
-**pending until the clean immutable carrier commit is sealed**. The above first
-result includes the earlier planning README hash; the subsequent evidence-only
-README update does not change tested executable/consumer/material bytes or turn
-it into a fresh whole-worktree run. The lead alone integrates/dispatches/reviews/
-closes; no issue closure proposal or release-readiness clearance is made here.
+The above first result includes the earlier planning README hash; subsequent
+evidence-only README updates do not change tested executable/consumer/material
+bytes or turn it into a fresh whole-worktree run.
+
+## One genuine bounded carriage and separate copied-checker import smoke
+
+The explicit clean carrier commit is
+`f937c5a34126c634769cd116e720ee5b49595bf6`, **not** the archived native metadata
+producer7d6 and not a revision inferred from a staged candidate. Its
+[38-input preexecution freeze](GENUINE-CARRIAGE-FROZEN606.json) is SHA256
+`b8fa0dd42670f040f50a058c719c39b9a2c4732b26794fb7f2e874f1485f86cc`.
+
+[Original one-shot receipt](genuine-carriage-receipt606.json): prepare exit0/
+0.327450880s; independent source readback exit0/0.309120840s; one separate
+Python `-I -S -B` copied-checker import exit0/0.108227373s. Each stderr is empty;
+total wrapper0.834093366s. All38 source hashes and clean carrier status held;
+exactly36 copied files (35 source/material plus receipt) held through import.
+The [actual carriage inventory](genuine-carriage-inventory606.json),
+[smoke output](isolated-import-smoke606.stdout), raw prepare/readback envelopes
+and their SHA256s are retained. All five imported module origins are the
+independent checker directory and hashes match their source copies. The genuine
+external copies stay preserved; no .crate scan, loader, collector, Gradle/native/
+JNI/consumer method, notice-stage or v2 adapter function executes.
+
+[90 passive genuine-custody checks](REVIEW-genuine-carriage606.json), zero refusals,
+bind those original envelopes, explicit clean revision, all35 actual independent
+copies, output36-file/source38-file before/after maps, exact five import hashes,
+and zero/false native/material/legal/readiness gates. No accepted test or import
+smoke is replayed during this review. Preparation and successful imports are
+**not** full consumer/native/platform compatibility, licensing decision,
+authenticity, CI acceptance or release readiness.
+
+The lead alone integrates/dispatches/reviews/closes. The remaining15-family exact
+text/attribution/SDK applicability and full genuine stage/native/consumer/API–ABI/
+dependency/security/release gates stay open. No closure proposal or publication
+is made here. Action SHA pinning remains optional per the owner's explicit
+configuration; read-only/minimum-permission verification remains required.

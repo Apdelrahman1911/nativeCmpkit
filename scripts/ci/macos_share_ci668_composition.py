@@ -7,6 +7,7 @@ certifies a native result, or searches for an arbitrary historical layer.
 """
 from __future__ import annotations
 
+from functools import lru_cache
 import hashlib
 import os
 from pathlib import Path
@@ -16,7 +17,7 @@ import stat
 ROOT = Path(__file__).resolve().parents[2]
 OWNER = "scripts/ci/macos_share_ci668_composition.py"
 SPEC = "scripts/ci/fixtures/macos-share-ci668-composition.json"
-SPEC_SHA256 = "0980a16ed007cef56b7364b7304a4b41dca2d2df3b9b30cb51d92acfccbd74a9"
+SPEC_SHA256 = "68373d73aac26d71c0ca092fe2b0517fdb940417adca6430f15e744a5faf4988"
 CI_VIEW = "final_ci175"
 SHARE_VIEW = "share607"
 COOKIE_VIEW = "cookie609_raw40"
@@ -61,7 +62,16 @@ LIBRARY = "scripts/ci/library_tests.py"
 NEW_CONTROL = "scripts/ci/test_macos_share_ci668_composition.py"
 NEW_DOC = "docs/testing/macos-share-ci668-composition.md"
 BUDGET707_CONTROL = "scripts/ci/test_offline_tooling_scope_observation707.py"
-ADDED_INPUTS = frozenset({NEW_CONTROL, NEW_DOC, BUDGET707_CONTROL})
+FAILURE711_HELPER = "scripts/ci/offline_tooling_failure_evidence711.py"
+FAILURE711_CONTROL = "scripts/ci/test_offline_tooling_failure_evidence711.py"
+FAILURE711_BINDING_SHA256 = "572bfaf2348bc3431f029e580f6d97eadfab77ad1c43c0e24bcfd15fc9f1969b"
+FAILURE711_CURRENT_SHA256 = "58f08f3fcda1e490743a8d28f7881473a28f5fcd1a3127abfffce35d6e7b2cb5"
+FAILURE711_ADDITION_ENDPOINTS = {
+    FAILURE711_HELPER: {"sha256": "3bcb54e114807b6ffd4c2337367407354412312b1adecaba356ad57cdb5ccd28", "bytes": 3590},
+    FAILURE711_CONTROL: {"sha256": "c82a70f4890b4a7d2bddfa60ef2273dfb4a41c9005871234282363e745fed14f", "bytes": 15313},
+}
+ADDED_INPUTS = frozenset({NEW_CONTROL, NEW_DOC, BUDGET707_CONTROL,
+                          FAILURE711_HELPER, FAILURE711_CONTROL})
 BOUND_FRAGMENT_COUNTS = {'.github/workflows/gradle.yml': 1,
  'scripts/ci/ci668_outer_source_projection.py': 7,
  'scripts/ci/cookie_ci668_outer_source_projection.py': 8,
@@ -96,7 +106,7 @@ BUDGET707_CURRENT_SHA256 = {'.github/workflows/gradle.yml': '7c9af733acf8ac35aad
 MAX_SOURCE = 4 * 1024 * 1024
 MAX_SPEC = 512 * 1024
 DIGEST = re.compile(r"[0-9a-f]{64}\Z")
-SCOPE = 'Exact joint280 raw source, exact707 prelude then CI175/Cookie40/Share36/producer190 named ancestry; ZERO native/compiler/producer-reuse/consumer/security/issue/release acceptance'
+SCOPE = 'Exact joint282 raw source, exact711 diagnostic transition then unchanged707 prelude then CI175/Cookie40/Share36/producer190 named ancestry; ZERO native/compiler/producer-reuse/consumer/security/issue/release acceptance'
 CURRENT_REFUSAL = "An old or unknown image cannot replace exact current final CI668 source"
 PREDECESSOR_CUSTODY = {'CI175_map_sha256': '281ba98ae69e597f41f1c417c142878791c0931bce7542b280ba0bd8315cfe4e',
  'CI200_import_map_sha256': 'dcefd6b81ea2d7e1c51819df4fe9b1977aae3c5655f1031e199d3bc9bca0f212',
@@ -150,9 +160,22 @@ def sha(payload):
     return hashlib.sha256(payload).hexdigest()
 
 
-def _identity(relative, payload):
+@lru_cache(maxsize=512)
+def _cached_source_path_parts(relative):
+    """Only immutable successful path grammar, never filesystem/manifest custody.
+
+    The caller rejects nonexact/empty/oversized keys before cache hashing. Invalid
+    grammar raises unchanged and is not cached; concurrent misses may repeat this
+    pure validation. Every file, dependency, root and payload check stays fresh.
+    """
     from macos_share_appkit_only_source_projection import _path
-    _path(relative)
+    return _path(relative)
+
+
+def _identity(relative, payload):
+    need(type(relative) is str and 0 < len(relative) <= 4096,
+         "unsafe-AppKit-source-identity")
+    _cached_source_path_parts(relative)
     need(type(payload) is bytes and 0 < len(payload) <= MAX_SOURCE,
          "bounded-complete-share-CI-source-operands-required")
 
@@ -318,10 +341,27 @@ def _binding(row, count=None):
              "complete-share-CI-fragment-hashes-required")
 
 
+def _failure711_binding(document):
+    """One separately sealed6a4->58f diagnostic transition, never a707 repin."""
+    need(type(document) is dict and type(document.get("failure711_bindings")) is dict and
+         set(document["failure711_bindings"]) == {OFFLINE},
+         "exact711-one-path-diagnostic-transition-required")
+    row = document["failure711_bindings"][OFFLINE]
+    _binding(row, 2)
+    import json
+    encoded = (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    need(sha(encoded) == FAILURE711_BINDING_SHA256 and
+         row["before_sha256"] == BUDGET707_CURRENT_SHA256[OFFLINE] and
+         row["after_sha256"] == FAILURE711_CURRENT_SHA256,
+         "exact711-two-original-diagnostic-fragments-before-unchanged707-required")
+    return row
+
+
 def _shape(document, root=ROOT):
     need(type(document) is dict and set(document) == {
          "schema_version", "scope", "predecessor_custody", "predecessor_inputs", "raw_inputs",
-         "derivative_bindings", "views", "noncurrent_sibling_bindings", "named_cookie609_manifest", "own_guard"} and
+         "derivative_bindings", "failure711_bindings", "views", "noncurrent_sibling_bindings",
+         "named_cookie609_manifest", "own_guard"} and
          type(document["schema_version"]) is int and document["schema_version"] == 1 and
          document["scope"] == SCOPE and document["predecessor_custody"] == PREDECESSOR_CUSTODY and
          all(type(document["predecessor_custody"].get(key)) is bool for key in (
@@ -337,6 +377,12 @@ def _shape(document, root=ROOT):
          set(document["derivative_bindings"]) == set(BOUND_FRAGMENT_COUNTS) and
          type(document["views"]) is dict and set(document["views"]) == VIEWS,
          "finite-four-named-joint-source-views-required")
+    failure711 = _failure711_binding(document)
+    need(document["raw_inputs"].get(OFFLINE) == {"sha256": failure711["after_sha256"],
+         "bytes": failure711["after_bytes"]}, "actual711-endpoint-never-projected707-current-required")
+    for relative, endpoint in FAILURE711_ADDITION_ENDPOINTS.items():
+        need(document["raw_inputs"].get(relative) == endpoint,
+             "exact-two-new711-source-input-endpoints-required")
     ancestors = _sealed_predecessor_hashes(root, document)
     for view in VIEWS:
         inputs = document["predecessor_inputs"][view]
@@ -377,7 +423,7 @@ def _shape(document, root=ROOT):
             CI_CONTROL: PRODUCER_VIEW}.items():
         base[relative] = ancestors[view][relative]
     need(len(base) == 275 and set(document["raw_inputs"]) == set(base) | ADDED_INPUTS,
-         "complete-finite-joint-raw278-plus-owner-spec-required")
+         "complete-finite-joint-raw280-plus-owner-spec-required")
     for relative, row in document["raw_inputs"].items():
         _identity(relative, b"source-identity-only")
         _endpoint(row)
@@ -386,6 +432,8 @@ def _shape(document, root=ROOT):
     for relative, row in document["derivative_bindings"].items():
         _binding(row, BOUND_FRAGMENT_COUNTS[relative])
         raw = document["raw_inputs"][relative]
+        if relative == OFFLINE:
+            raw = {"sha256": failure711["before_sha256"], "bytes": failure711["before_bytes"]}
         need(row["before_sha256"] == base[relative] and row["after_sha256"] == raw["sha256"] and
              row["after_bytes"] == raw["bytes"], "complete-share-CI-descendant-custody-required")
         if relative in BUDGET707_FRAGMENT_COUNTS:
@@ -480,6 +528,18 @@ def _inverse_to_ancestor(payload, row):
     return restored
 
 
+def _failure711_to_budget707(payload, document):
+    """Exact two-fragment711 inverse only; source data, not current admission."""
+    row = _failure711_binding(document)
+    inverse = {"before_sha256": row["after_sha256"], "before_bytes": row["after_bytes"],
+               "after_sha256": row["before_sha256"], "after_bytes": row["before_bytes"],
+               "fragments": [{"before": f["after"], "after": f["before"],
+                              "before_fragment_sha256": f["after_fragment_sha256"],
+                              "after_fragment_sha256": f["before_fragment_sha256"]}
+                             for f in reversed(row["fragments"])]}
+    return _inverse_to_ancestor(payload, inverse)
+
+
 def _budget707_in_named_domain(view, relative, payload, document):
     """One finite exact707 inverse, before a named domain's unchanged old pins.
 
@@ -500,7 +560,7 @@ def _budget707_in_named_domain(view, relative, payload, document):
 
 
 def peel_budget707_for_history(relative, payload, root=ROOT):
-    """Only exact707->2ee data projection; never named175/190/9bd inversions.
+    """Exact711->707->2ee data; other707 leaves unchanged, no175/190/9bd.
 
     One repository transition manifest is read. Pass-through is not admission;
     no old source becomes current and no source/native/result code is executed.
@@ -520,6 +580,11 @@ def peel_budget707_for_history(relative, payload, root=ROOT):
     need(sha(encoded) == BUDGET707_BINDING_SHA256[relative] and
          row["after_sha256"] == BUDGET707_CURRENT_SHA256[relative],
          "exact707-three-path-six-fragment-transition-required")
+    if relative == OFFLINE:
+        failure711 = _failure711_binding(document)
+        if sha(payload) != failure711["after_sha256"] or len(payload) != failure711["after_bytes"]:
+            return payload  # Old6a4 is data, not a new711 descendant or layer search.
+        payload = _failure711_to_budget707(payload, document)
     if sha(payload) != row["after_sha256"] or len(payload) != row["after_bytes"]:
         return payload  # Data only, not old-current admission or a layer search.
     inverse = {"before_sha256": row["after_sha256"], "before_bytes": row["after_bytes"],
@@ -533,6 +598,8 @@ def peel_budget707_for_history(relative, payload, root=ROOT):
 
 def _view(view, relative, payload, document):
     need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
+    if relative == OFFLINE and relative in document["predecessor_inputs"][view]:
+        payload = _failure711_to_budget707(payload, document)
     payload = _budget707_in_named_domain(view, relative, payload, document)
     row = document["views"][view].get(relative)
     return payload if row is None else _inverse_to_ancestor(payload, row)
@@ -552,8 +619,14 @@ def peel_for_history(relative, payload, view, root=ROOT):
     need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
     # Sealed source comparisons are explicit; generic history must NEVER
     # peel either Cookie control source or callback-init bytes.
-    if relative in {NEW_COOKIE_CONTROL, OWNING_COOKIE_CONTROL, CALLBACK_INIT, BUDGET707_CONTROL}:
+    if relative in {NEW_COOKIE_CONTROL, OWNING_COOKIE_CONTROL, CALLBACK_INIT, BUDGET707_CONTROL,
+                    FAILURE711_HELPER, FAILURE711_CONTROL}:
         return payload
+    if relative == OFFLINE and relative in document["predecessor_inputs"][view]:
+        failure711 = _failure711_binding(document)
+        if sha(payload) == failure711["after_sha256"] and len(payload) == failure711["after_bytes"]:
+            return _view(view, relative, payload, document)
+        return payload  # Never readmit old707/2ee/named images into the new711 chain.
     if relative in BUDGET707_FRAGMENT_COUNTS and relative in document["predecessor_inputs"][view]:
         budget = document["derivative_bindings"][relative]
         if sha(payload) == budget["after_sha256"] and len(payload) == budget["after_bytes"]:
@@ -572,7 +645,7 @@ def predecessor_input_hashes(view, root=ROOT):
 
 
 def validate_current_sources(root=ROOT):
-    """Whole finite joint280 raw custody and all named inverses; ZERO code execution."""
+    """Whole finite joint282 raw custody and all named inverses; ZERO code execution."""
     document = _document(root)
     identities = {}
     for relative, row in document["raw_inputs"].items():
@@ -598,7 +671,7 @@ def validate_current_sources(root=ROOT):
 
 
 def current_input_hashes(root=ROOT):
-    """Actual complete joint280 map; no named predecessor is relabelled current."""
+    """Actual complete joint282 map; no named predecessor is relabelled current."""
     validate_current_sources(root)
     document = _document(root)
     owner = _own_payload(_ordinary(root, OWNER)[0], document)

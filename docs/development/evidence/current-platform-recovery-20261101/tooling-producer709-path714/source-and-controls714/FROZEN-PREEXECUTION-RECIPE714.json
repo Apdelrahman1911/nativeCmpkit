@@ -1,0 +1,66 @@
+{
+  "ROOT_writes_or_Git_native_network": 0,
+  "UTC": "2026-11-04T18:54:59.695147+00:00",
+  "accepted_replays": 0,
+  "added": {
+    "docs/testing/source-path-memoization714.md": {
+      "bytes": 1748,
+      "mode": "0644",
+      "sha256": "67a6db4bce9c24e336e603da924e1e865d1949ed1950e66cc7a00da240f3d812"
+    },
+    "scripts/ci/test_source_path_memoization714.py": {
+      "bytes": 6913,
+      "mode": "0644",
+      "sha256": "cccdde728e8c08f53f2d714603383b6acea685b8c1b015ae855339aaf3a6b4fd"
+    }
+  },
+  "base_HEAD": "086224e97cf74c1cc30277b4c6b321867de725df",
+  "candidate": "/root/nativecmpkit-source-proposals-20261104/lead-tooling-performance-recovery714/tree",
+  "executions_to_run_once": "only failedFIRSTtest01 plus NEW02\u201310,10 total; old accepted populations not selected",
+  "joint_raw280_and_named_predecessors_unchanged": true,
+  "memoization_scope": "immutable successful path grammar only; all custody remains fresh",
+  "modified": {
+    "scripts/ci/fixtures/macos-share-ci668-composition.json": {
+      "after_bytes": 492042,
+      "after_sha256": "37ae162dc74c74766a78aaffcc795c609c0f9d27792a9e1cd0761d299b6609b4",
+      "before_bytes": 492042,
+      "before_sha256": "0980a16ed007cef56b7364b7304a4b41dca2d2df3b9b30cb51d92acfccbd74a9",
+      "fragments": [
+        {
+          "after": "\"own_guard\":{\"bytes\":39477,\"template_sha256\":\"7dfc9f57d580acc7dd4eafff333950817a70d5f0e25e264e8d487e1156f8abbf\"}",
+          "after_sha256": "20de650e28a80f043cbfc47928a75ce1c4c0bc4216dcaa360626d2866a42c706",
+          "before": "\"own_guard\":{\"bytes\":38890,\"template_sha256\":\"d3667b019cf8a3bec5aac3e76ed143ba6422f93019ce059dd3da1ea8cd6e3828\"}",
+          "before_sha256": "5968ef5f0f933d9a26c60789ab90d22ae7e2d98b6f80f5d5f1d10d824561bef0"
+        }
+      ]
+    },
+    "scripts/ci/macos_share_ci668_composition.py": {
+      "after_bytes": 39477,
+      "after_sha256": "fd5a98869b6c45b9938340cd4a350a5270a4603fef7ebe2a5ed5684c39741a9d",
+      "before_bytes": 38890,
+      "before_sha256": "3a6dc84400e8f370661abeabe6ea0efd7cc4763f4982a00a51914e386c88c23c",
+      "fragments": [
+        {
+          "after": "from functools import lru_cache\nimport hashlib\n",
+          "after_sha256": "3a38cbce3e20b1785bb1916bc2cf62984b7f50f909d32caa9dba5fa566386a0c",
+          "before": "import hashlib\n",
+          "before_sha256": "3b3ea3cdc7068a9e97cfcddbcd9d8e0c54fe4d068347b80b158fdd8b14676e3b"
+        },
+        {
+          "after": "@lru_cache(maxsize=512)\ndef _cached_source_path_parts(relative):\n    \"\"\"Only immutable successful path grammar, never filesystem/manifest custody.\n\n    The caller rejects nonexact/empty/oversized keys before cache hashing. Invalid\n    grammar raises unchanged and is not cached; concurrent misses may repeat this\n    pure validation. Every file, dependency, root and payload check stays fresh.\n    \"\"\"\n    from macos_share_appkit_only_source_projection import _path\n    return _path(relative)\n\n\ndef _identity(relative, payload):\n    need(type(relative) is str and 0 < len(relative) <= 4096,\n         \"unsafe-AppKit-source-identity\")\n    _cached_source_path_parts(relative)\n    need(type(payload) is bytes and 0 < len(payload) <= MAX_SOURCE,\n         \"bounded-complete-share-CI-source-operands-required\")\n",
+          "after_sha256": "078ffd25b30416c8ead69afc8b044302f15a8c7d4c145a8b5744eec45eeac4ad",
+          "before": "def _identity(relative, payload):\n    from macos_share_appkit_only_source_projection import _path\n    _path(relative)\n    need(type(payload) is bytes and 0 < len(payload) <= MAX_SOURCE,\n         \"bounded-complete-share-CI-source-operands-required\")\n",
+          "before_sha256": "f1e79a0e3a75ae2f213591cc17599acc5ba8ec904807e024a7e94a2bcfe3b9ab"
+        },
+        {
+          "after": "SPEC_SHA256 = \"37ae162dc74c74766a78aaffcc795c609c0f9d27792a9e1cd0761d299b6609b4\"\n",
+          "after_sha256": "488f9540dcf8c754e41aa2623f286fa883fd439aebb0820f025e44352702bdb4",
+          "before": "SPEC_SHA256 = \"0980a16ed007cef56b7364b7304a4b41dca2d2df3b9b30cb51d92acfccbd74a9\"\n",
+          "before_sha256": "abe70ec7527023afbfa823af287bfb207a00256bfdf534033f90790dcfcee8c2"
+        }
+      ]
+    }
+  },
+  "schema": "nativecmpkit-source-path-memoization714-preexecution-v1",
+  "ten_scope_eligibility_and_budget_unchanged": true
+}

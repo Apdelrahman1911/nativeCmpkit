@@ -44,9 +44,9 @@ def source_model():
 
 class ShareCi668CompositionTests(unittest.TestCase):
     def test01_actual_raw_union_is231_not_either_predecessor(self):
-        # The historical identifier231 is retained; current custody is joint280 after exact707; accepted264 stays historical.
+        # The historical identifier231 is retained; actual joint282 has711 before unchanged707; accepted264 stays historical.
         hashes = latest.current_input_hashes(ROOT)
-        self.assertEqual(len(hashes), 280)
+        self.assertEqual(len(hashes), 282)
         self.assertEqual(set(hashes), latest.fixture_inputs(ROOT))
         self.assertTrue(all(sha((ROOT / name).read_bytes()) == digest for name, digest in hashes.items()))
         self.assertEqual(hashes[latest.WORKFLOW], "7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566")
@@ -76,6 +76,10 @@ class ShareCi668CompositionTests(unittest.TestCase):
                     for fragment in document["derivative_bindings"][relative]["fragments"]:
                         self.assertEqual(forward.count(fragment["before"].encode()), 1)
                         forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
+                if relative == latest.OFFLINE:
+                    for fragment in document["failure711_bindings"][relative]["fragments"]:
+                        self.assertEqual(forward.count(fragment["before"].encode()), 1)
+                        forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
                 self.assertEqual(forward, raw)
         library = (ROOT / latest.LIBRARY).read_bytes()
         workflow = (ROOT / latest.WORKFLOW).read_bytes()
@@ -92,6 +96,8 @@ class ShareCi668CompositionTests(unittest.TestCase):
                              for name in latest.BUDGET707_FRAGMENT_COUNTS), 6)
         for relative, row in document["derivative_bindings"].items():
             raw = (ROOT / relative).read_bytes()
+            if relative == latest.OFFLINE:
+                raw = latest._failure711_to_budget707(raw, document)
             self.assertEqual((sha(raw), len(raw)), (row["after_sha256"], row["after_bytes"]))
             restored = raw
             for fragment in reversed(row["fragments"]):
@@ -333,7 +339,7 @@ class ShareCi668CompositionTests(unittest.TestCase):
         # A controlled source feature route, NOT an executed Windows/native host.
         with patch.object(latest, "_descriptor_source_io_supported", return_value=False):
             hashes = latest.current_input_hashes(ROOT)
-        self.assertEqual(len(hashes), 280)
+        self.assertEqual(len(hashes), 282)
         self.assertTrue(all(sha((ROOT / name).read_bytes()) == digest for name, digest in hashes.items()))
         self.assertEqual(hashes[latest.LIBRARY], "038ffa83f883f24396b35103edafa47a9b4a13fe4df6faf88175e56768819299")
         self.assertEqual(hashes[latest.WORKFLOW], "7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566")
@@ -442,7 +448,7 @@ class CookieShareCi668JointSuccessor607Tests(unittest.TestCase):
     def test27_actual_Cookie40_and_CI264_are_separate_current_certificates(self):
         cookie40 = cookie_outer.current_input_hashes(ROOT)
         joint264 = latest.current_input_hashes(ROOT)
-        self.assertEqual((len(cookie40), len(joint264)), (40, 280))  # Identifier264 is historical, never new-map custody.
+        self.assertEqual((len(cookie40), len(joint264)), (40, 282))  # Identifier264 is historical, never new-map custody.
         self.assertEqual({name: joint264[name] for name in cookie40}, cookie40)
         self.assertEqual(ci668.current_input_hashes(), joint264)
         self.assertEqual(ci668.fixture_inputs(), set(joint264))
@@ -554,7 +560,7 @@ class CookieShareProducerSourceSuccessor2eeTests(unittest.TestCase):
         import producer698_source_fixture_recovery as producer
         hashes = latest.current_input_hashes(ROOT)
         views = {view: latest.predecessor_input_hashes(view) for view in latest.VIEWS}
-        self.assertEqual(280, len(hashes))
+        self.assertEqual(282, len(hashes))
         self.assertEqual({"final_ci175": 175, "cookie609_raw40": 40, "share607": 36,
                           "producer676_raw190": 190}, {v: len(m) for v, m in views.items()})
         self.assertEqual(hashes, producer.current_input_hashes(ROOT))
@@ -671,8 +677,10 @@ class CookieShareBudget707SourceSuccessorTests(unittest.TestCase):
         self.assertEqual(6, sum(len(document["derivative_bindings"][n]["fragments"]) for n in expected))
         for relative, digest in expected.items():
             raw = (ROOT / relative).read_bytes()
-            self.assertEqual(digest, current[relative])
-            self.assertEqual(digest, sha(raw))
+            self.assertEqual(current[relative], sha(raw))
+            budget_raw = latest._failure711_to_budget707(raw, document) if relative == latest.OFFLINE else raw
+            self.assertEqual(digest, sha(budget_raw))  # Original707 endpoint is not repinned to actual711.
+            self.assertEqual(document["derivative_bindings"][relative]["after_bytes"], len(budget_raw))
             for view in latest.VIEWS:
                 named = latest.current_source_in_view(relative, raw, view, ROOT)
                 if relative not in document["predecessor_inputs"][view]:
@@ -759,6 +767,188 @@ class CookieShareBudget707SourceSuccessorTests(unittest.TestCase):
         raw = (ROOT / latest.BUDGET707_CONTROL).read_bytes()
         with patch.object(latest, "_ordinary", side_effect=AssertionError("new control is not a transition")):
             self.assertEqual(raw, latest.peel_budget707_for_history(latest.BUDGET707_CONTROL, raw, ROOT))
+
+
+class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
+    def test41_actual282_reports_new711_bytes_and_only_two_new_raw_paths(self):
+        document = latest._document(ROOT)
+        hashes = latest.current_input_hashes(ROOT)
+        self.assertEqual((280, 282), (len(document["raw_inputs"]), len(hashes)))
+        self.assertEqual(set(hashes), latest.fixture_inputs(ROOT))
+        self.assertEqual({latest.NEW_CONTROL, latest.NEW_DOC, latest.BUDGET707_CONTROL,
+                          latest.FAILURE711_HELPER, latest.FAILURE711_CONTROL}, latest.ADDED_INPUTS)
+        old_names = set().union(*(set(rows) for rows in document["predecessor_inputs"].values()))
+        old_names.update(latest.IMPORT_CLOSURE24)
+        self.assertEqual(275, len(old_names))
+        self.assertEqual(set(document["raw_inputs"]), old_names | latest.ADDED_INPUTS)
+        self.assertEqual("58f08f3fcda1e490743a8d28f7881473a28f5fcd1a3127abfffce35d6e7b2cb5", hashes[latest.OFFLINE])
+        self.assertEqual("6a4c6509ce1c205f590456789c63fe99b475dc0e83242e751aef08e274fa087c",
+                         document["derivative_bindings"][latest.OFFLINE]["after_sha256"])
+        self.assertNotEqual(hashes[latest.OFFLINE], latest.BUDGET707_CURRENT_SHA256[latest.OFFLINE])
+        self.assertTrue(all(sha((ROOT / name).read_bytes()) == digest for name, digest in hashes.items()))
+        for relative, endpoint in latest.FAILURE711_ADDITION_ENDPOINTS.items():
+            self.assertEqual(endpoint, document["raw_inputs"][relative])
+            self.assertEqual(endpoint["sha256"], hashes[relative])
+            for view in latest.VIEWS:
+                self.assertNotIn(relative, document["predecessor_inputs"][view])
+                self.assertNotIn(relative, document["views"][view])
+                raw = (ROOT / relative).read_bytes()
+                self.assertEqual(raw, latest.peel_for_history(relative, raw, view, ROOT))
+                self.assertEqual(raw, latest.current_source_in_view(relative, raw, view, ROOT))
+
+    def test42_explicit711_then_unchanged707_then_named_175_190_order_roundtrips(self):
+        document = latest._document(ROOT)
+        raw = (ROOT / latest.OFFLINE).read_bytes()
+        row = document["failure711_bindings"][latest.OFFLINE]
+        budget = latest._failure711_to_budget707(raw, document)
+        self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(budget), len(budget)))
+        forward = budget
+        for fragment in row["fragments"]:
+            self.assertEqual(1, forward.count(fragment["before"].encode()))
+            forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
+        self.assertEqual(raw, forward)
+        real711, real707 = latest._failure711_to_budget707, latest._budget707_in_named_domain
+        for view in (latest.CI_VIEW, latest.PRODUCER_VIEW):
+            calls = []
+            def observe711(payload, doc):
+                calls.append(("711", sha(payload)))
+                return real711(payload, doc)
+            def observe707(named_view, relative, payload, doc):
+                calls.append(("707", sha(payload)))
+                return real707(named_view, relative, payload, doc)
+            with patch.object(latest, "_failure711_to_budget707", side_effect=observe711), \
+                 patch.object(latest, "_budget707_in_named_domain", side_effect=observe707):
+                named = latest.current_source_in_view(latest.OFFLINE, raw, view, ROOT)
+            self.assertEqual([("711", row["after_sha256"]), ("707", row["before_sha256"])], calls)
+            endpoint = document["predecessor_inputs"][view][latest.OFFLINE]
+            self.assertEqual((endpoint["sha256"], endpoint["bytes"]), (sha(named), len(named)))
+        self.assertEqual("6126390c11769f3ea3b111510b7220f5a2d0956171e767c88b50b5def6e74757",
+                         sha(real707(latest.PRODUCER_VIEW, latest.OFFLINE, budget, document)))
+        self.assertEqual("9bd6b6d8daa7d8e6270fc874c28a8b7692f815334d4d77130fb3d81c35d7897b",
+                         sha(latest.current_source_in_view(latest.OFFLINE, raw, latest.CI_VIEW, ROOT)))
+        for view in (latest.COOKIE_VIEW, latest.SHARE_VIEW):
+            with patch.object(latest, "_failure711_to_budget707", side_effect=AssertionError("not this domain")):
+                self.assertEqual(raw, latest.current_source_in_view(latest.OFFLINE, raw, view, ROOT))
+
+    def test43_separately_sealed_two_fragment711_binding_refuses_mutants_without_repinning707(self):
+        document = latest._document(ROOT)
+        row = latest._failure711_binding(document)
+        self.assertEqual({latest.OFFLINE}, set(document["failure711_bindings"]))
+        self.assertEqual(2, len(row["fragments"]))
+        self.assertEqual(latest.FAILURE711_BINDING_SHA256,
+                         sha((json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()))
+        for relative, digest in latest.BUDGET707_BINDING_SHA256.items():
+            old = document["derivative_bindings"][relative]
+            self.assertEqual(digest, sha((json.dumps(old, sort_keys=True, separators=(",", ":")) + "\n").encode()))
+            self.assertEqual(latest.BUDGET707_CURRENT_SHA256[relative], old["after_sha256"])
+        for key, value in (("before_sha256", "0" * 64), ("after_sha256", row["before_sha256"]),
+                           ("after_bytes", row["after_bytes"] - 1)):
+            bad = copy.deepcopy(document)
+            bad["failure711_bindings"][latest.OFFLINE][key] = value
+            with self.assertRaises(ValueError):
+                latest._failure711_binding(bad)
+        bad = copy.deepcopy(document)
+        bad["failure711_bindings"][latest.OFFLINE]["fragments"].reverse()
+        with self.assertRaises(ValueError):
+            latest._failure711_binding(bad)
+        bad = copy.deepcopy(document)
+        fragment = bad["failure711_bindings"][latest.OFFLINE]["fragments"][0]
+        fragment["after"] += "# unknown711 fragment tail\n"
+        fragment["after_fragment_sha256"] = sha(fragment["after"].encode())
+        with self.assertRaises(ValueError):
+            latest._failure711_binding(bad)
+        for bad in ({}, {"failure711_bindings": {}},
+                    {"failure711_bindings": {latest.OFFLINE: row, latest.WORKFLOW: row}}):
+            with self.assertRaises(ValueError):
+                latest._failure711_binding(bad)
+        bad = copy.deepcopy(document)
+        bad["raw_inputs"][latest.OFFLINE] = {"sha256": row["before_sha256"], "bytes": row["before_bytes"]}
+        with self.assertRaises(ValueError):
+            latest._shape(bad, ROOT)
+        bad = copy.deepcopy(document)
+        bad["raw_inputs"][latest.FAILURE711_HELPER]["sha256"] = "0" * 64
+        with self.assertRaises(ValueError):
+            latest._shape(bad, ROOT)
+
+    def test44_old707_partial_tailed_unknown_and_named_bytes_never_enter_new_current_or_history_chain(self):
+        document = latest._document(ROOT)
+        raw = (ROOT / latest.OFFLINE).read_bytes()
+        row = document["failure711_bindings"][latest.OFFLINE]
+        old707 = latest._failure711_to_budget707(raw, document)
+        fragment = row["fragments"][0]
+        self.assertEqual(1, old707.count(fragment["before"].encode()))
+        partial = old707.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
+        named190 = latest.current_source_in_view(latest.OFFLINE, raw, latest.PRODUCER_VIEW, ROOT)
+        named175 = latest.current_source_in_view(latest.OFFLINE, raw, latest.CI_VIEW, ROOT)
+        bad_images = (old707, partial, raw[:-1], raw + b"\n# unknown711 tail\n", raw + raw, named190, named175)
+        self.assertTrue(all(image != raw for image in bad_images))
+        for view in (latest.CI_VIEW, latest.PRODUCER_VIEW):
+            with patch.object(latest, "_view", side_effect=AssertionError("old/unknown must not enter new chain")):
+                for image in bad_images:
+                    with self.assertRaises(ValueError):
+                        latest.current_source_in_view(latest.OFFLINE, image, view, ROOT)
+                    self.assertEqual(image, latest.peel_for_history(latest.OFFLINE, image, view, ROOT))
+
+    def test45_narrow711_707_data_peel_reads_only_repository_transition_no_named_ancestors(self):
+        document = latest._document(ROOT)
+        for relative in latest.BUDGET707_FRAGMENT_COUNTS:
+            raw = (ROOT / relative).read_bytes()
+            row = document["derivative_bindings"][relative]
+            with patch.object(latest, "_document", side_effect=AssertionError("no whole ancestor traversal")), \
+                 patch.object(latest, "_view", side_effect=AssertionError("no named view")), \
+                 patch.object(latest, "_sealed_predecessor_hashes", side_effect=AssertionError("no named manifests")), \
+                 patch.object(latest, "_ordinary", wraps=latest._ordinary) as read:
+                before = latest.peel_budget707_for_history(relative, raw, ROOT)
+            self.assertEqual([(ROOT, latest.SPEC, latest.MAX_SPEC)], [call.args for call in read.call_args_list])
+            self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(before), len(before)))
+        raw = (ROOT / latest.OFFLINE).read_bytes()
+        old707 = latest._failure711_to_budget707(raw, document)
+        old190 = latest.current_source_in_view(latest.OFFLINE, raw, latest.PRODUCER_VIEW, ROOT)
+        old175 = latest.current_source_in_view(latest.OFFLINE, raw, latest.CI_VIEW, ROOT)
+        for image in (old707, old190, old175, raw + b"\n# unrecognized diagnostic tail\n"):
+            with patch.object(latest, "_document", side_effect=AssertionError("no layer search")), \
+                 patch.object(latest, "_view", side_effect=AssertionError("no named view")), \
+                 patch.object(latest, "_ordinary", wraps=latest._ordinary) as read:
+                self.assertEqual(image, latest.peel_budget707_for_history(latest.OFFLINE, image, ROOT))
+            self.assertEqual([(ROOT, latest.SPEC, latest.MAX_SPEC)], [call.args for call in read.call_args_list])
+        for relative in (latest.FAILURE711_HELPER, latest.FAILURE711_CONTROL, latest.BUDGET707_CONTROL):
+            raw_control = (ROOT / relative).read_bytes()
+            with patch.object(latest, "_ordinary", side_effect=AssertionError("new source is not a transition")):
+                self.assertEqual(raw_control, latest.peel_budget707_for_history(relative, raw_control, ROOT))
+        bad = copy.deepcopy(document)
+        bad["failure711_bindings"][latest.OFFLINE]["after_bytes"] -= 1
+        fake = (json.dumps(bad, sort_keys=True, separators=(",", ":")) + "\n").encode()
+        with patch.object(latest, "SPEC_SHA256", sha(fake)), \
+             patch.object(latest, "_ordinary", return_value=(fake, {})), \
+             patch.object(latest, "_document", side_effect=AssertionError("no named traversal")):
+            with self.assertRaises(ValueError):
+                latest.peel_budget707_for_history(latest.OFFLINE, raw, ROOT)
+
+    def test46_714_path_only_cache_fresh_custody_512k_template_and_original_new10_bytes_hold(self):
+        source = (ROOT / latest.OWNER).read_bytes()
+        tree = ast.parse(source)
+        nodes = {node.name: node for node in tree.body if isinstance(node, ast.FunctionDef)}
+        unchanged714_ast_sha256 = {'_binding': '6ba592ce270a9a706935c244451647c876378efded71479ca6feedbb8b2641d2', '_budget707_in_named_domain': 'c84509a2b4a51cb7ec23baca441531dcdceb8366023d4304937b25a27bc00b39', '_cached_source_path_parts': '5835654a0ba8aad1e7af3cfc78ca8e62f763c9c651941be8753a8abd87962110', '_descriptor_source_io_supported': '27ac006fc5cf879f981e92e92127c2f63dc8708bc4c61ac6155eb7372045752e', '_endpoint': '540a530093decfec67d9a59a4d50627a1fc13a22ebba189f4512181fdec640d9', '_identity': '74b6a95e82827ed5d196df0000c94134b8c01baffc7e6c49d37c28f33173ccf2', '_inverse_to_ancestor': 'bd084e93798ef6194dce5ce46ea1be4ff4f6c7541decf5dc72dda6490a19e9fa', '_ordinary': '86ae381abd3132f59d5eba89dd600bf4f32e9b2fc3eebb897f8d6c8393335df2', '_own_payload': 'ecf4bcaa7bdb2110948a48e4c18d96b9bcab2c627ef461720e2993764e4dc7e9', '_portable_ordinary': 'b718e70eb8d21ae27fda58fa9187d3d2353c96ce6c074a8942ed08b79666de93', '_raw_payload': '1cfaf674f3a8ac70ec573a7b6e78884bc09301a6c58142634b107ac95592aced', '_sealed_predecessor_hashes': 'a5663d25777af4094b751a4f094b48bb7ce531bd886fe6d19f09ad0accdd4e2e'}
+        for name, digest in unchanged714_ast_sha256.items():
+            self.assertEqual(digest, sha(ast.dump(nodes[name], include_attributes=False).encode()), name)
+        decorated_cache = [node.name for node in nodes.values()
+                           if any(isinstance(decorator, ast.Call) and isinstance(decorator.func, ast.Name)
+                                  and decorator.func.id == "lru_cache" for decorator in node.decorator_list)]
+        self.assertEqual(["_cached_source_path_parts"], decorated_cache)
+        document = latest._document(ROOT)
+        needle = ('SPEC_SHA256 = "' + latest.SPEC_SHA256 + '"\n').encode()
+        self.assertEqual(1, source.count(needle))
+        template = source.replace(needle, ('SPEC_SHA256 = "' + '0' * 64 + '"\n').encode(), 1)
+        self.assertEqual(document["own_guard"]["template_sha256"], sha(template))
+        self.assertEqual(document["own_guard"]["bytes"], len(source))
+        self.assertEqual(512 * 1024, latest.MAX_SPEC)
+        self.assertLessEqual(len((ROOT / latest.SPEC).read_bytes()), 512 * 1024)
+        self.assertEqual("c82a70f4890b4a7d2bddfa60ef2273dfb4a41c9005871234282363e745fed14f",
+                         sha((ROOT / latest.FAILURE711_CONTROL).read_bytes()))
+        self.assertEqual("3bcb54e114807b6ffd4c2337367407354412312b1adecaba356ad57cdb5ccd28",
+                         sha((ROOT / latest.FAILURE711_HELPER).read_bytes()))
+        self.assertEqual("128e215ccbe2077b8089930fea4f0bb3f989208f645f1f047d079b8b15d7d496",
+                         sha((ROOT / latest.BUDGET707_CONTROL).read_bytes()))
 
 
 if __name__ == "__main__":

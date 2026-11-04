@@ -1,5 +1,21 @@
 # NativeCmpKit development after the audit
 
+## Qualified producer performance and failure-only evidence batch — 2026-11-04
+
+[714](evidence/current-platform-recovery-20261101/tooling-producer709-path714/README.md)
+reduces two local profiled pure transformations from11.7746s to6.8315s with
+identical outputs; this does not establish the hosted timeout cause/capacity.
+[711/717–719](evidence/current-platform-recovery-20261101/tooling-progress711-719/README.md)
+adds bounded failure-only lexical progress and a separately sealed current282
+ingress. Changed7+NEW6 pass13/13 once; independent review and exact ROOT adoption
+complete. Actual Camera/Android source plans, Actionlint and resolution freshness
+pass. FIRST failures/unexecuted proposals remain archived; no accepted-test replay.
+No new native/compiler/consumer/issue success follows. Next changed successful
+producer, four-selector authentication and same-HEAD Camera5/AndroidWebView5.
+Windows ordinary-consumer and Android lifecycle branches are committed separately;
+their remaining original native criteria are still open.103closed/69open/172 and
+all existing publication/readiness/security gates remain unchanged.
+
 ## Grouped tooling recovery and Cookie/Share source adoption — 2026-11-04
 
 [707–708](evidence/current-platform-recovery-20261101/tooling-cookie-share707-708/README.md)

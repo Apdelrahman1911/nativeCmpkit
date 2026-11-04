@@ -1,5 +1,53 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Changed producer patch qualified and frozen — 2026-11-04
+
+[711/717–719](docs/development/evidence/current-platform-recovery-20261101/tooling-progress711-719/README.md)
+adopts5modified+2NEW/25UTF8/eightJSON operations after607 independent source/results
+acceptance. Changed7+NEW6 FIRST13 passes13/13 once/16.648s/child16.822648508939892s;
+287named/282model inputs held/owned model removed. FIRST10 reused, V1 unexecuted
+pretty-fixture512KiB refusal and all prior refusals retained; compact498730B.
+ActualROOT282 source plans Camera5/AndroidWebView5 pass16.0018s; Actionlint0/
+resolution164current.714 cache unchanged; exact7116a4→58f precedes unchanged707/
+named175/190/40/36, fresh custody/1500s/30min unchanged. ZERO new compiler/native/
+consumer/closure or producer success. Original709 remains FAILED/nonreusable.
+Windows16 branch7d2029823b8a and Android18 branch8406231d1cab committed/pushed,
+source-only/#64/#19/#107open; Windows has no joint repin gap, Android successor
+separately unqualified. Next developmentfreeze/push→changedcompleteproducer→fourID
+authenticatedreuse→sameHEAD Camera5/AndroidWebView5, no intervening docs commit;
+then missing AndroidCamera callback1/Dont-keepC1 for#76/#13.103closed/69open/172,
+22implemented/36partial/101verified/five unresolved unchanged;#144/#171/#102closed.
+Lead integration/Git/dispatch/closure; isolated parallel work/seriallocal8GiBdisk/
+compiler6GiBmemory/max2combinedhosted INCLUDINGqueued/reserved. Actions/all/
+no mandatorySHA/minimumpermissions and every publishing/Pages/main/history/
+native/consumer/API–ABI/dependency/legal/security/release-readiness gate remain.
+
+## Producer709 failed; path memoization714 accepted — 2026-11-04
+
+[709/713–714](docs/development/evidence/current-platform-recovery-20261101/tooling-producer709-path714/README.md)
+preserves41884392105 FAILED/tooling126764856774/sevenzero-step skips/zeroartifacts.
+Only audit35+migration80+development96=211 reported source tests completed. CI4
+refuses1498.242s allocation; output operand null/short-circuited. Last CI method,
+fullcount/cause/signature-body/final cleanup remain unavailable; no reuse certificate.
+Do not retry086 unchanged or dispatch native reuse against709.
+Two pure profiled transforms71311.7746s/28.3Mcalls become prototype7146.8315s/9.8M
+with exact input/output hashes: local42% improvement, not hosted cause/capacity.
+Exact two modified/four fragments+twoNEW adopted after607 source/results review;
+onlyfailedRED01+NEW02–10 pass10/10 once/2.171s/outer2.426010197s/612held. Cache only
+immutable successful path grammar/max512; cheap exactstr/length guard precedes hash.
+All payload/FS/root/descriptor/manifest/dependency/ten-scope/budget/refusal checks
+remain fresh. Raw280/named175/190/40/36 unchanged at714; FIRSTRED stays failed.
+Failure-progress711 separately passes NEW10 once but joint ingress is not yet
+qualified/adopted. Windows ordinary consumer16 sources and Android lifecycle23
+source controls are isolated; native/whole-issue acceptance remains missing.
+HEAD086 remains uncommitted for this checkpoint. Next qualify711→developmentfreeze/
+push→successful completeproducer→four-ID authenticatedreuse→sameHEAD Camera5/Android5,
+no intervening docs commit.103closed/69open/172,22implemented/36partial/101verified/
+five unresolved unchanged;#144/#171 closed already. Lead integration/Git/dispatch/
+closure, serial-local8GiB disk/compiler6GiB memory/max2hosted INCLUDINGqueued/reserved,
+Actions/all/no mandatorySHA/minimumpermissions and every publishing/Pages/main/history/
+native/consumer/API–ABI/dependency/legal/security/release-readiness gate remain.
+
 ## Grouped CI recovery accepted and integrated — 2026-11-04
 
 [707–708](docs/development/evidence/current-platform-recovery-20261101/tooling-cookie-share707-708/README.md)

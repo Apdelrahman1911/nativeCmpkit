@@ -1,0 +1,142 @@
+{
+  "after_bytes": 498730,
+  "after_sha256": "68373d73aac26d71c0ca092fe2b0517fdb940417adca6430f15e744a5faf4988",
+  "all_unlisted_JSON_fields_unchanged": true,
+  "before_bytes": 492042,
+  "before_sha256": "37ae162dc74c74766a78aaffcc795c609c0f9d27792a9e1cd0761d299b6609b4",
+  "operation_count": 8,
+  "operations": [
+    {
+      "after": {
+        "scripts/ci/offline_tooling_reuse.py": {
+          "after_bytes": 59762,
+          "after_sha256": "58f08f3fcda1e490743a8d28f7881473a28f5fcd1a3127abfffce35d6e7b2cb5",
+          "before_bytes": 54720,
+          "before_sha256": "6a4c6509ce1c205f590456789c63fe99b475dc0e83242e751aef08e274fa087c",
+          "fragments": [
+            {
+              "after": "def emit_scope_failure_progress(scope, output, *, phase, sampled_after_refusal):\n    \"\"\"Secondary lexical metadata from the same failed prefix; never heartbeat work.\"\"\"\n    try:\n        if (type(scope) is not tuple or len(scope) != 2 or any(type(value) is not str for value in scope)\n                or scope not in SCOPES or type(output) is not bytes or len(output) > MAX_LOG_BYTES + 1\n                or type(phase) is not str\n                or phase not in {\"startup\", \"retain-child\", \"wait-clock\", \"wait-output\", \"wait-guard\", \"wait-sleep\", \"cleanup\", \"post-cleanup-summary\"}\n                or type(sampled_after_refusal) is not bool):\n            return\n        scope = SCOPES[SCOPES.index(scope)]\n        progress = None\n        try:\n            from offline_tooling_failure_evidence711 import observe_progress\n            found = observe_progress(output)\n            fields = {\"qualified_parent_progress_observations\", \"terminal_token_observations\",\n                      \"unresolved_or_interleaved_progress_observations\", \"last_qualified_parent_progress\",\n                      \"parsed_prefix_bytes\", \"limits_observed\"}\n            limits = {\"input_byte_cap\", \"line_cap\", \"line_byte_cap\", \"non_utf8_line\",\n                      \"unqualified_progress\", \"credential_shaped_id\"}\n            require(type(found) is dict and set(found) == fields, \"Unknown progress metadata\")\n            count, pending, size = (found[key] for key in (\"qualified_parent_progress_observations\",\n                                   \"unresolved_or_interleaved_progress_observations\", \"parsed_prefix_bytes\"))\n            require(all(type(value) is int and 0 <= value <= 200000 for value in (count, pending))\n                    and type(size) is int and 0 <= size <= min(len(output), 16 * 1024**2), \"Unknown progress bounds\")\n            tokens, capped, last = (found[key] for key in\n                                   (\"terminal_token_observations\", \"limits_observed\", \"last_qualified_parent_progress\"))\n            require(type(tokens) is dict and set(tokens) == {\"ok\", \"FAIL\", \"ERROR\"}\n                    and all(type(value) is int and 0 <= value <= count for value in tokens.values())\n                    and sum(tokens.values()) + pending == count\n                    and type(capped) is dict and set(capped) == limits\n                    and all(type(value) is bool for value in capped.values()), \"Unknown progress observations\")\n            require((last is None and count == 0) or (type(last) is dict and count > 0), \"Unknown last progress\")\n            if last is not None:\n                require(set(last) == {\"testcase_id\", \"result_token\", \"line_number\", \"byte_offset\", \"line_terminated\"},\n                        \"Unknown last-progress fields\")\n                identifier = last[\"testcase_id\"]\n                require(type(identifier) is str and len(identifier) <= 384 and identifier.isascii()\n                        and re.fullmatch(r\"[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)+\", identifier)\n                        and identifier.rsplit(\".\", 1)[-1].startswith(\"test_\")\n                        and not re.search(r\"(?i)github_pat_|gh[pousr]_|(?:^|[._-])sk[-_]\", identifier)\n                        and type(last[\"result_token\"]) is str\n                        and last[\"result_token\"] in {\"ok\", \"FAIL\", \"ERROR\", \"unresolved-or-interleaved\"}\n                        and type(last[\"line_number\"]) is int and 0 < last[\"line_number\"] <= 200000\n                        and type(last[\"byte_offset\"]) is int and 0 <= last[\"byte_offset\"] < size\n                        and type(last[\"line_terminated\"]) is bool, \"Unknown last-progress values\")\n            progress = found\n        except BaseException:\n            pass  # Unavailable helper/metadata is not a count, private message or cause.\n        record = {\"schema\": \"nativecmpkit-offline-scope-progress711-v1\", \"diagnostic_only\": True,\n                  \"directory\": scope[0], \"pattern\": scope[1], \"scope_index\": SCOPES.index(scope) + 1,\n                  \"phase\": phase, \"sample_is_after_refusal\": sampled_after_refusal,\n                  \"stream_observation\": \"original-merged-stdout-stderr-prefix\",\n                  \"progress_observation_available\": progress is not None,\n                  \"progress\": progress, \"complete_output\": False,\n                  \"counts_are_progress_observations_not_tests\": True,\n                  \"last_progress_is_not_current_test_or_failure_cause\": True,\n                  \"subtest_parameters_raw_output_messages_or_environment_exported\": False,\n                  \"reusable_certificate\": False}\n        public = \"[offline-scope-progress] \" + canonical(record).decode(\"ascii\")\n        if len(public.encode(\"ascii\")) <= MAX_SCOPE_EVENT_BYTES:\n            print(public, file=sys.stderr, flush=True)\n    except BaseException:\n        pass  # Secondary metadata I/O never replaces the primary or owned cleanup.\n\n\ndef emit_scope_buffer_metadata(scope, output, *, phase, sampled_after_refusal):\n",
+              "after_fragment_sha256": "e987013f77e531cbf76e3d03ce644fbe0f1a62177a79d24b98af1a5e6f1e63ec",
+              "before": "def emit_scope_buffer_metadata(scope, output, *, phase, sampled_after_refusal):\n",
+              "before_fragment_sha256": "65852845e53b2652fa9ad1bd4e31b059be6171b9f2d5a0914b01e14665327f63"
+            },
+            {
+              "after": "        emit_scope_failure_inventory(output)\n        emit_scope_failure_progress(scope, output, phase=phase,\n                                    sampled_after_refusal=sampled_after_refusal)\n    except BaseException:\n        pass\n\n\ndef emit_scope_refusal",
+              "after_fragment_sha256": "7d1825e4f3ee5a7762c5b705bd2982090035566a3c86333c373c10d52259c80c",
+              "before": "        emit_scope_failure_inventory(output)\n    except BaseException:\n        pass\n\n\ndef emit_scope_refusal",
+              "before_fragment_sha256": "9defb05e36ca3783fc60d978cfe40ff0cd62a3a8dc52d68fd77fc0c34681bd82"
+            }
+          ]
+        }
+      },
+      "before": null,
+      "before_absent": true,
+      "op": "add",
+      "path_keys": [
+        "failure711_bindings"
+      ]
+    },
+    {
+      "after": {
+        "bytes": 59762,
+        "sha256": "58f08f3fcda1e490743a8d28f7881473a28f5fcd1a3127abfffce35d6e7b2cb5"
+      },
+      "before": {
+        "bytes": 54720,
+        "sha256": "6a4c6509ce1c205f590456789c63fe99b475dc0e83242e751aef08e274fa087c"
+      },
+      "before_absent": false,
+      "op": "replace",
+      "path_keys": [
+        "raw_inputs",
+        "scripts/ci/offline_tooling_reuse.py"
+      ]
+    },
+    {
+      "after": {
+        "bytes": 66363,
+        "sha256": "75e5d90c996dac078d510dd2af2fe7202cd7bacd60643fa8485131b8250866d6"
+      },
+      "before": {
+        "bytes": 51644,
+        "sha256": "ba7cb30cadf0e926e3f26c9c0a47fedf6caae27e4cabb7663919dbcdb354bd81"
+      },
+      "before_absent": false,
+      "op": "replace",
+      "path_keys": [
+        "raw_inputs",
+        "scripts/ci/test_macos_share_ci668_composition.py"
+      ]
+    },
+    {
+      "after": {
+        "bytes": 24169,
+        "sha256": "a9fdcb8fc8e74ce8d3ac852bd748aac00084d10e52ee0508ead71474488aa4c2"
+      },
+      "before": {
+        "bytes": 20807,
+        "sha256": "4bdb801bc47ba5c9af39d9a5b9cbb02cce2425d4d68b12865d56d366fb6446dc"
+      },
+      "before_absent": false,
+      "op": "replace",
+      "path_keys": [
+        "raw_inputs",
+        "docs/testing/macos-share-ci668-composition.md"
+      ]
+    },
+    {
+      "after": {
+        "bytes": 3590,
+        "sha256": "3bcb54e114807b6ffd4c2337367407354412312b1adecaba356ad57cdb5ccd28"
+      },
+      "before": null,
+      "before_absent": true,
+      "op": "add",
+      "path_keys": [
+        "raw_inputs",
+        "scripts/ci/offline_tooling_failure_evidence711.py"
+      ]
+    },
+    {
+      "after": {
+        "bytes": 15313,
+        "sha256": "c82a70f4890b4a7d2bddfa60ef2273dfb4a41c9005871234282363e745fed14f"
+      },
+      "before": null,
+      "before_absent": true,
+      "op": "add",
+      "path_keys": [
+        "raw_inputs",
+        "scripts/ci/test_offline_tooling_failure_evidence711.py"
+      ]
+    },
+    {
+      "after": "Exact joint282 raw source, exact711 diagnostic transition then unchanged707 prelude then CI175/Cookie40/Share36/producer190 named ancestry; ZERO native/compiler/producer-reuse/consumer/security/issue/release acceptance",
+      "before": "Exact joint280 raw source, exact707 prelude then CI175/Cookie40/Share36/producer190 named ancestry; ZERO native/compiler/producer-reuse/consumer/security/issue/release acceptance",
+      "before_absent": false,
+      "op": "replace",
+      "path_keys": [
+        "scope"
+      ]
+    },
+    {
+      "after": {
+        "bytes": 43194,
+        "template_sha256": "180d0d16150a0d3c6de068df0e5b94ead63de715e63c6545caefc777691581c4"
+      },
+      "before": {
+        "bytes": 39477,
+        "template_sha256": "7dfc9f57d580acc7dd4eafff333950817a70d5f0e25e264e8d487e1156f8abbf"
+      },
+      "before_absent": false,
+      "op": "replace",
+      "path_keys": [
+        "own_guard"
+      ]
+    }
+  ],
+  "path": "scripts/ci/fixtures/macos-share-ci668-composition.json",
+  "reverse_forward_verified_passively": true,
+  "schema": "nativecmpkit-joint711-on714-exact-spec-operations-v1",
+  "serializer": "json.dumps(sort_keys=True,separators=(comma,colon)) plus one newline, UTF8"
+}

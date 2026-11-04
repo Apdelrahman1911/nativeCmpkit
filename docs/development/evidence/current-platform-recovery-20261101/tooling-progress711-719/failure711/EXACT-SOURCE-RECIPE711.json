@@ -1,0 +1,152 @@
+{
+  "Git_network_build_native_issue_mutations": 0,
+  "HEAD_observed_by_this_agent_with_Git": false,
+  "ROOT_source_writes": 0,
+  "addition_count": 2,
+  "additions": [
+    {
+      "ROOT_precondition": "absent; create exclusively; no overwrite",
+      "bytes": 3590,
+      "candidate_path": "postimages/scripts/ci/offline_tooling_failure_evidence711.py",
+      "observed_candidate_mode_octal": "0644",
+      "path": "scripts/ci/offline_tooling_failure_evidence711.py",
+      "requested_mode_octal": "0644",
+      "sha256": "3bcb54e114807b6ffd4c2337367407354412312b1adecaba356ad57cdb5ccd28"
+    },
+    {
+      "ROOT_precondition": "absent; create exclusively; no overwrite",
+      "bytes": 15313,
+      "candidate_path": "postimages/scripts/ci/test_offline_tooling_failure_evidence711.py",
+      "observed_candidate_mode_octal": "0644",
+      "path": "scripts/ci/test_offline_tooling_failure_evidence711.py",
+      "requested_mode_octal": "0644",
+      "sha256": "c82a70f4890b4a7d2bddfa60ef2273dfb4a41c9005871234282363e745fed14f"
+    }
+  ],
+  "adoption_constraints": [
+    "Lead only; compare exact ROOT preimage and preserve its original mode before one source write.",
+    "Create two additions exclusively with explicit0644 modes; verify exact bytes and modes.",
+    "Latest current joint/source qualification must own this exact711 delta and new paths before any full producer; preserve named historical pins.",
+    "No unchanged709 retry; actual new successful changed producer plus four-ID authenticated reuse remain required before native work."
+  ],
+  "exact_reversible_fragment_count": 2,
+  "existing_modifications": [
+    {
+      "candidate_code_executed": false,
+      "existing_path": "scripts/ci/offline_tooling_reuse.py",
+      "fragments": [
+        {
+          "name": "failure-progress-emitter-only",
+          "new_utf8": "def emit_scope_failure_progress(scope, output, *, phase, sampled_after_refusal):\n    \"\"\"Secondary lexical metadata from the same failed prefix; never heartbeat work.\"\"\"\n    try:\n        if (type(scope) is not tuple or len(scope) != 2 or any(type(value) is not str for value in scope)\n                or scope not in SCOPES or type(output) is not bytes or len(output) > MAX_LOG_BYTES + 1\n                or type(phase) is not str\n                or phase not in {\"startup\", \"retain-child\", \"wait-clock\", \"wait-output\", \"wait-guard\", \"wait-sleep\", \"cleanup\", \"post-cleanup-summary\"}\n                or type(sampled_after_refusal) is not bool):\n            return\n        scope = SCOPES[SCOPES.index(scope)]\n        progress = None\n        try:\n            from offline_tooling_failure_evidence711 import observe_progress\n            found = observe_progress(output)\n            fields = {\"qualified_parent_progress_observations\", \"terminal_token_observations\",\n                      \"unresolved_or_interleaved_progress_observations\", \"last_qualified_parent_progress\",\n                      \"parsed_prefix_bytes\", \"limits_observed\"}\n            limits = {\"input_byte_cap\", \"line_cap\", \"line_byte_cap\", \"non_utf8_line\",\n                      \"unqualified_progress\", \"credential_shaped_id\"}\n            require(type(found) is dict and set(found) == fields, \"Unknown progress metadata\")\n            count, pending, size = (found[key] for key in (\"qualified_parent_progress_observations\",\n                                   \"unresolved_or_interleaved_progress_observations\", \"parsed_prefix_bytes\"))\n            require(all(type(value) is int and 0 <= value <= 200000 for value in (count, pending))\n                    and type(size) is int and 0 <= size <= min(len(output), 16 * 1024**2), \"Unknown progress bounds\")\n            tokens, capped, last = (found[key] for key in\n                                   (\"terminal_token_observations\", \"limits_observed\", \"last_qualified_parent_progress\"))\n            require(type(tokens) is dict and set(tokens) == {\"ok\", \"FAIL\", \"ERROR\"}\n                    and all(type(value) is int and 0 <= value <= count for value in tokens.values())\n                    and sum(tokens.values()) + pending == count\n                    and type(capped) is dict and set(capped) == limits\n                    and all(type(value) is bool for value in capped.values()), \"Unknown progress observations\")\n            require((last is None and count == 0) or (type(last) is dict and count > 0), \"Unknown last progress\")\n            if last is not None:\n                require(set(last) == {\"testcase_id\", \"result_token\", \"line_number\", \"byte_offset\", \"line_terminated\"},\n                        \"Unknown last-progress fields\")\n                identifier = last[\"testcase_id\"]\n                require(type(identifier) is str and len(identifier) <= 384 and identifier.isascii()\n                        and re.fullmatch(r\"[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)+\", identifier)\n                        and identifier.rsplit(\".\", 1)[-1].startswith(\"test_\")\n                        and not re.search(r\"(?i)github_pat_|gh[pousr]_|(?:^|[._-])sk[-_]\", identifier)\n                        and type(last[\"result_token\"]) is str\n                        and last[\"result_token\"] in {\"ok\", \"FAIL\", \"ERROR\", \"unresolved-or-interleaved\"}\n                        and type(last[\"line_number\"]) is int and 0 < last[\"line_number\"] <= 200000\n                        and type(last[\"byte_offset\"]) is int and 0 <= last[\"byte_offset\"] < size\n                        and type(last[\"line_terminated\"]) is bool, \"Unknown last-progress values\")\n            progress = found\n        except BaseException:\n            pass  # Unavailable helper/metadata is not a count, private message or cause.\n        record = {\"schema\": \"nativecmpkit-offline-scope-progress711-v1\", \"diagnostic_only\": True,\n                  \"directory\": scope[0], \"pattern\": scope[1], \"scope_index\": SCOPES.index(scope) + 1,\n                  \"phase\": phase, \"sample_is_after_refusal\": sampled_after_refusal,\n                  \"stream_observation\": \"original-merged-stdout-stderr-prefix\",\n                  \"progress_observation_available\": progress is not None,\n                  \"progress\": progress, \"complete_output\": False,\n                  \"counts_are_progress_observations_not_tests\": True,\n                  \"last_progress_is_not_current_test_or_failure_cause\": True,\n                  \"subtest_parameters_raw_output_messages_or_environment_exported\": False,\n                  \"reusable_certificate\": False}\n        public = \"[offline-scope-progress] \" + canonical(record).decode(\"ascii\")\n        if len(public.encode(\"ascii\")) <= MAX_SCOPE_EVENT_BYTES:\n            print(public, file=sys.stderr, flush=True)\n    except BaseException:\n        pass  # Secondary metadata I/O never replaces the primary or owned cleanup.\n\n\ndef emit_scope_buffer_metadata(scope, output, *, phase, sampled_after_refusal):\n",
+          "old_utf8": "def emit_scope_buffer_metadata(scope, output, *, phase, sampled_after_refusal):\n",
+          "postimage_occurrences": 1,
+          "preimage_occurrences": 1
+        },
+        {
+          "name": "same-failed-buffer-wiring-only",
+          "new_utf8": "        emit_scope_failure_inventory(output)\n        emit_scope_failure_progress(scope, output, phase=phase,\n                                    sampled_after_refusal=sampled_after_refusal)\n    except BaseException:\n        pass\n\n\ndef emit_scope_refusal",
+          "old_utf8": "        emit_scope_failure_inventory(output)\n    except BaseException:\n        pass\n\n\ndef emit_scope_refusal",
+          "postimage_occurrences": 1,
+          "preimage_occurrences": 1
+        }
+      ],
+      "inverse_verified_passively": true,
+      "postimage_bytes": 59762,
+      "postimage_sha256": "58f08f3fcda1e490743a8d28f7881473a28f5fcd1a3127abfffce35d6e7b2cb5",
+      "preimage_bytes": 54720,
+      "preimage_sha256": "6a4c6509ce1c205f590456789c63fe99b475dc0e83242e751aef08e274fa087c"
+    }
+  ],
+  "existing_path_count": 1,
+  "inherited_frozen_HEAD": "086224e97cf74c1cc30277b4c6b321867de725df",
+  "known_limits": [
+    "Only existing failure-prefix metadata path gains one lexical progress projection; no heartbeat rescans.",
+    "Last qualifying progress is not authenticated/current method, a successful test count or a failure/hang cause.",
+    "Already merged stdout/stderr cannot be retrospectively separated; no raw stream or signed URL is exported by this new feature.",
+    "This minimal patch adds no artifact retention and cannot recover historical698/709 missing originals.",
+    "Private/unparseable/truncated/interleaved/subtest output can leave last progress unknown."
+  ],
+  "new_controls_executed": 0,
+  "owner_assignment": "/root/camera_independent620; lead /root alone owns integration/Git/dispatch/acceptance",
+  "passive_input_custody": [
+    {
+      "bytes": 54720,
+      "mode_octal": "0644",
+      "path": "scripts/ci/offline_tooling_reuse.py",
+      "role": "passive source custody; not an executed result",
+      "sha256": "6a4c6509ce1c205f590456789c63fe99b475dc0e83242e751aef08e274fa087c"
+    },
+    {
+      "bytes": 44437,
+      "mode_octal": "0644",
+      "path": "scripts/ci/offline_tooling_provenance.py",
+      "role": "passive source custody; not an executed result",
+      "sha256": "dc4811e34272e4b67e1abfb82b9cf0bc9d79a7bf01a9cfad205eb0f007b3f63a"
+    },
+    {
+      "bytes": 9174,
+      "mode_octal": "0644",
+      "path": "scripts/ci/offline_tooling_failure_inventory.py",
+      "role": "passive source custody; not an executed result",
+      "sha256": "2df6e8e67fe614b189b5109ddf0a9272cf140372f2236e9b985926200ce1693d"
+    },
+    {
+      "bytes": 87031,
+      "mode_octal": "0600",
+      "path": ".github/workflows/gradle.yml",
+      "role": "passive source custody; not an executed result",
+      "sha256": "7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566"
+    },
+    {
+      "bytes": 21208,
+      "mode_octal": "0644",
+      "path": "scripts/ci/test_offline_tooling_failure_inventory.py",
+      "role": "passive source custody; not an executed result",
+      "sha256": "6c9db9a3b50b03a16aafe9065221151619361ecf797cbba4a4951e317913b4cb"
+    },
+    {
+      "bytes": 17723,
+      "mode_octal": "0644",
+      "path": "scripts/ci/test_offline_tooling_scope_observation707.py",
+      "role": "passive source custody; not an executed result",
+      "sha256": "128e215ccbe2077b8089930fea4f0bb3f989208f645f1f047d079b8b15d7d496"
+    },
+    {
+      "bytes": 49957,
+      "mode_octal": "0644",
+      "path": "scripts/ci/test_offline_tooling_reuse.py",
+      "role": "passive source custody; not an executed result",
+      "sha256": "6012ff90b004ec2631c17c05f65e116c88766d3089113a5ad2fee7a6e61ff94e"
+    },
+    {
+      "bytes": 25581,
+      "mode_octal": "0644",
+      "path": "scripts/ci/test_offline_tooling_workflow.py",
+      "role": "passive source custody; not an executed result",
+      "sha256": "2e80e09f8e67add098e1f4f3407c41230ad5ae3f92c97efa214faf93bffa0484"
+    },
+    {
+      "bytes": 38890,
+      "mode_octal": "0644",
+      "path": "scripts/ci/macos_share_ci668_composition.py",
+      "role": "passive source custody; not an executed result",
+      "sha256": "3a6dc84400e8f370661abeabe6ea0efd7cc4763f4982a00a51914e386c88c23c"
+    },
+    {
+      "bytes": 492042,
+      "mode_octal": "0644",
+      "path": "scripts/ci/fixtures/macos-share-ci668-composition.json",
+      "role": "passive source custody; not an executed result",
+      "sha256": "0980a16ed007cef56b7364b7304a4b41dca2d2df3b9b30cb51d92acfccbd74a9"
+    }
+  ],
+  "prepared_at_utc": "2026-11-04T18:55:12.161392+00:00",
+  "schema": "nativecmpkit-producer-failure-progress711-source-recipe-v1",
+  "status": "EXTERNAL_SOURCE_PROPOSAL_PRE_EXECUTION_ONLY",
+  "unchanged_semantics": [
+    "All ten SCOPES, TOTAL_SCOPE_SECONDS1500, heartbeat cadence/count caps and original loop short-circuit remain exact.",
+    "execute_scope/run_scopes/scope_summary/check/tooling_actions/capture_source/capture_runtime/producer_context are byte/AST unchanged.",
+    "Original failure inventory, buffer pread, primary-before-cleanup, original child disposal and raw-tail code remain unchanged.",
+    "No workflow/provenance/API/native/security/resource/timeout/source/dependency/receipt or publication gate changes."
+  ]
+}

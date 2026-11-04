@@ -1,3 +1,54 @@
+# Current joint282 failure-progress711 proposal above adopted714
+
+This NEW isolated source proposal is not ROOT adoption, producer/runtime,
+reuse-certificate, compiler/native, consumer, issue closure, security or release
+acceptance. All earlier sections below retain their dated populations, pins,
+commands and original failures; they are not current commands or replay permission.
+
+The proposed physical envelope has280 raw paths plus owner/manifest,282 total.
+Exactly two NEW raw paths are added: the bounded pure711 progress helper and its
+original10-control file. Current hashes after adoption must report reuse58f08f3f,
+not projected7076a4c6509 or named175/190 endpoints. This is not yet actual ROOT:
+ROOT714 is the separately observed280-input beforeimage.
+
+One separately sealed `failure711_bindings` row stores exactly the original two711
+spans6a4c6509->58f08f3f. The original707 row stays6a4c6509 with all three-file/six-span
+pins unchanged. Only in owning CI175/producer190 domains does the explicit711
+inverse precede707, then unchanged named175/190/9bd arithmetic. Cookie40/Share36
+do not own this reuse leaf and never peel it. All four named maps and7/4/3/8 rows,
+original39+707six+inventory708three derivative spans, named manifests and historical
+custody values remain byte-identical. The two711 additions enter no historical domain.
+
+Strict current admission requires complete physical58f08f3f. Old6a4c6509, partial,
+tailed, duplicated, unknown and named inverse images cannot become new current.
+History enters the new chain only from that exact711 descendant.
+`peel_budget707_for_history` remains one pinned repository-transition JSON read;
+reuse now projects only58f->6a4->612 data without named175/190/9bd reads. Older or
+unknown pass-through is DATA, never new current admission or a generic layer search.
+
+Adopted714 pure-path-only512-entry memoization is untouched. Files/stat/root,
+manifest/source/payload, descriptors and parent custody stay fresh; no filesystem
+result is cached. The compact manifest retains512KiB and the single owner template,
+using real source/owner/control/document endpoints rather than historical projections.
+
+The exact successor selection is seven minimally changed current-count or
+roundtrip methods01/02/03/21/27/32/37 plus six genuinely NEW methods41-46. Frozen
+recipe/selection must reach the lead before execution. Preserve FIRST and recover
+only failed/new owning changed methods. Unchanged38/39/40 and accepted FIRST10
+progress controls are reused, never replayed. Original FIRST10 remains direct0,
+10ok/suite0.280s/outer0.459426s at its historical saved custody, not a new result.
+
+Progress remains failure-buffer-only and diagnostic: no heartbeat rescan, new
+child read, raw artifact export, success-path helper work, budget or workflow
+change. Last lexical parent progress is not authenticated/current test identity,
+test totals, a hang/failure cause or escaped-child containment. Historical698/709
+missing output is not recovered. Successful changed producer plus four exact
+authenticated reuse selectors remain required before missing Camera/Android on
+one immutableHEAD. Lead alone integrates/Git/pushes/dispatches/accepts/closes; all
+publishing/native/consumer/security gates remain, with no publication from this work.
+
+## Historical document below — dated scopes, not current replay commands
+
 # Current joint279 source proposal above frozen producer676 at2ee
 
 This external **unexecuted/unadopted source-only successor** composes exact Cookie/

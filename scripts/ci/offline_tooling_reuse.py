@@ -503,6 +503,71 @@ def emit_scope_failure_inventory(output, *, include_tail=False):
             pass  # The existing red tail remains secondary to the failed summary.
 
 
+def emit_scope_failure_progress(scope, output, *, phase, sampled_after_refusal):
+    """Secondary lexical metadata from the same failed prefix; never heartbeat work."""
+    try:
+        if (type(scope) is not tuple or len(scope) != 2 or any(type(value) is not str for value in scope)
+                or scope not in SCOPES or type(output) is not bytes or len(output) > MAX_LOG_BYTES + 1
+                or type(phase) is not str
+                or phase not in {"startup", "retain-child", "wait-clock", "wait-output", "wait-guard", "wait-sleep", "cleanup", "post-cleanup-summary"}
+                or type(sampled_after_refusal) is not bool):
+            return
+        scope = SCOPES[SCOPES.index(scope)]
+        progress = None
+        try:
+            from offline_tooling_failure_evidence711 import observe_progress
+            found = observe_progress(output)
+            fields = {"qualified_parent_progress_observations", "terminal_token_observations",
+                      "unresolved_or_interleaved_progress_observations", "last_qualified_parent_progress",
+                      "parsed_prefix_bytes", "limits_observed"}
+            limits = {"input_byte_cap", "line_cap", "line_byte_cap", "non_utf8_line",
+                      "unqualified_progress", "credential_shaped_id"}
+            require(type(found) is dict and set(found) == fields, "Unknown progress metadata")
+            count, pending, size = (found[key] for key in ("qualified_parent_progress_observations",
+                                   "unresolved_or_interleaved_progress_observations", "parsed_prefix_bytes"))
+            require(all(type(value) is int and 0 <= value <= 200000 for value in (count, pending))
+                    and type(size) is int and 0 <= size <= min(len(output), 16 * 1024**2), "Unknown progress bounds")
+            tokens, capped, last = (found[key] for key in
+                                   ("terminal_token_observations", "limits_observed", "last_qualified_parent_progress"))
+            require(type(tokens) is dict and set(tokens) == {"ok", "FAIL", "ERROR"}
+                    and all(type(value) is int and 0 <= value <= count for value in tokens.values())
+                    and sum(tokens.values()) + pending == count
+                    and type(capped) is dict and set(capped) == limits
+                    and all(type(value) is bool for value in capped.values()), "Unknown progress observations")
+            require((last is None and count == 0) or (type(last) is dict and count > 0), "Unknown last progress")
+            if last is not None:
+                require(set(last) == {"testcase_id", "result_token", "line_number", "byte_offset", "line_terminated"},
+                        "Unknown last-progress fields")
+                identifier = last["testcase_id"]
+                require(type(identifier) is str and len(identifier) <= 384 and identifier.isascii()
+                        and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)+", identifier)
+                        and identifier.rsplit(".", 1)[-1].startswith("test_")
+                        and not re.search(r"(?i)github_pat_|gh[pousr]_|(?:^|[._-])sk[-_]", identifier)
+                        and type(last["result_token"]) is str
+                        and last["result_token"] in {"ok", "FAIL", "ERROR", "unresolved-or-interleaved"}
+                        and type(last["line_number"]) is int and 0 < last["line_number"] <= 200000
+                        and type(last["byte_offset"]) is int and 0 <= last["byte_offset"] < size
+                        and type(last["line_terminated"]) is bool, "Unknown last-progress values")
+            progress = found
+        except BaseException:
+            pass  # Unavailable helper/metadata is not a count, private message or cause.
+        record = {"schema": "nativecmpkit-offline-scope-progress711-v1", "diagnostic_only": True,
+                  "directory": scope[0], "pattern": scope[1], "scope_index": SCOPES.index(scope) + 1,
+                  "phase": phase, "sample_is_after_refusal": sampled_after_refusal,
+                  "stream_observation": "original-merged-stdout-stderr-prefix",
+                  "progress_observation_available": progress is not None,
+                  "progress": progress, "complete_output": False,
+                  "counts_are_progress_observations_not_tests": True,
+                  "last_progress_is_not_current_test_or_failure_cause": True,
+                  "subtest_parameters_raw_output_messages_or_environment_exported": False,
+                  "reusable_certificate": False}
+        public = "[offline-scope-progress] " + canonical(record).decode("ascii")
+        if len(public.encode("ascii")) <= MAX_SCOPE_EVENT_BYTES:
+            print(public, file=sys.stderr, flush=True)
+    except BaseException:
+        pass  # Secondary metadata I/O never replaces the primary or owned cleanup.
+
+
 def emit_scope_buffer_metadata(scope, output, *, phase, sampled_after_refusal):
     """A capped prefix only; never a completed-log or failure-cause assertion."""
     try:
@@ -524,6 +589,8 @@ def emit_scope_buffer_metadata(scope, output, *, phase, sampled_after_refusal):
         except BaseException:
             pass
         emit_scope_failure_inventory(output)
+        emit_scope_failure_progress(scope, output, phase=phase,
+                                    sampled_after_refusal=sampled_after_refusal)
     except BaseException:
         pass
 

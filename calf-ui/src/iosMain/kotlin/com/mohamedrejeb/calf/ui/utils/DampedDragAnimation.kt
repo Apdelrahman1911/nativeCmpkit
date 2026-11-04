@@ -84,6 +84,7 @@ class DampedDragAnimation(
     private val timeOrigin = TimeSource.Monotonic.markNow()
     private var valueJob: Job? = null
     private var feedbackJob: Job? = null
+    private var cancellationGeneration = 0L
     private var programmaticAnimation = false
     private var pressed by mutableStateOf(false)
     private var requestedValue by mutableFloatStateOf(initialValue.coerceIn(valueRange))
@@ -101,25 +102,35 @@ class DampedDragAnimation(
 
     val modifier: Modifier = Modifier.pointerInput(this) {
         var active = false
+        var gestureGeneration = cancellationGeneration
         try {
             inspectDragGestures(
                 onDragStart = { down ->
                     active = true
+                    gestureGeneration = cancellationGeneration
                     onDragStarted(down.position)
-                    press()
+                    // The owner can cancel synchronously from any gesture callback.
+                    // Do not recreate work after that cancellation or node disposal.
+                    if (gestureGeneration == cancellationGeneration) press()
                 },
                 onDragEnd = {
                     active = false
-                    try { onDragStopped() } finally { release() }
+                    if (gestureGeneration == cancellationGeneration) {
+                        try { onDragStopped() } finally {
+                            if (gestureGeneration == cancellationGeneration) release()
+                        }
+                    }
                 },
                 onDragCancel = {
                     active = false
-                    release()
+                    if (gestureGeneration == cancellationGeneration) release()
                 },
-                onDrag = { change, amount -> onDrag(change, amount) },
+                onDrag = { change, amount ->
+                    if (active && gestureGeneration == cancellationGeneration) onDrag(change, amount)
+                },
             )
         } finally {
-            if (active) release()
+            if (active && gestureGeneration == cancellationGeneration) release()
         }
     }
 
@@ -158,10 +169,15 @@ class DampedDragAnimation(
         startValueAnimation(value, releaseWhenFinished = true)
     }
 
-    /** Cancels owned animation jobs without cancelling the caller's scope or committing a gesture. */
+    /** Cancels owned jobs/current pointer session without cancelling the caller's scope or committing.
+     * A later press/new pointer session can reuse this helper normally.
+     */
     fun cancel() {
+        cancellationGeneration++
         valueJob?.cancel()
+        valueJob = null
         feedbackJob?.cancel()
+        feedbackJob = null
         programmaticAnimation = false
         pressed = false
         measuredVelocity = 0f

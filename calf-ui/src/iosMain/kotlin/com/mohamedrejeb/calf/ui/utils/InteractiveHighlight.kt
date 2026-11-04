@@ -30,6 +30,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -60,6 +61,10 @@ private val runtimeShaderSupport: Boolean by lazy {
     }
 }
 
+/** Internal opt-in observation of REAL helper construction, never a replacement shader/factory. */
+internal val LocalInteractiveHighlightConstructionObserver =
+    staticCompositionLocalOf<((InteractiveHighlight) -> Unit)?> { null }
+
 class InteractiveHighlight(
     val animationScope: CoroutineScope,
     val position: (size: Size, offset: Offset) -> Offset = { _, offset -> offset }
@@ -74,11 +79,14 @@ class InteractiveHighlight(
     private var feedbackJob: Job? = null
     private var shader: RuntimeShader? = null
     private var attemptedShader = false
-    private var disposed = false
+    private var disposed by mutableStateOf(false)
     internal val hasAttemptedShader: Boolean get() = attemptedShader
+    // Read-only diagnostics do not transfer ownership or permit closing another helper's shader.
+    internal val ownedDrawingShader: RuntimeShader? get() = shader
+    internal val isDisposed: Boolean get() = disposed
 
-    val pressProgress: Float get() = pressAnimation.value.coerceIn(0f, 1f)
-    val offset: Offset get() = currentPosition - startPosition
+    val pressProgress: Float get() = if (disposed) 0f else pressAnimation.value.coerceIn(0f, 1f)
+    val offset: Offset get() = if (disposed) Offset.Zero else currentPosition - startPosition
     private val currentPosition: Offset get() = if (pressed) pointerPosition else positionAnimation.value
 
     // The button uses only gestureModifier/animation state. No shader is constructed for that path.
@@ -108,7 +116,7 @@ class InteractiveHighlight(
 
     val modifier: Modifier = Modifier.drawWithContent {
         val progress = pressProgress
-        if (progress > 0f && size.width > 0f && size.height > 0f) {
+        if (!disposed && progress > 0f && size.width > 0f && size.height > 0f) {
             val effect = drawingShader()
             if (effect != null) {
                 drawRect(Color.White.copy(alpha = .08f * progress), blendMode = BlendMode.Plus)
@@ -135,18 +143,20 @@ class InteractiveHighlight(
         try {
             inspectDragGestures(
                 onDragStart = { down ->
-                    startPosition = down.position
-                    pointerPosition = down.position
-                    pressed = true
-                    feedbackJob?.cancel()
-                    feedbackJob = animationScope.launch {
-                        launch { pressAnimation.animateTo(1f, pressSpec) }
-                        launch { positionAnimation.snapTo(startPosition) }
+                    if (!disposed) {
+                        startPosition = down.position
+                        pointerPosition = down.position
+                        pressed = true
+                        feedbackJob?.cancel()
+                        feedbackJob = animationScope.launch {
+                            launch { pressAnimation.animateTo(1f, pressSpec) }
+                            launch { positionAnimation.snapTo(startPosition) }
+                        }
                     }
                 },
                 onDragEnd = { cancelGesture() },
                 onDragCancel = { cancelGesture() },
-                onDrag = { change, _ -> pointerPosition = change.position },
+                onDrag = { change, _ -> if (!disposed && pressed) pointerPosition = change.position },
             )
         } finally {
             cancelGesture()
@@ -154,7 +164,7 @@ class InteractiveHighlight(
     }
 
     internal fun cancelGesture() {
-        if (!pressed) return
+        if (disposed || !pressed) return
         val last = pointerPosition
         pressed = false
         feedbackJob?.cancel()
@@ -165,12 +175,15 @@ class InteractiveHighlight(
         }
     }
 
-    /** Releases this helper's optional native shader and jobs without cancelling the caller's scope. */
+    /** Terminal disposal: retained modifiers cannot restart input, drawing or owned work. */
     fun dispose() {
         disposed = true
         feedbackJob?.cancel()
+        feedbackJob = null
         pressed = false
-        shader?.asSkikoRuntimeShader()?.close()
+        // Clear ownership BEFORE closing, including when native cleanup throws.
+        val owned = shader
         shader = null
+        owned?.asSkikoRuntimeShader()?.close()
     }
 }

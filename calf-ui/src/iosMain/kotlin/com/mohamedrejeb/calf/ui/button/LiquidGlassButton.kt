@@ -41,6 +41,7 @@ import com.kyant.shapes.Capsule
 import com.kyant.shapes.RoundedRectangularShape
 import com.mohamedrejeb.calf.ui.ExperimentalCalfUiApi
 import com.mohamedrejeb.calf.ui.utils.InteractiveHighlight
+import com.mohamedrejeb.calf.ui.utils.LocalInteractiveHighlightConstructionObserver
 import com.mohamedrejeb.calf.ui.utils.LocalBackdrop
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -90,9 +91,10 @@ internal fun LiquidGlassButtonImpl(
 ) {
     val backdrop = LocalBackdrop.current ?: rememberLayerBackdrop()
     val animationScope = rememberCoroutineScope()
+    val constructionObserver = LocalInteractiveHighlightConstructionObserver.current
 
     val interactiveHighlight = remember(animationScope) {
-        InteractiveHighlight(animationScope = animationScope)
+        InteractiveHighlight(animationScope = animationScope).also { constructionObserver?.invoke(it) }
     }
     DisposableEffect(interactiveHighlight) { onDispose { interactiveHighlight.dispose() } }
     LaunchedEffect(enabled) { if (!enabled) interactiveHighlight.cancelGesture() }

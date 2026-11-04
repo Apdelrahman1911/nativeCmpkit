@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "1ae35d7d0f55724665b168f1b18696198e5b8978",
+  "branch": "development/batch-ui-drag-shader-20261104",
+  "scope": "Related #142/UI-042 and #162/UI-041 implementation + six NEW library regression/resource/construction scenarios; compilation only, no native closure/release acceptance",
+  "production_changes": [
+    "DampedDragAnimation cancellation generations prevent current pointer callbacks/finally from restarting owned work after cancel; clear cancelled job references",
+    "InteractiveHighlight terminal snapshot disposal suppresses retained-node feedback/draw, clears ownership before closing real builder",
+    "Internal opt-in observer records actual public LiquidGlassButton remembered helper construction; null default and public signatures preserved"
+  ],
+  "source_qualification": {
+    "initial_passive_assertions": 23,
+    "changed_init_passive_assertions": 2,
+    "final_custody_passive_assertions": 23,
+    "public_LiquidGlassButton_signature_source_identical": true,
+    "not_library_tests": true
+  },
+  "original_failure": {
+    "exit_code": 1,
+    "wrapper_seconds": 14.003650534898043,
+    "gradle_seconds": 13,
+    "actual_production_compilers": 0,
+    "actual_test_compilers": 0,
+    "native_tests": 0,
+    "cause": "New init applies task gate before excluding included plugin builds; foojay plugin settings resolution reports exact guard refusal",
+    "inputs_held": true,
+    "source_inventory_count": 232
+  },
+  "recovery": {
+    "exit_code": 0,
+    "wrapper_seconds": 205.1794494879432,
+    "gradle_seconds": 203,
+    "actual_production_task": ":calf-ui:compileKotlinIosSimulatorArm64",
+    "actual_test_compiler_task": ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    "unchanged_core_task": ":calf-core:compileKotlinIosSimulatorArm64 FROM-CACHE",
+    "actual_task_state_claim": "UI production/test task lines execute without FROM-CACHE/UP-TO-DATE/SKIPPED; fresh unpacked KLIBs. Core cached result not replayed",
+    "effective_test_sources": [
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragLifecycleRegressionTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlightResourceLifecycleTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/button/LiquidButtonConstructionTraceTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UiDragShaderTestHost.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/PointerCancellation.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt"
+    ],
+    "effective_common_test_sources": [],
+    "new_authored_methods": 6,
+    "same_six_bodies_as_original_refusal": true,
+    "only_changed_input_since_refusal": [
+      "scripts/ci/ui_drag_shader_compile.init.gradle.kts"
+    ],
+    "inventory_count": 232,
+    "input_inventory_is_not_all_execution": true,
+    "production_candidate_count": 122,
+    "configuration_candidate_count": 102,
+    "inputs_held_before_after": true,
+    "minimum_observed_free_bytes": 9808285696,
+    "minimum_required_free_bytes": 8589934592,
+    "timeout_seconds": 600,
+    "guard_stop": null,
+    "warning_lines_retained": 21,
+    "prior_production_warning_lines": 17,
+    "host_native_warning_lines": 4,
+    "compiler_warning_suppression_added": false,
+    "selected_klib_artifacts": {
+      "production": {
+        "bytes": 4692602,
+        "file_count": 134,
+        "native_runtime_or_link_acceptance": false,
+        "root": "calf-ui/build/classes/kotlin/iosSimulatorArm64/main/klib/calf-ui",
+        "tree_sha256": "7052f238f3c4ba7779d1a6a33f2f66db6797d8037a2def7b905e65516340db1c"
+      },
+      "selected_test": {
+        "bytes": 210801,
+        "file_count": 25,
+        "native_runtime_or_link_acceptance": false,
+        "root": "calf-ui/build/classes/kotlin/iosSimulatorArm64/test/klib/calf-ui_test",
+        "tree_sha256": "833c23cd597c2d41ab23ea8e68c904f02e15c8b411c44b328d9bbe299b41fc5f"
+      }
+    },
+    "apple_links": 0,
+    "native_library_tests": 0,
+    "fresh_native_XML": 0,
+    "consumer_tests": 0,
+    "hardware_or_Instruments_traces": 0,
+    "API_ABI_verification": 0
+  },
+  "original_controls": {
+    "class": "com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+    "method_count": 8,
+    "sha256": "701f5d1ae8e91f8d4419d8781f9b0554251e427b338cf22ee3567b52ec6f841c",
+    "bodies_unchanged": true,
+    "replayed": false,
+    "supporting_historical_run": "40522929974 attempt2 at202059090bbbf896d07d38a3441cf21c8888c63b; owning8/8 within121/121",
+    "historical_pass_relabelled_current_production": false
+  },
+  "new_method_groups": {
+    "utils/DampedDragLifecycleRegressionTest.kt": [
+      "cancellationFromActualStartAndStopCallbacksCannotRecreateFeedbackAndNextGestureRecovers",
+      "removingAnActiveActualModifierLeavesNoReleaseWorkInTheCallerScopeAndRangeReplacementRecovers",
+      "thousandSustainedUpdatesTraceActualJobTreesAcrossFramesAndRepressWithoutCancellingSiblingWork"
+    ],
+    "utils/InteractiveHighlightResourceLifecycleTest.kt": [
+      "disposingAPressedRetainedModifierClosesItsRealBuilderStopsPixelsAndNeverRestartsItsJobs",
+      "removingAnActualPressedHighlightClosesItsBuilderAndNewCompositionUsesANewOwnedResource"
+    ],
+    "button/LiquidButtonConstructionTraceTest.kt": [
+      "hundredActualPublicButtonsKeepOptionalShaderConstructionAtZeroThroughInputDisableAndRecreation"
+    ]
+  },
+  "live_daemon_observation": {
+    "accepted": false,
+    "refusal": "Only one actual owning recovery runner may be observed",
+    "selector_cardinality_recorded": false,
+    "cause_inferred": false,
+    "compiler_replayed_to_obtain_witness": false,
+    "JDK17_launcher_and_root_toolchain_configuration_recorded": true
+  },
+  "first_refused_init": {
+    "file": "ui-drag-shader-compile-init-first.refused.txt",
+    "sha256": "724192dce8a1bbcf4aaa8cb5d9868a0fc8d87ef9fd014f7694b8c051b6f49e09",
+    "restored_by_exact_inverse_to_original_hash": true,
+    "claimed_as_original_pre_run_copy": false
+  },
+  "remaining_original_criteria": [
+    "Both issues require actual six new native library scenarios at frozen current source; KLIB is not behavior/resource acceptance",
+    "#142 still requires sustained hardware frame-time/allocation and relevant clock/cancellation/native conditions beyond controlled-frame job tracing",
+    "#162 still requires Instruments allocation tracing, supported older/current Apple GPU/frame/overdraw and reduced motion/transparency, dark/scrolling/fallback-effect criteria",
+    "Original native/consumer/API-ABI/dependency/legal/security/release-readiness and publication gates remain"
+  ],
+  "github_mutations": 0,
+  "CI_dispatches": 0,
+  "releases_packages_deployments": 0,
+  "retained_original_file_sha256": {
+    "compiler.log": "faf6e4c7700f32f77d953edc649cd29b2e71e4ca39a56cb5c3f4373e41902b36",
+    "compiler-run.json": "10809676e2e510cd7a954eb2652ce8eca29cb43e2b7c0738cabafcf5d36b005a",
+    "compiler-before.json": "9d9d965b0e9712f027ea2de3fad9f30e0b7f29b533958f660e812adb2491a7d2",
+    "compiler-after.json": "6deb18606297fd4eafaf50ef01c78a351bfebec09bcce49700c1bb3f08049b9f",
+    "run_compiler-first.py": "a336c1a9938095e2b5472d7b6d4325e28ae223e6124ed8c4ddf3860b1ebd84fd",
+    "compiler-recovery1.log": "7ae6e7092646f1207a931f4dba5f25b5853bc82192cd05af085d7f2b72e61015",
+    "compiler-recovery1-run.json": "07ce94d098b6e5ac1f1439f37c2af09b7c7a80f9af6f93f4dbb2c384e6ab0afc",
+    "compiler-recovery1-before.json": "1ecff2f269aa403573a302ff63912cc7d1e7e8893192243ad0c3b1eb02561cba",
+    "compiler-recovery1-after.json": "cf5f75403f686164ef7d270e22202548b1f68f734dbd1f4fe5c10b32d3bb4487",
+    "compiler-recovery1-focused-compilation.json": "09113dc06f90d5b15157653996ca3f69970abfb8c1de072cbf73ac65dbe61b60",
+    "source-qualification.log": "71e99173bd1089752de832e4f41752de8beab09e7ecd1983426a846289b89104",
+    "source-qualification.json": "5e90089ab3369d6efa1454037c416acad9623fa203365dbaae50dcdcc69fcb77",
+    "included-build-init-source-qualification.log": "c0c466fc4d12d2d40ea003e1a2b36be5727896c3ea5db9a421667ade841cb508",
+    "final-passive-review.log": "d5bcd5778f30ffbe902785123decaddc07fe8d48fa04671923881dc8dd18be53",
+    "final-passive-review.json": "f15d7f2d50b9079147c70a81aaaba21e19ee358241bc7651d2a6ab596aafaee0",
+    "klib-artifact-hashes.json": "c0634c5d038c8db8801c4e6b5c103d27ff7a8d95b15aa5ed8904d1c70e122a52",
+    "daemon-observation-refusal.txt": "273192fba4c4835bf01cc912b558decd1311c0ffc272d240ee7fb5a2bd763ce8",
+    "producer-whitespace-refusal.txt": "0bce5f6d1b5aea918e3c54c937a55842c92a846694cc6e6d929a02624dd159f1"
+  },
+  "archival_whitespace": {
+    "first_complete_staged_check": "Three producer-space diagnostics retained; no producer bytes normalized",
+    "packet_local_attributes_only": true,
+    "byte_normalization_disabled_for_packet": true,
+    "whitespace_exemptions": [
+      "compiler.log",
+      "compiler-recovery1.log",
+      "compiler-recovery1-focused-compilation.json",
+      "producer-whitespace-refusal.txt"
+    ],
+    "authored_Kotlin_init_docs_whitespace_strict": true,
+    "full_staged_check_passed_after_archive_attributes": true,
+    "root_shared_policy_changed": false
+  }
+}

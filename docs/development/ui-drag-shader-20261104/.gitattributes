@@ -1,0 +1,10 @@
+# This isolated packet contains exact byte-bound source/log/receipt archives.
+# Never normalize them during platform checkout. Authored source whitespace
+# checks remain strict; only three original producer outputs and their lossless
+# quoted refusal transcript are exempt from whitespace checks.
+* -text
+compiler.log -whitespace
+compiler-recovery1.log -whitespace
+compiler-recovery1-focused-compilation.json -whitespace
+
+producer-whitespace-refusal.txt -whitespace

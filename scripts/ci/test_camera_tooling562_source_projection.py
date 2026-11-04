@@ -10,6 +10,7 @@ from unittest.mock import patch
 
 import camera_tooling562_source_projection as history
 import android_external328_source_projection as bridge
+import ios_geometry_simulator_source_projection as owned_history
 
 ROOT = Path(__file__).resolve().parents[2]
 HELPER = "scripts/ci/android_camera_developer_prerequisite.py"
@@ -31,7 +32,8 @@ class CameraTooling562Controls(unittest.TestCase):
         self.assertEqual(9, sum(len(b["fragments"]) for b in bindings.values()))
         for path, binding in bindings.items():
             from camera_tooling566_source_projection import current_source_before_tooling566
-            current = current_source_before_tooling566(path, (ROOT / path).read_bytes())
+            current = current_source_before_tooling566(path,
+                owned_history.current_source_before_owned_geometry(path, (ROOT / path).read_bytes()))
             old = history.current_source_before_tooling(path, current)
             self.assertEqual(binding["before_sha256"], digest(old))
             rebuilt = old
@@ -45,7 +47,8 @@ class CameraTooling562Controls(unittest.TestCase):
     def test_current_refuses_old_partial_unknown_and_nonordinary_payloads(self):
         for path in history._bindings():
             from camera_tooling566_source_projection import current_source_before_tooling566
-            current = current_source_before_tooling566(path, (ROOT / path).read_bytes())
+            current = current_source_before_tooling566(path,
+                owned_history.current_source_before_owned_geometry(path, (ROOT / path).read_bytes()))
             old = history.source_before_tooling(path, current)
             for bad in (old, current[:-1], current + b"\n", b"", b"foreign", None, bytearray(current)):
                 with self.subTest(path=path, kind=type(bad).__name__), self.assertRaises(ValueError):
@@ -126,7 +129,8 @@ class CameraTooling562Controls(unittest.TestCase):
             self.assertEqual(inputs[path], digest((ROOT / path).read_bytes()))
         # Workflow is separately held own-Git provenance, not a library input map.
         self.assertEqual("3d5d2ea0313055366bf6bc83550f7e2f40c50438c450508588db778fb6bb75f7",
-                         digest((ROOT / ".github/workflows/gradle.yml").read_bytes()))
+                         digest(owned_history.current_source_before_owned_geometry(
+                             ".github/workflows/gradle.yml", (ROOT / ".github/workflows/gradle.yml").read_bytes())))
 
 
 if __name__ == "__main__":

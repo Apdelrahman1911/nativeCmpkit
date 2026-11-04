@@ -27,6 +27,8 @@ def preserved_home_stage(relative, payload):
     # Admit the complete newest listed bytes before this dated HOME-stage pin.
     # Unlisted paths are not certified here; their original HOME pin still owns
     # them. This pure source view never replaces an actual helper/native input.
+    from ios_geometry_simulator_source_projection import current_source_before_owned_geometry
+    payload = current_source_before_owned_geometry(relative, payload)
     from camera_tooling566_source_projection import current_source_before_tooling566
     return current_source_before_tooling566(relative, payload)
 

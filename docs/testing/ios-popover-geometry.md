@@ -14,6 +14,12 @@ new method; all previously accepted anchor/bar methods remain excluded.
 
 ## Native execution flow
 
+0. Geometry-only profiles predetermine a fresh **owned** simulator of the recorded
+   same type/runtime before any boot. Exact terminal success and actual Booted
+   inventory are both required. Full clean Git/toolchain/SDK/runtime recapture
+   remains; an independent `always()` step disposes only that acknowledged UUID.
+   Preinstalled devices are preserved; failed/unknown creation/boot is never
+   retried or guessed. See [575–578 qualification](../development/evidence/current-platform-recovery-20261101/ios-owned-geometry575-578/README.md).
 1. The focused init script admits exactly the geometry test, geometry scene
    delegate, existing application host and exact native-object identity helper.
    `iosGeometryTest` is deliberately excluded from ordinary source-set inheritance.

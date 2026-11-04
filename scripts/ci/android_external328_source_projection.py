@@ -83,6 +83,8 @@ def current_source_for_history(relative: str, payload: bytes) -> bytes:
         raise ValueError("Exact current source identity and ordinary bytes are required")
     # Qualify each newest complete image ONCE, at this raw checkout boundary.
     # Nested readers receive exact ancestors, not another raw-current admission.
+    from ios_geometry_simulator_source_projection import current_source_before_owned_geometry
+    payload = current_source_before_owned_geometry(relative, payload)
     from camera_tooling566_source_projection import current_source_before_tooling566
     payload = current_source_before_tooling566(relative, payload)
     from camera_tooling562_source_projection import current_source_before_tooling

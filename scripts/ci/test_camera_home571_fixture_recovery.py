@@ -12,6 +12,7 @@ from unittest.mock import patch
 import test_camera_home_baseline_source_projection as fixture
 import camera_home_baseline_source_projection as home
 import camera_tooling566_source_projection as latest
+import ios_geometry_simulator_source_projection as owned_history
 
 ROOT = Path(__file__).resolve().parents[2]
 FIXTURE = "scripts/ci/test_camera_home_baseline_source_projection.py"
@@ -24,6 +25,7 @@ def sha(raw):
 
 
 def original_fixture(payload):
+    payload = owned_history.current_source_before_owned_geometry(FIXTURE, payload)
     info = SPEC.lstat()
     if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or not 0 < info.st_size <= 256 * 1024:
         raise ValueError("One ordinary bounded HOME571 fixture manifest is required")
@@ -89,7 +91,7 @@ class Home571FixtureRecoveryControls(unittest.TestCase):
         for bad in (old, current[:-1], current + b"\n", b"", None, bytearray(current)):
             with self.subTest(kind=type(bad).__name__), self.assertRaises(ValueError):
                 original_fixture(bad)
-        source = (ROOT / FIXTURE).read_text()
+        source = owned_history.current_source_before_owned_geometry(FIXTURE, (ROOT / FIXTURE).read_bytes()).decode()
         function = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == "preserved_home_stage")
         calls = [n.func.id for n in ast.walk(function) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)]
         self.assertEqual(["current_source_before_tooling566"], calls)

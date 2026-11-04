@@ -34,6 +34,8 @@ def _bindings():
 def source_before_geometry(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact popover-geometry identity and ordinary source bytes are required")
+    from ios_geometry_simulator_source_projection import peel_current_owned_geometry_for_older_history
+    payload = peel_current_owned_geometry_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -68,6 +70,9 @@ def source_before_geometry(relative, payload):
 def current_source_before_geometry(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current popover-geometry identity and ordinary bytes are required")
+    # Nested historical reader: never readmit the outer raw source a second time.
+    from ios_geometry_simulator_source_projection import peel_current_owned_geometry_for_older_history
+    payload = peel_current_owned_geometry_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current popover-geometry source")
@@ -78,6 +83,8 @@ def peel_current_geometry_for_older_history(relative, payload):
     """Not current admission: untouched old bytes MUST pass their older pinned reader."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor popover-geometry identity and ordinary bytes are required")
+    from ios_geometry_simulator_source_projection import peel_current_owned_geometry_for_older_history
+    payload = peel_current_owned_geometry_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
         return source_before_geometry(relative, payload)
@@ -90,9 +97,12 @@ def validate_current_sources(root: Path):
     raw = SPEC_PATH.read_bytes()
     document = json.loads(raw)
     expected = {path: value["after_sha256"] for path, value in bindings.items()} | document["added_inputs"]
+    import ios_geometry_simulator_source_projection as owned_history
+    owned_history.validate_current_sources(root)
     from ios_popover_anchor_plan import _ordinary_bytes
     for path, digest in expected.items():
         payload = _ordinary_bytes(root, path)[0]
+        payload = owned_history.current_source_before_owned_geometry(path, payload)
         if hashlib.sha256(payload).hexdigest() != digest:
             raise ValueError("Current geometry source differs from its exact owning postimage: " + path)
     return True

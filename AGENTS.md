@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Owned geometry lifecycle qualified; camera new parser boundary — 2026-11-04
+
+[575–578](docs/development/evidence/current-platform-recovery-20261101/ios-owned-geometry575-578/README.md)
+accepts NEW23 lifecycle/concurrency once0.364s and NEW8+affected21 once29/29/0.706s,
+two source plans/Actionlint0 and66 passive checks. Eight paths/24 fragments/five
+tooling additions;1330 first/1333 final maps held. Two geometry-only CI focuses
+predetermine one same-type/runtime owned simulator before boot; exact terminal/
+Booted/full runtime capture and atomic first/disposal claims/independent always
+cleanup retain failures and nonowned preservation. ZERO new compiler/native;
+1311 historical compiler remains historical, applicable sources reused. #29
+open for actual geometry and real split view; startup causes unknown/no native
+fix inferred. Freeze/push/fresh capacity before only two missing geometry methods.
+
+[Camera576](docs/development/evidence/current-platform-recovery-20261101/camera-original576/README.md)
+keeps41752883224 at4b58835a FAILED/ZERO Gradle/APK/native/XML; all tooling green,
+2727CI/170.432s.1328 actual own-Git maps/32 logs/17 reports acquired ONCE and32
+passive checks. Boot handoff6/5 and startup hold pass; snapshot948 new HOME reader
+refuses, individual operand/task/cause unknown. Separate cleanup1405 fails; owned
+guest disposal passes independently. #13 stays open; no unchanged retry or accepted
+camera009/JVM/APK replay. Next failure-only original parser-frame qualification.
+103closed69open/172 and22implemented36partial101verified/five unresolved retained.
+SOLO/no agents/serial-local8GiB/max2INCLUDINGqueued/read-only Actions/all/no mandatory
+SHA and every publication/Pages/main/history/native/consumer/API–ABI/dependency/
+legal/security/readiness gate stay. No release/package/deployment publication.
+
 ## HOME fixture final-stage recovery verified — 2026-11-04
 
 [569–573](docs/development/evidence/current-platform-recovery-20261101/camera-home-fixture569-573/README.md) preserves41751554426 at4ae49b6e

@@ -1,0 +1,99 @@
+{
+  "accepted_populations_replayed": false,
+  "actionlint_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+  "commands": [
+    {
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "ios-popover-geometry-iphone"
+      ],
+      "elapsed_seconds": 0.08769215503707528,
+      "exit_code": 0,
+      "name": "matrix-iphone"
+    },
+    {
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-ui",
+        "--focus",
+        "ui-native-popover-portrait-traits"
+      ],
+      "elapsed_seconds": 0.23560916702263057,
+      "exit_code": 0,
+      "name": "plan-iphone"
+    },
+    {
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "ios-popover-geometry-ipad"
+      ],
+      "elapsed_seconds": 0.0758965159766376,
+      "exit_code": 0,
+      "name": "matrix-ipad"
+    },
+    {
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-ui",
+        "--focus",
+        "ui-native-popover-os-rotation"
+      ],
+      "elapsed_seconds": 0.24155722907744348,
+      "exit_code": 0,
+      "name": "plan-ipad"
+    },
+    {
+      "arguments": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        "-version"
+      ],
+      "elapsed_seconds": 0.005466860020533204,
+      "exit_code": 0,
+      "name": "actionlint-version"
+    },
+    {
+      "arguments": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml"
+      ],
+      "elapsed_seconds": 0.01194969192147255,
+      "exit_code": 0,
+      "name": "actionlint"
+    },
+    {
+      "arguments": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "elapsed_seconds": 0.0816015771124512,
+      "exit_code": 0,
+      "name": "whitespace"
+    }
+  ],
+  "compiler_executions": 0,
+  "inputs_held": 1333,
+  "native_executions": 0,
+  "observed_utc": "2026-11-04T01:33:18.899965+00:00",
+  "release_allowed": false,
+  "schema_version": 1,
+  "source_held": true,
+  "source_sha": "4b58835adc6c41d2a3c36177047d16eaea4f9ab9",
+  "workflow_sha256": "5d67a37f6890df2b9f1ba80b3f406a61ea1c7f860ff033f30cc1a177a2e60932"
+}

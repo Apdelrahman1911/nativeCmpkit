@@ -12,6 +12,7 @@ from unittest.mock import patch
 import android_external328_source_projection as bridge
 import camera_tooling562_source_projection as older
 import camera_tooling566_source_projection as history
+import ios_geometry_simulator_source_projection as owned_history
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
@@ -29,7 +30,7 @@ class CameraTooling566Controls(unittest.TestCase):
         bindings = history._bindings()
         self.assertEqual(6, len(bindings))
         for name, binding in bindings.items():
-            current = (ROOT / name).read_bytes()
+            current = owned_history.current_source_before_owned_geometry(name, (ROOT / name).read_bytes())
             previous = history.current_source_before_tooling566(name, current)
             self.assertEqual(binding["before_sha256"], sha(previous))
             self.assertEqual(binding["before_bytes"], len(previous))
@@ -57,7 +58,7 @@ class CameraTooling566Controls(unittest.TestCase):
 
     def test_original_and_tooling562_preimages_never_replace_raw_current_sources(self):
         for name in history._bindings():
-            current = (ROOT / name).read_bytes()
+            current = owned_history.current_source_before_owned_geometry(name, (ROOT / name).read_bytes())
             previous = history.source_before_tooling566(name, current)
             bad_images = (previous, current[:-1], current + b"\n", b"", bytearray(current), None)
             for bad in bad_images:
@@ -137,7 +138,8 @@ class CameraTooling566Controls(unittest.TestCase):
     def test_unchanged_native_helper_controller_kotlin_and_workflow_inputs(self):
         spec = json.loads(history.SPEC_PATH.read_bytes())
         for name, expected in spec["unchanged_owning_inputs"].items():
-            self.assertEqual(expected, sha((ROOT / name).read_bytes()), name)
+            self.assertEqual(expected, sha(owned_history.current_source_before_owned_geometry(
+                name, (ROOT / name).read_bytes())), name)
         for name in MODULES:
             # Observer bodies/raw digest logic are not touched by this repair.
             self.assertNotIn(name, history._bindings())

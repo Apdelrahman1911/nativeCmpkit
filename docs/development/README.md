@@ -1,5 +1,21 @@
 # NativeCmpKit development after the audit
 
+## Geometry owning batch qualified; camera failure located — 2026-11-04
+
+[575–578](evidence/current-platform-recovery-20261101/ios-owned-geometry575-578/README.md)
+passes **52 important controls once** and two source plans/Actionlint;66 passive
+checks,1333 held inputs. Geometry-only CI now creates a predetermined same-type/
+runtime owned simulator, checks terminal/Booted state, retains full runtime capture
+and always disposes only the acknowledged device. **ZERO new native/compiler**;
+#29 remains for genuine geometry/split view, not a verified startup fix.
+
+[Actual camera576](evidence/current-platform-recovery-20261101/camera-original576/README.md)
+passes all shared tooling but **fails before Gradle/APK/native/XML** at the new
+HOME parser boundary. Boot/hold pass; exact mismatch/cause unknown. Original-state
+cleanup fails independently of successful guest disposal. #13 remains open; no
+unchanged retry or accepted native/compiler replay. Retained103closed/69open/172,
+SOLO/max2INCLUDINGqueued/8GiB/read-only Actions and every publication/readiness gate.
+
 ## HOME fixture final-stage recovery verified — 2026-11-04
 
 [569–573](evidence/current-platform-recovery-20261101/camera-home-fixture569-573/README.md) preserves41751554426 at4ae49b6e

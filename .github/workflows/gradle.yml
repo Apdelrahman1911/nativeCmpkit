@@ -521,15 +521,23 @@ jobs:
           args=(--expected-arch "$EXPECTED_ARCH" --require-clean --android-platform android-37.0)
           if [[ "$SUITE" == ios ]]; then
             "$PYTHON" scripts/ci/runtime_context.py "${args[@]}" --apple --select-simulator "$SIMULATOR_KIND" --output build/ci-runtime/selection.json
-            device="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/selection.json"))["simulator"]["udid"])')"
-            state="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/selection.json"))["simulator"]["state"])')"
-            if [[ "$state" == Shutdown ]]; then
-              xcrun simctl boot "$device"
-            elif [[ "$state" != Booted ]]; then
-              echo 'Unexpected selected simulator state; do not switch devices silently' >&2
-              exit 1
+            if [[ "$TEST_FOCUS" == ui-native-popover-portrait-traits || "$TEST_FOCUS" == ui-native-popover-os-rotation ]]; then
+              # Predetermine one fresh owned same-type/runtime device BEFORE any
+              # boot attempt. No preinstalled device erase, boot retry or fallback.
+              "$PYTHON" scripts/ci/ios_geometry_simulator.py prepare --focus "$TEST_FOCUS"
+              device="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/geometry-simulator.json"))["owned_udid"])')"
+            else
+              device="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/selection.json"))["simulator"]["udid"])')"
+              state="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/selection.json"))["simulator"]["state"])')"
+              if [[ "$state" == Shutdown ]]; then
+                xcrun simctl boot "$device"
+              elif [[ "$state" != Booted ]]; then
+                echo 'Unexpected selected simulator state; do not switch devices silently' >&2
+                exit 1
+              fi
+              xcrun simctl bootstatus "$device" -b
             fi
-            xcrun simctl bootstatus "$device" -b
+            # Full original postboot clean Git/toolchain/SDK/Booted capture stays.
             args+=(--apple --simulator "$device" --require-booted)
             printf 'device=%s\n' "$device" >> "$GITHUB_OUTPUT"
           elif [[ "$SUITE" == js || "$SUITE" == wasm ]]; then
@@ -716,6 +724,12 @@ jobs:
         if: ${{ !cancelled() && inputs.profile == 'ios-vector-native-screen-pair' && steps.serial_runtime.outcome == 'success' }}
         run: |
           "$PYTHON" scripts/ci/native_vector_screens.py --output build/ci-verification/native-vector-screen-pair.json
+      - name: Dispose only the acknowledged owned geometry simulator
+        if: ${{ always() && matrix.suite == 'ios' && (matrix.test-focus == 'ui-native-popover-portrait-traits' || matrix.test-focus == 'ui-native-popover-os-rotation') }}
+        run: |
+          # Independent always cleanup also runs after boot/runtime/native failure.
+          # Unknown creation ownership refuses disposal; no guessed UUID or retry.
+          "$PYTHON" scripts/ci/ios_geometry_simulator.py cleanup --focus "$TEST_FOCUS"
       - name: Show bounded failure diagnostics from public library fixtures
         if: failure()
         run: |

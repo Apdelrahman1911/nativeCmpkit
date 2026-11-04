@@ -13,6 +13,7 @@ from unittest.mock import patch
 
 import library_tests as library
 import workflow_matrix as workflow
+import ios_geometry_simulator_source_projection as owned_history
 
 ROOT = Path(__file__).resolve().parents[2]
 UDID = "726D52AF-426A-408A-974D-CA8B9BE8A479"
@@ -252,7 +253,7 @@ class PopoverGeometryControls(unittest.TestCase):
         self.assertEqual(7, len(bindings))
         self.assertEqual(24, sum(len(b["fragments"]) for b in bindings.values()))
         for name, binding in bindings.items():
-            current = (ROOT / name).read_bytes()
+            current = owned_history.current_source_before_owned_geometry(name, (ROOT / name).read_bytes())
             previous = geometry.current_source_before_geometry(name, current)
             self.assertEqual(binding["before_sha256"], hashlib.sha256(previous).hexdigest())
             forward = previous
@@ -274,7 +275,7 @@ class PopoverGeometryControls(unittest.TestCase):
     def test_historical_partial_foreign_sources_never_admit_as_current(self):
         import ios_popover_geometry_source_projection as geometry
         for name in ("scripts/ci/library_tests.py", "scripts/ci/workflow_matrix.py", ".github/workflows/gradle.yml"):
-            current = (ROOT / name).read_bytes()
+            current = owned_history.current_source_before_owned_geometry(name, (ROOT / name).read_bytes())
             before = geometry.current_source_before_geometry(name, current)
             self.assertEqual(before, geometry.source_before_geometry(name, before))
             for bad in (before, current[:-1], current + b"\n", b"", None, bytearray(current)):
@@ -286,6 +287,8 @@ class PopoverGeometryControls(unittest.TestCase):
         import ios_popover_geometry_source_projection as geometry
         spec = json.loads(geometry.SPEC_PATH.read_bytes())
         paths = set(spec["bindings"]) | set(spec["added_inputs"])
+        owning = owned_history._document()
+        paths |= set(owning["bindings"]) | set(owning["added_inputs"])
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             for name in paths:
@@ -303,7 +306,7 @@ class PopoverGeometryControls(unittest.TestCase):
         import ios_popover_anchor_source_projection as anchor
         import ios_worker_completion_source_projection as worker
         for name in ("scripts/ci/library_tests.py", "scripts/ci/workflow_matrix.py", ".github/workflows/gradle.yml"):
-            current = (ROOT / name).read_bytes()
+            current = owned_history.current_source_before_owned_geometry(name, (ROOT / name).read_bytes())
             before = geometry.current_source_before_geometry(name, current)
             self.assertEqual(bar.current_source_before_bar_recovery(name, before), bar.current_source_before_bar_recovery(name, current))
             self.assertEqual(anchor.current_source_before_popover_anchor(name, before), anchor.current_source_before_popover_anchor(name, current))

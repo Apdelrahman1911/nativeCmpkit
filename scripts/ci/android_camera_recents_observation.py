@@ -139,6 +139,9 @@ def recents_refusal(error: BaseException) -> dict | None:
     """
     if type(error) is not ValueError:
         return None
+    if error.args == ("Unknown live leaf task",):
+        from android_camera_live_task_refusal_observation import live_task_refusal
+        return live_task_refusal(error)
     if error.args != ("Settings recent task absence is unproved",):
         from android_camera_home_refusal_observation import home_refusal
         return home_refusal(error)

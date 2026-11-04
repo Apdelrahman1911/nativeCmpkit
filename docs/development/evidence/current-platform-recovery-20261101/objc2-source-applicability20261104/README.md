@@ -136,3 +136,26 @@ checker imports closes #3/BUILD-006 or another release gate. All publication/
 deployment/Pages/main/history restrictions remain; no mandatory action SHA pinning
 is reinstated. Continue the independent affected development batches while the
 lead reviews this material and existing hosted results.
+
+## Lead root correspondence at integration639 — 2026-11-04
+
+The original87-input plan/review above belongs to explicit carrier4ab; it is
+not a fresh current-root source verification. The first lead integration guard
+refused to treat that carrier Share Cargo.toml as unchanged at root7c48f8c1.
+[That refusal](lead-current-input-first-refusal639.json) remains preserved.
+
+[Separate bounded correspondence](lead-historical-plan-acceptance639.json)
+verifies all87 original candidate Git pins; among unchanged selected inputs,
+only root Share Cargo.toml differs from the carrier. Root has the actual original
+producer7d AppKit feature/custom-test declarations, and its SHA256 is
+`f632ec5d71d244d3e9bb67af643a0f8a2f037ec3dcb3055b3989493305397ffd`.
+Both root Cargo manifests and locks equal the original producer7d bytes.
+The carrier4ab omission remains a true historical context, not a defect newly
+introduced at the lead root. Original metadata/graph envelopes are preserved;
+this correspondence is **not** a fresh Cargo command, new graph, actual consumer
+execution, complete graph/index/source eligibility decision or legal acceptance.
+No original payload scan, material loader, metadata, native or accepted-check
+replay occurred. Original85/failed+NEW9 documentary results retain their scope.
+
+Text/contributor/SDK applicability and every security/readiness/publication gate
+remain unresolved. No original frozen receipt or graph is rewritten.

@@ -1,0 +1,46 @@
+{
+  "utc": "2026-11-04T09:02:37.823313+00:00",
+  "jar_sha256": "0c2153e2f5bc68344a81cfedaa09a474ea20e62660e74abc031f3d548c91c4f1",
+  "version": "1.12.0",
+  "version_catalog_compose": "1.12.0",
+  "source_only_acquisition": "MavenCentral HTTP200; original cached1.12.2 not used as1.12.0 evidence",
+  "bounded_zip_entries": 119,
+  "bounded_zip_total_uncompressed_bytes": 606600,
+  "source_inspection": {
+    "commonMain/androidx/compose/ui/test/v2/ComposeUiTest.kt:(85, 89)": {
+      "source_sha256": "1786e07cb2d597b624df13ae14724f22e4004d19d25c1caea7cb8a330d35259b",
+      "lines": [
+        85,
+        89
+      ],
+      "excerpt": "expect fun runComposeUiTest(\n    effectContext: CoroutineContext = EmptyCoroutineContext,\n    runTestContext: CoroutineContext = EmptyCoroutineContext,\n    testTimeout: Duration = 60.seconds,\n    block: suspend ComposeUiTest.() -> Unit,"
+    },
+    "skikoMain/androidx/compose/ui/test/ComposeUiTest.skiko.kt:(396, 432)": {
+      "source_sha256": "623db8b1edc67068a63dbca6d921a3ad5700cb9de7f448018041716d9ffba486",
+      "lines": [
+        396,
+        432
+      ],
+      "excerpt": "    private inline fun runUntilIdle(block: () -> Unit) {\n        // Always check even if we are idle.\n        uncaughtExceptionHandler.throwUncaught()\n        val startedAt = TimeSource.Monotonic.markNow()\n        while (!isIdle()) {\n            advanceIfNeededAndRenderNextFrame()\n            uncaughtExceptionHandler.throwUncaught()\n            // Bound the wait by [testTimeout] so a test that never settles fails fast.\n            if (startedAt.elapsedNow() > testTimeout) {\n                throw ComposeTimeoutException(\"waitForIdle: timeout $testTimeout reached\")\n            }\n            block()\n        }\n    }\n\n    /**\n     * Ensures a scheduled draw has completed before returning from a wait.\n     * On Android the draw is produced by the Choreographer/ViewRootImpl pipeline running during\n     * the wait in `waitForNextChoreographerFrame()`; there is no such pipeline here,\n     * so we render the pending draw directly.\n     */\n    private fun ensureScheduledDrawCompleted() {\n        if (scene.hasPendingDraw) {\n            redraw()\n        }\n    }\n\n    override fun waitForIdle() {\n        // Mirrors Android's two-step waitForIdle(): await idleness, then ensure the scheduled draw\n        // has completed (see idlingStrategy.runUntilIdle() + waitForNextChoreographerFrame()).\n        runUntilIdle {\n            if (!areAllResourcesIdle()) {\n                sleep(IDLING_RESOURCES_CHECK_INTERVAL_MS)\n            }\n        }\n        ensureScheduledDrawCompleted()\n    }"
+    },
+    "skikoMain/androidx/compose/ui/test/ComposeUiTest.skiko.kt:(514, 532)": {
+      "source_sha256": "623db8b1edc67068a63dbca6d921a3ad5700cb9de7f448018041716d9ffba486",
+      "lines": [
+        514,
+        532
+      ],
+      "excerpt": "    fun captureToImage(): ImageBitmap {\n        waitForIdle()\n        return surface.makeImageSnapshot().toComposeImageBitmap()\n    }\n\n    fun captureToImage(semanticsNode: SemanticsNode): ImageBitmap {\n        redraw()\n        val rect = semanticsNode.boundsInWindow\n        val image = surface.makeImageSnapshot(\n            rect.left.toInt(),\n            rect.top.toInt(),\n            rect.right.toInt(),\n            rect.bottom.toInt()\n        )\n        return image!!.toComposeImageBitmap()\n    }\n\n    fun SemanticsNodeInteraction.captureToImage(): ImageBitmap {\n        return captureToImage(fetchSemanticsNode())"
+    }
+  },
+  "confirmed_source_facts": [
+    "v2 runComposeUiTest default timeout60.seconds",
+    "Skiko runUntilIdle checks timeout only after advanceIfNeededAndRenderNextFrame returns",
+    "captureToImage(semanticsNode) calls redraw, native makeImageSnapshot and Compose bitmap conversion"
+  ],
+  "limits": [
+    "No blocked operation/cause from originalUI650 established",
+    "Cooperative test timeout is not a hard native-call deadline",
+    "Fresh screenshot finalization candidate is not an accepted hang fix",
+    "No native/compiler/runtime/security/consumer/release acceptance"
+  ]
+}

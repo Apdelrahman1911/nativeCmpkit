@@ -1,0 +1,29 @@
+{
+  "corrections": {
+    "scripts/ci/test_platform_recovery659_source_projection.py": {
+      "after_bytes": 17420,
+      "after_sha256": "77327cf4cc13aa1b5646c7b0ca833b3b24615d2f3950747117969787e8773d38",
+      "before_bytes": 17154,
+      "before_sha256": "1c840c226a6234941443ef8ca69045eb1f5d96e693e4903361dc6932f9a749d8",
+      "changed_method": "test_platform_recovery659_source_projection.PlatformRecovery659SourceProjectionControls.test_nonrecursive_camera_hooks_peel_actual_raw_guards_before_original_validation_without_rewriting_pins",
+      "exact_patch": "--- a/scripts/ci/test_platform_recovery659_source_projection.py\n+++ b/scripts/ci/test_platform_recovery659_source_projection.py\n@@ -129,8 +129,11 @@\n                              any(name in ast.unparse(node) for name in (\"camera_ios_ownership\", \"webview_content_policy\"))\n                              for node in ast.walk(guard_tree)))\n         prohibited = {\"exec\", \"eval\", \"compile\", \"__import__\", \"run\", \"Popen\", \"write_bytes\", \"write_text\"}\n-        self.assertFalse(any(isinstance(node, ast.Call) and ast.unparse(node.func).rsplit(\".\", 1)[-1] in prohibited\n-                             for node in ast.walk(guard_tree)))\n+        guarded = [node for node in ast.walk(guard_tree) if isinstance(node, ast.Call) and\n+                   ast.unparse(node.func).rsplit(\".\", 1)[-1] in prohibited]\n+        self.assertEqual([\"re.compile\"], [ast.unparse(node.func) for node in guarded])\n+        self.assertEqual([r\"[0-9a-f]{64}\\Z\"], [ast.literal_eval(node.args[0]) for node in guarded])\n+        self.assertTrue(all(len(node.args) == 1 and not node.keywords for node in guarded))\n         for name in newest.BOUND_PATHS:\n             raw_current = (ROOT / name).read_bytes()\n             with patch.object(newest, \"current_source_before_platform_recovery659\",\n"
+    },
+    "scripts/ci/test_tooling656_fixture_recovery.py": {
+      "after_bytes": 13493,
+      "after_sha256": "8107f77ebc0e2c74aa4fcf6b55eed9b644160fb8bdfb8e19d8670dee4bd71e33",
+      "before_bytes": 13320,
+      "before_sha256": "9706f092f79b871fd801cf9f7ad9081e87c1af7aa3957800395935c743bdfa7d",
+      "changed_method": "test_tooling656_fixture_recovery.Tooling656FixtureRecoveryControls.test_ancestor_hooks_and_exact_image_operand_keep_every_original_method_and_assertion",
+      "exact_patch": "--- a/scripts/ci/test_tooling656_fixture_recovery.py\n+++ b/scripts/ci/test_tooling656_fixture_recovery.py\n@@ -159,7 +159,9 @@\n             self.assertEqual([\"peel_content_policy_for_history\", old_reader], [call_name(node) for node in payload_calls])\n             self.assertNotIn(\"current_source_before_content_policy\", [call_name(node) for node in ast.walk(owner) if isinstance(node, ast.Call)])\n         source_tree = ast.parse((ROOT / \"scripts/ci/test_camera_recents_observation.py\").read_bytes())\n-        setup = function(source_tree, \"setUpClass\")\n+        owners = [node for node in source_tree.body if isinstance(node, ast.ClassDef) and node.name == \"CameraRecentsSourceControls\"]\n+        self.assertEqual(1, len(owners))\n+        setup = function(owners[0], \"setUpClass\")\n         calls = [node for node in ast.walk(setup) if isinstance(node, ast.Call) and\n                  call_name(node) == \"content_history.current_source_before_content_policy\"]\n         self.assertEqual(1, len(calls))\n"
+    }
+  },
+  "current_outer_stage_count": 1,
+  "existing20_bindings43_fragments_unchanged": true,
+  "first25_accepted_methods_not_replayed": true,
+  "first27_original_sha256": "69f5079d40520925186922d2ff0a288ffd7b43e8a664a43d6b078f2a29f3783c",
+  "guard_template_code_unchanged": true,
+  "no_compiler_native_cli_network_git_mutations": true,
+  "original_peer659_packet_untouched": true,
+  "own_new_guard_changed_only_exact_spec_sha_field": true,
+  "peer_webview_guard_byte_exact": true
+}

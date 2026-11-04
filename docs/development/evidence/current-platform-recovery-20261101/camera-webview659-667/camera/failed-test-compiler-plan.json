@@ -1,0 +1,60 @@
+{
+  "argv": [
+    "./gradlew",
+    "--init-script",
+    "scripts/ci/ios_camera_ownership_native.init.gradle.kts",
+    "-PnativecmpkitCameraIosFocus=ios-camera-ownership-memory-callback",
+    ":calf-camera-picker:compileTestKotlinIosSimulatorArm64"
+  ],
+  "base": "4697c3ec65427a12e53645ecffac5e2b52821dd5",
+  "common_test_sources": [],
+  "companion_inputs": {
+    "calf-camera-picker/build.gradle.kts": "e37eb7a4fab11a6af0ed0ff6af7dea57e081241d41efb9fa7f1dd06f7367192f",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt": "abeb590d3f9edacc9fd638d40125d20ccbe3c0814bce1586d398c09c5e0cb493",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt": "b7d906813c66604e76a4f64f55306dbea6e92889bf3e77a66cd3aaa13a9891ab",
+    "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt": "3956439ee461c54ad26f7b86eef6939379d2d0c8918948072119411c8802a729",
+    "scripts/ci/camera_ios_ownership_native_focus.py": "550b103e29c7716805e6665ff8f3be239def8149f096eaff3bf533b823c4f1d5",
+    "scripts/ci/camera_ios_ownership_source_projection.py": "a06eaa559a7f30763c2327298992b2bdbfc4cfaef7dbfc625b5ed1b0a09a2341",
+    "scripts/ci/fixtures/camera-ios-ownership-routing-source-inverse.json": "90844a99910a622024f769dd16ffe504308e1a94324d9192e406cda681e680bd",
+    "scripts/ci/fixtures/platform-recovery659-source-inverse.json": "c9a56d4288e1d6a71914de27b0218d0877840136e9d24d448e2d192fcf7d90e9",
+    "scripts/ci/fixtures/webview-content-policy-routing-source-inverse.json": "c44400087570740d3248704c2165c3222229f2c05ff1a2a3840dbda9aa04b916",
+    "scripts/ci/ios_camera_ownership_native.init.gradle.kts": "db2d468ec45a7552682469f588a56d3afcaa3e01c503e866c94505ab8d7018c1",
+    "scripts/ci/ios_camera_photo_fixture.py": "0cae6165e230445944dc59c2aabbcc7b8a1d3c16e156eae9bf8c074e3465d752",
+    "scripts/ci/platform_recovery659_source_projection.py": "cb1af9a9ac2a7bc64afea2038a4055aa369c5d9002e504d52b6943db464e01f1",
+    "scripts/ci/webview_content_policy_source_projection.py": "bb0b63b32a41667c0c33401f44873bd20426524ece52caaa3cfa41ffd880f60d"
+  },
+  "effective_test_sources": {
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt": "5e5a62825d8a47ad7a5880df2a75807aba01ffd79f4ffd601f04082a89797230",
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt": "9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc",
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt": "62cb9f661dea845a7b103b497b3d788cbe3b738a6449e9860855b94575f80f1b"
+  },
+  "executed": false,
+  "final_outer_patch_sha256": "9c11566954f5fef29f830dc7987f1cf80f03225ee7427de9106acea56aa57f74",
+  "final_photos_host_sha256": "9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc",
+  "final_single_outer_stage_admitted_by_source_controls": true,
+  "final_source_map_sha256": "4633ae0d57926619b442e81dd8b25ddfec3065032b0032583ba302cee9b89b2b",
+  "first_failed_compiler_original": "/root/nativecmpkit-source-proposals-20261104/lead-camera-final-compiler658/RESULT.json",
+  "first_failed_compiler_original_sha256": "256b100bc72e433fd8bc098d22c37cf11aee949205b3fb1bc4344de2e82959f8",
+  "first_failed_compiler_preserved": true,
+  "head": "30db3ed785e13013b5de3939fdd6eb70b6d4b25a",
+  "heavy_local_serial": true,
+  "kind": "Failed-test-KLIB-only recovery proposal; prior production compilation reused on unchanged source; not compiler/native acceptance",
+  "lead_owns_git_dispatch_acceptance_closure": true,
+  "lead_uses_existing_recorded_memory_and_toolchain_controls": true,
+  "max_combined_hosted_heavy_including_queued_reserved": 2,
+  "minimum_free_gib": 8,
+  "native_links_or_executions_attested": 0,
+  "outer_659_admission_required_before_execution": true,
+  "required_evidence": [
+    "Actual before/after own-Git compiler input maps",
+    "Actual Gradle/Kotlin command exit/log/warnings",
+    "Exact final three-source/common0 precompiler admission kept source-only"
+  ],
+  "requires_lead_binding_actual_reviewed_immutable_head": true,
+  "source_controls_do_not_close_issues": [
+    76,
+    77,
+    79,
+    80
+  ]
+}

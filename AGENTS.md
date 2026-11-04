@@ -1,5 +1,41 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related Camera/WebView recovery compiled and native-tested — 2026-11-04
+
+[659–667](docs/development/evidence/current-platform-recovery-20261101/camera-webview659-667/README.md)
+integrates exact20 existing/43 inverse fragments plus4 new paths at30db3ed7,
+above Camera ownership4697. FIRST27 remains25pass/twoNEWfail; onlyfailed2
+passes2/2 once,1,446 source-control inputs held; accepted25 not replayed.
+Lead/independent658/610 qualify composition, not native or issue closure.
+Original compiler658 seven diagnostics remain FAILED; final test-only660
+recovery executes Gradle0/41.01s, fresh effective3/common0 unpacked testKLIB,
+1,443 invocation before/after maps held; production UP-TO-DATE. ZERO Apple/native.
+JavaFX affected9 executes9/9/fivefreshXML/Gradle0/48.01s at the same clean30db,
+1,443 held. Exact UTF-8/Base64 official inline ingress and payload-safe public
+URL/saver/error observations now pass; unchanged GET/POST/HTTP-only excluded.
+Critical-JNI/handler/Skiko warnings remain, not security/GPU/other-platform proof.
+
+Camera5 actual source preflight passes. Android WebView5 preflight REFUSES before
+host/native: native_focus.source_contract214 uses the original manifest's owner
+pin after659 changed the owner bytes; exact native/helper validation itself holds.
+No blind dispatch; narrow owning identity repair667 is being prepared. UI650
+41790553079 remains FAILED/zero fully accepted methods: button partial1, adaptive
+Unknown/incomplete, eight unexecuted; Worker/PID/runtime-after/restoration missing.
+Owned app stop/uninstall/absence passes, not completion or hang cause. Original
+acquisition once; reservation released. Separate UI9/adaptive1 routing and fresh
+screenshot finally-close/first-row phases are SOURCE-ONLY, not integrated/native.
+Exact Compose1.12.0 source inspected; its timeout checks are cooperative, no cause
+inferred from cached1.12.2. IO55 controlled-remote routing is separately prepared;
+Downloads/restart/commercial-cloud remain unresolved, never N/A or whole#55 green.
+
+Retained103closed/69open/172;22implemented/36partial/101verified/five unresolved,
+ZERO new closures/publication. Lead Git/integration/dispatch/acceptance/closure;
+isolated parallel patches, serial local>=8GiB FREE DISK and compiler>=6GiB
+MemAvailable; max2 combined hosted INCLUDINGqueued/reserved. Actions/all allowed,
+no mandatory SHA pinning, contents:read. All publishing/Pages/main/history/native/
+consumer/API–ABI/dependency/legal/security/release-readiness gates remain.
+Earlier checkpoints retain dated scope; do not replay accepted populations.
+
 ## WebView finite routing compiled; Linux original failure retained — 2026-11-04
 
 [651/654/655](docs/development/evidence/current-platform-recovery-20261101/webview651-655/README.md)

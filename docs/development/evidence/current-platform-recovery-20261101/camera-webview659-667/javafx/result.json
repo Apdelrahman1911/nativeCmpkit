@@ -1,0 +1,299 @@
+{
+  "actual_gradle": {
+    "command": [
+      "xvfb-run",
+      "-a",
+      "./gradlew",
+      "--offline",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=1",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      ":calf-webview:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopWebViewContentPolicyAcceptanceTest.savedRemainingStatesRemountWithoutBlankTitleOrFalseHistory",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopWebViewContentPolicyAcceptanceTest.unsupportedHeadersAndBaseUrlRefuseBeforeNetworkForBothEntryPoints",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.retainedStateCannotRetainRepeatedRealNativeViewsOrEngines",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.javascriptUsesActualEngineAndTypedJsonResults",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.customHandlerInstalledBeforeANewNativeViewIsNeverReplacedByCreationReadsOrDisposal"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "elapsed_seconds": 48.01,
+    "exit_code": 0,
+    "free_bytes_after": 18927996928,
+    "free_bytes_before": 18943979520,
+    "reserve_mib": 8192,
+    "started_utc": "2026-11-04T09:04:20.742771+00:00",
+    "timeout_seconds": 1200
+  },
+  "actual_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewContentPolicyAcceptanceTest",
+      "name": "savedRemainingStatesRemountWithoutBlankTitleOrFalseHistory[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewContentPolicyAcceptanceTest",
+      "name": "unsupportedHeadersAndBaseUrlRefuseBeforeNetworkForBothEntryPoints[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+      "name": "customHandlerInstalledBeforeANewNativeViewIsNeverReplacedByCreationReadsOrDisposal[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "javascriptUsesActualEngineAndTypedJsonResults[desktop]",
+      "status": "passed"
+    }
+  ],
+  "apple_or_other_platform_native_acceptance": false,
+  "consumer_API_ABI_dependency_legal_security_release_acceptance": false,
+  "errors": [],
+  "free_bytes_after": 18927738880,
+  "head_after": "30db3ed785e13013b5de3939fdd6eb70b6d4b25a",
+  "head_before": "30db3ed785e13013b5de3939fdd6eb70b6d4b25a",
+  "held_inputs": 1443,
+  "inputs_held": true,
+  "module_task_lines": [
+    "> Task :calf-webview:checkDesktopMainComposeLibrariesCompatibility",
+    "> Task :calf-webview:kmpPartiallyResolvedDependenciesChecker",
+    "> Task :calf-webview:checkKotlinGradlePluginConfigurationErrors SKIPPED",
+    "> Task :calf-webview:convertXmlValueResourcesForCommonMain NO-SOURCE",
+    "> Task :calf-webview:copyNonXmlValueResourcesForCommonMain NO-SOURCE",
+    "> Task :calf-webview:prepareComposeResourcesTaskForCommonMain NO-SOURCE",
+    "> Task :calf-webview:generateResourceAccessorsForCommonMain SKIPPED",
+    "> Task :calf-webview:convertXmlValueResourcesForDesktopMain NO-SOURCE",
+    "> Task :calf-webview:copyNonXmlValueResourcesForDesktopMain NO-SOURCE",
+    "> Task :calf-webview:prepareComposeResourcesTaskForDesktopMain NO-SOURCE",
+    "> Task :calf-webview:generateResourceAccessorsForDesktopMain SKIPPED",
+    "> Task :calf-webview:convertXmlValueResourcesForMaterialMain NO-SOURCE",
+    "> Task :calf-webview:copyNonXmlValueResourcesForMaterialMain NO-SOURCE",
+    "> Task :calf-webview:prepareComposeResourcesTaskForMaterialMain NO-SOURCE",
+    "> Task :calf-webview:generateResourceAccessorsForMaterialMain SKIPPED",
+    "> Task :calf-webview:convertXmlValueResourcesForNonAndroidMain NO-SOURCE",
+    "> Task :calf-webview:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE",
+    "> Task :calf-webview:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE",
+    "> Task :calf-webview:generateResourceAccessorsForNonAndroidMain SKIPPED",
+    "> Task :calf-webview:generateActualResourceCollectorsForDesktopMain SKIPPED",
+    "> Task :calf-webview:generateComposeResClass SKIPPED",
+    "> Task :calf-webview:generateExpectResourceCollectorsForCommonMain SKIPPED",
+    "> Task :calf-webview:compileKotlinDesktop",
+    "> Task :calf-webview:compileDesktopMainJava NO-SOURCE",
+    "> Task :calf-webview:checkDesktopTestComposeLibrariesCompatibility",
+    "> Task :calf-webview:assembleDesktopMainResources UP-TO-DATE",
+    "> Task :calf-webview:desktopProcessResources UP-TO-DATE",
+    "> Task :calf-webview:processDesktopMainResources SKIPPED",
+    "> Task :calf-webview:desktopMainClasses",
+    "> Task :calf-webview:prepareEmbeddedPublicationNotices UP-TO-DATE",
+    "> Task :calf-webview:desktopJar",
+    "> Task :calf-webview:convertXmlValueResourcesForCommonTest NO-SOURCE",
+    "> Task :calf-webview:copyNonXmlValueResourcesForCommonTest NO-SOURCE",
+    "> Task :calf-webview:prepareComposeResourcesTaskForCommonTest NO-SOURCE",
+    "> Task :calf-webview:generateResourceAccessorsForCommonTest SKIPPED",
+    "> Task :calf-webview:convertXmlValueResourcesForDesktopTest NO-SOURCE",
+    "> Task :calf-webview:copyNonXmlValueResourcesForDesktopTest NO-SOURCE",
+    "> Task :calf-webview:prepareComposeResourcesTaskForDesktopTest NO-SOURCE",
+    "> Task :calf-webview:generateResourceAccessorsForDesktopTest SKIPPED",
+    "> Task :calf-webview:convertXmlValueResourcesForMaterialTest NO-SOURCE",
+    "> Task :calf-webview:copyNonXmlValueResourcesForMaterialTest NO-SOURCE",
+    "> Task :calf-webview:prepareComposeResourcesTaskForMaterialTest NO-SOURCE",
+    "> Task :calf-webview:generateResourceAccessorsForMaterialTest SKIPPED",
+    "> Task :calf-webview:convertXmlValueResourcesForNonAndroidTest NO-SOURCE",
+    "> Task :calf-webview:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE",
+    "> Task :calf-webview:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE",
+    "> Task :calf-webview:generateResourceAccessorsForNonAndroidTest SKIPPED",
+    "> Task :calf-webview:compileTestKotlinDesktop",
+    "> Task :calf-webview:compileDesktopTestJava NO-SOURCE",
+    "> Task :calf-webview:assembleDesktopTestResources UP-TO-DATE",
+    "> Task :calf-webview:desktopTestProcessResources UP-TO-DATE",
+    "> Task :calf-webview:processDesktopTestResources SKIPPED",
+    "> Task :calf-webview:desktopTestClasses",
+    "> Task :calf-webview:desktopTest"
+  ],
+  "native_batch_green": true,
+  "native_runtime_marker_count": 1,
+  "native_scope": "Real Linux JavaFX/Compose selected inline-ingress ownership/lifecycle/JS/cookie methods; controlled fixture inputs",
+  "publishing": false,
+  "reports": [
+    {
+      "actual_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewContentPolicyAcceptanceTest",
+          "name": "savedRemainingStatesRemountWithoutBlankTitleOrFalseHistory[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewContentPolicyAcceptanceTest",
+          "name": "unsupportedHeadersAndBaseUrlRefuseBeforeNetworkForBothEntryPoints[desktop]",
+          "status": "passed"
+        }
+      ],
+      "bytes": 6366,
+      "mtime_ns": 1793783108092777637,
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewContentPolicyAcceptanceTest.xml",
+      "sha256": "0902c63e6725ed78d278395f8de9919fc9be4e7b32ec4d848307e96cff85d730"
+    },
+    {
+      "actual_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+          "status": "passed"
+        }
+      ],
+      "bytes": 1119,
+      "mtime_ns": 1793783108093777637,
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.xml",
+      "sha256": "06bdef54cef742b1269a59ec3eac2f9a741c4a3655f2cf17eb8716e96ae304ff"
+    },
+    {
+      "actual_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+          "status": "passed"
+        }
+      ],
+      "bytes": 1271,
+      "mtime_ns": 1793783108093777637,
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+      "sha256": "b25b9b3abb2e2083e5ace81179d69ab972b025fd9c71e1b3db006f3cf1200e6c"
+    },
+    {
+      "actual_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "customHandlerInstalledBeforeANewNativeViewIsNeverReplacedByCreationReadsOrDisposal[desktop]",
+          "status": "passed"
+        }
+      ],
+      "bytes": 513,
+      "mtime_ns": 1793783108094777637,
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.xml",
+      "sha256": "ca831114ed19164ca12a62422333bd711bf9430dcc2fd8dec49fb8988829884a"
+    },
+    {
+      "actual_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "javascriptUsesActualEngineAndTypedJsonResults[desktop]",
+          "status": "passed"
+        }
+      ],
+      "bytes": 456,
+      "mtime_ns": 1793783108094777637,
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "sha256": "1f18d6873d9e677d304b901bc4640fd577b48e8ac8113accf045d5722d6f433a"
+    }
+  ],
+  "schema_version": 1,
+  "totals": {
+    "errors": 0,
+    "executed": 9,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 9,
+    "skipped": 0,
+    "tests": 9,
+    "unexpected_skipped": 0
+  },
+  "utc": "2026-11-04T09:05:08.969978+00:00",
+  "warnings": [
+    "w: \u26a0\ufe0f Native task 'iosSimulatorArm64Test' is disabled",
+    "w: \u26a0\ufe0f Cross Compilation with Cinterop Not Supported in Project 'calf-webview'",
+    "w: \u26a0\ufe0f Cross Compilation with Cinterop Not Supported in Project 'calf-webview'",
+    "w: \u26a0\ufe0f Disabled Kotlin/Native Targets",
+    "w: file:///root/projects/nativeCmpKit/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt:17:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573",
+    "w: file:///root/projects/nativeCmpKit/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt:97:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573",
+    "w: file:///root/projects/nativeCmpKit/calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt:17:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573",
+    "w: file:///root/projects/nativeCmpKit/calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt:305:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573",
+    "w: file:///root/projects/nativeCmpKit/calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt:181:38 Unnecessary non-null assertion (!!) on a non-null receiver of type 'JFrame'.",
+    "w: file:///root/projects/nativeCmpKit/calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt:181:60 Unnecessary non-null assertion (!!) on a non-null receiver of type 'JFrame'.",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallStaticObjectMethodV",
+    "(java:19491): dbind-WARNING **: 09:05:02.476: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallObjectMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallIntMethodV",
+    "WARNING in native method: JNI call made without checking exceptions when required to from CallIntMethodV"
+  ],
+  "worktree_clean": true,
+  "wrapper_elapsed_seconds": 48.2752800041344,
+  "wrapper_exit": 0
+}

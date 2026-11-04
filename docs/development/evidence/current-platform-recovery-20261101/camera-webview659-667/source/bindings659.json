@@ -1,0 +1,481 @@
+{
+  "added_inputs": {
+    "scripts/ci/test_platform_recovery659_source_projection.py": "77327cf4cc13aa1b5646c7b0ca833b3b24615d2f3950747117969787e8773d38",
+    "scripts/ci/test_tooling656_fixture_recovery.py": "8107f77ebc0e2c74aa4fcf6b55eed9b644160fb8bdfb8e19d8670dee4bd71e33"
+  },
+  "bindings": {
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt": {
+      "after_bytes": 32204,
+      "after_sha256": "5e5a62825d8a47ad7a5880df2a75807aba01ffd79f4ffd601f04082a89797230",
+      "before_bytes": 32042,
+      "before_sha256": "b9abd3aaccbea97feb02c0bfd076c1f09c83b1828dad2639a0357ec8be6c88c2",
+      "fragments": [
+        {
+          "after": "@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlin.experimental.ExperimentalNativeApi::class,\n    kotlin.native.runtime.NativeRuntimeApi::class)\n\npackage com.mohamedrejeb.calf.camerapicker\n\n",
+          "after_fragment_sha256": "0891182f0347843d84e8dc672f22f21bf210290821997a2ddf4b2d579c4c7bd2",
+          "before": "@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlin.experimental.ExperimentalNativeApi::class)\n\npackage com.mohamedrejeb.calf.camerapicker\n\n",
+          "before_fragment_sha256": "f18f35963f98db79f72535ca8b9adcdb39046230608903cf43bb5af1361c9fdd",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "        }\n        waitForCameraNative { parent.presentedViewController == null && nativePickerHasNoPresentation(parent, picker) && deliveries.size == 1 && rootIsReappeared() }\n        runOnIdle {\n            assertEquals<List<Pair<Int, CameraPickerResult>>>(listOf(1 to CameraPickerResult.Cancelled), deliveries)\n            assertEquals(listOf(true), mainDeliveries)\n            launcher.launch()\n            assertIs<CameraPickerResult.Unavailable>(deliveries.last().second,\n",
+          "after_fragment_sha256": "abbf8cfe13f97d0c8ad5a7e163e291cd450c33db5adcfc98e4dd49a480988b81",
+          "before": "        }\n        waitForCameraNative { parent.presentedViewController == null && nativePickerHasNoPresentation(parent, picker) && deliveries.size == 1 && rootIsReappeared() }\n        runOnIdle {\n            assertEquals(listOf(1 to CameraPickerResult.Cancelled), deliveries)\n            assertEquals(listOf(true), mainDeliveries)\n            launcher.launch()\n            assertIs<CameraPickerResult.Unavailable>(deliveries.last().second,\n",
+          "before_fragment_sha256": "b232b6ca073ad1f3e676d42be4abb38eaeb7553548c86253b3450a6f7fa9bdfc",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "        val lateFirstDelegate = runOnIdle {\n            callbackPicker = first\n            launcher.launch()\n            assertEquals<List<CameraPickerResult>>(listOf(CameraPickerResult.Busy), deliveries)\n            assertTrue(sameNativeObject(first, parent.presentedViewController))\n            assertIs<UIImagePickerControllerDelegateProtocol>(first.delegate).also {\n                it.imagePickerControllerDidCancel(first)\n",
+          "after_fragment_sha256": "8befcccceb456b96fd27361805ae2424edf255967a8296ec07674f1807a5c4e1",
+          "before": "        val lateFirstDelegate = runOnIdle {\n            callbackPicker = first\n            launcher.launch()\n            assertEquals(listOf(CameraPickerResult.Busy), deliveries)\n            assertTrue(sameNativeObject(first, parent.presentedViewController))\n            assertIs<UIImagePickerControllerDelegateProtocol>(first.delegate).also {\n                it.imagePickerControllerDidCancel(first)\n",
+          "before_fragment_sha256": "99c57f79984444c98c9ec448fd804188190971555c53f923ae7a81c8e05c645b",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "            val secondDelegate = assertIs<NSObject>(second.delegate)\n            // Controlled retained old-delegate inputs are deliberately late, not actual user gestures.\n            lateFirstDelegate.imagePickerControllerDidCancel(first)\n            lateFirstDelegate.imagePickerController(picker = first, didFinishPickingMediaWithInfo = emptyMap<Any?, Any?>())\n            assertTrue(sameNativeObject(second, parent.presentedViewController))\n            assertTrue(sameNativeObject(secondDelegate, assertIs<NSObject>(second.delegate)))\n            assertEquals(2, deliveries.size)\n",
+          "after_fragment_sha256": "867203aca5298d4fe6fb36b212eb153b2c0cd37f53796bac25a9e570260b212f",
+          "before": "            val secondDelegate = assertIs<NSObject>(second.delegate)\n            // Controlled retained old-delegate inputs are deliberately late, not actual user gestures.\n            lateFirstDelegate.imagePickerControllerDidCancel(first)\n            lateFirstDelegate.imagePickerController(picker = first, didFinishPickingMediaWithInfo = emptyMap())\n            assertTrue(sameNativeObject(second, parent.presentedViewController))\n            assertTrue(sameNativeObject(secondDelegate, assertIs<NSObject>(second.delegate)))\n            assertEquals(2, deliveries.size)\n",
+          "before_fragment_sha256": "4a01d166108cda7f021caf513bf0b10556c4a6434e884f55666aec29125a9837",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "                waitForCameraNative { parent.presentedViewController == null && nativePickerHasNoPresentation(parent, ownedPicker) && rootIsReappeared() }\n                runOnIdle {\n                    lateDelegate.imagePickerControllerDidCancel(ownedPicker)\n                    lateDelegate.imagePickerController(picker = ownedPicker, didFinishPickingMediaWithInfo = emptyMap<Any?, Any?>())\n                    assertTrue(deliveries.isEmpty(), \"Disposed owners suppress their late controlled terminal inputs\")\n                    assertTrue(nativePickerHasNoPresentation(parent, ownedPicker))\n                    assertTrue(rootIsReappeared())\n",
+          "after_fragment_sha256": "ab15dbc62ade189fad0bde65c36b3242f7fc20c0faca4eee09a5d5de70454023",
+          "before": "                waitForCameraNative { parent.presentedViewController == null && nativePickerHasNoPresentation(parent, ownedPicker) && rootIsReappeared() }\n                runOnIdle {\n                    lateDelegate.imagePickerControllerDidCancel(ownedPicker)\n                    lateDelegate.imagePickerController(picker = ownedPicker, didFinishPickingMediaWithInfo = emptyMap())\n                    assertTrue(deliveries.isEmpty(), \"Disposed owners suppress their late controlled terminal inputs\")\n                    assertTrue(nativePickerHasNoPresentation(parent, ownedPicker))\n                    assertTrue(rootIsReappeared())\n",
+          "before_fragment_sha256": "e75261300b76cf9c4afc29327256c9563bae0009f700f493f439f740826399e4",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "                assertIs<UIImagePickerController>(parent.presentedViewController).also {\n                    callbackPicker = it\n                    val delegate = assertIs<UIImagePickerControllerDelegateProtocol>(it.delegate)\n                    delegate.imagePickerController(picker = it, didFinishPickingMediaWithInfo = emptyMap<Any?, Any?>())\n                    delegate.imagePickerController(picker = it, didFinishPickingMediaWithInfo = emptyMap<Any?, Any?>())\n                }\n            }\n            waitForCameraNative { deliveries.size == 4 && parent.presentedViewController == null && nativePickerHasNoPresentation(parent, missing) && rootIsReappeared() }\n",
+          "after_fragment_sha256": "4d73ed8c9bab4e0a2a103e062722c038ba9c511c238fca1e1da3ec34f497226f",
+          "before": "                assertIs<UIImagePickerController>(parent.presentedViewController).also {\n                    callbackPicker = it\n                    val delegate = assertIs<UIImagePickerControllerDelegateProtocol>(it.delegate)\n                    delegate.imagePickerController(picker = it, didFinishPickingMediaWithInfo = emptyMap())\n                    delegate.imagePickerController(picker = it, didFinishPickingMediaWithInfo = emptyMap())\n                }\n            }\n            waitForCameraNative { deliveries.size == 4 && parent.presentedViewController == null && nativePickerHasNoPresentation(parent, missing) && rootIsReappeared() }\n",
+          "before_fragment_sha256": "e8b17fc74e5bfeb706556ffb2e0933074f2a403aa1a666c3556481b0207833dd",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": {
+      "after_bytes": 6788,
+      "after_sha256": "d9813c52ff5b90fbf5fc97e64a2df577f723f3f422656a3837f8e23b95834ce0",
+      "before_bytes": 6394,
+      "before_sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
+      "fragments": [
+        {
+          "after": "\ninternal fun WebViewState.acceptContent(content: WebContent, platform: WebContentPlatform): Boolean {\n    if (content == WebContent.NavigatorOnly) return false\n    // Desktop's native inline data URL carries the entire document, not a public request URL.\n    // Also avoid a transient payload publication for an explicitly supplied data URL; options\n    // are still validated against the original content and other targets remain unchanged.\n    beginRequest((content as? WebContent.Url)?.url?.takeUnless {\n        platform == WebContentPlatform.Desktop && it.startsWith(\"data:\", ignoreCase = true)\n    })\n    val unsupported = content.unsupportedOptions(platform)\n    if (unsupported.isEmpty()) return true\n    errorsForCurrentRequest = listOf(WebViewError(-2, \"Unsupported on $platform: ${unsupported.joinToString()}\"))\n",
+          "after_fragment_sha256": "1d8ce5a7e273890d831657b908c5589821484df83e1803406aed5a8dbcad4ff6",
+          "before": "\ninternal fun WebViewState.acceptContent(content: WebContent, platform: WebContentPlatform): Boolean {\n    if (content == WebContent.NavigatorOnly) return false\n    beginRequest((content as? WebContent.Url)?.url)\n    val unsupported = content.unsupportedOptions(platform)\n    if (unsupported.isEmpty()) return true\n    errorsForCurrentRequest = listOf(WebViewError(-2, \"Unsupported on $platform: ${unsupported.joinToString()}\"))\n",
+          "before_fragment_sha256": "919dc0c5d9d03effea280888718559623822495b0039cb908388c8906ba343d7",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": {
+      "after_bytes": 18169,
+      "after_sha256": "83709fba6de43479d0f5954d931c5f040618649ed3d8321070d556278316d86b",
+      "before_bytes": 16355,
+      "before_sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39",
+      "fragments": [
+        {
+          "after": "import javafx.scene.web.WebView\nimport kotlinx.coroutines.suspendCancellableCoroutine\nimport java.awt.GraphicsEnvironment\nimport java.util.Base64\nimport java.util.concurrent.atomic.AtomicBoolean\nimport java.util.concurrent.atomic.AtomicReference\nimport javax.swing.SwingUtilities\n",
+          "after_fragment_sha256": "98aee894190619920fd4327ffbb68a5e538827c7058d97179ea238b527cfae82",
+          "before": "import javafx.scene.web.WebView\nimport kotlinx.coroutines.suspendCancellableCoroutine\nimport java.awt.GraphicsEnvironment\nimport java.util.concurrent.atomic.AtomicBoolean\nimport java.util.concurrent.atomic.AtomicReference\nimport javax.swing.SwingUtilities\n",
+          "before_fragment_sha256": "8f9e7ae1483820cb767cea887ced875dd9962a9ddcb8d36ceca982e6b000f1c7",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "/** Published only at a completed UI notification, never while a settings batch is in progress. */\ninternal data class DesktopWebSettingsSnapshot(val javaScriptEnabled: Boolean, val customUserAgent: String?)\n\n// The native data URL contains the caller's complete inline document. Keep it native-only,\n// including when WebHistory returns to it without another declarative load.\nprivate fun String?.isDesktopInlineLocation(): Boolean = this?.startsWith(\"data:\", ignoreCase = true) == true\nprivate fun String?.publicDesktopLocation(): String? = this?.takeIf { it.isNotBlank() && !it.isDesktopInlineLocation() }\n\n/** One native view, its listeners and queued work have exactly one disposable owner. */\ninternal class DesktopWebViewOwner(\n    private val state: WebViewState,\n",
+          "after_fragment_sha256": "83c1278da1ec9509e74b5f64f62725a65680f07934997567b915da00e54d39dc",
+          "before": "/** Published only at a completed UI notification, never while a settings batch is in progress. */\ninternal data class DesktopWebSettingsSnapshot(val javaScriptEnabled: Boolean, val customUserAgent: String?)\n\n/** One native view, its listeners and queued work have exactly one disposable owner. */\ninternal class DesktopWebViewOwner(\n    private val state: WebViewState,\n",
+          "before_fragment_sha256": "8abaebd86dcff5dc3cc919076af3d532492615b83d766de8736cd845a7811dfa",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "    private var workerListener: ChangeListener<Worker.State>? = null\n    private var progressListener: ChangeListener<Number>? = null\n    private var titleListener: ChangeListener<String>? = null\n    private var inlineRequest = false // FX-confined; no copy of the document/data URL is retained here.\n    // FX-confined completed native applications, exposed internally for real-queue regression tests.\n    internal var settingsApplicationCount = 0\n        private set\n",
+          "after_fragment_sha256": "84860259dd2fac8cf7d5ab332e3c8992f5bc97ff0cffea9d01f8d54bf3f07314",
+          "before": "    private var workerListener: ChangeListener<Worker.State>? = null\n    private var progressListener: ChangeListener<Number>? = null\n    private var titleListener: ChangeListener<String>? = null\n    // FX-confined completed native applications, exposed internally for real-queue regression tests.\n    internal var settingsApplicationCount = 0\n        private set\n",
+          "before_fragment_sha256": "beb54fbb83f9113a90494acd11bd809543225d8397f2eef50dca2ffc3878b5b8",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "                    // JavaFX publishes the newly started URL before SCHEDULED. Keeping the\n                    // previous requestedUrl here incorrectly attributes native link/history\n                    // navigations to the preceding page. Redirects may later change final URL.\n                    Worker.State.SCHEDULED -> {\n                        inlineRequest = engine.location.isDesktopInlineLocation()\n                        state.beginRequest(engine.location.publicDesktopLocation())\n                    }\n                    Worker.State.RUNNING -> state.loadingState = LoadingState.Loading(0f)\n                    Worker.State.SUCCEEDED -> {\n                        state.loadingState = LoadingState.Finished\n                        state.pageTitle = engine.title\n                        inlineRequest = engine.location.isDesktopInlineLocation()\n                        state.lastLoadedUrl = engine.location.publicDesktopLocation()\n                        if (inlineRequest) state.requestedUrl = null\n                        updateHistoryNow(view)\n                    }\n                    Worker.State.FAILED -> {\n                        state.loadingState = LoadingState.Finished\n                        val inline = inlineRequest || engine.location.isDesktopInlineLocation()\n                        if (inline) { state.requestedUrl = null; state.lastLoadedUrl = null }\n                        // Native failure messages can contain the complete data URL. Never publish\n                        // that inline source through the library's request/error diagnostics.\n                        state.errorsForCurrentRequest = listOf(WebViewError(-1,\n                            if (inline) \"Inline HTML load failed\" else engine.loadWorker.exception?.message ?: \"Page load failed\"))\n                    }\n                    Worker.State.CANCELLED -> state.loadingState = LoadingState.Finished\n                    else -> Unit\n",
+          "after_fragment_sha256": "ca8533d2f0c55b560df10b17ed4e0768d44e0a7df279c5452b5a0ff9d7f75ff8",
+          "before": "                    // JavaFX publishes the newly started URL before SCHEDULED. Keeping the\n                    // previous requestedUrl here incorrectly attributes native link/history\n                    // navigations to the preceding page. Redirects may later change final URL.\n                    Worker.State.SCHEDULED -> state.beginRequest(engine.location.takeIf { it.isNotBlank() })\n                    Worker.State.RUNNING -> state.loadingState = LoadingState.Loading(0f)\n                    Worker.State.SUCCEEDED -> {\n                        state.loadingState = LoadingState.Finished\n                        state.pageTitle = engine.title\n                        state.lastLoadedUrl = engine.location.takeIf { it.isNotBlank() }\n                        updateHistoryNow(view)\n                    }\n                    Worker.State.FAILED -> {\n                        state.loadingState = LoadingState.Finished\n                        state.errorsForCurrentRequest = listOf(WebViewError(-1, engine.loadWorker.exception?.message ?: \"Page load failed\"))\n                    }\n                    Worker.State.CANCELLED -> state.loadingState = LoadingState.Finished\n                    else -> Unit\n",
+          "before_fragment_sha256": "f413cdf381580f630701c1c9d93d2987c6db3b211c42999bf2beb8db67b94e8b",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "\n    private fun loadNow(view: WebView, content: WebContent) {\n        if (!state.acceptContent(content, WebContentPlatform.Desktop)) return\n        inlineRequest = content is WebContent.Data || (content as? WebContent.Url)?.url.isDesktopInlineLocation()\n        try {\n            when (content) {\n                is WebContent.Url -> view.engine.load(content.url)\n                // Feed exact UTF-8 bytes over an ASCII-only URL. JavaFX21 loadContent corrupts\n                // supplementary characters at document ingress on the observed Linux runtime.\n                // No HTML rewrite/base URL/history emulation or modified native bridge is used.\n                is WebContent.Data -> view.engine.load(\"data:text/html;charset=utf-8;base64,\" +\n                    Base64.getEncoder().encodeToString(content.data.toByteArray(Charsets.UTF_8)))\n                WebContent.NavigatorOnly -> Unit\n            }\n        } catch (error: Exception) {\n            state.errorsForCurrentRequest = listOf(WebViewError(-1,\n                if (inlineRequest) \"Inline HTML load failed\" else error.message ?: \"Invalid WebView content\"))\n            state.loadingState = LoadingState.Finished\n        }\n    }\n",
+          "after_fragment_sha256": "a7c553bdf677b79c80f6573d820b0138341be995b957d54e48bf6cd43b1a2239",
+          "before": "\n    private fun loadNow(view: WebView, content: WebContent) {\n        if (!state.acceptContent(content, WebContentPlatform.Desktop)) return\n        try {\n            when (content) {\n                is WebContent.Url -> view.engine.load(content.url)\n                is WebContent.Data -> view.engine.loadContent(content.data, content.mimeType ?: \"text/html\")\n                WebContent.NavigatorOnly -> Unit\n            }\n        } catch (error: Exception) {\n            state.errorsForCurrentRequest = listOf(WebViewError(-1, error.message ?: \"Invalid WebView content\"))\n            state.loadingState = LoadingState.Finished\n        }\n    }\n",
+          "before_fragment_sha256": "b0ff3191b92d74c77817308976cc0f681b5035a114e6b2a198d3f503c9b4af9f",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt": {
+      "after_bytes": 18523,
+      "after_sha256": "79601573fea41ab8d1a78258b2de74153383a2582d9eac031deb6cfbe7e2c683",
+      "before_bytes": 12285,
+      "before_sha256": "8f92e2fb89cf9da4fdb6f8f68d93bef8a339c49e9ba9be3c5d9012c6ea2f8b3c",
+      "fragments": [
+        {
+          "after": "                    onFxThread { assertSame(native, state.webView) }\n                }\n                // Supported plain inline Unicode stays honest too; no base URL/resource support is claimed.\n                val inlineTitles = mutableListOf<String>()\n                for (entry in listOf(\"state\", \"navigator\")) for (encoding in listOf(\"utf-8\", \"utf8\", \"UTF-8\", \"UTF8\")) {\n                    val title = \"supported-$entry-$encoding\"\n                    val historyBefore = onFxThread { native.engine.history.currentIndex to native.engine.history.entries.size }\n                    val unicode = OwnedWebViewContentPolicyHttpFixture.unicode\n                    val html = OwnedWebViewContentPolicyHttpFixture.inline(title) +\n                        \"<p id='policy-script'></p><p id='policy-attribute' data-unicode='$unicode'></p>\" +\n                        \"<p id='policy-css'></p><style>#policy-css::after { content: '$unicode'; }</style>\" +\n                        \"<script>document.getElementById('policy-script').textContent='$unicode';</script>\"\n                    if (entry == \"state\") state.content = WebContent.Data(html, encoding = encoding)\n                    else host.navigator.loadHtml(html, encoding = encoding)\n                    awaitInline(host, title)\n                    assertEquals(JavascriptResult.Value(quoteJavascript(OwnedWebViewContentPolicyHttpFixture.unicode)),\n                        host.evaluate(\"document.getElementById('policy-document').textContent\"))\n                    onFxThread { assertSame(native, state.webView); assertTrue(state.errorsForCurrentRequest.isEmpty()) }\n                    assertInlineUnicodeContexts(host)\n                    assertInlineMetadataAndHistory(host)\n                    onFxThread {\n                        // Do not hide the data URL's actual native history entry to imitate loadContent.\n                        assertEquals(historyBefore.first + 1, native.engine.history.currentIndex)\n                        assertEquals(historyBefore.second + 1, native.engine.history.entries.size)\n                    }\n                    inlineTitles += title\n                }\n                val inlineHistory = onFxThread { native.engine.history.currentIndex to native.engine.history.entries.size }\n                // A real reload must replace the document marker, not merely observe the same old title.\n                assertEquals(JavascriptResult.Value(\"true\"), host.evaluate(\n                    \"document.getElementById('policy-document').setAttribute('data-before-reload','owned-marker'); true\"))\n                host.navigator.reload()\n                host.awaitFx {\n                    native.engine.loadWorker.state == Worker.State.SUCCEEDED &&\n                        native.engine.document?.getElementById(\"policy-document\")?.hasAttribute(\"data-before-reload\") == false\n                }\n                awaitInline(host, inlineTitles.last())\n                assertInlineUnicodeContexts(host); assertInlineMetadataAndHistory(host)\n                onFxThread {\n                    assertEquals(inlineHistory.first, native.engine.history.currentIndex)\n                    assertEquals(inlineHistory.second, native.engine.history.entries.size)\n                    // The explicit data-URL metadata path is intentionally private too, before native events.\n                    val explicit = WebViewState(WebContent.NavigatorOnly)\n                    assertTrue(explicit.acceptContent(WebContent.Url(native.engine.location), WebContentPlatform.Desktop))\n                    assertNull(explicit.requestedUrl); assertNull(explicit.lastLoadedUrl)\n                    assertEquals(WebContent.NavigatorOnly, assertNotNull(WebStateSaver.restore(save(explicit))).content)\n                }\n                // Visit only these eight actual inline entries, never replay the owned HTTP seed.\n                // Every state/navigator alias is observed again through genuine native history.\n                for (index in inlineTitles.lastIndex - 1 downTo 0) {\n                    host.navigator.navigateBack(); awaitInline(host, inlineTitles[index])\n                    assertInlineUnicodeContexts(host); assertInlineMetadataAndHistory(host)\n                    onFxThread {\n                        assertEquals(inlineHistory.first - (inlineTitles.lastIndex - index), native.engine.history.currentIndex)\n                        assertEquals(inlineHistory.second, native.engine.history.entries.size)\n                    }\n                }\n                for (index in 1..inlineTitles.lastIndex) {\n                    host.navigator.navigateForward(); awaitInline(host, inlineTitles[index])\n                    assertInlineUnicodeContexts(host); assertInlineMetadataAndHistory(host)\n                    onFxThread {\n                        assertEquals(inlineHistory.first - (inlineTitles.lastIndex - index), native.engine.history.currentIndex)\n                        assertEquals(inlineHistory.second, native.engine.history.entries.size)\n                    }\n                }\n                host.navigator.loadUrl(fixture.url(\"recovery\")); awaitDocument(host, fixture, \"recovery\", 1)\n            }\n",
+          "after_fragment_sha256": "18fa9ee28433bee9cbf4b95f688be11d361cf0cb318b07d80bac1373d2d459fb",
+          "before": "                    onFxThread { assertSame(native, state.webView) }\n                }\n                // Supported plain inline Unicode stays honest too; no base URL/resource support is claimed.\n                for (entry in listOf(\"state\", \"navigator\")) for (encoding in listOf(\"utf-8\", \"utf8\")) {\n                    val title = \"supported-$entry-$encoding\"\n                    val html = OwnedWebViewContentPolicyHttpFixture.inline(title)\n                    if (entry == \"state\") state.content = WebContent.Data(html, encoding = encoding)\n                    else host.navigator.loadHtml(html, encoding = encoding)\n                    awaitInline(host, title)\n                    assertEquals(JavascriptResult.Value(quoteJavascript(OwnedWebViewContentPolicyHttpFixture.unicode)),\n                        host.evaluate(\"document.getElementById('policy-document').textContent\"))\n                    onFxThread { assertSame(native, state.webView); assertTrue(state.errorsForCurrentRequest.isEmpty()) }\n                }\n                host.navigator.loadUrl(fixture.url(\"recovery\")); awaitDocument(host, fixture, \"recovery\", 1)\n            }\n",
+          "before_fragment_sha256": "61e04cc3cc6b25fe3a5d460b7e17429bd3c3bde901dea85568a5f02d7970cfce",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "    private fun save(state: WebViewState): Any = assertNotNull(with(WebStateSaver) {\n        object : SaverScope { override fun canBeSaved(value: Any) = true }.save(state)\n    })\n    private suspend fun assertInlineUnicodeContexts(host: DesktopContentPolicyWindow) {\n        val expected = JavascriptResult.Value(quoteJavascript(OwnedWebViewContentPolicyHttpFixture.unicode))\n        assertEquals(expected, host.evaluate(\"document.getElementById('policy-document').textContent\"))\n        assertEquals(expected, host.evaluate(\"document.getElementById('policy-script').textContent\"))\n        assertEquals(expected, host.evaluate(\"document.getElementById('policy-attribute').getAttribute('data-unicode')\"))\n        assertEquals(expected, host.evaluate(\"getComputedStyle(document.getElementById('policy-css'),'::after').content.slice(1,-1)\"))\n        val points = OwnedWebViewContentPolicyHttpFixture.unicode.codePoints().toArray().joinToString(\",\")\n        assertEquals(JavascriptResult.Value(quoteJavascript(points)), host.evaluate(\n            \"Array.from(document.getElementById('policy-document').textContent).map(function(c){return c.codePointAt(0)}).join(',')\"))\n    }\n    private suspend fun assertInlineMetadataAndHistory(host: DesktopContentPolicyWindow) {\n        onFxThread {\n            val state = host.state\n            val engine = assertNotNull(state.webView).engine\n            assertTrue(engine.location.startsWith(\"data:\")) // Native-only source, not a public URL/save payload.\n            assertNull(state.requestedUrl); assertNull(state.lastLoadedUrl); assertNull(state.urlForGetRestoration())\n            val saved = save(state)\n            val restored = assertNotNull(WebStateSaver.restore(saved))\n            assertEquals(WebContent.NavigatorOnly, restored.content)\n            assertNull(restored.requestedUrl); assertNull(restored.lastLoadedUrl)\n            assertFalse(saved.toString().contains(\"data:\", ignoreCase = true))\n            assertFalse(saved.toString().contains(OwnedWebViewContentPolicyHttpFixture.unicode))\n            assertEquals(engine.history.currentIndex > 0, host.navigator.canGoBack)\n            assertEquals(engine.history.currentIndex < engine.history.entries.size - 1, host.navigator.canGoForward)\n            assertEquals(LoadingState.Finished, state.loadingState)\n            assertTrue(state.errorsForCurrentRequest.isEmpty())\n        }\n    }\n    private suspend fun withWindow(state: WebViewState, block: suspend (DesktopContentPolicyWindow) -> Unit) {\n        val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)\n        var host: DesktopContentPolicyWindow? = null\n",
+          "after_fragment_sha256": "309e2afc7b6f083302a757a94bbd59e3500472a37b7fd542d62dbd0270510d12",
+          "before": "    private fun save(state: WebViewState): Any = assertNotNull(with(WebStateSaver) {\n        object : SaverScope { override fun canBeSaved(value: Any) = true }.save(state)\n    })\n    private suspend fun withWindow(state: WebViewState, block: suspend (DesktopContentPolicyWindow) -> Unit) {\n        val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)\n        var host: DesktopContentPolicyWindow? = null\n",
+          "before_fragment_sha256": "fe02784526b0ba08fcb989fe4b28685097c0a1b865350b04e45af85bc4865858",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "scripts/ci/camera_ios_ownership_native_focus.py": {
+      "after_bytes": 12527,
+      "after_sha256": "550b103e29c7716805e6665ff8f3be239def8149f096eaff3bf533b823c4f1d5",
+      "before_bytes": 12527,
+      "before_sha256": "538182cfa3bb90785d2d462b79508b4cc618fac52496ff8191bc8c919ee25c92",
+      "fragments": [
+        {
+          "after": "         \"No accepted Camera/picker/Share/WebView/UI/common/native replay, 12/48MP latency/RSS, native \"\n         \"callback-throw, disk-full/cache eviction, observed worker-entry cancellation, other platform/OS, \"\n         \"consumer/API-ABI/dependency/legal/security/readiness/publishing or issue closure claim.\")\nSOURCE_SHA256 = {'calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt': '5e5a62825d8a47ad7a5880df2a75807aba01ffd79f4ffd601f04082a89797230', 'calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt': '9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc', 'calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt': '62cb9f661dea845a7b103b497b3d788cbe3b738a6449e9860855b94575f80f1b'}\nOTHER_SOURCE_SHA256 = {'calf-camera-picker/build.gradle.kts': 'e37eb7a4fab11a6af0ed0ff6af7dea57e081241d41efb9fa7f1dd06f7367192f', 'calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt': 'abeb590d3f9edacc9fd638d40125d20ccbe3c0814bce1586d398c09c5e0cb493', 'calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt': 'b7d906813c66604e76a4f64f55306dbea6e92889bf3e77a66cd3aaa13a9891ab', 'calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt': '3956439ee461c54ad26f7b86eef6939379d2d0c8918948072119411c8802a729', 'scripts/ci/ios_camera_ownership_native.init.gradle.kts': 'db2d468ec45a7552682469f588a56d3afcaa3e01c503e866c94505ab8d7018c1', 'scripts/ci/ios_camera_photo_fixture.py': '0cae6165e230445944dc59c2aabbcc7b8a1d3c16e156eae9bf8c074e3465d752'}\nADMISSION = \"build/ci-verification/camera-ios-native-source-admission.json\"\nCOMPILE_ADMISSION = \"build/ci-verification/camera-ios-precompiler-source-admission.json\"\n\n",
+          "after_fragment_sha256": "3ca41af716afa5d1de54d06f58759f9f60af1e797795f0d7bba68d1bdfd08f41",
+          "before": "         \"No accepted Camera/picker/Share/WebView/UI/common/native replay, 12/48MP latency/RSS, native \"\n         \"callback-throw, disk-full/cache eviction, observed worker-entry cancellation, other platform/OS, \"\n         \"consumer/API-ABI/dependency/legal/security/readiness/publishing or issue closure claim.\")\nSOURCE_SHA256 = {'calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt': 'b9abd3aaccbea97feb02c0bfd076c1f09c83b1828dad2639a0357ec8be6c88c2', 'calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt': '9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc', 'calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt': '62cb9f661dea845a7b103b497b3d788cbe3b738a6449e9860855b94575f80f1b'}\nOTHER_SOURCE_SHA256 = {'calf-camera-picker/build.gradle.kts': 'e37eb7a4fab11a6af0ed0ff6af7dea57e081241d41efb9fa7f1dd06f7367192f', 'calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt': 'abeb590d3f9edacc9fd638d40125d20ccbe3c0814bce1586d398c09c5e0cb493', 'calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt': 'b7d906813c66604e76a4f64f55306dbea6e92889bf3e77a66cd3aaa13a9891ab', 'calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt': '3956439ee461c54ad26f7b86eef6939379d2d0c8918948072119411c8802a729', 'scripts/ci/ios_camera_ownership_native.init.gradle.kts': '4e32b8ab66bf86e820f358d204fa41bae3c545bf791f2a9cd4fc856f38352154', 'scripts/ci/ios_camera_photo_fixture.py': '0cae6165e230445944dc59c2aabbcc7b8a1d3c16e156eae9bf8c074e3465d752'}\nADMISSION = \"build/ci-verification/camera-ios-native-source-admission.json\"\nCOMPILE_ADMISSION = \"build/ci-verification/camera-ios-precompiler-source-admission.json\"\n\n",
+          "before_fragment_sha256": "b9562cd5f09796aa0b211d4d1978e2d21e57d04bf2797f9fc7efa4b31599dfc8",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/camera_ios_ownership_native_focus.py; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "scripts/ci/camera_ios_ownership_source_projection.py": {
+      "after_bytes": 10624,
+      "after_sha256": "a06eaa559a7f30763c2327298992b2bdbfc4cfaef7dbfc625b5ed1b0a09a2341",
+      "before_bytes": 9850,
+      "before_sha256": "3b1d14ca28edcca507a645b301f577ce845161172bd9f28f6d354e5ccc9eebdc",
+      "fragments": [
+        {
+          "after": "def source_before_camera_ios_ownership(relative, payload):\n    \"\"\"Complete exact inverse or its one exact preimage; never current admission.\"\"\"\n    _identity(relative, payload)\n    from platform_recovery659_source_projection import peel_platform_recovery659_for_history\n    payload = peel_platform_recovery659_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is None:\n        return payload  # Unlisted bytes are not certified, guessed or executed.\n",
+          "after_fragment_sha256": "d90730f923fb19fce77010ad31ca282b60b0014e0e487e8698c2caab8133f83d",
+          "before": "def source_before_camera_ios_ownership(relative, payload):\n    \"\"\"Complete exact inverse or its one exact preimage; never current admission.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is None:\n        return payload  # Unlisted bytes are not certified, guessed or executed.\n",
+          "before_fragment_sha256": "be5fe3173f0d55c8042501ce31d445cd0266dc86215251ac9029af3067aa4b97",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/camera_ios_ownership_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "def current_source_before_camera_ios_ownership(relative, payload):\n    \"\"\"One raw newest ingress; old/partial/unknown images cannot be current.\"\"\"\n    _identity(relative, payload)\n    from platform_recovery659_source_projection import current_source_before_platform_recovery659\n    payload = current_source_before_platform_recovery659(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and (sha(payload) != binding[\"after_sha256\"] or len(payload) != binding[\"after_bytes\"]):\n        raise ValueError(\"An old or unknown image cannot replace exact current Camera iOS ownership source\")\n",
+          "after_fragment_sha256": "1b23510e19236f2328f32b8201adb4e6637e4c700a793146a86286f667bd3027",
+          "before": "def current_source_before_camera_ios_ownership(relative, payload):\n    \"\"\"One raw newest ingress; old/partial/unknown images cannot be current.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and (sha(payload) != binding[\"after_sha256\"] or len(payload) != binding[\"after_bytes\"]):\n        raise ValueError(\"An old or unknown image cannot replace exact current Camera iOS ownership source\")\n",
+          "before_fragment_sha256": "6f92c31508f38a5951c8389547e5cf50ff05469ebc69274b9e50c7c91002dbd9",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/camera_ios_ownership_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "def peel_camera_ios_ownership_for_history(relative, payload):\n    \"\"\"Peel only the complete latest image; unknown bytes still need old strict pins.\"\"\"\n    _identity(relative, payload)\n    from platform_recovery659_source_projection import peel_platform_recovery659_for_history\n    payload = peel_platform_recovery659_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and sha(payload) == binding[\"after_sha256\"]:\n        return source_before_camera_ios_ownership(relative, payload)\n",
+          "after_fragment_sha256": "afa18dd4bf80b36f17167714889bd280c28a253d098bc2a63dd00482067b948b",
+          "before": "def peel_camera_ios_ownership_for_history(relative, payload):\n    \"\"\"Peel only the complete latest image; unknown bytes still need old strict pins.\"\"\"\n    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is not None and sha(payload) == binding[\"after_sha256\"]:\n        return source_before_camera_ios_ownership(relative, payload)\n",
+          "before_fragment_sha256": "a26168e7f382e43001c4bc8c0b2972c17a7f1b1caae4c2a05475f69bd1ba5d77",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/camera_ios_ownership_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "\ndef validate_current_sources(root: Path):\n    \"\"\"Source custody only. Own guard/control pins are independent held-review inputs.\"\"\"\n    import platform_recovery659_source_projection as newest\n    newest.validate_current_sources(root)\n    document = _document()\n    expected = ({name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} |\n                document[\"added_inputs\"] | document[\"unchanged_inputs\"] | {SPEC_RELATIVE: SPEC_SHA256})\n    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in expected.items():\n        if sha(newest.source_before_platform_recovery659(name, _ordinary_bytes(root, name)[0])) != digest:\n            raise ValueError(\"Current Camera iOS ownership input differs from its complete owning image: \" + name)\n    return True\n\n",
+          "after_fragment_sha256": "72b90bfb2399fa10bf52b8c65478c1b850aa564237e0dcbca4015e4f339d4bab",
+          "before": "\ndef validate_current_sources(root: Path):\n    \"\"\"Source custody only. Own guard/control pins are independent held-review inputs.\"\"\"\n    document = _document()\n    expected = ({name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} |\n                document[\"added_inputs\"] | document[\"unchanged_inputs\"] | {SPEC_RELATIVE: SPEC_SHA256})\n    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in expected.items():\n        if sha(_ordinary_bytes(root, name)[0]) != digest:\n            raise ValueError(\"Current Camera iOS ownership input differs from its complete owning image: \" + name)\n    return True\n\n",
+          "before_fragment_sha256": "1f0b03100b18542722f0455213e5311d0084028d1394cc71868a8b5bb8b836b0",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/camera_ios_ownership_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "def fixture_inputs():\n    \"\"\"Only exact source fixtures required by the new owning validator; no execution.\"\"\"\n    document = _document()\n    from platform_recovery659_source_projection import fixture_inputs as newest_fixture_inputs\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, \"scripts/ci/camera_ios_ownership_source_projection.py\",\n             \"scripts/ci/test_camera_ios_ownership_source_projection.py\"} | newest_fixture_inputs())\n",
+          "after_fragment_sha256": "607bc71c499d78644c236084709917a22b0e9a5013bea16fd9700d7e754ddee7",
+          "before": "def fixture_inputs():\n    \"\"\"Only exact source fixtures required by the new owning validator; no execution.\"\"\"\n    document = _document()\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, \"scripts/ci/camera_ios_ownership_source_projection.py\",\n             \"scripts/ci/test_camera_ios_ownership_source_projection.py\"})\n",
+          "before_fragment_sha256": "3d8679f103ab0b3d786e659c53a766744e060c1087d3fe7a410b9ec67680b4f1",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/camera_ios_ownership_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "scripts/ci/camera_recents_source_projection.py": {
+      "after_bytes": 4423,
+      "after_sha256": "8d9d0f2dc96fd40f8ab8c8ba16c13539d29aee726e8d2aa26fd78186b71a564a",
+      "before_bytes": 4115,
+      "before_sha256": "fc25f725e2afd6bbca08673c607e99a44b479b1e2bb28c285ccd97951ae58c01",
+      "fragments": [
+        {
+          "after": "    from webview_content_policy_source_projection import peel_content_policy_for_history\n    payload = peel_content_policy_for_history(relative, payload)\n    from camera_recents_fixture_source_projection import source_before_recents_fixture\n    payload = source_before_recents_fixture(relative, payload)\n",
+          "after_fragment_sha256": "cdf1fbaeb20586e49bb4e09eb146f82a784eed1582cc44ab96e06098ef6a0686",
+          "before": "    from camera_recents_fixture_source_projection import source_before_recents_fixture\n    payload = source_before_recents_fixture(relative, payload)\n",
+          "before_fragment_sha256": "d79bc364d4055b71652efdbae9f7f8e50ba439a62442c32036943d16177dfc34",
+          "obligation": "Exact latest WebView/Camera ancestor peel precedes the unchanged dated recents fixture reader; not duplicate current admission."
+        },
+        {
+          "after": "    from webview_content_policy_source_projection import peel_content_policy_for_history\n    payload = peel_content_policy_for_history(relative, payload)\n    from camera_recents_fixture_source_projection import current_source_before_recents_fixture\n    payload = current_source_before_recents_fixture(relative, payload)\n",
+          "after_fragment_sha256": "5fe457489860df1a3eed51714b22bbc7f0c81ec00a7f716e3aae2e1715e8b306",
+          "before": "    from camera_recents_fixture_source_projection import current_source_before_recents_fixture\n    payload = current_source_before_recents_fixture(relative, payload)\n",
+          "before_fragment_sha256": "b0620efec86a777234488ccf967fc3e0eb5f302608acbd721dd46314aaaecb3d",
+          "obligation": "Exact latest WebView/Camera ancestor peel precedes the unchanged dated recents fixture reader; not duplicate current admission."
+        }
+      ]
+    },
+    "scripts/ci/ios_camera_ownership_native.init.gradle.kts": {
+      "after_bytes": 6856,
+      "after_sha256": "db2d468ec45a7552682469f588a56d3afcaa3e01c503e866c94505ab8d7018c1",
+      "before_bytes": 6856,
+      "before_sha256": "4e32b8ab66bf86e820f358d204fa41bae3c545bf791f2a9cd4fc856f38352154",
+      "fragments": [
+        {
+          "after": "        \"calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt\",\n    )\n    val expectedHashes = mapOf(\n        \"calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt\" to \"5e5a62825d8a47ad7a5880df2a75807aba01ffd79f4ffd601f04082a89797230\",\n        \"calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt\" to \"9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc\",\n        \"calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt\" to \"62cb9f661dea845a7b103b497b3d788cbe3b738a6449e9860855b94575f80f1b\",\n    )\n",
+          "after_fragment_sha256": "afbcfedaceaab37d7918aaa41bb70acc7de2f3bd74373396b6d409abfa6bc75c",
+          "before": "        \"calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt\",\n    )\n    val expectedHashes = mapOf(\n        \"calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt\" to \"b9abd3aaccbea97feb02c0bfd076c1f09c83b1828dad2639a0357ec8be6c88c2\",\n        \"calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt\" to \"9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc\",\n        \"calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt\" to \"62cb9f661dea845a7b103b497b3d788cbe3b738a6449e9860855b94575f80f1b\",\n    )\n",
+          "before_fragment_sha256": "d2c1c1d9dac9535a5f45b4a8a38c10a9e18d034303119503e9ac8bc3a6c92fe8",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/ios_camera_ownership_native.init.gradle.kts; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_boot_busy.py": {
+      "after_bytes": 15490,
+      "after_sha256": "8d239caff727a0d67cdc1481cb7c5b7fd54d69a7b9a97815710a0e523ba7a11c",
+      "before_bytes": 15324,
+      "before_sha256": "3badee2d5d29d402900992f17a72c27c7d3e6afb80e5c597401a201440067923",
+      "fragments": [
+        {
+          "after": "            from camera_home_baseline_source_projection import current_source_before_home_baseline\n            from webview_content_policy_source_projection import current_source_before_content_policy\n            previous = current_source_before_home_baseline(relative,\n                current_source_before_content_policy(relative, (ROOT / relative).read_bytes()))\n",
+          "after_fragment_sha256": "5c604109b5a8d8d8fa7c316f904fba20e4431524f5b23089dd52a220c460355e",
+          "before": "            from camera_home_baseline_source_projection import current_source_before_home_baseline\n            previous = current_source_before_home_baseline(relative, (ROOT / relative).read_bytes())\n",
+          "before_fragment_sha256": "a13438aced058ca3490b2a00f3628d8de8d2ddd24fe29fd059898056c9598126",
+          "obligation": "Exact latest raw source qualification precedes unchanged HOME inverse and original old pin."
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_live_task_refusal_observation.py": {
+      "after_bytes": 18435,
+      "after_sha256": "0c1a2e3d00f8a70d5661ed22473a5c7344b0d6fb09274dffddd5466a958a7c42",
+      "before_bytes": 18291,
+      "before_sha256": "916f651994d0f75f310eb74eee31b18a91eea96e26315d4135accb8df33f8b74",
+      "fragments": [
+        {
+          "after": "import android_camera_recents_observation as observation\nimport webview_content_policy_source_projection as content_history\n",
+          "after_fragment_sha256": "cb957f922e0cd0d8862489384821a595bd1801e6798e2052f3bc7a72af4dcb0e",
+          "before": "import android_camera_recents_observation as observation\n",
+          "before_fragment_sha256": "0c3b4f12ff9831c1116a64656bab3cbc017b7dd02a52e0e9bde9aaa14d818312",
+          "obligation": "Explicit newest current-byte qualifier for only the original unchanged-input loop."
+        },
+        {
+          "after": "            self.assertEqual(expected, sha(content_history.current_source_before_content_policy(\n                name, (ROOT / name).read_bytes())), name)\n",
+          "after_fragment_sha256": "2f80d790e0c9a5bf551020703daa5405d9732548c078657697925c24131cfc88",
+          "before": "            self.assertEqual(expected, sha((ROOT / name).read_bytes()), name)\n",
+          "before_fragment_sha256": "af7f0739b9f343fc98223544690514e38ea2ef8b46cac47682303304649da987",
+          "obligation": "Restore exact newer Camera/WebView source before the four original leaf/input hashes; no observer/helper/manifest assertion change."
+        }
+      ]
+    },
+    "scripts/ci/test_android_external337_fixture_recovery.py": {
+      "after_bytes": 11449,
+      "after_sha256": "14231760d993e84817368da05f715e661957a5c7a4b236badd5d6833213f152e",
+      "before_bytes": 11449,
+      "before_sha256": "7b804c91cf958b3101b3545e64dee56fd50e66727b266c706e4217aeb39ca1c5",
+      "fragments": [
+        {
+          "after": "\"^An old or unknown image cannot replace exact current content-policy source$\"",
+          "after_fragment_sha256": "1d444e16bd96ff265b3410d7de9171aec2b3ac0d403b151d3106c3ce4ba8533c",
+          "before": "\"^A historical image cannot replace exact current recents-observation source$\"",
+          "before_fragment_sha256": "b81ef71d18718014f7fbc09d32dd71a968ffa68586ea9cf817e719bd3bed6190",
+          "obligation": "Require the exact original656 newer first-boundary refusal; all bad-payload/outside-path obligations are preserved."
+        }
+      ]
+    },
+    "scripts/ci/test_android_permission_demo_call_denial_recovery.py": {
+      "after_bytes": 22508,
+      "after_sha256": "7afda82f59738a09ce57fa5cfbea9c9a527128eca72ee6ca7ae802ace026837e",
+      "before_bytes": 22410,
+      "before_sha256": "9092318158f656d94ad377a12a81520db5d8848a45ed537544271b0ef85ff24e",
+      "fragments": [
+        {
+          "after": "        native = types.SimpleNamespace(ANDROID_WEBVIEW_REQUEST_FOCUS=\"android-webview-request-state\",\n            content_policy=types.SimpleNamespace(ANDROID_FOCUS=\"webview-content-policy-android\"),\n",
+          "after_fragment_sha256": "6305b14e93a782750820a03a8bc75e87c553a573c2a6702378db112ef541de59",
+          "before": "        native = types.SimpleNamespace(ANDROID_WEBVIEW_REQUEST_FOCUS=\"android-webview-request-state\",\n",
+          "before_fragment_sha256": "c3dc235222a042145bdd8739cfb8c880b9d6e5df976cc235c48dc37868b8f516",
+          "obligation": "Exact owning API function namespace includes the real new first-branch dependency; all original API rejection assertions remain."
+        }
+      ]
+    },
+    "scripts/ci/test_android_permission_demo_selector.py": {
+      "after_bytes": 15677,
+      "after_sha256": "600ff97eb5064eca6944efb5a46f5bce7ddd203c0a2946f8098bd3056938985a",
+      "before_bytes": 15564,
+      "before_sha256": "bf9a4e2fab93b0b11036e62431bf152be6d3fed95e8075dbd98927a0cd3875c5",
+      "fragments": [
+        {
+          "after": "import tempfile\nimport types\nimport unittest\n",
+          "after_fragment_sha256": "4a9022a784f0d4b6a3bdd877d7cfe2c675ca731daa816fda913b72b1211d312f",
+          "before": "import tempfile\nimport unittest\n",
+          "before_fragment_sha256": "a61163775d5caefef45e8e16c1137c3610af831bec5a8e61948f52ab0495a7b8",
+          "obligation": "Only the real finite content-policy namespace dependency is added."
+        },
+        {
+          "after": "    env = {\"Path\": Path, \"re\": re, \"safe_path\": lambda root, relative: root / relative,\n           \"content_policy\": types.SimpleNamespace(ANDROID_FOCUS=\"webview-content-policy-android\")}\n",
+          "after_fragment_sha256": "f0833e69861909610b09da99a04953e3b56c3512f4d68333323691fddec525be",
+          "before": "    env = {\"Path\": Path, \"re\": re, \"safe_path\": lambda root, relative: root / relative}\n",
+          "before_fragment_sha256": "2f05c0b22cc44a568b42805531cce39c005e1f5c5ad77decff7aefb425816d77",
+          "obligation": "AST-extracted unchanged selector emission sees its exact real content-policy focus, not an empty bypass."
+        }
+      ]
+    },
+    "scripts/ci/test_apple_image_launcher_source_projection.py": {
+      "after_bytes": 22664,
+      "after_sha256": "4dd74834552bb6bf06e8ac79b42d268926dad567dda5430894129c76075b4a26",
+      "before_bytes": 22593,
+      "before_sha256": "9d7870ffcd1cf584c7e2914143d93066defba889638df05f0f91781ab5dd2fa9",
+      "fragments": [
+        {
+          "after": "        current = ui_history.peel_ui_related_for_history(\n            history.LAUNCHER, (ROOT / history.LAUNCHER).read_bytes())\n        old = history.source_before_image_launch(history.LAUNCHER, current)\n",
+          "after_fragment_sha256": "ae9875fab6b7c033e65dc6f081e68a9c39d7753dd6d2c51f01d1af81b07143c1",
+          "before": "        current = (ROOT / history.LAUNCHER).read_bytes()\n        old = history.source_before_image_launch(history.LAUNCHER, current)\n",
+          "before_fragment_sha256": "175a95eb1e4349708551e6b2c99c624527d471d54816bd124e79d11c400d898c",
+          "obligation": "Compare the exact latest-qualified UI/Image ancestor, not newer Camera cleanup; retain every original finally/launch/deadline AST assertion."
+        }
+      ]
+    },
+    "scripts/ci/test_camera_ios_ownership_source_projection.py": {
+      "after_bytes": 14382,
+      "after_sha256": "1c45769bbb296e47c2302e7d2c7754efcd916febfccfddd332c817308f306182",
+      "before_bytes": 14180,
+      "before_sha256": "2709d89cacf89d5bbe597b5281de1df5ca8cab544a43f58ac6d9ae9c067391e5",
+      "fragments": [
+        {
+          "after": "import android_external328_source_projection as bridge\nimport camera_ios_ownership_native_focus as focus\nimport camera_ios_ownership_source_projection as camera\nimport platform_recovery659_source_projection as newest\nimport webview_content_policy_source_projection as webview\n\nROOT = Path(__file__).resolve().parents[2]\n",
+          "after_fragment_sha256": "0708b2c9c0dbf643f5af312f446e24ce4f40b5ccbce14076fa85e44d37ce4fdb",
+          "before": "import android_external328_source_projection as bridge\nimport camera_ios_ownership_native_focus as focus\nimport camera_ios_ownership_source_projection as camera\nimport webview_content_policy_source_projection as webview\n\nROOT = Path(__file__).resolve().parents[2]\n",
+          "before_fragment_sha256": "cd2029e9011851ea6fbb9938cc36c7503a79ac604e96db1d1dd59e98167ec39e",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/test_camera_ios_ownership_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "        document = camera._document()\n        self.assertEqual((9, 45), (len(document[\"bindings\"]), sum(len(row[\"fragments\"]) for row in document[\"bindings\"].values())))\n        for name, row in document[\"bindings\"].items():\n            raw_current = (ROOT / name).read_bytes()\n            prior = camera.current_source_before_camera_ios_ownership(name, raw_current)\n            raw = newest.source_before_platform_recovery659(name, raw_current)\n            self.assertEqual((row[\"before_sha256\"], row[\"before_bytes\"]), (sha(prior), len(prior)))\n            self.assertEqual((row[\"after_sha256\"], row[\"after_bytes\"]), (sha(raw), len(raw)))\n            self.assertIs(prior, camera.source_before_camera_ios_ownership(name, prior))\n",
+          "after_fragment_sha256": "8eeabaddf56a41ac64b8270169362da3fe11ff2a93bd031943e5cfab53bd60e1",
+          "before": "        document = camera._document()\n        self.assertEqual((9, 45), (len(document[\"bindings\"]), sum(len(row[\"fragments\"]) for row in document[\"bindings\"].values())))\n        for name, row in document[\"bindings\"].items():\n            raw = (ROOT / name).read_bytes()\n            prior = camera.current_source_before_camera_ios_ownership(name, raw)\n            self.assertEqual((row[\"before_sha256\"], row[\"before_bytes\"]), (sha(prior), len(prior)))\n            self.assertEqual((row[\"after_sha256\"], row[\"after_bytes\"]), (sha(raw), len(raw)))\n            self.assertIs(prior, camera.source_before_camera_ios_ownership(name, prior))\n",
+          "before_fragment_sha256": "0aee24fb6df09b43a72117f12078874976a97b1c4d6fd6ff3b915954040ab466",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/test_camera_ios_ownership_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        },
+        {
+          "after": "        self.assertEqual(46, len(expected))\n        self.assertNotIn(\"AGENTS.md\", expected)\n        self.assertNotIn(\"AGENTS.md\", camera.fixture_inputs())\n        self.assertEqual(expected | {camera.SOURCE_RELATIVE, \"scripts/ci/test_camera_ios_ownership_source_projection.py\"} |\n                         newest.fixture_inputs(), camera.fixture_inputs())\n        with tempfile.TemporaryDirectory() as temporary:\n            root = Path(temporary).resolve()\n            copy_fixture(root)\n",
+          "after_fragment_sha256": "a7f3fde269a405948aed0257c6b61e12b54305697fb746cbabb53181bd58cc08",
+          "before": "        self.assertEqual(46, len(expected))\n        self.assertNotIn(\"AGENTS.md\", expected)\n        self.assertNotIn(\"AGENTS.md\", camera.fixture_inputs())\n        self.assertEqual(expected | {camera.SOURCE_RELATIVE, \"scripts/ci/test_camera_ios_ownership_source_projection.py\"}, camera.fixture_inputs())\n        with tempfile.TemporaryDirectory() as temporary:\n            root = Path(temporary).resolve()\n            copy_fixture(root)\n",
+          "before_fragment_sha256": "ad7ef596f0af93d22d723af866d10df5cc38f23191b002ad16e9f312d84e5590",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/test_camera_ios_ownership_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "scripts/ci/test_camera_recents_observation.py": {
+      "after_bytes": 19047,
+      "after_sha256": "a1f028456fa3ea60a55a04e98c6ee87c14c6ba881230b438a4d525f8e52e6182",
+      "before_bytes": 18865,
+      "before_sha256": "79cbb39ef75e94fea5ca00bfbdc9a12c0eff87f441402d7d4cc8c1131903b1d3",
+      "fragments": [
+        {
+          "after": "import camera_recents_source_projection as history\nimport webview_content_policy_source_projection as content_history\n",
+          "after_fragment_sha256": "44613da13d78c1b2a38701c2ee0ff8d47ff84554b2582b74bc2253f6ff632258",
+          "before": "import camera_recents_source_projection as history\n",
+          "before_fragment_sha256": "86ffa8dada85d791f5b6a2cee7d3de1408263ebe1363c7fcfa4ef961c1899a28",
+          "obligation": "Make the newest raw-current source qualifier explicit without changing any original control method."
+        },
+        {
+          "after": "        cls.current = {\n            relative: content_history.current_source_before_content_policy(\n                relative, (ROOT / relative).read_bytes())\n            for relative in cls.bindings\n        }\n",
+          "after_fragment_sha256": "2024655cc639aa89cf78827e9f81b747a112582877dec6586f1b84a671b964d0",
+          "before": "        cls.current = {relative: (ROOT / relative).read_bytes() for relative in cls.bindings}\n",
+          "before_fragment_sha256": "8b8da84237a443b19307cfceed09be02feca05527763a5497a2afcb087a721ed",
+          "obligation": "Qualify raw checkout bytes once before every unchanged recents stage/hash assertion."
+        }
+      ]
+    },
+    "scripts/ci/test_camera_tooling562_source_projection.py": {
+      "after_bytes": 7881,
+      "after_sha256": "8021189d7f5d9e02f9e729050a9e978d75d4c6ce631cf0015990e342610ae341",
+      "before_bytes": 7737,
+      "before_sha256": "a0d631079b60a2bc3e54cd00b99712d82d5724556eba14aea0f1c700229a950b",
+      "fragments": [
+        {
+          "after": "import ios_geometry_simulator_source_projection as owned_history\nimport webview_content_policy_source_projection as content_history\n",
+          "after_fragment_sha256": "23ce6c8cc289d4d3f61991304fbf87b128673337f975504ccea7f54e81f4b400",
+          "before": "import ios_geometry_simulator_source_projection as owned_history\n",
+          "before_fragment_sha256": "55c843e73374a607d16979255689e7cc5a48703e7b5d2d9b6369a01c3817a434",
+          "obligation": "Explicit latest source qualifier for only the original HOME/controller/native source operands."
+        },
+        {
+          "after": "            self.assertEqual(inputs[path], digest(content_history.current_source_before_content_policy(\n                path, (ROOT / path).read_bytes())))\n",
+          "after_fragment_sha256": "5a77eb9511d2ed088b7a78c93b5bf3cbc9c3c53c150b46218ed05ac2078ed889",
+          "before": "            self.assertEqual(inputs[path], digest((ROOT / path).read_bytes()))\n",
+          "before_fragment_sha256": "1a796881378635f03df3260f224e15fa665727cd615a08f46dfd474531374fe6",
+          "obligation": "Exact current Camera/WebView inverse restores original archive hashes, while the already-owning workflow ingress stays unchanged."
+        }
+      ]
+    },
+    "scripts/ci/test_webview_content_policy_source_projection.py": {
+      "after_bytes": 21769,
+      "after_sha256": "22d11f050ee284d1002fb1349425cd17e2638964790bf577b83c6844a5e0c3ef",
+      "before_bytes": 21695,
+      "before_sha256": "9649bca14a080999da984b852cc3ab360e88f928c3c0bf59a252168e4fb04dd3",
+      "fragments": [
+        {
+          "after": "    def test_every_original_webview_native_and_fixture_body_api_build_dependency_and_other_owners_remain_unchanged(self):\n        document = history._document()\n        for name, digest in document[\"unchanged_inputs\"].items():\n            self.assertEqual(digest, sha(camera_history.source_before_camera_ios_ownership(\n                name, (ROOT / name).read_bytes())), name)\n        self.assertTrue(set(policy.SOURCE_SHA256) - {policy.ANDROID_FILTER_SOURCE} <= set(document[\"unchanged_inputs\"]))\n        self.assertNotIn(\"AGENTS.md\", history.BOUND_PATHS)\n        self.assertNotIn(\"scripts/ci/runtime_context.py\", history.BOUND_PATHS)\n",
+          "after_fragment_sha256": "e4b97c1f8e11e9caa09b58b58b530689ae9c8e07013c57e2df7277ca4ff9b3f4",
+          "before": "    def test_every_original_webview_native_and_fixture_body_api_build_dependency_and_other_owners_remain_unchanged(self):\n        document = history._document()\n        for name, digest in document[\"unchanged_inputs\"].items():\n            self.assertEqual(digest, sha((ROOT / name).read_bytes()), name)\n        self.assertTrue(set(policy.SOURCE_SHA256) - {policy.ANDROID_FILTER_SOURCE} <= set(document[\"unchanged_inputs\"]))\n        self.assertNotIn(\"AGENTS.md\", history.BOUND_PATHS)\n        self.assertNotIn(\"scripts/ci/runtime_context.py\", history.BOUND_PATHS)\n",
+          "before_fragment_sha256": "a4e2135595b0f4f087191110bf005c00b0f0d5b8500332e7ef43b2f0bd40f91c",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/test_webview_content_policy_source_projection.py; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "scripts/ci/webview_content_policy_native_focus.py": {
+      "after_bytes": 22615,
+      "after_sha256": "1f3d7e192c6c4ebb1d51052f948b291866618fdea7c2f6af319855cf5e1d6cdb",
+      "before_bytes": 22615,
+      "before_sha256": "df0c8b999555504750139606b24770a22674b80f9caf3dbb7162fe37a37e6400",
+      "fragments": [
+        {
+          "after": " 'calf-webview/src/androidDeviceTest/res/xml/nativecmpkit_webview_test_network_security.xml': 'd41572dbbaf67ec740c28ed69a8c5fce4223329c4c96d726f1df9a08f95de71d',\n 'calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt': 'e7f3e127d3f3293d21f1bc2d84d9dd6761d26f65b1b77102237521197bb045a2',\n 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopContentPolicyWindow.kt': 'e90b00f604cc16db8f26a0b8210d0fb815c0faa1af9d1d5edc11aca8ef9eb007',\n 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt': '79601573fea41ab8d1a78258b2de74153383a2582d9eac031deb6cfbe7e2c683',\n 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedWebViewContentPolicyHttpFixture.kt': '6b3b15646abec07088135e0de306c10c7fd577eb20a73fc1b3c2ba21df8b8499',\n 'calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosContentPolicyFixture.kt': 'fcb6ab01848cd2b4caaa4ac2274aab6062e16cc3b29103e6da4f748aabcac7c4',\n 'calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewContentPolicyAcceptanceTest.kt': '36713f1ccec7c2b19ed9abba86dd502f4108485889f7e8bb0719a735f05aead9',\n",
+          "after_fragment_sha256": "505d10df47f0791d7638cedddbf781ac41fcb836b174803deae6a8c0fccf8ac6",
+          "before": " 'calf-webview/src/androidDeviceTest/res/xml/nativecmpkit_webview_test_network_security.xml': 'd41572dbbaf67ec740c28ed69a8c5fce4223329c4c96d726f1df9a08f95de71d',\n 'calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt': 'e7f3e127d3f3293d21f1bc2d84d9dd6761d26f65b1b77102237521197bb045a2',\n 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopContentPolicyWindow.kt': 'e90b00f604cc16db8f26a0b8210d0fb815c0faa1af9d1d5edc11aca8ef9eb007',\n 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt': '8f92e2fb89cf9da4fdb6f8f68d93bef8a339c49e9ba9be3c5d9012c6ea2f8b3c',\n 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedWebViewContentPolicyHttpFixture.kt': '6b3b15646abec07088135e0de306c10c7fd577eb20a73fc1b3c2ba21df8b8499',\n 'calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosContentPolicyFixture.kt': 'fcb6ab01848cd2b4caaa4ac2274aab6062e16cc3b29103e6da4f748aabcac7c4',\n 'calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewContentPolicyAcceptanceTest.kt': '36713f1ccec7c2b19ed9abba86dd502f4108485889f7e8bb0719a735f05aead9',\n",
+          "before_fragment_sha256": "7e261e50b09f993605eb38e00b015568aef3b97f6cc59b7245ff0a49cb63bc86",
+          "obligation": "Exact reviewed whole-source4697 inverse/forward custody for scripts/ci/webview_content_policy_native_focus.py; original assertions, APIs, dated pins and native predicates are not waived."
+        }
+      ]
+    },
+    "scripts/ci/webview_content_policy_source_projection.py": {
+      "after_bytes": 14011,
+      "after_sha256": "bb0b63b32a41667c0c33401f44873bd20426524ece52caaa3cfa41ffd880f60d",
+      "before_bytes": 11455,
+      "before_sha256": "cc3f7cb7099e744d08db6273194c6bcf586613521d0c8fae7757d3defa4af878",
+      "fragments": [
+        {
+          "after": "_DIGEST = re.compile(r\"[0-9a-f]{64}\\Z\")\n# Only one repaired historical control is an original WebView unchanged input.\n# Its original manifest pin is not rewritten; latest bytes are an exact derivative.\n_TOOLING656_CONTROL_PATH = 'scripts/ci/test_apple_image_launcher_source_projection.py'\n_TOOLING656_CONTROL_BINDING = {\n    'before_sha256': '9d7870ffcd1cf584c7e2914143d93066defba889638df05f0f91781ab5dd2fa9',\n    'after_sha256': '4dd74834552bb6bf06e8ac79b42d268926dad567dda5430894129c76075b4a26',\n    'before_bytes': 22593,\n    'after_bytes': 22664,\n    'before': '        current = (ROOT / history.LAUNCHER).read_bytes()\\n        old = history.source_before_image_launch(history.LAUNCHER, current)\\n',\n    'after': '        current = ui_history.peel_ui_related_for_history(\\n            history.LAUNCHER, (ROOT / history.LAUNCHER).read_bytes())\\n        old = history.source_before_image_launch(history.LAUNCHER, current)\\n',\n    'before_fragment_sha256': '175a95eb1e4349708551e6b2c99c624527d471d54816bd124e79d11c400d898c',\n    'after_fragment_sha256': 'ae9875fab6b7c033e65dc6f081e68a9c39d7753dd6d2c51f01d1af81b07143c1',\n}\n",
+          "after_fragment_sha256": "086399e0c2f84cf66a300d34e0fdf52121380447a9e9e844098a4e78ba4baa10",
+          "before": "_DIGEST = re.compile(r\"[0-9a-f]{64}\\Z\")\n",
+          "before_fragment_sha256": "04ebd191f09816261b75ca2ca5fb3db5b42323ec4c8db910c5a53a834922ba65",
+          "obligation": "Bind exactly one complete repaired fixture afterimage and its sealed original manifest preimage; no new generic population or manifest repin."
+        },
+        {
+          "after": "def _current_tooling656_control_source(relative, payload):\n    \"\"\"Only one exact latest fixture operand; not a historical/current bypass.\"\"\"\n    _identity(relative, payload)\n    if relative != _TOOLING656_CONTROL_PATH:\n        return payload  # Unlisted bytes are not certified.\n    binding = _TOOLING656_CONTROL_BINDING\n    if (len(payload) != binding[\"after_bytes\"] or not 0 < len(payload) <= MAX_SOURCE_BYTES or\n            sha(payload) != binding[\"after_sha256\"]):\n        raise ValueError(\"Old or unknown tooling656 fixture cannot replace its exact reviewed current source\")\n    before, after = binding[\"before\"].encode(), binding[\"after\"].encode()\n    if (sha(before) != binding[\"before_fragment_sha256\"] or sha(after) != binding[\"after_fragment_sha256\"] or\n            payload.count(after) != 1):\n        raise ValueError(\"One exact unique tooling656 fixture inverse is required\")\n    restored = payload.replace(after, before, 1)\n    sealed = _document()[\"unchanged_inputs\"].get(relative)\n    if (sealed != binding[\"before_sha256\"] or sha(restored) != sealed or len(restored) != binding[\"before_bytes\"]):\n        raise ValueError(\"Tooling656 fixture must restore its complete original WebView manifest input\")\n    if restored.count(before) != 1 or restored.replace(before, after, 1) != payload:\n        raise ValueError(\"The exact tooling656 fixture forward roundtrip is required\")\n    return restored\n\n\ndef source_before_content_policy(relative, payload):\n",
+          "after_fragment_sha256": "7886cae92aa5ca05697f6b28f8b8a1acc39b4d1329ba7804f6cba1d9a95aa908",
+          "before": "def source_before_content_policy(relative, payload):\n",
+          "before_fragment_sha256": "0e17a0318b65e99841da7374cf528a6dc2f612b78731c56583e0130810fa042c",
+          "obligation": "Strict ordinary identity/complete afterimage/unique fragment/sealed original/full roundtrip, source arithmetic only."
+        },
+        {
+          "after": "        if sha(camera_history.source_before_camera_ios_ownership(\n                name, _current_tooling656_control_source(name, _ordinary_bytes(root, name)[0]))) != digest:\n",
+          "after_fragment_sha256": "6aa8c1d801dcd9b0db3d9c29bd64af9d2e18acb2c22753a4d5ee60a037a05ddb",
+          "before": "        if sha(camera_history.source_before_camera_ios_ownership(name, _ordinary_bytes(root, name)[0])) != digest:\n",
+          "before_fragment_sha256": "eec15f42446b401bb4caf2671c70a4f40094c4e33787e02f17cfe918dfd37eb5",
+          "obligation": "Normalize only the exact repaired fixture operand before unchanged Camera inverse and original WebView input hash; raw Camera gate stays first."
+        }
+      ]
+    }
+  },
+  "own_guard": {
+    "bytes": 11943,
+    "template_sha256": "c10a9c9f882485aeb3618b0a832cc7109b4c26dd97ca730a3809640c86e5440f"
+  },
+  "predecessor": "4697c3ec65427a12e53645ecffac5e2b52821dd5",
+  "schema_version": 1,
+  "scope": "Exact combined659/Unicode657/compiler660 source custody only; no compiler/native acceptance",
+  "unchanged_inputs": {
+    "scripts/ci/fixtures/camera-ios-ownership-routing-source-inverse.json": "90844a99910a622024f769dd16ffe504308e1a94324d9192e406cda681e680bd",
+    "scripts/ci/fixtures/webview-content-policy-routing-source-inverse.json": "c44400087570740d3248704c2165c3222229f2c05ff1a2a3840dbda9aa04b916",
+    "scripts/ci/ios_popover_anchor_plan.py": "ce5a6ea9a1589f8d8bad2c6bfa8b745cf51679b417496822edf9b576a9d53b70"
+  }
+}

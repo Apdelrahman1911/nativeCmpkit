@@ -26,7 +26,9 @@ MAX_XML_BYTES = 16 * 1024**2
 MAX_PRIVATE_BYTES = 256 * 1024**2
 MAX_PRIVATE_ENTRIES = 4096
 MAX_TABLES = 12
+MAX_XML_ELEMENTS = 200_000
 SCHEMA = re.compile(r"[A-Za-z][A-Za-z0-9_.-]{0,127}\Z")
+NO_ALLOCATION_SCHEMA = "No recognized allocation schema in the observed Instruments TOC"
 PROBE_SYMBOL = "nativecmpkit_allocation_probe"
 PROBE_SOURCE = r"""/* Public, bounded tool-discovery fixture. NOT library/native UI evidence. */
 #include <stdlib.h>
@@ -65,19 +67,37 @@ def bounded_xml(path: Path) -> tuple[ET.Element, bytes]:
     return ET.fromstring(payload), payload
 
 
-def allocation_schemas(toc: ET.Element) -> list[str]:
-    values = []
-    for node in toc.iter():
+def allocation_toc_observation(toc: ET.Element) -> dict:
+    """Distinguish unavailable exports from exported rows with no owned frames.
+
+    A successful recording/TOC command establishes neither. Retain only schema
+    identities already admitted by the selector and fixed counts, never TOC
+    metadata, process names, paths or an inferred tool-support diagnosis.
+    """
+    values, tables, allocation_tables = [], 0, 0
+    for index, node in enumerate(toc.iter()):
+        if index >= MAX_XML_ELEMENTS:
+            raise ValueError("Allocation TOC exceeds its semantic inspection bound")
         if node.tag.rsplit("}", 1)[-1] != "table":
             continue
+        tables += 1
         value = node.get("schema", "")
         if not SCHEMA.fullmatch(value):
             raise ValueError("Unreviewable allocation-tool schema identity")
-        if re.search(r"alloc|heap|leak", value, re.I) and value not in values:
-            values.append(value)
+        if re.search(r"alloc|heap|leak", value, re.I):
+            allocation_tables += 1
+            if value not in values:
+                values.append(value)
     if len(values) > MAX_TABLES:
         raise ValueError("Allocation export table selection exceeds its bound")
-    return values
+    return {"tables": tables, "allocation_tables": allocation_tables,
+            "allocation_schemas": values, "recognized_allocation_schema_found": bool(values),
+            "raw_toc_metadata_uploaded": False, "exported_allocation_rows_verified": False,
+            "root_cause_proven": False}
+
+
+def allocation_schemas(toc: ET.Element) -> list[str]:
+    return allocation_toc_observation(toc)["allocation_schemas"]
 
 
 def allocation_summary(path: Path) -> dict:
@@ -153,8 +173,11 @@ def discover(root: Path, simulator: str) -> dict:
         execute(["/usr/bin/xcrun", "xctrace", "export", "--input", str(trace), "--toc", "--output", str(toc)], "export-toc")
         tree, body = bounded_xml(toc)
         record["toc_sha256"] = hashlib.sha256(body).hexdigest()
-        schemas = allocation_schemas(tree)
+        record["allocation_toc_observation"] = allocation_toc_observation(tree)
+        schemas = record["allocation_toc_observation"]["allocation_schemas"]
         record["actual_allocation_schemas"] = schemas
+        if not schemas:
+            raise ValueError(NO_ALLOCATION_SCHEMA)
         for index, schema in enumerate(schemas):
             exported = private / ("allocations-" + str(index) + ".xml")
             xpath = "//table[@schema='" + schema + "']"
@@ -165,7 +188,9 @@ def discover(root: Path, simulator: str) -> dict:
         if not record["supported"]:
             record["errors"].append({"error": "No actual allocation rows containing the owned public probe symbol; NOT native/library evidence"})
     except (OSError, ValueError, RuntimeError, ET.ParseError) as error:
-        record["errors"].append({"error_type": type(error).__name__, "native_library_pass_inferred": False})
+        record["errors"].append({"error_type": type(error).__name__,
+            "failure_reason": "no-recognized-allocation-schemas" if str(error) == NO_ALLOCATION_SCHEMA else "unclassified",
+            "native_library_pass_inferred": False})
     finally:
         after = lt.snapshot_inputs(root)
         record.update(finished_at_utc=lt.utc_now(), input_digest_before=lt.input_digest(before),

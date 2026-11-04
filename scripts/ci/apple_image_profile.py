@@ -47,6 +47,7 @@ PREFLIGHT_FAILURE_REASONS = {
     "Installed profile application ownership changed": "installed-app-identity-mismatch",
     "Actual selected native process is unavailable": "selected-process-unavailable",
     "Native PID does not execute the exact installed owned binary": "selected-process-executable-mismatch",
+    discovery.NO_ALLOCATION_SCHEMA: "no-recognized-allocation-schemas",
 }
 
 
@@ -366,7 +367,11 @@ class ImageProfileDriver:
                 raise RuntimeError("Actual Instruments TOC export failed")
             tree, body = discovery.bounded_xml(toc)
             self.receipt["toc_sha256"] = hashlib.sha256(body).hexdigest()
-            self.receipt["actual_allocation_schemas"] = discovery.allocation_schemas(tree)
+            stage = "select-owned-allocation-schemas"
+            self.receipt["allocation_toc_observation"] = discovery.allocation_toc_observation(tree)
+            self.receipt["actual_allocation_schemas"] = self.receipt["allocation_toc_observation"]["allocation_schemas"]
+            if not self.receipt["actual_allocation_schemas"]:
+                raise ValueError(discovery.NO_ALLOCATION_SCHEMA)
             for index, schema in enumerate(self.receipt["actual_allocation_schemas"]):
                 stage = "export-owned-allocation-rows"
                 exported = self.private / ("allocation-" + str(index) + ".xml")

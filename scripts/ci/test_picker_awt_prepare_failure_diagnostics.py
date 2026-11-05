@@ -253,12 +253,19 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
 
     def test_manual_preparation_only_job_never_invokes_native_or_accepted_controls_and_keeps_five_JSON(self):
         self.assertIn("scripts/ci/picker_awt_prepare_failure.py", r.OWNING_INPUTS)
-        with mock.patch.object(r, "source_snapshot", return_value={}):
-            with self.assertRaisesRegex(r.Refusal, "^preparation-only-owning-source-input-missing$"):
-                p.source_snapshot(ROOT)
-        owning = {name: "a" * 64 for name in p.OWNING_INPUTS}
-        with mock.patch.object(r, "source_snapshot", return_value=owning):
-            self.assertEqual(owning, p.source_snapshot(ROOT))
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            owning_workflow = root / p.WORKFLOW
+            owning_workflow.parent.mkdir(parents=True)
+            payload = b"on:\n  workflow_dispatch:\npermissions:\n  contents: read\n"
+            owning_workflow.write_bytes(payload)
+            with mock.patch.object(r, "source_snapshot", return_value={}):
+                with self.assertRaisesRegex(r.Refusal, "^preparation-only-owning-source-input-missing$"):
+                    p.source_snapshot(root)
+            owning = {name: "a" * 64 for name in p.OWNING_INPUTS}
+            owning[p.WORKFLOW] = hashlib.sha256(payload).hexdigest()
+            with mock.patch.object(r, "source_snapshot", return_value=dict(owning)):
+                self.assertEqual(owning, p.source_snapshot(root))
         workflow = (r.library.ROOT / p.WORKFLOW).read_text()
         original_workflow = (r.library.ROOT / r.shared.WORKFLOW).read_bytes()
         self.assertEqual("26edb07e55079f72f8637b3d69f56ab4b202df2baa143b1d8a133c3cc187a838", hashlib.sha256(original_workflow).hexdigest())
@@ -334,6 +341,78 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
                     self.assertFalse(receipt["held_native_bundle"])
                 else:
                     self.assertEqual("shared-native-deadline-exhausted-or-clock-invalid", receipt["reason_code"])
+
+
+    def test_standalone_owning_workflow_missing_from_shared_route_is_hashed_and_held_without_relaxing_required_inputs(self):
+        # Real routed shape: scripts/ci are generic inputs; only the existing
+        # registered workflow is added by shared.source_snapshot. The original
+        # preparation guard fails this first capture because its standalone
+        # workflow was never entered in that map.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            workflow = root / p.WORKFLOW
+            workflow.parent.mkdir(parents=True)
+            payload = b"on:\n  workflow_dispatch:\npermissions:\n  contents: read\n"
+            workflow.write_bytes(payload)
+            # Capture the real generic scripts/ci file map, not a map
+            # prefilled with every OWNING_INPUTS member. Only unrelated module
+            # discovery/provenance is mocked; these three script files are data
+            # and never imported or executed from the temporary tree.
+            script_names = ("scripts/ci/picker_awt_preparation.py",
+                            "scripts/ci/picker_awt_prepare_failure.py",
+                            "scripts/ci/test_picker_awt_prepare_failure_diagnostics.py")
+            for index, name in enumerate(script_names):
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(("# synthetic source data " + str(index) + "\n").encode())
+            registered_workflow = root / r.shared.WORKFLOW
+            registered_workflow.write_bytes(payload + b"# original registered route\n")
+            with mock.patch.object(r.library, "projects", return_value=()), \
+                    mock.patch.object(r.library.secure_alert, "held_provenance_sources", return_value=()):
+                generic = r.library.snapshot_inputs(root)
+            self.assertEqual(set(script_names), set(generic))
+            self.assertNotIn(p.WORKFLOW, generic)
+            self.assertNotIn(r.shared.WORKFLOW, generic)
+            # The existing shared route adds only its registered workflow.
+            routed = {**generic, r.shared.WORKFLOW: hashlib.sha256(registered_workflow.read_bytes()).hexdigest()}
+            self.assertNotIn(p.WORKFLOW, routed)
+            with mock.patch.object(r, "source_snapshot", side_effect=lambda unused: dict(routed)):
+                before = p.source_snapshot(root)
+                self.assertEqual({**routed, p.WORKFLOW: hashlib.sha256(payload).hexdigest()}, before)
+                self.assertEqual(routed, {name: value for name, value in before.items() if name != p.WORKFLOW})
+                changed = payload + b"# changed owned routing input\n"
+                workflow.write_bytes(changed)
+                after = p.source_snapshot(root)
+                self.assertNotEqual(before[p.WORKFLOW], after[p.WORKFLOW])
+                self.assertEqual(hashlib.sha256(changed).hexdigest(), after[p.WORKFLOW])
+                self.assertEqual(routed, {name: value for name, value in after.items() if name != p.WORKFLOW})
+                original_hash = r.library.sha256
+                def change_during_hash(path):
+                    self.assertEqual(workflow, path)
+                    value = original_hash(path)
+                    path.write_bytes(changed + b"# changed during capture\n")
+                    return value
+                with mock.patch.object(r.library, "sha256", side_effect=change_during_hash):
+                    with self.assertRaisesRegex(r.Refusal, "^preparation-only-workflow-changed-during-source-capture$"):
+                        p.source_snapshot(root)
+                workflow.unlink()
+                workflow.mkdir()
+                with self.assertRaisesRegex(r.Refusal, "^preparation-only-workflow-is-not-one-owned-regular-input$"):
+                    p.source_snapshot(root)
+                workflow.rmdir()
+                workflow.write_bytes(payload)
+                alias = root / "owned-workflow-hardlink"
+                os.link(workflow, alias)
+                try:
+                    with self.assertRaisesRegex(r.Refusal, "^preparation-only-workflow-is-not-one-owned-regular-input$"):
+                        p.source_snapshot(root)
+                finally:
+                    alias.unlink()
+            missing_script = dict(routed)
+            del missing_script["scripts/ci/picker_awt_preparation.py"]
+            with mock.patch.object(r, "source_snapshot", return_value=missing_script):
+                with self.assertRaisesRegex(r.Refusal, "^preparation-only-owning-source-input-missing$"):
+                    p.source_snapshot(root)
 
 
 if __name__ == "__main__":

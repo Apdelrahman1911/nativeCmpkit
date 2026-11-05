@@ -12,6 +12,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import stat
 
 import picker_awt_generation as r
 
@@ -27,6 +28,16 @@ SCOPE = ("One fresh standard macOS arm64 Temurin17/Rust1.98.0 PREPARE through th
 
 def source_snapshot(root: Path) -> dict:
     inputs = r.source_snapshot(root)
+    # The shared route explicitly captures only its registered workflow;
+    # generic library inputs exclude .github. Capture this owning workflow
+    # with the same confined regular/single-link/hash/stat9 custody owner.
+    workflow = r.library.safe_path(root, WORKFLOW)
+    before = workflow.lstat()
+    if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:
+        raise r.Refusal("preparation-only-workflow-is-not-one-owned-regular-input")
+    inputs[WORKFLOW] = r.library.sha256(workflow)
+    if r.shared._stat9(before) != r.shared._stat9(workflow.lstat()):
+        raise r.Refusal("preparation-only-workflow-changed-during-source-capture")
     if any(name not in inputs for name in OWNING_INPUTS):
         raise r.Refusal("preparation-only-owning-source-input-missing")
     return inputs

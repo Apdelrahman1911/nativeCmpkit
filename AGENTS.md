@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual macOS/JVM2 accepted; parent issue remains open — 2026-11-05
+
+[Run42086043267/a1](docs/development/evidence/current-platform-recovery-20261101/picker-parent-resource-r3-jvm2-20261105/README.md)
+at c1840df523fbd4a8e2298a12ea6bc0e04df62efc succeeds: job127451292702,
+artifact13442856842, actual2/2/zero failures/errors/skips in separate JVMs.
+One locked compile-only library build0/61.234887s executes zero tests; all five
+compile/inventory/method phases0/complete captures/original groups absent.
+Total65.113223s/shared600s; Darwinarm64/JDK17.0.21/Rust1.98.0/Xcode26.6/SDK26.5.
+Clean actual1538 before=after hashes include unchanged frozen540; runtime held.
+Hosted source22 also passes. Independent777 authenticates exact four IDs,
+source-qualified controller JSON and complete job logs. Private native logs and
+binary intentionally absent: no independent raw harness/marker/diagnostic review.
+Inherited real_filesystem=true is not filesystem or picker execution for these2.
+No AppKit/retain-release completion/VMshutdown-epoch/native parent/ABI/consumer/
+other-platform or whole-CI acceptance; #58 remains OPEN for its original five
+criteria. ARCHIVE805 preserves only11JSON originals+two reviews/13byte-identical
+copies, explicit0644; originals held/no reacquisition/raw publication. Sole private
+originals777 must not be acquired again. Do not replay unchanged accepted2.
+This additive documentation commit is not the immutable source-under-test HEAD.
+ROOTCI recovery and Windows observation stay on their isolated branches.
+Lead Git/integration/dispatch/acceptance/closure; max2combinedhosted INCLUDINGqueued/
+reserved, seriallocal8GiBdisk/compiler6GiBmemory. Actions/all/no mandatorySHA/minimum
+permissions; every publishing/Pages/main/history/native/consumer/API–ABI/dependency/
+legal/security/readiness gate remains. No package, release or deployment.
+
 ## Isolated picker/JNI batch ready for actual JVM2 — 2026-11-05
 
 [R3/789/798/800](docs/development/evidence/current-platform-recovery-20261101/picker-parent-resource-r3-jvm2-20261105/README.md)

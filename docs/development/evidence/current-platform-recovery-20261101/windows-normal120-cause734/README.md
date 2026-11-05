@@ -17,15 +17,48 @@ legacy7, original120, native or consumer result is replayed or promoted.
 Actionlint and whitespace checks exit0. `ARCHIVE803.json` preserves18 original
 source/control/adoption records; the review summary attributes743's actual message.
 
-Next: freeze/push only `development/javafx-ordinary-consumer1`, refresh combined
-hosted capacity, and dispatch `javafx-library-candidate.yml` with
-`platform=windows-ordinary-dependency-observation1`. The actual Windows request
-allows only the previously refused18 source GETs and at most one exact
-conditional Central Vanniktech POM GET after its fresh source303 closes cleanly.
-Other redirect targets remain unapproved/withheld; no wildcard, fallback or
-full120 replay. **NO_ADMISSION=true / REVIEWED_EXPECTATIONS_SHA256=null** remain.
-This is not ordinary dependency trust, packaged-consumer/native acceptance or
-a whole-issue closure. **#64 remains open; no publication.**
+The source-qualified request was frozen and executed on the isolated branch;
+its actual result is recorded below. **NO_ADMISSION=true /
+REVIEWED_EXPECTATIONS_SHA256=null** remain. This is not ordinary dependency trust,
+packaged-consumer/native acceptance or a whole-issue closure.
+**#64 remains open; no publication.**
+
+## Actual finite Windows observation
+
+[Run 42087525896 / attempt 1](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/42087525896)
+succeeds at immutable `20523c4f431d29ccbff2998686599301a8686fea`, job
+`127456535149`, artifact `13443631641`, on Windows 2025 / CPython 3.12.10.
+Controller exit 0 / **6.968s**, worker **6.719s**; protocol complete, owned Job
+terminal/empty/closed, and owned home/tmp/runtime directories removed empty.
+All **21** intent/before/after source records agree in hashes and the declared
+Win32 eight-field identities. Named/descriptor Python stat views agree for 19/21;
+two stable ctime representation differences remain separate. Native Windows 0666
+is not relabeled as Git 0644 permission or universal field-equality proof.
+
+The **18 previously refused source GETs** each return 303 with exact same-GAV
+Central Location metadata. Only the predeclared Vanniktech POM route is followed;
+the other **17 remain genuine no-follow ObservationRefusals**, with zero bodies.
+The one conditional Central POM GET returns 200 / **1,667 worker-reported bytes**:
+**19 actual requests total**, no automatic redirect/fallback, zero conditional
+withheld rows. The worker-reported digest is not independently expected or
+independently rehashed: the reviewer did not read, extract or parse `018.pom`.
+`all_payloads_qualified_as_public_text=false` remains honest.
+
+Original 62 refusals and accepted 58/legacy7/full120/native populations are not
+replayed. The local JSON-only allowlist first refuses before writes because it
+omits declared `source-intent.json`; the original refusal is retained. Only three
+declared JSON receipts recover from the same held ZIP; no reacquisition or POM
+extraction occurs. `ARCHIVE809.json` publishes **only two byte-identical SAFE-PUBLIC
+summary records** in `observation42087525896/`, plus provenance hashes. Raw URLs,
+headers, private review/worker JSON, logs, ZIP and payloads remain private.
+
+Next is a separately source-qualified, bounded one-target detached-signature
+observation using reviewed immutable metadata, **without reGETting these 18
+sources or the accepted POM**. Its plan is unexecuted. Cached POM/signature review,
+publisher/key provenance, independently expected hashes, selected-origin primaries,
+actual bootstrap/binary/transitive graph, deterministic two-root policy/staging,
+consumer/native/API–ABI/legal/security/readiness gates still need their own evidence.
+Central signatures cannot authorize different Portal-synthesized POM bytes.
 
 The original 42051371077/a1 source/protocol result remains **58 public-text
 observations and 62 refusals**, not consumer or dependency admission. Original

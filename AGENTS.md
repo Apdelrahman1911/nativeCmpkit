@@ -1,5 +1,34 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual Windows failed18+conditional1 observation accepted — 2026-11-05
+
+[Run42087525896/a1](docs/development/evidence/current-platform-recovery-20261101/windows-normal120-cause734/README.md)
+at20523c4f431d29ccbff2998686599301a8686fea succeeds: job127456535149,
+artifact13443631641, Windows2025/CPython3.12.10. Controller0/6.968s/COMPLETE,
+worker6.719s; actualownedJob terminal/empty/closed and empty home/tmp/runtime
+removed.21 intent/before/after SHA+Win32eight-field records agree; Python named/
+descriptor19/21 withtwo stablectime views, native0666 notGit0644/universal equality.
+18changed sourceGETs303/exact sameGAV Locations; onlyVannikPOM route selected,
+other17 actualno-follow ObservationRefusals/body0. Conditional1 GET200/1667B
+worker-reported;19actualrequests/zero conditionalwithheld/all_payloads_qualified
+FALSE. POM018 remains unread/unextracted/unparsed/independentlyunhashed; observed
+digest is not expected-checksum authority. Sole734 acquires original log+ZIPonce,
+then initial JSON allowlist PREWRITE refusal followed by sameZIP/declaredJSON3
+recovery; no reacquisition or accepted58/full120/legacy7/native/Stop replay.
+ARCHIVE809 includes ONLY safe summaryJSON+MD/two byte-identical explicit0644
+copies and provenance hashes; privateURL/headers/worker/review/log/ZIP/POM payloads
+stay unpublished. Source-held newone signature target remains UNEXECUTED;
+no original18/POM replay, wildcard/hop/fallback, body/key review or consumer
+authority. NO_ADMISSION=true/REVIEWED_EXPECTATIONS_SHA256=null; #64 staysOPEN for
+original dependency/graph/two-root/staging/native/consumer/API–ABI/security/legal
+criteria. DocumentationHEAD is not substituted for immutable source-under-test.
+Protected untracked scripts/ci/test_javafx_ordinary_success_trace.py MUST NOT be
+read/stat'ed/scanned/modified/staged. ROOTCI/macos stayisolated; lead integration/
+Git/dispatch/acceptance/closure, max2combinedhosted INCLUDINGqueued/reserved,
+seriallocal8GiB/compiler6GiB. Actions/all/no mandatorySHA/minimumpermissions and
+every publishing/Pages/main/history/native/consumer/dependency/legal/security/
+readiness gate remain. No package, release or deployment.
+
 ## Isolated Windows cause-aware dependency batch ready — 2026-11-05
 
 [734/743/799–803](docs/development/evidence/current-platform-recovery-20261101/windows-normal120-cause734/README.md)

@@ -106,7 +106,19 @@ def _read_pinned_base_source():
     try:
         opened = os.fstat(fd)
         if view(opened) != view(before):
-            raise ValueError('Named/descriptor import source differs')
+            named_values, descriptor_values = view(before), view(opened)
+            if not all(type(value) is int and len(str(value)) <= 64
+                       for value in named_values + descriptor_values):
+                raise ValueError('Named/descriptor import source differs')
+            detail = json.dumps({'fields': list(source_fields),
+                'named7_decimal': [str(value) for value in named_values],
+                'descriptor7_decimal': [str(value) for value in descriptor_values],
+                'differing_zero_based_indexes': [index for index, (named_value, descriptor_value)
+                    in enumerate(zip(named_values, descriptor_values)) if named_value != descriptor_value]},
+                sort_keys=True, separators=(',', ':'))
+            if len(detail) > 2048:
+                raise ValueError('Named/descriptor import source differs')
+            raise ValueError('Named/descriptor import source differs; numeric-only=' + detail)
         parts = []
         count = 0
         while True:

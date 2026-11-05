@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows failed-import prerequisite qualified — 2026-11-05
+
+[734R2B/813](docs/development/evidence/current-platform-recovery-20261101/windows-import-stat-only734-813/README.md)
+adopts five exact sources once (three modified/twoNEW0644). OnlyNEW1 passes1/1,
+suite0.122s/outer0.22271590889431536s/child0; three source/model identities held,
+owned cleanup and742 independent saved-results acceptance. Accepted22 unchanged
+method ASTs are reused, never replayed. Actionlint0/0.008106s/no shellcheck/pyflakes.
+Original42100069342/127500225008 at74316be remains FAILED/zeroartifacts: named/fstat
+seven-field refusal occurs before body/legacy/controller/GET; actual operands/cause
+unknown. Never retry/reacquire unchanged. New manual windows-import-stat-only-
+diagnostic1 stops/closes on equality AND mismatch before body read/import/child/GET,
+prints only capped numeric metadata,2min/contentsread/no upload. Next immutable
+Windows development commit/fresh capacity/onlystatdiagnostic; equality is no trust
+or retry admission. #64 is WebView request-state, staysopen; ZERO native/consumer/
+closure/publication. ROOT/main/history and all release/security/readiness/API–ABI/
+legal/dependency gates remain; no package/release/Pages/deployment. Lead integration/
+Git/dispatch/acceptance/closure; parallel isolated work/max2combinedhosted INCLUDING
+queued/reserved/local8GiBdisk6GiBmemory. Actions/all/no mandatorySHA/minimumpermissions.
+
 ## Windows signature prerequisite source/fake qualified — 2026-11-05
 
 [734-r2a](docs/development/evidence/current-platform-recovery-20261101/windows-vanniktech-signature734-r2a/README.md)

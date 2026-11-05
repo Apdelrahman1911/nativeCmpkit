@@ -16,7 +16,7 @@ on:
         type: choice
         required: true
         default: linux-arm64
-        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1, windows-ordinary-dependency-observation1, windows-observer-one-request-diagnostic1]
+        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1, windows-ordinary-dependency-observation1, windows-observer-one-request-diagnostic1, windows-import-stat-only-diagnostic1]
 
 permissions:
   contents: read
@@ -300,3 +300,30 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           path: build/ci-verification/windows-one-request-diagnostic770/public/*.json
+
+  # Import-failure metadata only: stops before source body or any legacy execution.
+  windows-import-stat-only-diagnostic1:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.ref == 'refs/heads/development/javafx-ordinary-consumer1' && github.event_name == 'workflow_dispatch' && inputs.platform == 'windows-import-stat-only-diagnostic1'
+    runs-on: windows-2025
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fixed seven-field comparison only, no body read, import, worker or network
+        run: python -I -S -B scripts/ci/windows_ordinary_signature_import_stat_only734.py
+      # No artifact upload: only bounded numeric metadata appears in the job log.

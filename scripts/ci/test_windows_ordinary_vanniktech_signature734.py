@@ -17,8 +17,8 @@ SOURCE_ROOT = Path(os.environ.get('NATIVECMPKIT_SIGNATURE734_TEST_SOURCE_ROOT',
 STATE_ROOT = Path(os.environ.get('NATIVECMPKIT_SIGNATURE734_TEST_STATE_ROOT',
     str(SOURCE_ROOT / 'build/ci-verification/signature734-NEW-controls-state')))
 OWN_PATH = 'scripts/ci/windows_ordinary_vanniktech_signature_observer734.py'
-OBSERVERSHA = '929c2feb59c687588f5ab248a19edef49cd43929f8e4fca1df6ae021c6a7e24f'
-OBSERVERBYTES = 46861
+OBSERVERSHA = '5b50b082d29cc633ca5a6054904cb1c49362969d70e74ff224f8ebaabc42cb2e'
+OBSERVERBYTES = 47766
 CRITICALSHA = 'ff425c9110024f90b8b1f2ce45426bd32737e8965d89851bdf9db7fa6495d14a'
 
 

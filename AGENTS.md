@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated Windows ancestry recovery adopted — 2026-11-05
+
+[Signature ancestry734](docs/development/evidence/current-platform-recovery-20261101/windows-signature-ancestry-20261105/README.md)
+adopts2 modified+1 NEW source; all24 actual execution bindings hold. Sole NEW1
+passes1/1 once (suite0.020s/outer0.100387s), independently accepted742. Accepted22
+bodies and dependency observer65242B remain unchanged; prior stat-only successes
+are reused, never replayed. Exact17637→16458→15307→15299 ancestry stays strict.
+Original42100069342 remains FAILED/causeUNKNOWN. Full one-ASC observational
+entry is unexecuted at this checkpoint; no trust/native/consumer/#64 acceptance.
+Lead commit/push/dispatch only on isolated development branch, max2combined hosted
+INCLUDING queued/reserved. Frozen ROOT ee879e2c/producer42123517799 must not change.
+Never read/stat/scan/modify/stage scripts/ci/test_javafx_ordinary_success_trace.py.
+Actions/all/no mandatorySHA/minimumpermissions and every publication/security/
+readiness/native/consumer/API–ABI/dependency/legal/main/history/Pages gate remain.
+
+
 ## Windows exact-import-context diagnostic qualified — 2026-11-05
 
 [734R2C1](docs/development/evidence/current-platform-recovery-20261101/windows-context-stat-only734-r2c1/README.md)

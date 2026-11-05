@@ -284,6 +284,24 @@ def select_cached_target(metadata, plan):
 
 
 def restore_signature_workflow_routing(payload, plan):
+    # Only this sealed successor is qualified; historical plan and guards remain exact.
+    if type(payload) is bytes and len(payload) == 17637:
+        need(digest(payload) == '1f32078e6aa3508a404e7718f822017c7a2d8b464cf82d443f6ec427852aefe5',
+             'Only exact known R2C1 current workflow successor')
+        need(payload[941:987] == b', windows-import-context-stat-only-diagnostic1' and
+             digest(payload[16504:]) == '3d96f39abeb19a440307bc9f58725ba30ef1af28389165164d7a6929a21e02df',
+             'Exactly the R2C1 profile and appended context-stat-only job')
+        payload = payload[:941] + payload[987:16504]
+        need(len(payload) == 16458 and
+             digest(payload) == '0e835bce9fd2fdcd2b437171ef7332525199d1c670f08d982f8477646485dd93',
+             'Exact accepted813 intermediate workflow')
+        need(payload[903:941] == b', windows-import-stat-only-diagnostic1' and
+             digest(payload[15345:]) == '45130b6cc1189cf03f85f5104b0d9a08e2fe8a35778c6fe8886eb996ed321a8f',
+             'Exactly the accepted813 profile and appended stat-only job')
+        payload = payload[:903] + payload[941:15345]
+        need(len(payload) == 15307 and
+             digest(payload) == 'f98d48c7c0343d1fe0e8e07c3c87bca1d0d55c3341a3ab232d200b89433a4493',
+             'Exact sealed signature workflow ancestor, no generic successor')
     route = plan['workflow_routing']
     need(type(payload) is bytes and len(payload) == route['after_bytes'] and
          digest(payload) == route['after_sha256'] and payload.count(NEW_RUN) == 1 and

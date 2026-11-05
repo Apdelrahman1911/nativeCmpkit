@@ -23,9 +23,11 @@ import time
 import xml.etree.ElementTree as ET
 
 import daemon_jvm
+import failure_diagnostics
 import library_tests as lt
 import runtime_context
 import webview_consumer as packaged
+import javafx_ordinary_dependency_expectations as dependency_expectations
 
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = 'build/ci-verification/javafx-ordinary-windows'
@@ -38,7 +40,18 @@ CLASS = 'nativecmpkit.consumer.OrdinaryCuredWebStopConsumerTest'
 METHOD = 'normalMavenActivationBindsCuredPublicStopTransportAndOwnedLifetime'
 MODES = ('module', 'pom')
 RESERVE_MIB = 8192
+METADATA_FILES = ('gradle/verification-metadata.xml',
+                  'tests/consumer/javafx-ordinary-webview/gradle/verification-metadata.xml')
 SOURCE_RECIPE_AUTHORITY = 'a27e4de4f217af01269d41d9bd45938b25fe0036afbfa04489f2d910782faf3f'
+EXPECTATIONS_SOURCE = FIXTURE + '/gradle/reviewed-windows-staging-expectations.json'
+# Deliberately unresolved. Only a separately reviewed/adopted manifest's actual
+# digest can replace None; no checksum, publisher or staging trust is invented.
+REVIEWED_EXPECTATIONS_SHA256 = None
+# Actual checkout inputs, not a historical comparison/inverse view of settings.
+INSTALLED_JDK17_INPUTS = {
+    'settings.gradle.kts': (2472, 'f46255ba97080b1b117e85cfc563d957e30d8f9ff2ff7c327fffd6c59d286bc9'),
+    'docs/testing/installed-jdk17-prerequisite.md': (2744, '7be847de00c744b0174d65090b62e6769309cc2eafa579f17794cdf92eea2959'),
+}
 # Exact source additions only, not mandatory historical commit/SHA pinning of
 # actions or unrelated AGENTS/status/workflows. Runtime maps bind actual HEAD.
 EXPECTED12 = {
@@ -89,14 +102,96 @@ def read(path, limit=16 * 1024**2):
     return payload
 
 
+def dependency_metadata_preflight():
+    """Both invocation roots need real metadata; syntax/checksums are not trust."""
+    rows = []
+    namespace = '{https://schema.gradle.org/dependency-verification}'
+    for relative in METADATA_FILES:
+        row = {'path': relative, 'metadata_usable': False, 'reason': 'missing'}
+        try:
+            path = lt.safe_path(ROOT, relative)
+            if path.exists():
+                payload = read(path)
+                row.update(bytes=len(payload), sha256=hashlib.sha256(payload).hexdigest(), reason='unusable')
+                need(not re.search(br'<!\s*(?:DOCTYPE|ENTITY)', payload, re.I), 'Unsafe verification XML refused')
+                document = ET.fromstring(payload)
+                configuration = document.find(namespace + 'configuration')
+                components = document.find(namespace + 'components')
+                need(document.tag == namespace + 'verification-metadata' and configuration is not None and
+                     components is not None, 'Expected Gradle verification metadata structure')
+                need(configuration.findtext(namespace + 'verify-metadata') == 'true' and
+                     configuration.find(namespace + 'trusted-artifacts') is None,
+                     'Metadata checks are required and artifact trust exceptions are not admitted')
+                artifacts = components.findall(namespace + 'component/' + namespace + 'artifact')
+                need(artifacts and all(artifact.findall(namespace + 'sha256') and
+                     all(re.fullmatch('[0-9a-f]{64}', checksum.get('value', '')) is not None
+                         for checksum in artifact.findall(namespace + 'sha256')) for artifact in artifacts),
+                     'Nonempty exact SHA256 artifact checks required')
+                row.update(metadata_usable=True, artifact_count=len(artifacts), reason='checksum-structure-only')
+        except (OSError, ValueError, ET.ParseError):
+            row['reason'] = 'unusable'
+        rows.append(row)
+    return {'schema_version': 1, 'metadata': rows,
+            'metadata_usable_for_strict_execution': all(row['metadata_usable'] for row in rows),
+            'independent_trust_qualified': False, 'dependencies_resolved': False,
+            'scope': 'Presence/held XML/checksum structure for producer and separate -p consumer only; no graph coverage, advertised checksum/signature review, Gradle enforcement, security or release clearance'}
+
+
+def dependency_expectations_preflight():
+    """Pre-freeze policies must equal independently approved deterministic payloads."""
+    need(type(REVIEWED_EXPECTATIONS_SHA256) is str and
+         re.fullmatch('[0-9a-f]{64}', REVIEWED_EXPECTATIONS_SHA256) is not None,
+         'Independently reviewed expectation manifest authority is missing; no local checksum bootstrap')
+    payload = read(lt.safe_path(ROOT, EXPECTATIONS_SOURCE), dependency_expectations.MAX_MANIFEST_BYTES)
+    policies = dependency_expectations.metadata_payloads(payload, REVIEWED_EXPECTATIONS_SHA256)
+    need(set(policies) == set(METADATA_FILES), 'The two actual invoked roots need independently scoped policies')
+    for relative, expected in policies.items():
+        need(read(lt.safe_path(ROOT, relative)) == expected,
+             'Metadata must be materialized and held before the cohort; no mid-run checksum or signature-policy rewrite')
+    return payload  # Immutable approved input bytes, never a mutable parsed trust dictionary.
+
+
+def compiler_diagnostics(output):
+    """Preserve finite public compiler failures from owned logs, not transcripts."""
+    need(output == lt.safe_path(ROOT, OUTPUT) and output.is_dir(), 'Exact owned ordinary diagnostics directory required')
+    rows = []
+    for name in ('producer.log', 'module/resolution.log', 'pom/resolution.log', 'native/consumer.log'):
+        path = lt.safe_path(output, name)
+        if not path.exists():
+            continue
+        before = path.stat()
+        need(path.is_file() and before.st_nlink == 1, 'Unshared owned diagnostic log required')
+        if before.st_size > failure_diagnostics.MAX_LOG_BYTES:
+            rows.append({'name': name, 'bytes': before.st_size, 'inspected': False,
+                         'limit': 'Log exceeds bounded diagnostic input size; original retained locally'})
+            continue
+        payload = read(path, failure_diagnostics.MAX_LOG_BYTES)
+        excerpts = failure_diagnostics.sections(payload.decode('utf-8', errors='replace').splitlines())
+        rows.append({'name': name, 'bytes': len(payload), 'sha256': hashlib.sha256(payload).hexdigest(),
+                     'inspected': True, 'excerpts': excerpts,
+                     'excerpt_limit_may_omit_sections': len(excerpts) == failure_diagnostics.MAX_EXCERPTS})
+    return {'schema_version': 1, 'logs': rows, 'full_logs_uploaded': False,
+            'compiler_or_native_success_inferred': False,
+            'scope': 'Existing bounded credential-filtered source errors/Gradle causes from four owned public-fixture logs; not full logs, testcase proof or a general secret scrubber'}
+
+
 def inputs():
     result = lt.snapshot_inputs(ROOT)
+    for relative, (expected_bytes, expected_sha256) in INSTALLED_JDK17_INPUTS.items():
+        payload = read(lt.safe_path(ROOT, relative), expected_bytes)
+        actual_sha256 = hashlib.sha256(payload).hexdigest()
+        need(len(payload) == expected_bytes and actual_sha256 == expected_sha256,
+             'Exact installed-JDK17 settings afterimage and prerequisite source required')
+        need(relative not in result or result[relative] == actual_sha256,
+             'Installed-JDK17 input disagrees with actual source snapshot')
+        result[relative] = actual_sha256
     for relative, expected in EXPECTED12.items():
         path = lt.safe_path(ROOT, relative)
         need(lt.sha256(path) == expected, 'Exact adopted twelve-source JavaFX union required')
         result[relative] = expected
     extra = [WORKFLOW, 'tests/consumer/verify_artifacts.py', 'docs/migration/identity.json',
-             'LICENSE', 'NOTICE', 'THIRD_PARTY_NOTICES.md', *(DEPENDENCY + '/' + name for name in OWNERS)]
+             'LICENSE', 'NOTICE', 'THIRD_PARTY_NOTICES.md', *METADATA_FILES, EXPECTATIONS_SOURCE,
+             'scripts/ci/javafx_ordinary_dependency_expectations.py', *(DEPENDENCY + '/' + name for name in OWNERS)]
     for relative in extra:
         result[relative] = lt.sha256(lt.safe_path(ROOT, relative))
     for path in lt.source_files(ROOT, 'licenses'):
@@ -291,6 +386,13 @@ def run(timeout):
 
     try:
         record['manual_dispatch'] = manual_context()
+        phase = 'dependency-metadata-preflight'
+        record['dependency_metadata_preflight'] = dependency_metadata_preflight()
+        write(output / 'dependency-metadata-preflight.json', record['dependency_metadata_preflight'])
+        need(record['dependency_metadata_preflight']['metadata_usable_for_strict_execution'],
+             'Producer and standalone consumer verification metadata must exist; a strict flag is not verification. Independent trust/coverage review remains required')
+        expectation_payload = dependency_expectations_preflight()
+        record['reviewed_expectations_sha256'] = REVIEWED_EXPECTATIONS_SHA256
         need(os.name == 'nt' and sys.platform == 'win32', 'Actual Windows host required; no Linux/macOS impersonation')
         lock_fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
         runtime = runtime_context.capture(expected_arch='x64', android_package='android-37.0', require_clean=True)
@@ -349,6 +451,10 @@ def run(timeout):
         private_stage_sha = lt.sha256(private_repository / 'private-javafx-staging.json')
         write(output / 'private-staging.json', private_stage)
         private_files = {row['file']: {'bytes': row['bytes'], 'sha256': row['sha256']} for row in private_stage['files']}
+        phase = 'compare-prior-reviewed-local-staging-expectations'
+        record['local_staging_expectations'] = dependency_expectations.compare_staging(
+            expectation_payload, REVIEWED_EXPECTATIONS_SHA256, staged, private_files)
+        write(output / 'local-staging-expectations.json', record['local_staging_expectations'])
         record['modes'] = {}
         graphs, environments = {}, {}
         for mode in MODES:
@@ -405,6 +511,12 @@ def run(timeout):
                            'contract': str(error) if isinstance(error, packaged.EvidenceError) else 'Owned verification phase refused; inspect retained local evidence'}
     finally:
         held = []
+        try:
+            write(output / 'compile-diagnostics.json', compiler_diagnostics(output))
+            record['bounded_compile_diagnostics_preserved'] = True
+        except (OSError, ValueError):
+            record['bounded_compile_diagnostics_preserved'] = False
+            held.append(False)
         if before is not None:
             try:
                 after = inputs()
@@ -477,7 +589,20 @@ def run(timeout):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, allow_abbrev=False)
     parser.add_argument('--timeout', type=int, default=6600)
+    parser.add_argument('--metadata-preflight-only', action='store_true',
+                        help='Read both actual verification XMLs, report truthful blockers, and start no producer/compiler/native work')
     args = parser.parse_args()
+    if args.metadata_preflight_only:
+        result = dependency_metadata_preflight()
+        result['reviewed_expectations_usable'] = False
+        if result['metadata_usable_for_strict_execution']:
+            try:
+                dependency_expectations_preflight()
+                result['reviewed_expectations_usable'] = True
+            except (packaged.EvidenceError, OSError, ValueError):
+                result['expectation_reason'] = 'missing-unapproved-or-mismatched-reviewed-policy'
+        print(json.dumps(result, sort_keys=True))
+        return 0 if result['metadata_usable_for_strict_execution'] and result['reviewed_expectations_usable'] else 1
     need(3600 <= args.timeout <= 6600, 'Bounded whole-run timeout required')
     result = run(args.timeout)
     print(json.dumps({key: result[key] for key in ('passed', 'native_execution_count', 'publication_ready', 'error') if key in result}, sort_keys=True))

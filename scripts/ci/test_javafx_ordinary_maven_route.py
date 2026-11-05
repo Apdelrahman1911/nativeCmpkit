@@ -129,7 +129,9 @@ class JavafxOrdinaryMavenRouteSourceTests(unittest.TestCase):
             self.assertIn(required, self.new_job)
         self.assertIn('\npermissions:\n  contents: read\n', self.old_prefix)
         self.assertEqual(re.findall(r'^          python -B scripts/ci/([^ ]+)', self.new_job, re.M),
-                         ['javafx_ordinary_maven_consumer.py'])
+                         ['javafx_ordinary_maven_consumer.py', 'javafx_ordinary_maven_consumer.py'])
+        self.assertEqual(self.new_job.count('--metadata-preflight-only'), 1)
+        self.assertLess(self.new_job.index('--metadata-preflight-only'), self.new_job.index('rustup toolchain install'))
         for forbidden in ('run_library_candidate.py', 'library_tests.py', 'actions/cache/', 'push:', 'pull_request:', 'schedule:', 'verify-signature:', '*.jar', '*.log', '*.stdout', '*.stderr'):
             self.assertNotIn(forbidden, self.new_job)
 

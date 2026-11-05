@@ -130,11 +130,30 @@ attestation. The receipt leaves `detached_process_absence_verified=false`.
 Watchdog/whole-process/host cleanup gaps remain for original lead review, never
 waived. Source controls do not certify a fully qualified execution controller.
 
-Named ROOT `gradle/verification-metadata.xml` was absent at the bounded source
-observation. The controller passes `--dependency-verification strict` but leaves
-`dependency_verification_metadata_qualified=false`: a strict flag is not metadata,
-signing or dependency/security clearance. Independently qualified metadata/trust
-is a separate gate; no checksum-refresh or verification waiver occurs here.
+At isolated HEAD `7d2029823b8a0fc9115a2c7a2387e08b1c9c332a`, both the ROOT and
+standalone fixture's `gradle/verification-metadata.xml` are absent in the Git tree,
+not merely sparse-checkout omissions. A new finite preflight reports **both**
+roots and refuses before expensive setup/producer/compiler/native work. It
+requires actual bounded XML, enabled metadata verification and nonempty SHA256
+artifact checks without artifact-trust exceptions. Structural success is not
+graph coverage, advertised-checksum/signature review or Gradle enforcement:
+`independent_trust_qualified=false` and
+`dependency_verification_metadata_qualified=false` remain truthful. Metadata
+files enter the before/after source inputs; no mid-run refresh or waiver occurs.
+The [finite acquisition/qualification plan](javafx-ordinary-dependency-trust.md)
+describes the still-missing remote and exact local-artifact trust work. **This
+patch does not make Windows consumer1 eligible for native dispatch.**
+
+On normal return or failure the controller now retains a
+`compile-diagnostics.json` containing bounded public Kotlin source errors,
+Gradle failure locations/causes and original hash/size observations for
+`producer.log`, both mode `resolution.log` files and `native/consumer.log`.
+The workflow uploads this JSON and the early metadata-preflight JSON with
+`always()`, never full logs or packages. The existing credential filter and
+4MiB-input/24-excerpt bounds apply; omitted/oversized logs are explicitly not
+complete compiler evidence. Original full child logs remain local and unchanged.
+Abrupt process/job termination can prevent controller-finally capture; a job
+timeout is not a guarantee that diagnostics or owned native cleanup completed.
 
 All other actual supported host/CPU graphs remain missing. Earlier cohorts stay
 historical: FIRST35+6+8+2=51 distinct in four executions; NEW2 RED80 retained,

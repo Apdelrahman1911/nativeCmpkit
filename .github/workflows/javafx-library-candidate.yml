@@ -16,7 +16,7 @@ on:
         type: choice
         required: true
         default: linux-arm64
-        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1]
+        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1, windows-ordinary-dependency-observation1]
 
 permissions:
   contents: read
@@ -179,6 +179,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Both dependency verification roots before any expensive producer or native setup
+        run: |
+          set -euo pipefail
+          mkdir -p build/ci-runtime
+          python -B scripts/ci/javafx_ordinary_maven_consumer.py --metadata-preflight-only \
+            > build/ci-runtime/javafx-ordinary-dependency-preflight.json
       - uses: gradle/actions/wrapper-validation@v4
         with:
           min-wrapper-count: 1
@@ -209,7 +215,7 @@ jobs:
         run: |
           set -euo pipefail
           python -B scripts/ci/javafx_ordinary_maven_consumer.py --timeout 6600
-      - name: Preserve verification receipts and exact NEW XML, never staged packages or full terminal logs
+      - name: Preserve receipts, bounded compiler diagnostics and exact NEW XML, never packages or full terminal logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -217,9 +223,46 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           path: |
+            build/ci-runtime/javafx-ordinary-dependency-preflight.json
+            build/ci-verification/javafx-ordinary-windows/compile-diagnostics.json
             build/ci-verification/javafx-ordinary-windows/*.json
             build/ci-verification/javafx-ordinary-windows/module/*.json
             build/ci-verification/javafx-ordinary-windows/pom/*.json
             build/ci-verification/javafx-ordinary-windows/native/*.json
             build/ci-verification/javafx-ordinary-windows/native/junit/TEST-*.xml
             build/ci-verification/javafx-ordinary-windows/runtime-candidate/*.json
+  # Stage A observational job742: independent of all existing native jobs.
+  windows-ordinary-dependency-observation1:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.ref == 'refs/heads/development/javafx-ordinary-consumer1' && github.event_name == 'workflow_dispatch' && inputs.platform == 'windows-ordinary-dependency-observation1'
+    runs-on: windows-2025
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+      NATIVECMPKIT_OBSERVATION_PLATFORM: ${{ inputs.platform }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      # Owner allows action tags; no new mandatory SHA-pinning policy.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Public descriptors only, contained Python worker, zero Gradle/native/policy execution
+        run: python -I -S -B scripts/ci/windows_ordinary_dependency_observer742.py
+      - name: Retain only public text observations and bounded JSON receipts, never packages/private logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-ordinary-dependency-observations-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 14
+          path: build/ci-verification/windows-ordinary-observation742/public/*

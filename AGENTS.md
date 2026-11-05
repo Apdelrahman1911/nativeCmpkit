@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated Windows dependency observation — 2026-11-05
+
+[742/756](docs/development/evidence/current-platform-recovery-20261101/windows-dependency-observer742-756/README.md)
+records NEW8 passes8/8 once/185 synthetic subcases, independent original-results
+review and exact source7 adoption: workflow0644/settings0600/NEW5 explicit0644.
+Earlier accepted controls are reused, not replayed. Protected source3/None trust
+authority hold; unqualified success_trace is excluded. This is source/model
+evidence, not Windows/HTTPS, Gradle, provenance/policy, native/consumer or closure.
+Only the exact manual observation choice may run on this isolated branch after
+immutable-source/fresh max2 combined hosted reservations INCLUDING queued.
+Original native jobs/conditions remain. ROOT failed producer41938604356 and
+central recovery/native cohort are separate/nonreusable. #64 and all original
+native/consumer/API–ABI/dependency/legal/security/release gates stay open. Lead
+owns integration/Git/GitHub/dispatch/closure; disjoint parallel patches allowed.
+Actions/all/no mandatory SHA pinning/minimum read permissions are authorized.
+No packages/releases/deployments/Pages.
+
+
 ## Isolated ordinary Windows consumer verification prepared — 2026-11-04
 
 [658/705/715](docs/development/evidence/current-platform-recovery-20261101/windows-ordinary-consumer658-715/README.md)

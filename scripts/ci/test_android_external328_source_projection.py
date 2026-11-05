@@ -207,7 +207,16 @@ class External328SourceHistoryControls(unittest.TestCase):
     def test_no_live_selector_imports_the_history_bridge_and_native_inputs_stay_unchanged(self):
         for relative in SELECTORS:
             self.assertNotIn(b"android_external328_source_projection", self.current[relative])
-        self.assertEqual(NATIVE_INPUTS, {relative: digest(payload) for relative, payload in self.native_before.items()})
+        # NATIVE_INPUTS is the immutable External328 stage, not a new checkout
+        # or native acceptance map. Admit only the newly bound IO manifest at
+        # RAW, then compare its exact old DATA view. The other four unchanged
+        # native operands retain their original raw-byte pins; no unregistered
+        # source is enrolled. tearDownClass still holds actual native_before.
+        native_ancestor = dict(self.native_before)
+        manifest = "calf-io/src/androidDeviceTest/AndroidManifest.xml"
+        native_ancestor[manifest] = bridge.current_source_for_history(manifest, self.native_before[manifest])
+        self.assertEqual(NATIVE_INPUTS, {relative: digest(payload) for relative, payload in native_ancestor.items()})
+        self.assertEqual(self.native_before, {relative: (ROOT / relative).read_bytes() for relative in NATIVE_INPUTS})
         source = self.native_before[next(path for path in NATIVE_INPUTS if path.endswith("AndroidIoNamedSystemProviderTest.kt"))].decode()
         self.assertEqual(2, source.count("@Test"))
         self.assertNotIn("@Ignore", source)

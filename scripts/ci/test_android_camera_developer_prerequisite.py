@@ -51,12 +51,36 @@ class SourceWiring(unittest.TestCase):
         self.assertIn('dict(developer.receipt)', self.source)
 
     def test_partial_fresh_roots_disposed_and_required_by_pass_gate(self):
-        setup = self.source.index('    try:\n        if camera_developer_required:')
+        run = next(node for node in ast.parse(self.source).body if isinstance(node, ast.FunctionDef) and node.name == "_run")
+        setups = [node for node in run.body if isinstance(node, ast.Try) and any(
+            isinstance(call, ast.Call) and isinstance(call.func, ast.Attribute) and
+            isinstance(call.func.value, ast.Name) and call.func.value.id == "camera_developer" and
+            call.func.attr == "OwnedFreshGuest" for call in ast.walk(node))]
+        self.assertEqual(1, len(setups), "Exactly the owning setup try must contain the guest allocation")
+        setup = sum(len(line) for line in self.source.splitlines(keepends=True)[:setups[0].lineno - 1])
         owner = self.source.index("guest = camera_developer.OwnedFreshGuest")
         create = self.source.index("guest.create()")
         self.assertLess(setup, owner)
         self.assertLess(owner, create)
-        self.assertIn('result["camera_guest_disposal"] = guest.dispose(', self.source)
+        # Bind the complete actual finally-owned conditional: Camera and remote
+        # scopes retain their own receipt key and identical joined disposal gates.
+        expected_cleanup = ast.parse('''
+if guest is not None:
+    try:
+        result["remote_guest_disposal" if remote_documents_required else "camera_guest_disposal"] = guest.dispose(
+            engine_exited=process is not None and process.poll() is not None,
+            transport_absent=result.get("emulator_shutdown", {}).get("owned_adb_transport_removed") is True,
+            clean_shutdown=result.get("emulator_shutdown", {}).get("clean_shutdown") is True)
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+        result["remote_guest_disposal" if remote_documents_required else "camera_guest_disposal"] = dict(guest.receipt) | {
+            "disposal_status": "failed", "disposal_error": type(error).__name__}
+''').body[0]
+        finalizers = [branch for node in ast.walk(setups[0]) if isinstance(node, ast.Try)
+                      for branch in node.finalbody if isinstance(branch, ast.If) and
+                      ast.dump(branch, include_attributes=False) == ast.dump(expected_cleanup, include_attributes=False)]
+        self.assertEqual(1, len(finalizers), "Exactly the owning finally keeps joined guest disposal and failed facts")
+        cleanup = sum(len(line) for line in self.source.splitlines(keepends=True)[:finalizers[0].lineno - 1])
+        self.assertLess(create, cleanup)
         self.assertIn('camera_developer.accepted(', self.source)
         self.assertIn('result.get("camera_guest_disposal", {})', self.source)
 

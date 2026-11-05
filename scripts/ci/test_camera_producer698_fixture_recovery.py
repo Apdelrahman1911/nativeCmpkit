@@ -32,8 +32,11 @@ def functions(raw):
 class CameraProducer698FixtureRecoveryControls(unittest.TestCase):
     def test_exact_ui664_predecessor_preserves_camera_deadline_and_nine_untouched_helpers(self):
         raw = (ROOT / APP).read_bytes()
+        import macos_share_ci668_composition as latest
+        # This old UI664 AFTER pin owns the named producer190 source image.
+        named_producer190 = latest.current_source_in_view(APP, raw, latest.PRODUCER_VIEW, ROOT)
         qualified = split.current_source_before_ui_split664(APP, raw)
-        self.assertEqual("b3d0f2c2986e42a5e662ba8c2521393f7564916e27084b9473c354b7328b9605", sha(raw))
+        self.assertEqual("b3d0f2c2986e42a5e662ba8c2521393f7564916e27084b9473c354b7328b9605", sha(named_producer190))
         self.assertEqual("b3fb8e7a88c19c10ac0e8f8af674c7228f59d3c7c80269e3078ef97258a0d52c", sha(qualified))
         now, old = functions(raw), functions(qualified)
         for name in ("NativeProtocol", "execute_control", "control_status", "installed_identity", "stopped_app",

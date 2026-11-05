@@ -101,9 +101,32 @@ class External337FixtureRecoveryControls(unittest.TestCase):
             changed_digest = selected_digest(root)
             path.write_bytes(current)
             self.assertEqual(digest(previous), changed_digest(path))
+            # Newest complete controller RAW admission precedes the old
+            # content-policy stage. Its original full hash/length guard and
+            # diagnostic are retained below as exact source, not executed again
+            # or relabelled as the earlier refusal for a new outer context.
+            policy = function((ROOT / "scripts/ci/webview_content_policy_source_projection.py").read_text(),
+                              "current_source_before_content_policy")
+            original_condition = ast.parse(
+                'binding is not None and (sha(payload) != binding["after_sha256"] or len(payload) != binding["after_bytes"])',
+                mode="eval").body
+            original_guards = [node for node in policy.body if isinstance(node, ast.If) and
+                               ast.dump(node.test, include_attributes=False) ==
+                               ast.dump(original_condition, include_attributes=False)]
+            self.assertEqual(1, len(original_guards))
+            self.assertEqual(
+                ast.dump(ast.parse('raise ValueError("An old or unknown image cannot replace exact current content-policy source")').body[0],
+                         include_attributes=False),
+                ast.dump(original_guards[0].body[0], include_attributes=False))
+            self.assertEqual(1, len(original_guards[0].body))
+            self.assertEqual([], original_guards[0].orelse)
             for payload in (previous, current + b"\n", current[:-1], b"foreign", b""):
                 path.write_bytes(payload)
-                with self.assertRaisesRegex(ValueError, "^An old or unknown image cannot replace exact current content-policy source$"):
+                # Both diagnostics are exact unchanged outer/current guard literals;
+                # no permissive regex and no old-source current shortcut.
+                refusal = ("complete740-current-source-afterimage-required" if payload
+                           else "bounded-complete-share-CI-source-operands-required")
+                with self.assertRaisesRegex(ValueError, "^" + refusal + "$"):
                     changed_digest(path)
             outside = root.parent / (root.name + "-ordinary-config")
             try:

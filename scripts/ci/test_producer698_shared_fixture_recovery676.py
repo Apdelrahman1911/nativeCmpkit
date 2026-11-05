@@ -410,17 +410,21 @@ class Producer698SharedFixtureRecoveryControls(unittest.TestCase):
     def test_tooling656_image_operand_strictly_qualifies_shared671_before_original_exact656_guard(self):
         from tooling_recovery671_source_projection import current_source_before_tooling671
         name = "scripts/ci/test_apple_image_launcher_source_projection.py"
-        raw = (ROOT / name).read_bytes()
+        raw_current = (ROOT / name).read_bytes()
+        from ci_source_recovery740_742 import _document as recovery_document
+        recovery_rows = recovery_document(ROOT)["bindings"]
+        # Explicit immutable671-after DATA, never OLD readmitted as current.
+        raw = _exact_inverse_for_control(raw_current, recovery_rows[name])
         self.assertEqual("e9af322336f08c49c6a4456fe60edaa8fa44884c8161dff42f707d94effb4ad7", sha(raw))
         document = _sealed_document("scripts/ci/fixtures/tooling-recovery671-source-inverse.json")
         row = document["bindings"][name]
         qualified = _exact_inverse_for_control(raw, row)
         self.assertEqual("4dd74834552bb6bf06e8ac79b42d268926dad567dda5430894129c76075b4a26", sha(qualified))
-        self.assertEqual(qualified, current_source_before_tooling671(name, raw))
-        for rejected in (qualified, raw + b"\n"):
+        self.assertEqual(qualified, current_source_before_tooling671(name, raw_current))
+        for rejected in (qualified, raw, raw_current + b"\n"):
             with self.assertRaises(ValueError):
                 current_source_before_tooling671(name, rejected)
-        ancestor = content._current_tooling656_control_source(name, qualified)
+        ancestor = content._current_tooling656_control_source(name, raw_current)
         self.assertEqual("9d7870ffcd1cf584c7e2914143d93066defba889638df05f0f91781ab5dd2fa9", sha(ancestor))
         self.assertEqual([ast.dump(node, include_attributes=False) for node in _assertions(ast.parse(ancestor))],
                          [ast.dump(node, include_attributes=False) for node in _assertions(ast.parse(qualified))])
@@ -429,7 +433,10 @@ class Producer698SharedFixtureRecoveryControls(unittest.TestCase):
         self.assertEqual({"test_fragment_hashes_unique_sites_and_complete_restoration_are_mandatory"},
                          {method for method in old if ast.dump(old[method], include_attributes=False) != ast.dump(latest[method], include_attributes=False)})
         relative = "scripts/ci/test_tooling656_fixture_recovery.py"
-        postimage = (EXECUTABLE_ROOT / relative).read_bytes()
+        raw_fixture = (EXECUTABLE_ROOT / relative).read_bytes()
+        # Inverse only this declared successor before the untouched
+        # original676 FIXTURE_BINDINGS/method/assertion comparisons.
+        postimage = _exact_inverse_for_control(raw_fixture, recovery_rows[relative])
         self.assertEqual(2, len(FIXTURE_BINDINGS[relative]["fragments"]))
         restored = _fixture_before_for_control(relative, postimage)
         before, after = _test_methods(restored), _test_methods(postimage)

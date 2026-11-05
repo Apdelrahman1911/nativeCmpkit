@@ -17,6 +17,36 @@ def methods(text):
     return re.findall(r"@Test\s+fun\s+(\w+)\s*\(", text)
 
 
+def customization_screenshot_scope(text, name):
+    marker = "    private fun ComposeUiTest." + name + "("
+    if text.count(marker) != 1:
+        raise AssertionError("Exactly one named customization screenshot helper is required: " + name)
+    return text.split(marker, 1)[1].split("\n    private fun ", 1)[0]
+
+
+def assert_owned_customization_screenshots(case, text):
+    """Passive source ownership only; never a bitmap or UIKit execution."""
+    case.assertEqual(3, text.count(".captureToImage()"))
+    case.assertEqual(3, text.count("screenshot.asSkiaBitmap().close()"))
+    obligations = {
+        "assertOpaqueSurface": ("val actual = if (corner)", "assertColor(expected, actual,"),
+        "assertSliderTracks": ("assertColor(active, pixels[", "assertColor(inactive, pixels["),
+        "assertThumbGlyph": ("val actual = pixels[x, y]", "abs(actual.red - expected.red)", "actual.alpha > .9f"),
+    }
+    for name, pixel_assertions in obligations.items():
+        body = customization_screenshot_scope(text, name)
+        case.assertEqual(1, body.count(".captureToImage()"), name)
+        case.assertEqual(1, body.count("val pixels = screenshot.toPixelMap()"), name)
+        case.assertEqual(1, body.count("screenshot.asSkiaBitmap().close()"), name)
+        case.assertRegex(body, r"val screenshot = onNodeWithTag\([^\n]+\)\.captureToImage\(\)\n        try \{\n            val pixels = screenshot\.toPixelMap\(\)")
+        terminal = "} finally {\n            screenshot.asSkiaBitmap().close()\n        }"
+        case.assertEqual(1, body.count(terminal), name)
+        case.assertLess(body.index("val pixels = screenshot.toPixelMap()"), body.index(terminal), name)
+        for assertion in pixel_assertions:
+            case.assertEqual(1, body.count(assertion), name + ": " + assertion)
+            case.assertLess(body.index(assertion), body.index(terminal), name)
+
+
 class AdaptiveControlsNativeMatrixSourceTests(unittest.TestCase):
     def test_common_thumb_uses_all_four_current_caller_colors_without_new_public_api(self):
         text = source("commonMain/kotlin/com/mohamedrejeb/calf/ui/toggle/CupertinoSwitch.kt")
@@ -77,9 +107,10 @@ class AdaptiveControlsNativeMatrixSourceTests(unittest.TestCase):
                          "row(branch, dark, 2f)", "Density(originalDensity, fontScale)", "label.height",
                          "AdaptiveButton(", "AdaptiveIconButton(", "AdaptiveSlider(", "AdaptiveSwitch(",
                          "shape = RectangleShape", "contentPadding = PaddingValues", "thumbContent =",
-                         "captureToImage().toPixelMap()", "PressInteraction.Release", "DragInteraction.Stop",
+                         "val pixels = screenshot.toPixelMap()", "PressInteraction.Release", "DragInteraction.Stop",
                          "assertThumbGlyph(Color.Blue", "Disabled custom controls cannot emit"):
             self.assertIn(fragment, text)
+        assert_owned_customization_screenshots(self, text)
 
     def test_toolbar_proves_only_its_authored_material_rows_and_owning_desktop_regression_is_new(self):
         toolbar = source("iosTest/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbarFallbackNativeTest.kt")
@@ -110,6 +141,24 @@ class AdaptiveControlsNativeMatrixSourceTests(unittest.TestCase):
         self.assertIn("actual.files.map { it.canonicalFile }.toSet() == files.toSet()", init)
         self.assertNotIn("binaries.test", init)
         self.assertNotIn("dependsOn(", init)
+
+    def test_owned_customization_screenshot_controls_refuse_missing_pixels_finally_close_and_foreign_owners(self):
+        text = source("iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt")
+        for name in ("assertOpaqueSurface", "assertSliderTracks", "assertThumbGlyph"):
+            body = customization_screenshot_scope(text, name)
+            for before, after in (
+                (".captureToImage()", ".foreignImage()"),
+                ("val pixels = screenshot.toPixelMap()", "val pixels = foreignScreenshot.toPixelMap()"),
+                ("} finally {", "} run {"),
+                ("screenshot.asSkiaBitmap().close()", "foreignScreenshot.asSkiaBitmap().close()"),
+                ("screenshot.asSkiaBitmap().close()", "// missing owned close"),
+            ):
+                with self.subTest(owner=name, boundary=before, mutation=after):
+                    self.assertEqual(1, body.count(before))
+                    self.assertEqual(1, text.count(body))
+                    mutated = text.replace(body, body.replace(before, after, 1), 1)
+                    with self.assertRaises(AssertionError):
+                        assert_owned_customization_screenshots(self, mutated)
 
 
 if __name__ == "__main__":

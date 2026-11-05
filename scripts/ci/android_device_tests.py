@@ -216,8 +216,10 @@ def stop_owned_emulator(home: Path, process: subprocess.Popen, name: str, verifi
 def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None, api_level: int = API) -> dict:
     if focus in lt.ANDROID_IO_REMOTE_FOCUSES or focus in permission_lifecycle_contract.FOCUSES:
         validate_api_selection(api_level, only_modules, focus)  # Direct calls cannot expand the remote or lifecycle route.
-    if focus is None:
-        lt.plan(root, "android-device", only_modules=only_modules)  # Refuse unfiltered IO before output or SDK lookup, including direct calls.
+    # One fresh internal source admission before output or SDK lookup, including direct calls.
+    # The public pre-host admission is intentionally independent; no caller-trusted/cached plan.
+    focus_options = {"focus": focus} if focus is not None else {}
+    plan = lt.plan(root, "android-device", only_modules=only_modules, **focus_options)
     output = lt.safe_path(root, relative)
     base = root / "build/ci-verification"
     if output == base or not output.is_relative_to(base) or output.exists():
@@ -228,9 +230,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     home = Path(home_value)
     # Reject an invalid authored source selection before even diagnostic output.
     # Other profiles retain their original no-output-on-preflight-refusal contract.
-    focus_options = {"focus": focus} if focus is not None else {}
     camera_developer_required = camera_developer.is_required(api_level, only_modules, focus)
-    plan = lt.plan(root, "android-device", only_modules=only_modules, **focus_options)
     io_documents_required = lt.android_io_documents_required(plan)
     remote_documents_required = lt.android_io_remote_documents_required(plan)
     permission_demo_required = lt.android_permission_demo_required(plan)

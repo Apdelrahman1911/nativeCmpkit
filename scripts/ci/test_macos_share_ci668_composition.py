@@ -35,7 +35,9 @@ def sha(raw):
 def source_model():
     with tempfile.TemporaryDirectory(prefix="share-ci668-composition-model-") as folder:
         root = Path(folder).resolve()
-        for relative in latest.fixture_inputs(ROOT):
+        import ci_source_domain740 as domain740
+        import ci_source_recovery740_742 as recovery
+        for relative in latest.fixture_inputs(ROOT) | domain740.dependency_inputs() | recovery.dependency_inputs():
             path = root / relative
             path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / relative, path)
@@ -956,7 +958,8 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
                 latest.peel_budget707_for_history(latest.OFFLINE, raw, ROOT)
 
     def test46_714_path_only_cache_fresh_custody_512k_template_and_original_new10_bytes_hold(self):
-        source = (ROOT / latest.OWNER).read_bytes()
+        from ci_source_domain740 import current_source_before_domain740
+        source = current_source_before_domain740(latest.OWNER, (ROOT / latest.OWNER).read_bytes(), ROOT)
         tree = ast.parse(source)
         nodes = {node.name: node for node in tree.body if isinstance(node, ast.FunctionDef)}
         unchanged714_ast_sha256 = {'_binding': '6ba592ce270a9a706935c244451647c876378efded71479ca6feedbb8b2641d2', '_budget707_in_named_domain': 'c84509a2b4a51cb7ec23baca441531dcdceb8366023d4304937b25a27bc00b39', '_cached_source_path_parts': '5835654a0ba8aad1e7af3cfc78ca8e62f763c9c651941be8753a8abd87962110', '_descriptor_source_io_supported': '27ac006fc5cf879f981e92e92127c2f63dc8708bc4c61ac6155eb7372045752e', '_endpoint': '540a530093decfec67d9a59a4d50627a1fc13a22ebba189f4512181fdec640d9', '_identity': '74b6a95e82827ed5d196df0000c94134b8c01baffc7e6c49d37c28f33173ccf2', '_inverse_to_ancestor': 'bd084e93798ef6194dce5ce46ea1be4ff4f6c7541decf5dc72dda6490a19e9fa', '_ordinary': '86ae381abd3132f59d5eba89dd600bf4f32e9b2fc3eebb897f8d6c8393335df2', '_own_payload': 'ecf4bcaa7bdb2110948a48e4c18d96b9bcab2c627ef461720e2993764e4dc7e9', '_portable_ordinary': 'b718e70eb8d21ae27fda58fa9187d3d2353c96ce6c074a8942ed08b79666de93', '_raw_payload': '1cfaf674f3a8ac70ec573a7b6e78884bc09301a6c58142634b107ac95592aced', '_sealed_predecessor_hashes': 'a5663d25777af4094b751a4f094b48bb7ce531bd886fe6d19f09ad0accdd4e2e'}

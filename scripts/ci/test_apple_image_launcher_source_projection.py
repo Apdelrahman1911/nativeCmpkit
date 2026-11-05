@@ -314,7 +314,10 @@ class ImageLauncherSourceProjectionControls(unittest.TestCase):
     def test_old_pins_and_guard_bodies_are_not_refreshed_or_replayed(self):
         document = history._document()
         for name, digest in document["unchanged_inputs"].items():
-            self.assertEqual(digest, sha((ROOT / name).read_bytes()), name)
+            raw_current = (ROOT / name).read_bytes()
+            # The unchanged Apple pins own their pre-UI source DATA stage.
+            comparison = ui_history.peel_ui_related_for_history(name, raw_current)
+            self.assertEqual(digest, sha(comparison), name)
         self.assertEqual("175c69071fa0bf8bbf106b6cc127ae6cd90344512d70f960b5447a4d2b9dc3c4",
                          sha((ROOT / "scripts/ci/ios_owned_geometry_fixture_recovery.py").read_bytes()))
         self.assertEqual("0a9267ec0455668688ce3a4a76dc20f534294bf2d48edf1f4c80fd3e43a34bab",

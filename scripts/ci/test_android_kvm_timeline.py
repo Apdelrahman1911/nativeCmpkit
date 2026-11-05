@@ -14,8 +14,9 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 import android_kvm_timeline as kvm
+from android_permission_selected_context import camera_callback_admission_context, permission_lifecycle_context
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(os.environ.get("KVM_CONTROLLER_SOURCE_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 CONTROLLER = ROOT / "scripts/ci/android_device_tests.py"
 BATCH = ROOT / "scripts/ci/android_device_batch.py"
 YAML = ROOT / ".github/workflows/gradle.yml"
@@ -26,6 +27,13 @@ UNDEFINED = 0xffffffff
 def functions(path):
     text = path.read_text()
     return text, {node.name: node for node in ast.parse(text).body if isinstance(node, ast.FunctionDef)}
+
+
+def selected_admission_dependencies():
+    """Actual pure metadata/functions needed by the isolated current public run AST."""
+    def read_source(relative):
+        return (ROOT / relative).read_text(encoding="utf-8")
+    return (permission_lifecycle_context(read_source), camera_callback_admission_context(read_source))
 
 
 def acl(uid=1001, permissions=6, mask=4):
@@ -174,7 +182,9 @@ class KvmTimelineTests(unittest.TestCase):
         events = []
         def admission():
             events.append('admission'); raise primary
-        namespace = {'Path': Path, 'lt': SimpleNamespace(allowed_test_focus=lambda *a: True),
+        lifecycle, callback = selected_admission_dependencies()
+        namespace = {'Path': Path, 'lt': SimpleNamespace(allowed_test_focus=lambda *a: True, camera_callback=callback),
+                     'permission_lifecycle_contract': lifecycle,
                      'validate_api_selection': lambda *a: events.append('selection'), 'require_host': admission,
                      'kvm_timeline': kvm, 'API': 35}
         exec(compile(ast.Module(body=[found['run']], type_ignores=[]), 'android_device_tests.py', 'exec'), namespace)

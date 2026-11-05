@@ -221,8 +221,15 @@ class ControllerReceipts(unittest.TestCase):
             yield {"adb": adb, "snapshots": snapshots, "execute": execute, "popen": popen,
                    "boot": boot, "shutdown": shutdown, "tests": tests, "plan": plan, "command": command}
 
-    def invoke(self):
-        result = c.run(self.root, self.relative)
+    def invoke(self, *, only_modules=None, focus=None):
+        if only_modules is None and focus is None:
+            # Legacy multi-module fixtures exercise only PRIVATE mocked lifecycle/receipt logic.
+            # They do not establish public default admission, a source plan or native execution.
+            result = c._run(self.root, self.relative)
+        else:
+            # Exact finite requests retain the public admission/output-lock path.
+            result = c.run(self.root, self.relative, only_modules=only_modules,
+                           **({"focus": focus} if focus is not None else {}))
         self.assertEqual(result, json.loads((self.root / self.relative / "controller.json").read_text()))
         self.assertFalse((self.root / "build/ci-verification/.android-device-controller.lock").exists())
         self.assertFalse(result["packages_published"])
@@ -419,7 +426,9 @@ class ControllerReceipts(unittest.TestCase):
         with self.controlled() as mocks:
             mocks["command"].return_value = ["./gradlew", "--no-parallel", ":calf-webview:connectedAndroidDeviceTest"]
             result = c.run(self.root, self.relative, only_modules=("calf-webview",))
-        mocks["plan"].assert_called_once_with(self.root, "android-device", only_modules=("calf-webview",))
+        expected_admission = unittest.mock.call(self.root, "android-device", only_modules=("calf-webview",))
+        self.assertEqual([expected_admission, expected_admission], mocks["plan"].call_args_list,
+                         "One independent public pre-host and one fresh internal source admission; no cached plan")
         self.assertEqual(["./gradlew", "--no-parallel", ":calf-webview:assembleAndroidDeviceTest"],
                          mocks["execute"].call_args_list[0].args[1])
         self.assertEqual(("calf-webview",), mocks["tests"].call_args.kwargs["only_modules"])
@@ -442,6 +451,7 @@ class ControllerReceipts(unittest.TestCase):
         self.assertFalse((self.root / "build/ci-verification/.android-device-controller.lock").exists())
 
     def test_default_controller_still_requests_the_complete_device_suite(self):
+        """Historical name retained: PRIVATE mocked lifecycle only; public default now refuses."""
         with self.controlled() as mocks:
             result = self.invoke()
         mocks["plan"].assert_called_once_with(self.root, "android-device", only_modules=None)
@@ -528,11 +538,13 @@ class ControllerReceipts(unittest.TestCase):
         lock.write_text("unrelated-owner")
         with patch.object(c, "require_host"):
             with self.assertRaises(FileExistsError):
-                c.run(self.root, self.relative)
+                c.run(self.root, self.relative, only_modules=("calf-webview",),
+                      focus=c.lt.ANDROID_WEBVIEW_REQUEST_FOCUS)
             self.assertEqual("unrelated-owner", lock.read_text())
             for relative in ("build/ci-verification", "build/ci-verification/../other", "/tmp/escape"):
                 with self.subTest(relative=relative), self.assertRaises(ValueError):
-                    c.run(self.root, relative)
+                    c.run(self.root, relative, only_modules=("calf-webview",),
+                          focus=c.lt.ANDROID_WEBVIEW_REQUEST_FOCUS)
 
 
 if __name__ == "__main__":

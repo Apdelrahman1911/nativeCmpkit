@@ -7,7 +7,10 @@ certifies a native result, or searches for an arbitrary historical layer.
 """
 from __future__ import annotations
 
+from contextlib import contextmanager
+from dataclasses import dataclass
 from functools import lru_cache
+from types import MappingProxyType
 import hashlib
 import os
 from pathlib import Path
@@ -520,6 +523,8 @@ def source_before_current_context620(relative, payload, root=ROOT):
     _identity(relative, payload)
     if relative not in CURRENT_CONTEXT620_PATHS:
         return payload
+    from ci_source_domain740 import current_source_before_domain740
+    payload = current_source_before_domain740(relative, payload, root)
     return _current_context620_before(relative, payload, _transition620_document(root))
 
 
@@ -587,6 +592,9 @@ def source_before_android_lifecycle(relative, payload, root=ROOT):
         return payload
     if relative in CURRENT_CONTEXT620_PATHS:
         payload = source_before_current_context620(relative, payload, root)
+    else:
+        from ci_source_domain740 import current_source_before_domain740
+        payload = current_source_before_domain740(relative, payload, root)
     return _android_before(relative, payload, _android_transition(root))
 
 
@@ -599,6 +607,8 @@ def peel_android_lifecycle_for_history(relative, payload, root=ROOT):
     _identity(relative, payload)
     if relative not in ANDROID_BOUND_PATHS or relative in ANDROID_GENERIC_EXCLUSIONS:
         return payload
+    from ci_source_domain740 import peel_domain740_for_history
+    payload = peel_domain740_for_history(relative, payload, root)
     if relative in CURRENT_CONTEXT620_PATHS:
         context = _transition620_document(root)
         row620 = _current_context620_bindings(context)[relative]
@@ -770,26 +780,33 @@ def _document(root=ROOT):
     return _shape(_json(raw), root)
 
 
-def _own_payload(payload, document):
+def _own_payload(payload, document, root=ROOT):
+    current_raw = payload
+    from ci_source_domain740 import current_source_before_domain740
+    payload = current_source_before_domain740(OWNER, payload, root)
     needle = ('SPEC_SHA256 = "' + SPEC_SHA256 + '"\n').encode()
     template = ('SPEC_SHA256 = "' + '0' * 64 + '"\n').encode()
     need(type(payload) is bytes and len(payload) == document["own_guard"]["bytes"] and
          payload.count(needle) == 1 and
          sha(payload.replace(needle, template, 1)) == document["own_guard"]["template_sha256"],
          "complete-share-CI-latest-own-guard-required")
-    return sha(payload)
+    return sha(current_raw)
 
 
-def _raw_payload(relative, payload, document):
+def _raw_payload(relative, payload, document, root=ROOT):
     _identity(relative, payload)
+    current_raw = payload
+    from ci_source_domain740 import current_source_before_domain740
+    payload = current_source_before_domain740(relative, payload, root)
     if relative == OWNER:
-        _own_payload(payload, document)
+        _own_payload(current_raw, document, root)
     elif relative == SPEC:
         need(sha(payload) == SPEC_SHA256, CURRENT_REFUSAL)
     else:
         row = document["raw_inputs"].get(relative)
         need(row is not None and sha(payload) == row["sha256"] and len(payload) == row["bytes"],
              CURRENT_REFUSAL)
+    return payload  # Exact740 source inverse only; immutable current303 enrollment is unchanged.
 
 
 def _inverse_to_ancestor(payload, row):
@@ -884,6 +901,8 @@ def peel_budget707_for_history(relative, payload, root=ROOT):
 
 def _view(view, relative, payload, document, root=ROOT):
     need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
+    from ci_source_domain740 import peel_domain740_for_history
+    payload = peel_domain740_for_history(relative, payload, root)
     if relative in CURRENT_CONTEXT620_PATHS and relative in document["predecessor_inputs"][view]:
         payload = _current_context620_before(relative, payload, document)
     if relative in ANDROID_BOUND_PATHS and relative in document["predecessor_inputs"][view]:
@@ -896,24 +915,30 @@ def _view(view, relative, payload, document, root=ROOT):
     return payload if row is None else _inverse_to_ancestor(payload, row)
 
 
-def current_source_in_view(relative, payload, view, root=ROOT):
-    """Single strict latest raw ingress, then the explicitly named owning ancestor."""
-    document = _document(root)
-    _raw_payload(relative, payload, document)
+def _current_source_in_view_document(relative, payload, view, document, root):
+    """PRIVATE shaped-document arithmetic; the public single-item ingress stays fresh."""
+    payload = _raw_payload(relative, payload, document, root)
     return _view(view, relative, payload, document, root)
 
 
-def peel_for_history(relative, payload, view, root=ROOT):
+def current_source_in_view(relative, payload, view, root=ROOT):
+    """Single strict latest raw ingress, then the explicitly named owning ancestor."""
+    document = _document(root)
+    return _current_source_in_view_document(relative, payload, view, document, root)
+
+def _peel_for_history_document(relative, payload, view, document, root):
     """Only exact declared latest descendants peel; pass-through is NOT admission."""
     _identity(relative, payload)
-    document = _document(root)
     need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
+    import ci_source_recovery740_742 as recovery
     # Sealed source comparisons are explicit; generic history must NEVER
     # peel either Cookie control source or callback-init bytes.
     if relative in {NEW_COOKIE_CONTROL, OWNING_COOKIE_CONTROL, CALLBACK_INIT, BUDGET707_CONTROL,
                     FAILURE711_HELPER, FAILURE711_CONTROL, FAILURE658_HELPER,
-                    FAILURE658_CONTROL, PURE676_CONTROL, CURRENT620_CONTROL, NEW_CONTROL} | ANDROID_GENERIC_EXCLUSIONS:
-        return payload
+                    FAILURE658_CONTROL, PURE676_CONTROL, CURRENT620_CONTROL, NEW_CONTROL} | ANDROID_GENERIC_EXCLUSIONS | recovery.GENERIC_EXCLUSIONS:
+        return payload  # Excluded control/init data remains actual, even above740.
+    from ci_source_domain740 import peel_domain740_for_history
+    payload = peel_domain740_for_history(relative, payload, root)
     if relative in CURRENT_CONTEXT620_PATHS and relative in document["predecessor_inputs"][view]:
         row620 = _current_context620_bindings(document)[relative]
         if sha(payload) == row620["after_sha256"] and len(payload) == row620["after_bytes"]:
@@ -941,6 +966,269 @@ def peel_for_history(relative, payload, view, root=ROOT):
     return payload  # No generic layer search, old-as-current admission, or restored execution.
 
 
+
+def peel_for_history(relative, payload, view, root=ROOT):
+    """Only exact declared latest descendants peel; pass-through is NOT admission."""
+    _identity(relative, payload)
+    document = _document(root)
+    return _peel_for_history_document(relative, payload, view, document, root)
+
+def _operation_identity9(metadata):
+    return tuple(getattr(metadata, key) for key in
+                 ("st_dev", "st_ino", "st_mode", "st_nlink", "st_uid", "st_gid",
+                  "st_size", "st_mtime_ns", "st_ctime_ns"))
+
+
+def _operation_directories(root, relative):
+    _identity(relative, b"finite-operation-source-identity")
+    need(type(root) is type(Path()) and root.is_absolute() and
+         root == root.resolve(strict=True), "source-projection-operation-canonical-root-required")
+    paths = [root.parent, root]
+    parent = root
+    for part in relative.split("/")[:-1]:
+        parent = parent / part
+        paths.append(parent)
+    result = []
+    for path in dict.fromkeys(paths):
+        metadata = path.lstat()
+        need(stat.S_ISDIR(metadata.st_mode), "source-projection-operation-ordinary-parent-required")
+        result.append((path, _operation_identity9(metadata)))
+    return tuple(result)
+
+
+def _operation_read(root, relative, maximum):
+    """Full stat9 brackets the unchanged bounded descriptor/name/parent reader.
+
+    The existing readers close every owned handle per source. Their returned
+    five-field file identity is deliberately NOT the operation invalidation key.
+    """
+    need(type(maximum) is int and 0 < maximum <= MAX_SOURCE,
+         "source-projection-operation-bounded-read-required")
+    parents = _operation_directories(root, relative)
+    before = (root / relative).lstat()
+    identity = _operation_identity9(before)
+    raw, descriptor_identity = _ordinary(root, relative, maximum)
+    need(identity == _operation_identity9((root / relative).lstat()) and
+         parents == _operation_directories(root, relative) and
+         descriptor_identity == {"device": before.st_dev, "inode": before.st_ino,
+                                 "mode": before.st_mode, "size": len(raw),
+                                 "mtime_ns": before.st_mtime_ns, "sha256": sha(raw)},
+         "source-projection-operation-read-custody-changed")
+    return raw, (identity, sha(raw), parents)
+
+
+@contextmanager
+def _source_projection_custody():
+    """PRIVATE finite acquisition/finally scope, including failures before yield.
+
+    Expected identities are custody records, never cached reads or admissions.
+    Every capture and final read uses actual ordinary bytes; no FDs accumulate.
+    """
+    pins, directories = {}, {}
+    primary = None
+    def capture(root, relative, maximum=MAX_SOURCE):
+        for path, identity in _operation_directories(root, relative):
+            need(directories.setdefault(path, identity) == identity,
+                 "source-projection-operation-parent-changed-during-acquisition")
+        raw, pin = _operation_read(root, relative, maximum)
+        key = (root, relative)
+        previous = pins.get(key)
+        need(previous is None or previous[1] == pin,
+             "source-projection-operation-source-changed-during-acquisition")
+        pins[key] = (maximum if previous is None else min(maximum, previous[0]), pin)
+        return raw
+    try:
+        yield capture
+    except BaseException as error:
+        primary = error
+        raise
+    finally:
+        failures = []
+        for (root, relative), (maximum, expected) in pins.items():
+            try:
+                raw, actual = _operation_read(root, relative, maximum)
+                need(actual == expected,
+                     "source-projection-operation-whole-custody-changed")
+            except BaseException as error:
+                failures.append(error)
+        for path, identity in directories.items():
+            try:
+                need(_operation_identity9(path.lstat()) == identity,
+                     "source-projection-operation-parent-or-root-name-changed")
+            except BaseException as error:
+                failures.append(error)
+        if failures:
+            if primary is None:
+                raise ValueError("source-projection-custody-cleanup-refused") from failures[0]
+            primary.add_note("source-projection-custody-cleanup-refused; primary refusal preserved; "
+                             + str(len(failures)) + " independent custody refusals")
+
+
+def _operation_freeze(value):
+    if type(value) is dict:
+        return MappingProxyType({key: _operation_freeze(child) for key, child in value.items()})
+    if type(value) is list:
+        return tuple(_operation_freeze(child) for child in value)
+    need(type(value) in (str, int, float, bool, type(None)),
+         "source-projection-operation-ordinary-immutable-JSON-required")
+    return value
+
+
+def _operation_local(value):
+    """Only selected rows/sections become private exact dict/list arithmetic locals."""
+    if type(value) is MappingProxyType:
+        return {key: _operation_local(child) for key, child in value.items()}
+    if type(value) is tuple:
+        return [_operation_local(child) for child in value]
+    return value
+
+
+def _operation_projection_document(document, relative, view):
+    selected = {"raw_inputs": {}, "own_guard": _operation_local(document["own_guard"]),
+                "predecessor_inputs": {view: {}}, "views": {view: {}},
+                "derivative_bindings": {}}
+    if relative in document["raw_inputs"]:
+        selected["raw_inputs"][relative] = _operation_local(document["raw_inputs"][relative])
+    if relative in document["predecessor_inputs"][view]:
+        selected["predecessor_inputs"][view][relative] = _operation_local(
+            document["predecessor_inputs"][view][relative])
+    if relative in document["views"][view]:
+        selected["views"][view][relative] = _operation_local(document["views"][view][relative])
+    if relative in BUDGET707_FRAGMENT_COUNTS:
+        selected["derivative_bindings"][relative] = _operation_local(
+            document["derivative_bindings"][relative])
+    if relative in CURRENT_CONTEXT620_PATHS:
+        selected["current_context620_bindings"] = _operation_local(document["current_context620_bindings"])
+    if relative == OFFLINE:
+        for key in ("failure711_bindings", "failure658_bindings"):
+            selected[key] = _operation_local(document[key])
+    return selected
+
+
+@dataclass(frozen=True, slots=True)
+class _SourceProjectionOperation:
+    _target_root: Path
+    _joint_documents: MappingProxyType
+    _producer_document: MappingProxyType
+    _ci_document: MappingProxyType
+    _tooling_document: MappingProxyType
+    _spec_origins: tuple
+
+    def _current(self, relative, payload, view, root):
+        need(root == self._target_root and root in self._joint_documents,
+             "source-projection-operation-exact-target-root-required")
+        _identity(relative, payload)
+        need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
+        document = _operation_projection_document(self._joint_documents[root], relative, view)
+        return _current_source_in_view_document(relative, payload, view, document, root)
+
+    def _history(self, relative, payload, view):
+        _identity(relative, payload)
+        need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
+        document = _operation_projection_document(self._joint_documents[ROOT], relative, view)
+        return _peel_for_history_document(relative, payload, view, document, ROOT)
+
+    def _producer_history(self, relative, payload):
+        import producer698_source_fixture_recovery as producer698
+        rows = self._producer_document["bindings"]
+        document = {"bindings": {relative: _operation_local(rows[relative])} if relative in rows else {}}
+        return producer698._peel_producer698_for_history_operation(relative, payload, document, self)
+
+    def _ci_history(self, relative, payload):
+        import ci668_outer_source_projection as ci668
+        rows = self._ci_document["bindings"]
+        document = {"bindings": {relative: _operation_local(rows[relative])} if relative in rows else {}}
+        return ci668._source_before_ci668_operation(relative, payload, document, self)
+
+    def _validate_producer(self, root):
+        import producer698_source_fixture_recovery as producer698
+        need(root == self._target_root, "source-projection-operation-exact-target-root-required")
+        return producer698._validate_current_sources_operation(
+            root, _operation_local(self._producer_document), self)
+
+    def _validate_ci(self, root):
+        import ci668_outer_source_projection as ci668
+        need(root == self._target_root, "source-projection-operation-exact-target-root-required")
+        return ci668._validate_current_sources_operation(root, _operation_local(self._ci_document), self)
+
+    def _validate_tooling(self, root):
+        import tooling_recovery671_source_projection as tooling671
+        need(root == self._target_root, "source-projection-operation-exact-target-root-required")
+        return tooling671._validate_current_sources_operation(
+            root, _operation_local(self._tooling_document), self)
+
+
+def _build_source_projection_operation(root, capture):
+    """Exact raw inventories bound BEFORE shaping; never retarget module fixtures."""
+    import ci_source_domain740 as domain740
+    import ci_source_recovery740_742 as recovery
+    import ci668_outer_source_projection as ci668
+    import producer698_source_fixture_recovery as producer698
+    import tooling_recovery671_source_projection as tooling671
+    joint_roots = tuple(dict.fromkeys((root, ROOT)))
+    inventories, origins = [], []
+    def inventory(origin, relative, digest, sections, extras, refusal):
+        raw = capture(origin, relative, MAX_SPEC)
+        need(sha(raw) == digest, refusal)
+        document = _json(raw)
+        need(type(document) is dict, "source-projection-operation-ordinary-inventory-required")
+        names = set(extras) | {relative}
+        for key in sections:
+            need(type(document.get(key)) is dict and len(document[key]) <= 1024,
+                 "source-projection-operation-finite-inventory-required")
+            names.update(document[key])
+        origins.append((origin, relative, digest))
+        return document, names
+    for origin in joint_roots:
+        raw_joint, names = inventory(origin, SPEC, SPEC_SHA256, ("raw_inputs",), (OWNER,),
+                                     "exact-share-CI-latest-manifest-required")
+        raw_domain, more = inventory(origin, domain740.SPEC, domain740.SPEC_SHA256, ("bindings",),
+                                     (domain740.OWNER, domain740.CONTROL, domain740.BRIDGE),
+                                     "exact740-transition-manifest-required")
+        names.update(more)
+        raw_recovery, more = inventory(origin, recovery.SPEC, recovery.SPEC_SHA256,
+                                       ("bindings", "added_inputs"), (recovery.OWNER, recovery.CONTROL),
+                                       "exact-finite-recovery-transition-manifest-required")
+        names.update(more)
+        names.update((CI_SPEC, SHARE_SPEC, OBSERVATION_SPEC, COOKIE_SPEC,
+                      COOKIE_COMMON_SPEC, CALLBACK_SPEC, PRODUCER_SPEC, ANDROID_SPEC))
+        inventories.append((origin, names, {SPEC, domain740.SPEC, recovery.SPEC}))
+    for module, sections, refusal in (
+            (ci668, ("bindings", "added_inputs", "unchanged_inputs"),
+             "The exact final CI668 manifest changed"),
+            (producer698, ("bindings", "added_inputs", "original_ci668_inputs"),
+             "The exact producer698 successor manifest changed"),
+            (tooling671, ("bindings", "added_inputs", "unchanged_inputs"),
+             "The exact tooling671 derivative manifest changed")):
+        document, names = inventory(module.SPEC_PATH.parent, module.SPEC_PATH.name, module.SPEC_SHA256,
+                                    sections, (), refusal)
+        names.discard(module.SPEC_PATH.name)
+        names.update((module.SOURCE_RELATIVE, module.SPEC_RELATIVE))
+        inventories.append((root, names, set()))
+    capture(ci668.ROOT, ci668.ORIGINAL671_SPEC, MAX_SPEC)
+    capture(producer698.ROOT, producer698.ORIGINAL_CI668_SPEC, MAX_SPEC)
+    capture(tooling671.ROOT, tooling671.COMPOSITION_RELATIVE)
+    for relative in tooling671.COMPOSITION_ORIGINS:
+        capture(tooling671.ROOT, relative)
+    for origin, names, spec_names in inventories:
+        for relative in sorted(names):
+            capture(origin, relative, MAX_SPEC if relative in spec_names else MAX_SOURCE)
+    # All original schema, dependency, sealed predecessor and refusal checks are
+    # performed fresh AFTER the finite before-custody exists. No schema is cached.
+    documents = {origin: _operation_freeze(_document(origin)) for origin in joint_roots}
+    return _SourceProjectionOperation(root, MappingProxyType(documents),
+                                      _operation_freeze(producer698._document()),
+                                      _operation_freeze(ci668._document()),
+                                      _operation_freeze(tooling671._document()), tuple(origins))
+
+
+@contextmanager
+def _source_projection_operation(root):
+    with _source_projection_custody() as capture:
+        operation = _build_source_projection_operation(root, capture)
+        yield operation
+
+
 def predecessor_input_hashes(view, root=ROOT):
     """Named historical metadata only; NEVER returned as actual raw current hashes."""
     need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
@@ -950,21 +1238,26 @@ def predecessor_input_hashes(view, root=ROOT):
 def validate_current_sources(root=ROOT):
     """Whole finite joint303 raw custody and all named inverses; ZERO code execution."""
     document = _document(root)
+    import ci_source_domain740 as domain740
+    import ci_source_recovery740_742 as recovery
+    recovery.validate_current_sources(root)
+    domain740.validate_current_sources(root)
     identities = {}
     for relative, row in document["raw_inputs"].items():
         raw, identity = _ordinary(root, relative)
-        _raw_payload(relative, raw, document)
+        _raw_payload(relative, raw, document, root)
         identities[relative] = identity
     raw, identities[OWNER] = _ordinary(root, OWNER)
-    _own_payload(raw, document)
+    _raw_payload(OWNER, raw, document, root)
     raw, identities[SPEC] = _ordinary(root, SPEC, MAX_SPEC)
     need(sha(raw) == SPEC_SHA256, "exact-share-CI-manifest-held-through-validation-required")
     context620 = _current_context620_bindings(document)
     for relative in context620:
-        _current_context620_before(relative, _ordinary(root, relative)[0], document)
+        raw = domain740.current_source_before_domain740(relative, _ordinary(root, relative)[0], root)
+        _current_context620_before(relative, raw, document)
     android = _android_transition(root)
     for relative in ANDROID_BOUND_PATHS:
-        raw = _ordinary(root, relative)[0]
+        raw = domain740.current_source_before_domain740(relative, _ordinary(root, relative)[0], root)
         if relative in context620:
             raw = _current_context620_before(relative, raw, document)
         _android_before(relative, raw, android)
@@ -983,12 +1276,15 @@ def validate_current_sources(root=ROOT):
 
 
 def current_input_hashes(root=ROOT):
-    """Actual complete joint303 map; no named predecessor is relabelled current."""
+    """Actual same303 identities; immutable original303 data remains an ancestor."""
     validate_current_sources(root)
     document = _document(root)
-    owner = _own_payload(_ordinary(root, OWNER)[0], document)
-    return ({name: row["sha256"] for name, row in document["raw_inputs"].items()} |
-            {SPEC: SPEC_SHA256, OWNER: owner})
+    import ci_source_domain740 as domain740
+    actual = {name: row["sha256"] for name, row in document["raw_inputs"].items()}
+    import ci_source_recovery740_742 as recovery
+    for name in (domain740.MODIFIED | recovery.MODIFIED) & set(actual):
+        actual[name] = sha(_ordinary(root, name)[0])
+    return actual | {SPEC: SPEC_SHA256, OWNER: sha(_ordinary(root, OWNER)[0])}
 
 
 def fixture_inputs(root=ROOT):

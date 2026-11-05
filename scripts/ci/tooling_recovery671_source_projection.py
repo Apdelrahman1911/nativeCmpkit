@@ -285,7 +285,10 @@ def source_before_tooling671(relative, payload):
     """Complete exact inverse or its one declared predecessor; never current admission."""
     _identity(relative, payload)
     import ci668_outer_source_projection as ci668
+    import ci_source_domain740 as domain740
+    payload = domain740.peel_domain740_for_history(relative, payload)
     payload = ci668.peel_ci668_for_history(relative, payload)
+    payload = domain740.peel_bridge740_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted source bytes are never certified, guessed or reconstructed.
@@ -320,7 +323,14 @@ def current_source_before_tooling671(relative, payload):
     """One strict raw ingress; declared old, partial, displaced and drift images refuse."""
     _identity(relative, payload)
     import ci668_outer_source_projection as ci668
-    payload = ci668.current_source_before_ci668(relative, payload)
+    import macos_share_ci668_composition as joint
+    import ci_source_domain740 as domain740
+    if relative in joint.fixture_inputs():
+        payload = ci668.current_source_before_ci668(relative, payload)
+        payload = domain740.bridge_after_qualified_current_ingress(relative, payload)
+    else:
+        # Data outside current303 stays unqualified; the original upper owner still checks.
+        payload = domain740.current_source_before_domain740(relative, payload)
     document = _document()
     binding = document["bindings"].get(relative)
     digest = (binding["after_sha256"] if binding is not None else
@@ -334,7 +344,10 @@ def peel_tooling671_for_history(relative, payload):
     """Peel only a complete latest image; pass-through is not current certification."""
     _identity(relative, payload)
     import ci668_outer_source_projection as ci668
+    import ci_source_domain740 as domain740
+    payload = domain740.peel_domain740_for_history(relative, payload)
     payload = ci668.peel_ci668_for_history(relative, payload)
+    payload = domain740.peel_bridge740_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and sha(payload) == binding["after_sha256"] and len(payload) == binding["after_bytes"]:
         return source_before_tooling671(relative, payload)
@@ -495,17 +508,16 @@ def current_input_hashes():
             ci668.current_input_hashes())
 
 
-def validate_current_sources(root: Path):
+def _validate_current_sources_operation(root: Path, document, operation):
     """Source/model custody only; no native/controller/host or original method replay."""
     import ci668_outer_source_projection as ci668
-    ci668.validate_current_sources(root)
-    document = _document()
+    operation._validate_ci(root)
     _validate_own_guard(root, document)
     expected = ({name: row["after_sha256"] for name, row in document["bindings"].items()} |
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if sha(ci668.source_before_ci668(name, _ordinary_bytes(root, name)[0])) != digest:
+        if sha(operation._ci_history(name, _ordinary_bytes(root, name)[0])) != digest:
             raise ValueError("Current tooling671 input differs from its complete reviewed raw image: " + name)
     for view in ("callback_above_io", "callback_isolated"):
         for relative in _composition_document()[view]:
@@ -513,6 +525,13 @@ def validate_current_sources(root: Path):
             _complete_composition_view(relative, raw, view)
     return True
 
+
+
+def validate_current_sources(root: Path):
+    """One fresh tooling/CI owning operation; ZERO native or accepted-test replay."""
+    import macos_share_ci668_composition as joint
+    with joint._source_projection_operation(root) as operation:
+        return operation._validate_tooling(root)
 
 def fixture_inputs():
     """Exactly the finite new/current custody union, never a test/native selection."""

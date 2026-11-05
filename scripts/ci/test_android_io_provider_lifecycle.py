@@ -280,13 +280,23 @@ class AndroidIoProviderLifecycleHooks(unittest.TestCase):
         self.assertFalse((self.root / 'build').exists())
 
     def test_full_authored_io_keeps_helper_while_accepted_oversize_focus_excludes_it(self):
-        full = r.plan(self.root, 'android-device', only_modules=('calf-io',))
-        self.assertFalse(r.validate_test_focus(full)); self.assertTrue(r.android_io_documents_required(full))
-        self.assertIn('android_io_documents', full)
-        with self.assertRaises(ValueError): r.gradle_command('android-device', full, root=self.root, android_serial=device.SERIAL)
-        command = r.gradle_command('android-device', full, root=self.root, android_serial=device.SERIAL,
+        # The public full IO request must refuse; the separately finite provider
+        # route still owns its helper, without weakening the accepted oversize route.
+        with patch.object(r, 'projects') as projects, patch.object(r, 'source_files') as sources, \
+                patch.object(r, 'gradle_command') as command, patch.object(device, 'require_host') as host:
+            with self.assertRaisesRegex(ValueError, '^Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked$'):
+                r.plan(self.root, 'android-device', only_modules=('calf-io',))
+            projects.assert_not_called(); sources.assert_not_called()
+            command.assert_not_called(); host.assert_not_called()
+        self.assertFalse((self.root / 'build').exists())
+        focused = self.plan()
+        self.assertTrue(r.validate_test_focus(focused)); self.assertTrue(r.android_io_documents_required(focused))
+        self.assertIn('android_io_documents', focused)
+        with self.assertRaises(ValueError): r.gradle_command('android-device', focused, root=self.root, android_serial=device.SERIAL)
+        command = r.gradle_command('android-device', focused, root=self.root, android_serial=device.SERIAL,
                                    android_io_documents_receipt=self.prepared())
-        self.assertFalse(any('.class=' in value for value in command))
+        self.assertIn('-Pandroid.testInstrumentationRunnerArguments.class=' + CLASS, command)
+        self.assertEqual(1, command.count('-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedIoDocuments=true'))
         accepted = r.plan(self.root, 'android-device', only_modules=('calf-io',), focus=r.ANDROID_IO_OVERSIZE_FOCUS)
         self.assertFalse(r.android_io_documents_required(accepted)); self.assertNotIn('android_io_documents', accepted)
         command = r.gradle_command('android-device', accepted, root=self.root, android_serial=device.SERIAL)

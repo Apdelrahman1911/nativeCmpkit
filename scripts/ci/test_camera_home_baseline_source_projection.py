@@ -87,7 +87,7 @@ class HomeBaselineHistoryTests(unittest.TestCase):
                          "6858fbd343cefad52b709663fbf5e98bccfa52111c2a1b8fd6eff8d8536cdb12"}
         for relative, original_pin in original_pins.items():
             current = (ROOT / relative).read_bytes()
-            previous = history.current_source_before_home_baseline(relative, current)
+            previous = history.current_source_before_home_baseline(relative, preserved_home_stage(relative, current))
             ancestor = current_source_for_history(relative, current)
             self.assertEqual(original_pin, sha(ancestor))
             self.assertEqual(source_before_android_external328(relative, previous), ancestor)
@@ -158,7 +158,7 @@ class HomeBaselineHistoryTests(unittest.TestCase):
         # A current-source request cannot use a listed older caller as a shortcut.
         for relative in (HELPER, NATIVE):
             current = (ROOT / relative).read_bytes()
-            old = history.source_before_home_baseline(relative, current)
+            old = history.source_before_home_baseline(relative, preserved_home_stage(relative, current))
             with self.assertRaises(ValueError):
                 current_source_for_history(relative, old)
 

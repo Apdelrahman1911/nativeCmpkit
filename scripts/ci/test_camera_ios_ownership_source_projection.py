@@ -59,10 +59,21 @@ class CameraIosOwnershipSourceProjectionControls(unittest.TestCase):
     def test_one_latest_camera_raw_ingress_precedes_only_exact_webview_share_ui_and_older_ancestors(self):
         for name in camera.BOUND_PATHS:
             raw = (ROOT / name).read_bytes()
-            with patch.object(camera, "current_source_before_camera_ios_ownership", wraps=camera.current_source_before_camera_ios_ownership) as newest:
-                ancestor = bridge.current_source_for_history(name, raw)
-                newest.assert_called_once_with(name, raw)
-                self.assertIsInstance(ancestor, bytes)
+            import macos_share_ci668_composition as latest
+            if name in latest.ANDROID_BOUND_PATHS:
+                with patch.object(latest, "source_before_android_lifecycle",
+                                  wraps=latest.source_before_android_lifecycle) as newest:
+                    with patch.object(camera, "current_source_before_camera_ios_ownership",
+                                      side_effect=AssertionError("Android ancestor was strictly readmitted")) as nested:
+                        ancestor = bridge.current_source_for_history(name, raw)
+                        newest.assert_called_once_with(name, raw)
+                        nested.assert_not_called()
+                        self.assertIsInstance(ancestor, bytes)
+            else:
+                with patch.object(camera, "current_source_before_camera_ios_ownership", wraps=camera.current_source_before_camera_ios_ownership) as newest:
+                    ancestor = bridge.current_source_for_history(name, raw)
+                    newest.assert_called_once_with(name, raw)
+                    self.assertIsInstance(ancestor, bytes)
         source = (ROOT / webview.SOURCE_RELATIVE).read_text()
         self.assertEqual(1, source.count("from camera_ios_ownership_source_projection import current_source_before_camera_ios_ownership"))
         self.assertEqual(2, source.count("from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history"))

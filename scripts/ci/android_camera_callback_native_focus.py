@@ -313,7 +313,6 @@ def validate_serial(serial):
 
 
 def configure_item(root: Path, item: dict):
-    validate_current_sources(root)
     native = _ordinary_bytes(root, SOURCE).decode("utf-8")
     declared = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", native)
     if (declared != [METHOD] or "class AndroidCameraCallbackSubstitutionTest" not in native or

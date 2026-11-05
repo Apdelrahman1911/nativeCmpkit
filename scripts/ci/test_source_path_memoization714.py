@@ -120,10 +120,18 @@ class SourcePathMemoization714Tests(unittest.TestCase):
 
     def test10_actual_historical_projection_retains_exact_prior_result(self):
         from android_external328_source_projection import current_source_for_history
-        raw = (ROOT / "scripts/ci/library_tests.py").read_bytes()
-        result = current_source_for_history("scripts/ci/library_tests.py", raw)
+        from ci_source_recovery740_742 import current_source_before_recovery, _document as recovery_document
+        relative = "scripts/ci/library_tests.py"
+        raw = (ROOT / relative).read_bytes()
+        binding = recovery_document()["bindings"][relative]
         self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
+                         (binding["after_bytes"], binding["after_sha256"]))
+        previous = current_source_before_recovery(relative, raw)
+        self.assertEqual((len(previous), hashlib.sha256(previous).hexdigest()),
                          (412990, "6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127"))
+        result = current_source_for_history(relative, raw)
+        with self.assertRaises(ValueError):
+            current_source_for_history(relative, previous)
         self.assertEqual((len(result), hashlib.sha256(result).hexdigest()),
                          (356159, "5012c3e2be83e62eba8239a0db12104d5f9f7efb3f262abd3b3080012f7afdc2"))
 

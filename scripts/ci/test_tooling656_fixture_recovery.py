@@ -66,15 +66,20 @@ class Tooling656FixtureRecoveryControls(unittest.TestCase):
         self.assertEqual(IMAGE_CONTROL, content_history._TOOLING656_CONTROL_PATH)
         binding = content_history._TOOLING656_CONTROL_BINDING
         raw = (ROOT / IMAGE_CONTROL).read_bytes()
+        from tooling_recovery671_source_projection import current_source_before_tooling671
+        # Literal656 owns its exact declared historical stage; strict
+        # Content ingress and every drift/refusal still see current RAW.
+        literal656 = current_source_before_tooling671(IMAGE_CONTROL, raw)
         before = content_history._current_tooling656_control_source(IMAGE_CONTROL, raw)
         sealed = content_history._document()["unchanged_inputs"][IMAGE_CONTROL]
         self.assertEqual("9d7870ffcd1cf584c7e2914143d93066defba889638df05f0f91781ab5dd2fa9", sealed)
         self.assertEqual((sealed, binding["before_bytes"]), (content_history.sha(before), len(before)))
-        self.assertEqual((binding["after_sha256"], binding["after_bytes"]), (content_history.sha(raw), len(raw)))
+        self.assertEqual((binding["after_sha256"], binding["after_bytes"]),
+                         (content_history.sha(literal656), len(literal656)))
         old_fragment, new_fragment = binding["before"].encode(), binding["after"].encode()
         self.assertEqual(1, before.count(old_fragment))
-        self.assertEqual(1, raw.count(new_fragment))
-        self.assertEqual(raw, before.replace(old_fragment, new_fragment, 1))
+        self.assertEqual(1, literal656.count(new_fragment))
+        self.assertEqual(literal656, before.replace(old_fragment, new_fragment, 1))
         foreign = (ROOT / "scripts/ci/camera_recents_source_projection.py").read_bytes()
         displaced = raw.replace(new_fragment, b"", 1) + new_fragment
         for bad in (before, raw + b"\n", raw[:-1], displaced, foreign, b"", None, bytearray(raw), raw.decode()):
@@ -166,8 +171,9 @@ class Tooling656FixtureRecoveryControls(unittest.TestCase):
                  call_name(node) == "content_history.current_source_before_content_policy"]
         self.assertEqual(1, len(calls))
         from tooling_recovery671_source_projection import current_source_before_tooling671
-        current = current_source_before_tooling671(IMAGE_CONTROL, (ROOT / IMAGE_CONTROL).read_bytes())
-        previous = content_history._current_tooling656_control_source(IMAGE_CONTROL, current)
+        raw_current = (ROOT / IMAGE_CONTROL).read_bytes()
+        current = current_source_before_tooling671(IMAGE_CONTROL, raw_current)
+        previous = content_history._current_tooling656_control_source(IMAGE_CONTROL, raw_current)
         old_tree, new_tree = ast.parse(previous), ast.parse(current)
         self.assertEqual([node.name for node in ast.walk(old_tree) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")],
                          [node.name for node in ast.walk(new_tree) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")])

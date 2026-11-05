@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Five finite NEW source/routing/report controls; zero Android/native acceptance.
+"""Finite source/routing/report controls; zero Android/native acceptance.
 
 Synthetic XML/context fixtures below are named synthetic and never substitute
 for the later one-method actual API35 capture, compiler or native source maps.
@@ -101,34 +101,60 @@ class AndroidCameraCallbackSourceRoutingTests(unittest.TestCase):
         self.assertEqual(35, item[callback.CONTRACT_KEY]["verification_api_level"])
         self.assertEqual(callback.DELAYED_COMPONENT, item[callback.CONTRACT_KEY]["delayed_component"])
         self.assertFalse(item[callback.CONTRACT_KEY]["compiler_or_native_success_inferred"])
-        command = library.gradle_command("android-device", plan, android_serial="emulator-5588")
-        self.assertEqual(callback.TASK, command[-1]); self.assertNotIn("--tests", command)
-        self.assertEqual(1, command.count("-P" + callback.GRADLE_PROPERTY + "=" + callback.FOCUS))
-        for token in ("-Pandroid.testInstrumentationRunnerArguments.class=" + callback.CLASS + "#" + callback.METHOD,
-                      "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true",
-                      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
-                      "-PnativecmpkitAndroidDeviceSerial=emulator-5588"):
-            self.assertEqual(1, command.count(token))
-        self.assertFalse(any("," in token or "notAnnotation=" in token or "annotation=" in token
-                             for token in command if token.startswith("-Pandroid.testInstrumentationRunnerArguments.")))
-        assembly = library.gradle_command("android-device", plan, android_serial="emulator-5588", for_assembly=True)
-        self.assertEqual(callback.PROJECT + ":assembleAndroidDeviceTest", assembly[-1]); self.assertNotIn(callback.TASK, assembly)
-        for serial in (None, "personal-device", "emulator-5589", "emulator-5700"):
-            with self.assertRaises(ValueError): library.gradle_command("android-device", plan, android_serial=serial)
-        mutations = [
-            ("test_filter", callback.CLASS), ("test_filter", callback.CLASS + "#" + callback.METHOD + ",Foreign#method"),
-            ("required_testcases", library.android_camera_provider_identities()), ("test_exclusion_annotation", "skip.Foreign"),
-            ("test_filter_argument", "annotation"), ("task", callback.PROJECT + ":testAndroidHostTest"),
-            ("required_original_xml", True), ("test_source_files", [callback.SOURCE]),
-            ("report_directory", callback.DECLARED_XML_DIRECTORY), ("utp_results_directory", "other/build/results"),
-        ]
-        for field, value in mutations:
-            changed = deepcopy(plan); changed["expected"][0][field] = value
-            with self.assertRaises(ValueError): library.validate_test_focus(changed)
-        for field, value in (("schema_version", True), ("source_policy_verified", 1),
-                             ("compiler_or_native_success_inferred", 0), ("delayed_opt_in", "unfiltered-default")):
-            contract = deepcopy(item[callback.CONTRACT_KEY]); contract[field] = value
-            with self.assertRaises(ValueError): callback.validate_source_contract(contract)
+        # Genuine plan/source validation above remains unmocked. Only these
+        # command/schema units freeze the same invocation's verified operands;
+        # this is not current-source, CLI, compiler or native acceptance.
+        frozen_contract = deepcopy(item[callback.CONTRACT_KEY])
+        frozen_inputs = deepcopy(frozen_contract["source_inputs"])
+        with patch.object(callback, "current_contract_hashes",
+                          side_effect=lambda *args, **kwargs: deepcopy(frozen_inputs)) as current_inputs, \
+             patch.object(callback, "source_contract",
+                          side_effect=lambda *args, **kwargs: deepcopy(frozen_contract)) as current_contract:
+            command = library.gradle_command("android-device", plan, android_serial="emulator-5588")
+            current_inputs.assert_called_once_with(); current_contract.assert_called_once_with(library.ROOT)
+            current_inputs.reset_mock(); current_contract.reset_mock()
+            self.assertEqual(callback.TASK, command[-1]); self.assertNotIn("--tests", command)
+            self.assertEqual(1, command.count("-P" + callback.GRADLE_PROPERTY + "=" + callback.FOCUS))
+            for token in ("-Pandroid.testInstrumentationRunnerArguments.class=" + callback.CLASS + "#" + callback.METHOD,
+                          "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true",
+                          "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+                          "-PnativecmpkitAndroidDeviceSerial=emulator-5588"):
+                self.assertEqual(1, command.count(token))
+            self.assertFalse(any("," in token or "notAnnotation=" in token or "annotation=" in token
+                                 for token in command if token.startswith("-Pandroid.testInstrumentationRunnerArguments.")))
+            assembly = library.gradle_command("android-device", plan, android_serial="emulator-5588", for_assembly=True)
+            current_inputs.assert_called_once_with(); current_contract.assert_called_once_with(library.ROOT)
+            current_inputs.reset_mock(); current_contract.reset_mock()
+            self.assertEqual(callback.PROJECT + ":assembleAndroidDeviceTest", assembly[-1]); self.assertNotIn(callback.TASK, assembly)
+            for serial in (None, "personal-device", "emulator-5589", "emulator-5700"):
+                with self.assertRaises(ValueError): library.gradle_command("android-device", plan, android_serial=serial)
+                current_inputs.assert_called_once_with(); current_contract.assert_not_called()
+                current_inputs.reset_mock(); current_contract.reset_mock()
+            mutations = [
+                ("test_filter", callback.CLASS), ("test_filter", callback.CLASS + "#" + callback.METHOD + ",Foreign#method"),
+                ("required_testcases", library.android_camera_provider_identities()), ("test_exclusion_annotation", "skip.Foreign"),
+                ("test_filter_argument", "annotation"), ("task", callback.PROJECT + ":testAndroidHostTest"),
+                ("required_original_xml", True), ("test_source_files", [callback.SOURCE]),
+                ("report_directory", callback.DECLARED_XML_DIRECTORY), ("utp_results_directory", "other/build/results"),
+            ]
+            for field, value in mutations:
+                changed = deepcopy(plan); changed["expected"][0][field] = value
+                with self.assertRaises(ValueError): library.validate_test_focus(changed)
+                current_inputs.assert_not_called(); current_contract.assert_not_called()
+                current_inputs.reset_mock(); current_contract.reset_mock()
+            for field, value in (("schema_version", True), ("source_policy_verified", 1),
+                                 ("compiler_or_native_success_inferred", 0), ("delayed_opt_in", "unfiltered-default")):
+                contract = deepcopy(item[callback.CONTRACT_KEY]); contract[field] = value
+                with self.assertRaises(ValueError): callback.validate_source_contract(contract)
+                if field == "delayed_opt_in":
+                    current_inputs.assert_called_once_with()
+                else:
+                    current_inputs.assert_not_called()
+                current_contract.assert_not_called()
+                current_inputs.reset_mock(); current_contract.reset_mock()
+
+    def test_genuine_api35_callback_profile_cli_retains_unmocked_source_integration(self):
+        # Real source integration remains separate and missing until executed.
         cli = workflow.preflight_plans(callback.PROFILE)
         self.assertEqual(1, len(cli["slots"])); self.assertTrue(cli["source_only"])
         self.assertEqual(0, cli["Gradle_builds_executed"]); self.assertEqual(0, cli["slots"][0]["exit_code"])
@@ -195,20 +221,38 @@ class AndroidCameraCallbackSourceRoutingTests(unittest.TestCase):
             write("calf-empty/build.gradle.kts", "// synthetic uncovered declaration\n")
             write("calf-fixture/src/commonTest/kotlin/Common.kt", "// synthetic common input, not native evidence\n")
             host_source = write("calf-fixture/src/androidDeviceTest/kotlin/Device.kt", "// synthetic authored device-host input, not execution\n")
+            # The inert typed Camera declaration rule still admits only the complete
+            # non-Camera scope. Public unfiltered planning independently refuses IO.
+            self.assertIsNone(callback.validate_discovery(
+                "android-device", None, None, library.ANDROID_CAMERA_FOCUSES,
+                declared_modules=("calf-fixture", "calf-empty"), minimum_modules=("calf-fixture",)))
+            with patch.object(library, "projects") as declarations, patch.object(library, "source_files") as sources:
+                with self.assertRaisesRegex(ValueError, "^Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked$"):
+                    library.plan(root, "android-device", minimum_modules=("calf-fixture",))
+                declarations.assert_not_called(); sources.assert_not_called()
             with patch.object(library, "projects", wraps=library.projects) as declarations:
-                source_plan = library.plan(root, "android-device", minimum_modules=("calf-fixture",))
+                source_plan = library.plan(root, "android-device", minimum_modules=("calf-fixture",),
+                                           only_modules=("calf-fixture",))
                 declarations.assert_called_once_with(root)
             self.assertEqual(["calf-fixture"], [item["module"] for item in source_plan["expected"]])
             self.assertEqual(["commonTest", "androidDeviceTest"], source_plan["expected"][0]["test_source_sets"])
-            self.assertEqual({"calf-empty"}, {item["module"] for item in source_plan["uncovered"]})
+            self.assertEqual([], source_plan["uncovered"])  # Explicit subset cannot claim an unrequested uncovered module.
+            self.assertFalse(source_plan["complete_suite_requested"])
+            self.assertEqual(["calf-fixture"], source_plan["explicit_module_subset"])
+            self.assertEqual({"calf-empty", "calf-fixture"}, set(library.projects(root)))
+            self.assertFalse((root / "calf-empty/src/androidDeviceTest").exists())
             self.assertNotIn(callback.SOURCE, source_plan["expected"][0]["test_source_files"])
             self.assertFalse((root / "build").exists())
             host_source.unlink()
-            with self.assertRaises(ValueError): library.plan(root, "android-device", minimum_modules=("calf-fixture",))
+            with self.assertRaisesRegex(ValueError, "Selected modules do not have android-device library test sources"):
+                library.plan(root, "android-device", minimum_modules=("calf-fixture",), only_modules=("calf-fixture",))
             host_source.write_text("// restored synthetic device input\n")
             for minimum in (None, (), ("calf-missing",), ("calf-fixture", "calf-fixture"),
                             (callback.MODULE,), ["calf-fixture"]):
                 with self.subTest(minimum=minimum), patch.object(library, "source_files") as sources:
+                    with self.assertRaises(ValueError):
+                        callback.validate_discovery("android-device", None, None, library.ANDROID_CAMERA_FOCUSES,
+                                                    declared_modules=("calf-fixture", "calf-empty"), minimum_modules=minimum)
                     with self.assertRaises(ValueError): library.plan(root, "android-device", minimum_modules=minimum)
                     sources.assert_not_called()
             for declared in (None, (), ["calf-fixture"], ("calf-fixture", "calf-fixture"), ("calf-fixture", object())):
@@ -228,7 +272,7 @@ class AndroidCameraCallbackSourceRoutingTests(unittest.TestCase):
             camera_build.unlink()
             with patch.object(library, "source_files") as sources:
                 with self.assertRaisesRegex(ValueError, "Included library build file is missing"):
-                    library.plan(root, "android-device", minimum_modules=("calf-fixture",))
+                    library.plan(root, "android-device", minimum_modules=("calf-fixture",), only_modules=("calf-fixture",))
                 sources.assert_not_called()
             includes("calf-fixture", "calf-empty")  # Deleting Camera declaration never admits the actual/default minimum.
             with patch.object(library, "source_files") as sources:
@@ -238,7 +282,8 @@ class AndroidCameraCallbackSourceRoutingTests(unittest.TestCase):
                              'include(\n    ":calf-fixture",\n    ":calf-fixture",\n)\n'):
                 write("settings.gradle.kts", settings)
                 with patch.object(library, "source_files") as sources:
-                    with self.assertRaises(ValueError): library.plan(root, "android-device", minimum_modules=("calf-fixture",))
+                    with self.assertRaises(ValueError):
+                        library.plan(root, "android-device", minimum_modules=("calf-fixture",), only_modules=("calf-fixture",))
                     sources.assert_not_called()
             for api in (23, 35):
                 with self.assertRaises(ValueError): device.validate_api_selection(api, None, None)

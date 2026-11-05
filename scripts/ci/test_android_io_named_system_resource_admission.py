@@ -12,6 +12,7 @@ import tempfile
 import unittest
 
 import android_io_named_system_documents as source
+import android_io_remote_routing_source_projection as routing
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 ORIGINAL154_UI_SHA256 = "03a0ebc37215c4b86043f253f4e83b7db39c7fd52652d9ea735e6e7c106ea1dc"
@@ -221,7 +222,9 @@ class NamedSystemResourceAdmissionControls(unittest.TestCase):
         original154 = source.resource_admission_preimage(self.current_ui())
         self.assertEqual(ORIGINAL154_UI_SHA256, hashlib.sha256(original154.encode()).hexdigest())
         for relative, expected in FROZEN_RETAINED_SOURCE_SHA256.items():
-            self.assertEqual(expected, hashlib.sha256((self.root / relative).read_bytes()).hexdigest())
+            raw = (self.root / relative).read_bytes()
+            historical = routing.current_source_before_remote_routing(relative, raw) if relative == source.MANIFEST else raw
+            self.assertEqual(expected, hashlib.sha256(historical).hexdigest())
         self.assertEqual(self.current_ui(), source.resource_admission_postimage(original154))
         # No historical tests are executed by this exact-byte preservation control.
         self.assertIn('flags = originalFlags', original154)
@@ -265,6 +268,21 @@ class NamedSystemResourceAdmissionControls(unittest.TestCase):
                         source.source_contract(self.root)
                 finally:
                     path.write_text(current)
+
+    def test_current_manifest_history_requires_exact_remote_union_and_rejects_prior_or_drift(self):
+        relative = source.MANIFEST
+        raw = (self.root / relative).read_bytes()
+        row = routing._document()["bindings"][relative]
+        self.assertEqual(4, len(row["fragments"]))
+        self.assertEqual((row["after_sha256"], row["after_bytes"]), (routing.sha(raw), len(raw)))
+        prior = routing.current_source_before_remote_routing(relative, raw)
+        self.assertEqual((FROZEN_RETAINED_SOURCE_SHA256[relative], row["before_bytes"]),
+                         (routing.sha(prior), len(prior)))
+        self.assertIs(prior, routing.source_before_remote_routing(relative, prior))
+        for image in (prior, raw[:-1], raw + b"\n<!-- unowned manifest drift -->\n", b""):
+            with self.subTest(bytes=len(image)), self.assertRaises(ValueError):
+                routing.current_source_before_remote_routing(relative, image)
+        # Source reconstruction cannot grant permissions, run a provider or prove native IO.
 
 
 if __name__ == "__main__":

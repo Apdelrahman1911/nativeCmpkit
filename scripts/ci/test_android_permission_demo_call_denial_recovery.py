@@ -17,6 +17,8 @@ from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
 from native_matrix_declarative_aliases import native_aliases, validate_literal_matrix_declarations
+from android_permission_selected_context import (camera_callback_admission_context,
+    permission_lifecycle_context, permission_spec_extension)
 
 TREE = Path(os.environ.get("PERMISSION_RECOVERY_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 REFERENCE = Path(os.environ.get("PERMISSION_RECOVERY_REVIEW_REFERENCE", TREE)).resolve()
@@ -79,8 +81,10 @@ def owning_environment():
     functions = ("android_permission_device_filter", "android_permission_device_identities", "input_digest",
                  "validate_android_permission_demo_recovery_annotation",
                  "android_permission_demo_required", "validate_android_permission_demo_plan", "NoDtdBuilder", "junit_cases", "case_counts")
-    env = {"Path": Path, "re": re, "ET": ET, "Counter": Counter, "hashlib": hashlib}
-    execute_nodes([assignment(tree, name) for name in constants] + [named_function(tree, name) for name in functions],
+    env = {"Path": Path, "re": re, "ET": ET, "Counter": Counter, "hashlib": hashlib,
+           "permission_lifecycle": permission_lifecycle_context(source_at)}
+    execute_nodes([assignment(tree, name) for name in constants] + [permission_spec_extension(tree)] +
+                  [named_function(tree, name) for name in functions],
                   env, "selected-owning-permission-declarations-and-pure-functions")
     allowed = named_function(tree, "allowed_test_focus")
     expression = next(node.value for node in allowed.body if isinstance(node, ast.Return))
@@ -134,7 +138,8 @@ def matrix_environment():
         for name, module in modules.items():
             exec(compile(source_at("scripts/ci/" + name + ".py", reference=True), module.__file__, "exec"), module.__dict__)
     env.update(android_batch_plan=modules["android_device_batch_plan"], storage_plan=modules["android_storage_compatibility_plan"],
-               desktop_security_plan=modules["desktop_security_plan"])
+               desktop_security_plan=modules["desktop_security_plan"],
+               permission_lifecycle=permission_lifecycle_context(source_at))
     tree = ast.parse(source_at("scripts/ci/workflow_matrix.py"))
     aliases = native_aliases(tree, source_at)
     validate_literal_matrix_declarations(tree, aliases)
@@ -338,7 +343,17 @@ class AndroidPermissionDemoCallDenialRecoveryTests(unittest.TestCase):
             storage_plan=workflow["storage_plan"], ANDROID_STORAGE_MODULE=CORE,
             ANDROID_CAMERA_PROVIDER_FOCUSES=("android-camera-provider-contracts", "android-camera-no-handler-recovery"),
             ANDROID_MEDIA_SELECTION_FOCUS=env["ANDROID_MEDIA_SELECTION_FOCUS"])
-        api_env = {"lt": native, "API": 35}
+        native.camera_callback = camera_callback_admission_context(source_at)
+        library_env = {"camera_callback": native.camera_callback}
+        execute_nodes([assignment(syntax(), name) for name in (
+            "ANDROID_CAMERA_PROVIDER_FOCUS", "ANDROID_CAMERA_NO_HANDLER_FOCUS", "ANDROID_CAMERA_PROVIDER_FOCUSES",
+            "ANDROID_CAMERA_RESTORATION_FOCUS", "ANDROID_CAMERA_DONT_KEEP_FOCUS", "ANDROID_CAMERA_RESTORATION_FOCUSES",
+            "ANDROID_CAMERA_FOCUSES", "ANDROID_IO_REMOTE_FOCUSES")], library_env,
+            "actual-finite-camera-and-remote-admission-declarations-only")
+        native.ANDROID_CAMERA_FOCUSES = library_env["ANDROID_CAMERA_FOCUSES"]
+        native.ANDROID_IO_REMOTE_FOCUSES = library_env["ANDROID_IO_REMOTE_FOCUSES"]
+        api_env = {"lt": native, "API": 35,
+                   "permission_lifecycle_contract": env["permission_lifecycle"]}
         execute_nodes([named_function(ast.parse(device_source), "validate_api_selection")], api_env,
             "existing-exact-api-admission-only")
         api_env["validate_api_selection"](35, (CORE,), PROFILE)

@@ -1,6 +1,7 @@
 """New combined source/routing models only: no SDK, build, installation or native run."""
 from copy import deepcopy
 from pathlib import Path
+import os
 import re
 import tempfile
 import unittest
@@ -9,12 +10,13 @@ import xml.etree.ElementTree as ET
 
 import android_device_tests as device
 import android_permission_demo as demo
+import android_permission_lifecycle_contract as lifecycle
 import android_storage_compatibility_plan as storage
 import android_storage_probe as probe
 import library_tests as lt
 import workflow_matrix as workflow
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(os.environ.get("PERMISSION_MANIFEST_SOURCE_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 CORE = "calf-permissions/core"
 BIND_DEMO = demo.PACKAGE + ".BIND_DEMO"
 BASE_DEVICE_MODULES = ("calf-io", "calf-file-picker", "calf-geo", "calf-webview",
@@ -22,6 +24,30 @@ BASE_DEVICE_MODULES = ("calf-io", "calf-file-picker", "calf-geo", "calf-webview"
 PERMISSION_PROFILES = (("android-permission-demo", 35, lt.ANDROID_PERMISSION_DEMO_FOCUS, 3),
     ("android-media-selection-api33", 33, lt.ANDROID_MEDIA_SELECTION_FOCUS, 1),
     ("android-media-selection-api34", 34, lt.ANDROID_MEDIA_SELECTION_FOCUS, 1))
+
+
+def actual_signature_controls():
+    """Only the three separately owning signature controls, not runtime grants."""
+    expected = (demo.PACKAGE + ".BIND_DEMO", lifecycle.PACKAGE + ".CONTROL_LIFECYCLE",
+                probe.PACKAGE + ".CONTROL_STORAGE")
+    observed = (demo.PERMISSION, lifecycle.PERMISSION, probe.PERMISSION)
+    if (observed != expected or BIND_DEMO != demo.PERMISSION or
+            probe.PERMISSION_DEMO_BIND != demo.PERMISSION or
+            probe.PERMISSION_LIFECYCLE_CONTROL != lifecycle.PERMISSION or
+            not (demo.REPORTER == lifecycle.REPORTER == probe.REPORTER)):
+        raise ValueError("The three actual owning signature control identities must agree")
+    return list(observed)
+
+
+def signature_control_source_manifest(payload):
+    expected = actual_signature_controls()
+    # Actual inert owning validator rejects DTDs, foreign/duplicate/missing controls,
+    # SDK-specific declarations, shared UID and arbitrary permission attributes.
+    lifecycle.validate_reporter_source(payload)
+    manifest = ET.fromstring(payload)
+    if [node.get(probe.ANDROID + "name") for node in manifest.findall("uses-permission")] != expected:
+        raise ValueError("The exact ordered source reporter signature controls are required")
+    return manifest
 
 
 class AndroidCombinedFiniteRoutingGuards(unittest.TestCase):
@@ -59,8 +85,9 @@ class AndroidCombinedFiniteRoutingGuards(unittest.TestCase):
 
     def test_source_reporter_has_only_the_two_exact_signature_controls(self):
         manifest_path = CORE + "/src/androidDeviceTest/AndroidManifest.xml"
-        manifest = ET.parse(ROOT / manifest_path).getroot()
-        self.assertEqual([BIND_DEMO, probe.PERMISSION],
+        # Historical selector retained: the third lifecycle control is separately owned.
+        manifest = signature_control_source_manifest((ROOT / manifest_path).read_bytes())
+        self.assertEqual([BIND_DEMO, lifecycle.PERMISSION, probe.PERMISSION],
             [node.get(probe.ANDROID + "name") for node in manifest.findall("uses-permission")])
         self.assertTrue(probe.source_contract(ROOT)["source_policy_verified"])
         self.assertTrue(demo.source_contract(ROOT)["source_policy_verified"])

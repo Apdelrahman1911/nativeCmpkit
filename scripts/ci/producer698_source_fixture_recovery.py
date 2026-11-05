@@ -248,23 +248,41 @@ def current_source_before_producer698(relative, payload):
     return _inverse(payload, row) if row is not None else payload
 
 
-def validate_current_sources(root: Path):
+def _peel_producer698_for_history_operation(relative, payload, document, operation):
+    """Only exact declared current endpoints peel; unknown ancestors face older pins."""
+    _identity(relative, payload)
+    import macos_share_ci668_composition as joint
+    payload = operation._history(relative, payload, joint.PRODUCER_VIEW)
+    row = document["bindings"].get(relative)
+    if row is not None and sha(payload) == row["after_sha256"] and len(payload) == row["after_bytes"]:
+        return _inverse(payload, row)
+    return payload
+
+
+
+def _validate_current_sources_operation(root: Path, document, operation):
     """Whole exact raw279, then distinctly named original190 guard/645 rows only."""
     import macos_share_ci668_composition as joint
     joint.validate_current_sources(root)
-    document = _document()
     raw = _ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES)
-    _own_guard_payload(joint.current_source_in_view(SOURCE_RELATIVE, raw, joint.PRODUCER_VIEW, root), document)
+    _own_guard_payload(operation._current(SOURCE_RELATIVE, raw, joint.PRODUCER_VIEW, root), document)
     for name, digest in _expected(document).items():
         raw = _ordinary(root, name, MAX_SOURCE_BYTES)
-        named = joint.current_source_in_view(name, raw, joint.PRODUCER_VIEW, root)
+        named = operation._current(name, raw, joint.PRODUCER_VIEW, root)
         if sha(named) != digest:
             raise ValueError("The named original producer190 input differs: " + name)
     for name, row in document["bindings"].items():
         raw = _ordinary(root, name, MAX_SOURCE_BYTES)
-        _inverse(joint.current_source_in_view(name, raw, joint.PRODUCER_VIEW, root), row)
+        _inverse(operation._current(name, raw, joint.PRODUCER_VIEW, root), row)
     return True
 
+
+
+def validate_current_sources(root: Path):
+    """Fresh owning operation, finite ordinary bytes and final whole custody."""
+    import macos_share_ci668_composition as joint
+    with joint._source_projection_operation(root) as operation:
+        return operation._validate_producer(root)
 
 def current_input_hashes(root=None):
     """Actual combined raw279; original190 is a distinctly named sealed snapshot."""

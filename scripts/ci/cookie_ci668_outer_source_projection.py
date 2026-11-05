@@ -23,7 +23,7 @@ SPEC_RELATIVE = "scripts/ci/fixtures/cookie-ci668-outer-source-inverse.json"
 NEW_CONTROL_RELATIVE = "scripts/ci/tests/test_cookie_ci668_outer_scope609.py"
 OWNING_CONTROL_RELATIVE = "scripts/ci/tests/test_cookie_common_jdk_scope681.py"
 OWNING_CONTROL_BEFORE_SHA256 = "29da5e6de99b7a91cae2603b09f2f02fc3433982f3bebf5a69b21658977dbc42"
-SPEC_SHA256 = "5fc3e645636f9ab3109933fb9bfa5c8abf243b9ea8d9804d73ce3179fcabb14f"
+SPEC_SHA256 = "3d761fa8285bece457d647e6624f97901b4ee9514c5ba7c3a9db3a1458ff9bc1"
 COOKIE_GUARD = "scripts/ci/cookie_common_jdk_source_projection.py"
 COOKIE_GUARD_BEFORE_SHA256 = "b5eca01bbbe89e584b18279cb15aa36a8d1e06d205a2c4fcd52d24b271e55774"
 COOKIE_SPEC = "scripts/ci/fixtures/cookie-common-jdk-source-inverse.json"
@@ -282,9 +282,45 @@ def _restore(row, payload):
     return restored
 
 
+def _common_jdk_guard_source(relative, payload, root, *, current):
+    """Only exact common-JDK owner data crosses its unchanged Cookie hook pin.
+
+    The existing740 recovery owns the new guard endpoint; original Cookie2
+    and own-template bytes remain sealed. No other source scope is searched.
+    """
+    _identity(relative, payload)
+    if type(current) is not bool:
+        raise ValueError("An exact Cookie common-JDK owner source mode is required")
+    if relative != COOKIE_GUARD:
+        return payload  # Unlisted data is not source/current certification.
+    import ci_source_domain740 as domain740
+    if current:
+        return domain740.current_source_before_domain740(relative, payload, root)
+    return domain740.peel_domain740_for_history(relative, payload, root)
+
+
+def _content_owner_source(relative, payload, root, *, current):
+    """Only exact Content/CI owner data crosses unchanged Cookie comparison pins.
+
+    Current delegates once to the existing strict740 ingress; history only peels
+    its complete owning afterimage. Unlisted data remains uncertified.
+    """
+    _identity(relative, payload)
+    if type(current) is not bool:
+        raise ValueError("An exact Cookie Content-owner source mode is required")
+    if relative not in {"scripts/ci/webview_content_policy_source_projection.py", CI_GUARD}:
+        return payload  # No foreign source layer is searched or certified.
+    import ci_source_domain740 as domain740
+    if current:
+        return domain740.current_source_before_domain740(relative, payload, root)
+    return domain740.peel_domain740_for_history(relative, payload, root)
+
+
 def source_before_cookie_outer(relative, payload, root: Path = ROOT):
     """Exact Cookie/hook inverse or its one historical preimage, not admission."""
     _identity(relative, payload)
+    payload = _common_jdk_guard_source(relative, payload, root, current=False)
+    payload = _content_owner_source(relative, payload, root, current=False)
     if relative == LIBRARY:
         from macos_share_ci668_composition import peel_android_lifecycle_for_history
         payload = peel_android_lifecycle_for_history(relative, payload, root)
@@ -295,7 +331,7 @@ def source_before_cookie_outer(relative, payload, root: Path = ROOT):
 
 
 def _expected(document, source_digest):
-    # Original34 is held as historical context; these values are current RAW40.
+    # Sealed comparison pins retain Original34 and Content ancestry; qualification reports actual raw40.
     return (document["accepted_cookie_inputs"] |
             {name: row["after_sha256"] for name, row in document["bindings"].items()} |
             document["new_inputs"] |
@@ -308,6 +344,8 @@ def _expected(document, source_digest):
 def current_source_before_cookie_outer(relative, payload, root: Path = ROOT):
     """One strict newest raw ingress; old Cookie or pre-hook current refuses."""
     _identity(relative, payload)
+    payload = _common_jdk_guard_source(relative, payload, root, current=True)
+    payload = _content_owner_source(relative, payload, root, current=True)
     if relative == LIBRARY:
         from macos_share_ci668_composition import source_before_android_lifecycle
         payload = source_before_android_lifecycle(relative, payload, root)
@@ -324,6 +362,8 @@ def current_source_before_cookie_outer(relative, payload, root: Path = ROOT):
 def peel_cookie_outer_for_history(relative, payload, root: Path = ROOT):
     """After-only Cookie/hook peel; callback init is deliberately NOT peeled."""
     _identity(relative, payload)
+    payload = _common_jdk_guard_source(relative, payload, root, current=False)
+    payload = _content_owner_source(relative, payload, root, current=False)
     if relative == LIBRARY:
         from macos_share_ci668_composition import peel_android_lifecycle_for_history
         payload = peel_android_lifecycle_for_history(relative, payload, root)
@@ -370,15 +410,19 @@ def validate_current_sources(root: Path = ROOT):
     expected = _expected(document, source_digest)
     if len(expected) != 40:
         raise ValueError("Only the exact finite current Cookie40 context is declared")
+    current_pins = {}
     for relative, digest in expected.items():
         raw = ordinary_bytes(root, relative)
-        if sha(raw) != digest:
+        comparison = _common_jdk_guard_source(relative, raw, root, current=True)
+        if sha(_content_owner_source(relative, comparison, root, current=True)) != digest:
             raise ValueError("Exact current Cookie outer input changed: " + relative)
+        current_pins[relative] = sha(raw)
     for relative, row in document["bindings"].items():
-        _restore(row, ordinary_bytes(root, relative))
+        comparison = _common_jdk_guard_source(relative, ordinary_bytes(root, relative), root, current=True)
+        _restore(row, _content_owner_source(relative, comparison, root, current=True))
     _restore(document["cookie681_control_binding"], ordinary_bytes(root, OWNING_CONTROL_RELATIVE))
     callback672_init_for_old_cookie_comparison(INIT, ordinary_bytes(root, INIT), root)
-    return expected
+    return current_pins
 
 
 def current_input_hashes(root: Path = ROOT):

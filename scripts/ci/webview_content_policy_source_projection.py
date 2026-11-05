@@ -118,6 +118,8 @@ def _current_tooling656_control_source(relative, payload):
     _identity(relative, payload)
     if relative != _TOOLING656_CONTROL_PATH:
         return payload  # Unlisted bytes are not certified.
+    from tooling_recovery671_source_projection import current_source_before_tooling671
+    payload = current_source_before_tooling671(relative, payload)
     binding = _TOOLING656_CONTROL_BINDING
     if (len(payload) != binding["after_bytes"] or not 0 < len(payload) <= MAX_SOURCE_BYTES or
             sha(payload) != binding["after_sha256"]):
@@ -135,9 +137,35 @@ def _current_tooling656_control_source(relative, payload):
     return restored
 
 
+def _appkit_key_wait_source(relative, payload, *, current):
+    """Only three exact successors restore their unchanged Content/Share pins.
+
+    Current uses the original strict owning ingress. History peels only its exact
+    reviewed afterimage; old/unknown/unlisted data is not a current certificate.
+    Every other key-wait path, native criterion, manifest pin and fixture stays exact.
+    """
+    _identity(relative, payload)
+    if type(current) is not bool:
+        raise ValueError("An exact AppKit content-boundary source mode is required")
+    if relative not in (
+        "calf-share/native/tests/appkit_lifecycle/cases.rs",
+        "scripts/ci/macos_share_appkit_lifecycle.py",
+        "scripts/ci/test_macos_share_missing_only.py",
+    ):
+        return payload  # Unlisted source data remains uncertified.
+    import macos_share_key_wait_observation as key_wait
+    binding = key_wait._document()["bindings"][relative]
+    if _document()["unchanged_inputs"].get(relative) != binding["before_sha256"]:
+        raise ValueError("AppKit key-wait must restore the unchanged original Content/Share source pin")
+    if current:
+        return key_wait.current_source_before_key_wait(relative, payload)
+    return key_wait.peel_key_wait_for_history(relative, payload)
+
+
 def source_before_content_policy(relative, payload):
     """Complete exact inverse or its one exact preimage; never current admission."""
     _identity(relative, payload)
+    payload = _appkit_key_wait_source(relative, payload, current=False)
     import cookie_common_jdk_source_projection as cookie_history
     payload = cookie_history.peel_cookie_for_history(relative, payload)
     from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history
@@ -175,6 +203,9 @@ def source_before_content_policy(relative, payload):
 def current_source_before_content_policy(relative, payload):
     """One raw newest ingress; old/partial/unknown images cannot be current."""
     _identity(relative, payload)
+    payload = _appkit_key_wait_source(relative, payload, current=True)
+    if relative == "calf-share/native/tests/appkit_lifecycle/cases.rs":
+        return source_before_content_policy(relative, payload)
     from camera_ios_ownership_source_projection import current_source_before_camera_ios_ownership
     payload = current_source_before_camera_ios_ownership(relative, payload)
     binding = _document()["bindings"].get(relative)
@@ -186,6 +217,7 @@ def current_source_before_content_policy(relative, payload):
 def peel_content_policy_for_history(relative, payload):
     """Peel only the complete latest image; unknown bytes still need old strict pins."""
     _identity(relative, payload)
+    payload = _appkit_key_wait_source(relative, payload, current=False)
     from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history
     payload = peel_camera_ios_ownership_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
@@ -223,7 +255,9 @@ def validate_current_sources(root: Path):
     for name, digest in expected.items():
         if sha(camera_history.source_before_camera_ios_ownership(
                 name, cookie_history.peel_cookie_for_history(name,
-                    _current_tooling656_control_source(name, _ordinary_bytes(root, name)[0])))) != digest:
+                    _appkit_key_wait_source(
+                        name, _current_tooling656_control_source(name, _ordinary_bytes(root, name)[0]),
+                        current=True)))) != digest:
             raise ValueError("Current content-policy input differs from its complete owning image: " + name)
     return True
 

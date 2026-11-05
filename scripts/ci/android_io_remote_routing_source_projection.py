@@ -14,6 +14,10 @@ from pathlib import Path
 import re
 import stat
 
+# Only the actual current helper module is imported here. The three pure
+# inverse/history functions below never import or execute reconstructed code.
+import tooling_recovery671_source_projection as tooling671
+
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_RELATIVE = "scripts/ci/android_io_remote_routing_source_projection.py"
 SPEC_RELATIVE = "scripts/ci/fixtures/android-io-controlled-remote-routing-source-inverse.json"
@@ -153,9 +157,8 @@ def _identity(relative, payload):
 def source_before_remote_routing(relative, payload):
     """One exact complete inverse or frozen predecessor; never current admission."""
     _identity(relative, payload)
-    from tooling_recovery671_source_projection import peel_tooling671_for_history, peel_callback_composition680_for_history
-    payload = peel_tooling671_for_history(relative, payload)
-    payload = peel_callback_composition680_for_history(relative, payload)
+    payload = tooling671.peel_tooling671_for_history(relative, payload)
+    payload = tooling671.peel_callback_composition680_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted bytes are not certified, reconstructed or executed.
@@ -189,9 +192,8 @@ def source_before_remote_routing(relative, payload):
 def current_source_before_remote_routing(relative, payload):
     """One strict671 raw ingress, then qualified callback/IO ancestors; never two current admissions."""
     _identity(relative, payload)
-    from tooling_recovery671_source_projection import current_source_before_tooling671, source_before_callback_composition680
-    payload = current_source_before_tooling671(relative, payload)
-    payload = source_before_callback_composition680(relative, payload)
+    payload = tooling671.current_source_before_tooling671(relative, payload)
+    payload = tooling671.source_before_callback_composition680(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and (sha(payload) != binding["after_sha256"] or len(payload) != binding["after_bytes"]):
         raise ValueError("An old or unknown image cannot replace exact current remote IO source")
@@ -201,9 +203,8 @@ def current_source_before_remote_routing(relative, payload):
 def peel_remote_routing_for_history(relative, payload):
     """Peel only exact671/composed680/IO afterimages; older pins own other bytes."""
     _identity(relative, payload)
-    from tooling_recovery671_source_projection import peel_tooling671_for_history, peel_callback_composition680_for_history
-    payload = peel_tooling671_for_history(relative, payload)
-    payload = peel_callback_composition680_for_history(relative, payload)
+    payload = tooling671.peel_tooling671_for_history(relative, payload)
+    payload = tooling671.peel_callback_composition680_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and sha(payload) == binding["after_sha256"]:
         return source_before_remote_routing(relative, payload)

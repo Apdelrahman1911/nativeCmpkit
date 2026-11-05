@@ -71,6 +71,7 @@ ROOT_INPUTS = (
     "build.gradle.kts", "settings.gradle.kts", "gradle.properties", "gradle.lockfile",
     "gradlew", "gradlew.bat", "rust-toolchain.toml", ".cargo/config", ".cargo/config.toml",
     "package.json", "yarn.lock", "package-lock.json", "pnpm-lock.yaml",
+    "docs/testing/installed-jdk17-prerequisite.md",
 )
 IGNORED_INPUT_DIRS = {".git", ".gradle", "build", "target", "node_modules", "__pycache__", ".kotlin"}
 MAX_REPORT_BYTES = 16 * 1024 * 1024

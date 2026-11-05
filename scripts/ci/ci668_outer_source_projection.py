@@ -263,27 +263,77 @@ def sealed_ci668_175_hashes():
     return original_ci668_input_hashes()
 
 
-def validate_current_sources(root: Path):
+def _source_before_ci668_operation(relative, payload, document, operation):
+    """Complete reviewed inverse or its one exact declared ancestor, not admission."""
+    _identity(relative, payload)
+    import cookie_ci668_outer_source_projection as cookie_outer
+    current_raw = payload
+    payload = cookie_outer.peel_cookie_outer_for_history(relative, current_raw)
+    import producer698_source_fixture_recovery as producer698
+    producer = operation._producer_history(relative, current_raw)
+    if payload == current_raw:
+        payload = producer  # Independent producer ancestry, not a Cookie inverse readmission.
+    import macos_share_ci668_composition as joint
+    named = operation._history(relative, current_raw, joint.CI_VIEW)
+    if named != current_raw:
+        payload = named  # The exact named view, never restored-as-current.
+    row = document["bindings"].get(relative)
+    if row is None:
+        return payload  # Unlisted bytes are not certified, guessed, reconstructed or executed.
+    if not 0 < len(payload) <= MAX_SOURCE_BYTES:
+        raise ValueError("Complete bounded final CI668 source bytes are required")
+    observed = sha(payload)
+    if observed == row["before_sha256"] and len(payload) == row["before_bytes"]:
+        return payload
+    if observed != row["after_sha256"] or len(payload) != row["after_bytes"]:
+        raise ValueError("CI668 source is neither its complete reviewed endpoint nor its one exact ancestor")
+    restored = payload
+    for fragment in reversed(row["fragments"]):
+        before, after = fragment["before"].encode(), fragment["after"].encode()
+        if (sha(before) != fragment["before_fragment_sha256"] or sha(after) != fragment["after_fragment_sha256"] or restored.count(after) != 1):
+            raise ValueError("Exact unique final CI668 inverse fragments are required")
+        restored = restored.replace(after, before, 1)
+    if sha(restored) != row["before_sha256"] or len(restored) != row["before_bytes"]:
+        raise ValueError("CI668 inverse did not restore its exact complete sealed predecessor")
+    forward = restored
+    for fragment in row["fragments"]:
+        before, after = fragment["before"].encode(), fragment["after"].encode()
+        if forward.count(before) != 1:
+            raise ValueError("Exact unique final CI668 forward fragments are required")
+        forward = forward.replace(before, after, 1)
+    if forward != payload:
+        raise ValueError("Complete final CI668 inverse/forward custody differs")
+    return restored
+
+
+
+def _validate_current_sources_operation(root: Path, document, operation):
     """Strict finite ordinary current bytes only; no source/test/native execution."""
     import cookie_ci668_outer_source_projection as cookie_outer
     cookie_outer.validate_current_sources(root)
     import macos_share_ci668_composition as joint
     import producer698_source_fixture_recovery as producer698
-    producer698.validate_current_sources(root)  # Whole raw279, then original645/190 guard/rows.
-    document = _document()
+    operation._validate_producer(root)  # Whole raw279, then original645/190 guard/rows.
     _validate_own_guard(root, document)
     for relative, digest in _expected(document).items():
         raw = _ordinary(root, relative, MAX_SOURCE_BYTES)
         comparison = cookie_outer.peel_cookie_outer_for_history(relative, raw, root)
-        named = joint.current_source_in_view(relative, raw, joint.CI_VIEW, root)
+        named = operation._current(relative, raw, joint.CI_VIEW, root)
         if named != raw:
             comparison = named  # Owning CI fixture8e is historical, raw7d stays current.
         if sha(comparison) != digest:
             raise ValueError("Current final CI668 input differs from its complete reviewed raw image: " + relative)
     for relative in BOUND_PATHS:
-        source_before_ci668(relative, _ordinary(root, relative, MAX_SOURCE_BYTES))
+        operation._ci_history(relative, _ordinary(root, relative, MAX_SOURCE_BYTES))
     return True
 
+
+
+def validate_current_sources(root: Path):
+    """Fresh owning operation; strict current rows, original histories and custody."""
+    import macos_share_ci668_composition as joint
+    with joint._source_projection_operation(root) as operation:
+        return operation._validate_ci(root)
 
 def fixture_inputs():
     """Actual joint279 source union; original finite207 and producer190 are historical, not a selector."""

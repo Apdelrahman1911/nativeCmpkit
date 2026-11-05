@@ -78,9 +78,12 @@ class Home571FixtureRecoveryControls(unittest.TestCase):
                           "scripts/ci/test_android_camera_boot_busy.py"}, changed)
         for relative, binding in home._bindings().items():
             actual = (ROOT / relative).read_bytes()
+            # Compare only the owned-geometry-to566 edge as source DATA. The
+            # preserved helper below still strictly admits the original RAW.
+            owning = owned_history.source_before_owned_geometry(relative, actual)
             stage = fixture.preserved_home_stage(relative, actual)
             self.assertEqual(binding["after_sha256"], sha(stage), relative)
-            self.assertEqual(relative in changed, stage != actual)
+            self.assertEqual(relative in changed, stage != owning)
             self.assertEqual(binding["before_sha256"], sha(home.current_source_before_home_baseline(relative, stage)))
             if relative in changed:
                 for bad in (stage, actual[:-1], actual + b"\n", bytearray(actual), None):

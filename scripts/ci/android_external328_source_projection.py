@@ -89,6 +89,12 @@ def current_source_for_history(relative: str, payload: bytes) -> bytes:
     # Nested readers receive exact ancestors, not another raw-current admission.
     if relative in ANDROID_PATCH_PATHS:
         payload = source_before_android_lifecycle(relative, payload)
+        # The strict RAW Android boundary above is the only new admission.
+        # Its workflow ancestor still carries exact707 budget bytes; peel that
+        # finite afterimage as DATA before older CI/geometry pins, never readmit
+        # the Android inverse or enroll an OLD image as current303.
+        from macos_share_ci668_composition import peel_budget707_for_history
+        payload = peel_budget707_for_history(relative, payload)
         from ios_geometry_simulator_source_projection import source_before_owned_geometry
         payload = source_before_owned_geometry(relative, payload)
     else:

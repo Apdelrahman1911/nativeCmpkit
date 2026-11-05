@@ -88,6 +88,13 @@ def source_binding_digest(path):
         from android_external328_source_projection import current_source_for_history
         payload = current_source_for_history(path.relative_to(TREE).as_posix(), path.read_bytes())
         return hashlib.sha256(payload).hexdigest()
+    if TREE == Path(__file__).resolve().parents[2] and path == GUARD_PATH:
+        # Only the exact separately sealed owning-context addition is reversed;
+        # the original CI213 guard digest stays unchanged. Private fixtures keep
+        # their literal bytes and can never acquire current-checkout admission.
+        from ci_source_recovery740_742 import current_source_before_recovery
+        payload = current_source_before_recovery(path.relative_to(TREE).as_posix(), path.read_bytes(), TREE)
+        return hashlib.sha256(payload).hexdigest()
     return digest(path)  # Only an explicitly private historical fixture may be old.
 
 

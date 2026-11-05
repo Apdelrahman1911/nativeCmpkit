@@ -32,8 +32,16 @@ def pre_startup_helper_source(source: str) -> str:
     # CI213: the exact owned-console repair precedes the untouched startup inverse.
     from camera_scalar_failfast_source_projection import camera197_helper_source_before_owned_console
     try:
+        # Qualify the complete latest helper once before the unchanged Camera197
+        # and startup/observation inverses. This is source context, not admission
+        # to a native execution or permission/state restoration.
+        if type(source) is not str:
+            raise AssertionError("Full current helper bytes differ from the qualified afterimage")
+        from camera_home_affinity_source_projection import current_source_before_home_affinity
+        source = current_source_before_home_affinity(
+            "scripts/ci/android_camera_developer_prerequisite.py", source.encode("utf-8")).decode("utf-8")
         source = camera197_helper_source_before_owned_console(source)
-    except AssertionError as error:
+    except (AssertionError, ValueError, UnicodeError) as error:
         raise AssertionError("Full current helper bytes differ from the qualified afterimage") from error
     if type(source) is not str or hashlib.sha256(source.encode()).hexdigest() != contract["after_sha256"]:
         raise AssertionError("Full current helper bytes differ from the qualified afterimage")

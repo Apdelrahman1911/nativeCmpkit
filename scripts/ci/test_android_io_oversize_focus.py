@@ -151,15 +151,43 @@ class AndroidIoOversizeFocus(unittest.TestCase):
     def test_existing_full_profiles_and_original_native_assertions_are_not_weakened(self):
         for profile in ("all", "android-device", "android-webview"):
             self.assertTrue(all("test-focus" not in row for row in matrix.matrix(profile)["include"]))
-        plan = r.plan(self.root, "android-device", only_modules=("calf-io",))
-        command = r.gradle_command("android-device", plan, root=self.root, android_serial="emulator-5554")
-        self.assertFalse(r.validate_test_focus(plan))
-        self.assertFalse(any(arg.startswith("-Pandroid.testInstrumentationRunnerArguments.class=") for arg in command))
+        # Full profiles remain declared, but public unfiltered IO is intentionally
+        # refused before discovery until its remote fixture route is qualified.
+        with patch.object(r, "projects") as projects, patch.object(r, "source_files") as sources, \
+                patch.object(r, "gradle_command") as command, patch.object(device, "require_host") as host:
+            with self.assertRaisesRegex(ValueError, "^Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked$"):
+                r.plan(self.root, "android-device", only_modules=("calf-io",))
+            projects.assert_not_called(); sources.assert_not_called()
+            command.assert_not_called(); host.assert_not_called()
+        self.assertFalse((self.root / "build").exists())
         source = (r.ROOT / r.ANDROID_IO_DEVICE_SOURCE).read_text()
         self.assertIn("assertEquals(64L, KmpFile(uri).getSize(context))", source)
         self.assertIn("assertFailsWith<IOException> { KmpFile(uri).readByteArray(context, maxBytes = 63) }", source)
         self.assertIn('assertEquals(0, stats(uri).getInt("opens"))', source)
         self.assertIn("assertEquals(0, openDeviceDescriptorsFor(DeviceDescriptorIdentity.of(file)))", source)
+
+    def test_unfiltered_io_and_synthetic_minimum_refuse_before_discovery_host_execution_or_output(self):
+        before = {path.relative_to(self.root).as_posix(): path.read_bytes()
+                  for path in self.root.rglob("*") if path.is_file()}
+        requests = (
+            (None, ("calf-io",)),
+            (("calf-io",), None),
+            (("calf-fixture",), None),
+            (("calf-fixture",), ()),
+            (("calf-fixture",), ("calf-io",)),
+        )
+        for minimum, modules in requests:
+            with self.subTest(minimum=minimum, modules=modules), \
+                    patch.object(r, "projects") as projects, patch.object(r, "source_files") as sources, \
+                    patch.object(r, "gradle_command") as command, patch.object(r, "execute") as execute, \
+                    patch.object(r.runtime_context, "capture") as runtime, patch.object(device, "require_host") as host:
+                with self.assertRaisesRegex(ValueError, "^Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked$"):
+                    r.plan(self.root, "android-device", minimum_modules=minimum, only_modules=modules)
+                for boundary in (projects, sources, command, execute, runtime, host):
+                    boundary.assert_not_called()
+        self.assertEqual(before, {path.relative_to(self.root).as_posix(): path.read_bytes()
+                                  for path in self.root.rglob("*") if path.is_file()})
+        self.assertFalse((self.root / "build").exists())
 
 
 if __name__ == "__main__":

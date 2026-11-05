@@ -198,7 +198,15 @@ class CameraBootBusyControls(unittest.TestCase):
                           "scripts/ci/test_android_camera_boot_failure_observation.py"}, set(spec))
         self.assertEqual(5, sum(len(v["fragments"]) for v in spec.values()))
         for relative, binding in spec.items():
-            current = (ROOT / relative).read_bytes()
+            raw_current = (ROOT / relative).read_bytes()
+            # The old busy inverse owns its own stage, not the latest platform659
+            # source. Admit actual RAW once and keep all old inverse pins, native
+            # guards, fragments, mutation refusals and forward comparisons intact.
+            from camera_home_affinity_source_projection import current_source_before_home_affinity
+            current = current_source_before_home_affinity(relative, raw_current)
+            with self.assertRaises(ValueError):
+                history.current_source_before_boot_busy(
+                    relative, current_source_before_home_affinity(relative, raw_current + b"\n"))
             from camera_tooling566_source_projection import current_source_before_tooling566
             from camera_tooling562_source_projection import current_source_before_tooling
             stage = current_source_before_tooling(relative,

@@ -225,8 +225,11 @@ class AndroidIoRemoteRoutingProjectionControls(unittest.TestCase):
     def test_native_assertions_original_methods_and_external_side_effect_boundaries_are_unchanged(self):
         for relative, digest in ADOPTED_HELD_INPUTS.items():
             self.assertEqual(digest, projection.sha((TREE / relative).read_bytes()), relative)
-        self.assertEqual(UNCHANGED_EXISTING_GUEST_HELPER_SHA256,
-                         projection.sha((TREE / "scripts/ci/android_camera_developer_prerequisite.py").read_bytes()),
+        from tooling_recovery671_source_projection import current_source_before_tooling671
+        guest_relative = "scripts/ci/android_camera_developer_prerequisite.py"
+        guest_raw = (TREE / guest_relative).read_bytes()
+        guest_historical = current_source_before_tooling671(guest_relative, guest_raw)
+        self.assertEqual(UNCHANGED_EXISTING_GUEST_HELPER_SHA256, projection.sha(guest_historical),
                          "Remote root/FD/process/disposal reuse cannot change the existing Camera ledger or historical schema")
         remote_test = ast.parse((TREE / "scripts/ci/test_android_io_remote_documents.py").read_text())
         methods = {node.name: syntax_hash(node) for node in owner(remote_test, ast.ClassDef, "ControlledRemoteSourceControls").body
@@ -266,3 +269,19 @@ class AndroidIoRemoteRoutingProjectionControls(unittest.TestCase):
         for name, digest in ORIGINAL_OLD_IO_CLASS_AST.items():
             self.assertEqual(digest, syntax_hash(owner(old_io, ast.ClassDef, name)), name)
         self.assertFalse(remote.source_contract(TREE)["native_or_compile_success_inferred"])
+
+    def test_guest_helper_671_history_is_exact_once_and_rejects_old_or_drift_as_current(self):
+        import tooling_recovery671_source_projection as tooling
+        relative = "scripts/ci/android_camera_developer_prerequisite.py"
+        raw = (TREE / relative).read_bytes()
+        row = tooling._document()["bindings"][relative]
+        self.assertEqual(1, len(row["fragments"]))
+        prior = tooling.current_source_before_tooling671(relative, raw)
+        self.assertEqual((UNCHANGED_EXISTING_GUEST_HELPER_SHA256, row["before_bytes"]),
+                         (projection.sha(prior), len(prior)))
+        self.assertIs(prior, tooling.source_before_tooling671(relative, prior))
+        self.assertNotEqual(projection.sha(prior), projection.sha(raw))
+        for image in (prior, raw[:-1], raw + b"\n# unowned helper drift\n", b""):
+            with self.subTest(bytes=len(image)), self.assertRaises(ValueError):
+                tooling.current_source_before_tooling671(relative, image)
+        # Existing process/root/FD/disposal/native obligations remain under their old bytes.

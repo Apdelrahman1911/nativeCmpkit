@@ -249,7 +249,11 @@ class PlatformRecovery659SourceProjectionControls(unittest.TestCase):
         with patch.object(newest, "_document", return_value=bad), self.assertRaises(ValueError):
             newest.source_before_platform_recovery659(name, (ROOT / name).read_bytes())
         image = (ROOT / IMAGE_CONTROL).read_bytes()
-        old_image = newest.source_before_platform_recovery659(IMAGE_CONTROL, image)
+        from tooling_recovery671_source_projection import current_source_before_tooling671
+        literal656 = current_source_before_tooling671(IMAGE_CONTROL, image)
+        # The original platform659 inverse is historical DATA only.
+        # Current Content calls and raw-call-count checks retain image.
+        old_image = newest.source_before_platform_recovery659(IMAGE_CONTROL, literal656)
         self.assertEqual(old_image, content_history._current_tooling656_control_source(IMAGE_CONTROL, image))
         self.assertEqual("9d7870ffcd1cf584c7e2914143d93066defba889638df05f0f91781ab5dd2fa9", newest.sha(old_image))
         with self.assertRaises(ValueError):

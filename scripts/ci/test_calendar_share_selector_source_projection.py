@@ -77,10 +77,22 @@ class CalendarShareSelectorSourceControls(unittest.TestCase):
     def test_raw_selector_admission_occurs_once_before_camera_and_unchanged_dated_pins(self):
         for name in (*SHARED, CAMERA):
             current = (ROOT / name).read_bytes()
-            with patch.object(selectors, "current_source_before_calendar_share_selectors",
-                              wraps=selectors.current_source_before_calendar_share_selectors) as raw:
-                ancestor = bridge.current_source_for_history(name, current)
-                raw.assert_called_once_with(name, current)
+            import macos_share_ci668_composition as latest
+            if name in latest.ANDROID_BOUND_PATHS:
+                # Latest Android RAW admission now precedes ancestor-only selectors;
+                # do not re-admit an already-peeled image into an older strict hook.
+                with patch.object(latest, "source_before_android_lifecycle",
+                                  wraps=latest.source_before_android_lifecycle) as raw:
+                    with patch.object(selectors, "current_source_before_calendar_share_selectors",
+                                      side_effect=AssertionError("Android ancestor was strictly readmitted")) as nested:
+                        ancestor = bridge.current_source_for_history(name, current)
+                        raw.assert_called_once_with(name, current)
+                        nested.assert_not_called()
+            else:
+                with patch.object(selectors, "current_source_before_calendar_share_selectors",
+                                  wraps=selectors.current_source_before_calendar_share_selectors) as raw:
+                    ancestor = bridge.current_source_for_history(name, current)
+                    raw.assert_called_once_with(name, current)
             if name in SHARED:
                 self.assertEqual(bridge._bindings()[name]["before_sha256"], sha(ancestor))
             else:
@@ -131,30 +143,45 @@ class CalendarShareSelectorSourceControls(unittest.TestCase):
                    "scripts/ci/test_ios_ui_related_source_projection.py"})
         from macos_share_missing_source_projection import fixture_inputs as share_fixture_inputs
         paths |= share_fixture_inputs()
+        from ci_source_domain740 import dependency_inputs as domain_dependencies
+        from ci_source_recovery740_742 import dependency_inputs as recovery_dependencies
+        # Finite newest code dependencies, not full checkout capture or303 enrollment.
+        paths |= domain_dependencies() | recovery_dependencies()
         with tempfile.TemporaryDirectory(prefix="nativecmpkit-selectors617-") as temporary:
             root = Path(temporary)
             for name in paths:
                 target = root / name; target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes((ROOT / name).read_bytes())
             self.assertTrue(selectors.validate_current_sources(root))
-            for name in document["added_inputs"]:
-                target = root / name; original = target.read_bytes()
-                target.unlink()
-                with self.assertRaises(FileNotFoundError): selectors.validate_current_sources(root)
-                target.symlink_to(ROOT / name)
-                with self.assertRaises(ValueError): selectors.validate_current_sources(root)
-                target.unlink(); target.write_bytes(original)
-                backing = target.with_name(target.name + ".backing"); backing.write_bytes(original)
-                target.unlink(); target.hardlink_to(backing)
-                with self.assertRaises(ValueError): selectors.validate_current_sources(root)
-                target.unlink(); backing.unlink(); target.write_bytes(original + b"\n")
-                with self.assertRaises(ValueError): selectors.validate_current_sources(root)
-                target.write_bytes(original)
-            for name in document["bindings"]:
-                target = root / name; original = target.read_bytes()
-                target.write_bytes(selectors.source_before_calendar_share_selectors(name, original))
-                with self.assertRaises(ValueError): selectors.validate_current_sources(root)
-                target.write_bytes(original)
+            with patch.object(image_history, "validate_current_sources", return_value=True) as downstream:
+                for name in document["added_inputs"]:
+                    target = root / name; original = target.read_bytes()
+                    target.unlink()
+                    with self.assertRaises(FileNotFoundError): selectors.validate_current_sources(root)
+                    downstream.assert_called_once_with(root)
+                    downstream.reset_mock()
+                    target.symlink_to(ROOT / name)
+                    with self.assertRaises(ValueError): selectors.validate_current_sources(root)
+                    downstream.assert_called_once_with(root)
+                    downstream.reset_mock()
+                    target.unlink(); target.write_bytes(original)
+                    backing = target.with_name(target.name + ".backing"); backing.write_bytes(original)
+                    target.unlink(); target.hardlink_to(backing)
+                    with self.assertRaises(ValueError): selectors.validate_current_sources(root)
+                    downstream.assert_called_once_with(root)
+                    downstream.reset_mock()
+                    target.unlink(); backing.unlink(); target.write_bytes(original + b"\n")
+                    with self.assertRaises(ValueError): selectors.validate_current_sources(root)
+                    downstream.assert_called_once_with(root)
+                    downstream.reset_mock()
+                    target.write_bytes(original)
+                for name in document["bindings"]:
+                    target = root / name; original = target.read_bytes()
+                    target.write_bytes(selectors.source_before_calendar_share_selectors(name, original))
+                    with self.assertRaises(ValueError): selectors.validate_current_sources(root)
+                    downstream.assert_called_once_with(root)
+                    downstream.reset_mock()
+                    target.write_bytes(original)
         raw = selectors.SPEC_PATH.read_bytes()
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "manifest.json"
@@ -193,7 +220,10 @@ class CalendarShareSelectorSourceControls(unittest.TestCase):
         self.assertEqual(ast.dump(ast.parse(before), include_attributes=False),
                          ast.dump(TransparentHooks().visit(ast.parse(current)), include_attributes=False))
         for name, expected in selectors._document()["unchanged_inputs"].items():
-            self.assertEqual(expected, sha((ROOT / name).read_bytes()), name)
+            raw_current = (ROOT / name).read_bytes()
+            # Exact pre-image-launch DATA comparison; never refresh the old pin.
+            comparison = image_history.peel_image_launch_for_history(name, raw_current)
+            self.assertEqual(expected, sha(comparison), name)
         self.assertEqual("175c69071fa0bf8bbf106b6cc127ae6cd90344512d70f960b5447a4d2b9dc3c4",
                          sha((ROOT / "scripts/ci/ios_owned_geometry_fixture_recovery.py").read_bytes()))
         for name in (LAYER, CAMERA):

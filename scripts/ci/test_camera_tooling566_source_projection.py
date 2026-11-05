@@ -108,10 +108,11 @@ class CameraTooling566Controls(unittest.TestCase):
         import camera_boot_busy_source_projection as busy
         name = "scripts/ci/camera_recents_fixture_source_projection.py"
         current = (ROOT / name).read_bytes()
-        tooling562_stage = history.current_source_before_tooling566(name, current)
+        qualified_outer = owned_history.current_source_before_owned_geometry(name, current)
+        tooling562_stage = history.current_source_before_tooling566(name, qualified_outer)
         busy_stage = older.current_source_before_tooling(name, tooling562_stage)
         self.assertNotEqual(current, busy_stage)
-        previous = busy.current_source_before_boot_busy(name, current)
+        previous = busy.current_source_before_boot_busy(name, qualified_outer)
         binding = busy._bindings()[name]
         self.assertEqual(binding["before_sha256"], sha(previous))
         forward = previous

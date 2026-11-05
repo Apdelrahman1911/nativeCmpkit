@@ -71,7 +71,8 @@ class CameraTooling562Controls(unittest.TestCase):
     def test_new_ingress_qualifies_current_helper_but_retains_raw_custody_hash(self):
         import camera_home_baseline_source_projection as home
         payload = (ROOT / HELPER).read_bytes()
-        prior = home.source_before_home_baseline(HELPER, payload)
+        prior = home.source_before_home_baseline(HELPER,
+            owned_history.current_source_before_owned_geometry(HELPER, payload))
         for path in MODULES:
             source = (ROOT / path).read_text()
             tree = ast.parse(source)

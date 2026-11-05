@@ -14,6 +14,7 @@ import types
 import unittest
 from unittest.mock import patch
 from test_android_permission_demo_denial_absence import permission_absence_preimage
+from android_permission_selected_context import permission_lifecycle_context, permission_spec_extension
 
 TREE = Path(os.environ.get("PERMISSION_SELECTOR_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 PROFILE = "android-permission-demo-call-denial-recovery"
@@ -66,9 +67,11 @@ def owning_environment():
         isinstance(t, ast.Name) and t.id in names for t in n.targets)]
     functions = ("android_permission_device_filter", "android_permission_device_identities",
                  "validate_android_permission_demo_recovery_annotation")
+    nodes += [permission_spec_extension(tree)]
     nodes += [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in functions]
     env = {"Path": Path, "re": re, "safe_path": lambda root, relative: root / relative,
-           "content_policy": types.SimpleNamespace(ANDROID_FOCUS="webview-content-policy-android")}
+           "content_policy": types.SimpleNamespace(ANDROID_FOCUS="webview-content-policy-android"),
+           "permission_lifecycle": permission_lifecycle_context(source)}
     compile_nodes(nodes, env)
     selected = ast.parse("def selected_source(root, focus, selected, result):\n    pass\n").body[0]
     selected.body = deepcopy(permission_branch(tree, "plan").body) + ast.parse("return result, selected\n").body

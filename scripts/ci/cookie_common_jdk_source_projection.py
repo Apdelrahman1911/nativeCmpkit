@@ -195,6 +195,8 @@ def source_before_cookie(relative: str, payload: bytes, root: Path = ROOT) -> by
     """Exact inverse or its one historical preimage; never current admission."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact cookie relative identity and source bytes are required")
+    import cookie_ci668_outer_source_projection as cookie_outer
+    payload = cookie_outer._content_owner_source(relative, payload, root, current=False)
     row = _document(root)["bindings"].get(relative)
     if row is None:
         return payload  # Unlisted bytes are not certified.
@@ -226,6 +228,8 @@ def source_before_cookie(relative: str, payload: bytes, root: Path = ROOT) -> by
 def current_source_before_cookie(relative: str, payload: bytes, root: Path = ROOT) -> bytes:
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact cookie current source identity is required")
+    import cookie_ci668_outer_source_projection as cookie_outer
+    payload = cookie_outer._content_owner_source(relative, payload, root, current=True)
     row = _document(root)["bindings"].get(relative)
     if row is not None and (sha(payload) != row["after_sha256"] or len(payload) != row["after_bytes"]):
         raise ValueError("Old or unknown bytes cannot substitute for current cookie source")
@@ -236,6 +240,8 @@ def peel_cookie_for_history(relative: str, payload: bytes, root: Path = ROOT) ->
     """Transparent exact newest peel; no old/unknown current admission or replay."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact cookie history source identity is required")
+    import cookie_ci668_outer_source_projection as cookie_outer
+    payload = cookie_outer._content_owner_source(relative, payload, root, current=False)
     row = _document(root)["bindings"].get(relative)
     if row is not None and sha(payload) == row["after_sha256"]:
         return source_before_cookie(relative, payload, root)
@@ -251,7 +257,8 @@ def validate_current_sources(root: Path = ROOT) -> dict:
     current = {}
     for name, digest in expected.items():
         payload = ordinary_bytes(root, name)
-        comparison = cookie_outer.cookie681_control_for_old_cookie_comparison(name, payload, root)
+        comparison = cookie_outer._content_owner_source(name, payload, root, current=True)
+        comparison = cookie_outer.cookie681_control_for_old_cookie_comparison(name, comparison, root)
         comparison = cookie_outer.callback672_init_for_old_cookie_comparison(name, comparison, root)
         if sha(comparison) != digest:
             raise ValueError("Exact current cookie source input changed: " + name)

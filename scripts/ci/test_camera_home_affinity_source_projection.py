@@ -36,8 +36,10 @@ class HomeAffinitySourceProjectionControls(unittest.TestCase):
         self.assertEqual(EXPECTED, set(bindings))
         self.assertEqual(16, sum(len(row["fragments"]) for row in bindings.values()))
         for name, row in bindings.items():
-            current = (ROOT / name).read_bytes()
-            previous = history.current_source_before_home_affinity(name, current)
+            raw_current = (ROOT / name).read_bytes()
+            from calendar_share_selector_source_projection import peel_calendar_share_selectors_for_history
+            current = peel_calendar_share_selectors_for_history(name, raw_current)
+            previous = history.current_source_before_home_affinity(name, raw_current)
             self.assertEqual((row["after_sha256"], row["after_bytes"]), (sha(current), len(current)), name)
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(previous), len(previous)), name)
             forward = previous
@@ -91,7 +93,10 @@ class HomeAffinitySourceProjectionControls(unittest.TestCase):
             "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt": "01771567b969a88094d88a2906dadc6bc4d1e8502e695abc9f145b7ca197e06e",
         }
         for name, digest in originals.items():
-            self.assertEqual(digest, sha((ROOT / name).read_bytes()), name)
+            raw_current = (ROOT / name).read_bytes()
+            from calendar_share_selector_source_projection import peel_calendar_share_selectors_for_history
+            comparison = peel_calendar_share_selectors_for_history(name, raw_current)
+            self.assertEqual(digest, sha(comparison), name)
         kotlin = (ROOT / KOTLIN_TEST).read_bytes()
         previous = history.source_before_home_affinity(KOTLIN_TEST, kotlin)
         self.assertEqual(previous.decode().rsplit("\n}", 1)[0] + "\n",
@@ -113,7 +118,9 @@ class HomeAffinitySourceProjectionControls(unittest.TestCase):
                      and isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name)
                      and node.func.value.id == "self" and node.func.attr.startswith("assert")])
         for name in (HOME_TEST, "scripts/ci/test_ios_owned_geometry_fixture_recovery.py"):
-            current = (ROOT / name).read_bytes()
+            raw_current = (ROOT / name).read_bytes()
+            from calendar_share_selector_source_projection import peel_calendar_share_selectors_for_history
+            current = peel_calendar_share_selectors_for_history(name, raw_current)
             self.assertEqual(obligations(history.source_before_home_affinity(name, current)), obligations(current), name)
 
     def test_manifest_ordinary_exact_single_link_held_and_bounded_failures_remain_refusals(self):

@@ -14,8 +14,11 @@ def sha(raw):
 class Ci668OuterIngressTests(unittest.TestCase):
     def test_exact_five_workflow_spans_and_strict_before_refusal(self):
         raw = (ROOT / ci668.WORKFLOW).read_bytes()
+        import macos_share_ci668_composition as latest
+        # Compare the named CI175 image; strict current calls below retain RAW.
+        named_ci175 = latest.current_source_in_view(ci668.WORKFLOW, raw, latest.CI_VIEW, ROOT)
         old = ci668.source_before_ci668(ci668.WORKFLOW, raw)
-        self.assertEqual(sha(raw), ci668.WORKFLOW_AFTER_SHA256)
+        self.assertEqual(sha(named_ci175), ci668.WORKFLOW_AFTER_SHA256)
         self.assertEqual(sha(old), ci668.WORKFLOW_BEFORE_SHA256)
         self.assertEqual(ci668.source_before_ci668(ci668.WORKFLOW, old), old)
         self.assertEqual(ci668.current_source_before_ci668(ci668.WORKFLOW, raw), old)

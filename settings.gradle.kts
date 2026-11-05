@@ -22,9 +22,8 @@ dependencyResolutionManagement {
     }
 }
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-}
+// Verification requires an explicitly installed JDK17, not a remote JVM resolver.
+// See docs/testing/installed-jdk17-prerequisite.md.
 
 include(
     // Artifact modules

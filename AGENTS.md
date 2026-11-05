@@ -1,5 +1,43 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared CI source recovery integrated; changed producer next — 2026-11-05
+
+[C16 and the missing producer-helper transfer](docs/development/evidence/current-platform-recovery-20261101/tooling-finite-owner-c16-20261105/README.md)
+integrate one related batch: **47 existing modifications +25 additions =72**;
+46 held dependencies give a finite118-source adoption scope, not a full checkout,
+compiler or registered-target count. Existing modes, including WebView0600, hold.
+Independent731 source/selection and742 saved-results reviews accept the sole
+NEW Cookie4 +original failed genuine callback source CLI1:5/5 once,11.514s suite,
+14.037417s outer, child0, full1010-source/622-directory model custody and cleanup.
+Accepted C15 and other populations are not replayed. C14/C15 original failures,
+the private Cookie-owner observation, and unexecuted/refused V1 remain failures.
+
+Independent730 final static review finds all71 operation-linked siblings exact;
+17469→16667→named15710 guard/AST inversions hold. No remaining transfer omission
+or further correction/approval gate is indicated; review adds zero executions.
+
+Actual ROOT Camera5 source plan passes0/0.295928s. Initial AndroidWebView5 refuses
+for a missing producer698 operation API: the117-path transfer omitted that helper.
+The exact already qualified model postimage is transferred once, preserving its
+mode; ONLY failed AndroidWebView5 passes0/6.549724s. This is source qualification,
+not APK/Apple/native/consumer/issue acceptance. Resolution164 remains current.
+[The dated upstream archive](docs/development/upstream-sync-20261105T094320Z/README.md)
+preserves all16 mapped open Calf issues plus the separate PR,14 comments/47 timeline
+items;172 checksum entries verify, zero new imports or GitHub mutations.
+[All69 open-issue criteria](docs/development/grouped-closure-readiness-20261105.md)
+are grouped by owner; no additional closure-ready issue is established.
+
+Next development-only freeze/push → changed COMPLETE tooling producer → exact
+successful run/attempt/job/artifact authentication → SAME-HEAD Camera5/Android5,
+with no intervening documentation commit. Failed41938604356 at4cc is nonreusable.
+Do not retry/reuse it unchanged. Isolated Windows/macOS/benchmark work continues
+outside this cohort. Last readback103closed/69open/172;#102/#144/#171 already closed.
+Lead owns Git/integration/dispatch/acceptance/closures; max2 combined hosted
+reservations INCLUDING queued/reserved; local compiler6GiB memory/8GiB disk.
+Owner-authorized Actions/all/no mandatory SHA pinning/minimum permissions remain.
+All security/readiness/native/consumer/API–ABI/dependency/legal/main/history/Pages
+and publication gates remain. No packages, releases or deployments until satisfied.
+
 ## Related CI/Android batch accepted; ready for changed producer — 2026-11-05
 
 [730/732–735](docs/development/evidence/current-platform-recovery-20261101/ci-ingress730-controls732-adoption733/README.md)

@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Fourth representative dependency signature verified — 2026-11-05
+
+[Material3 FIRST734](docs/development/evidence/current-platform-recovery-20261101/dependency-representative-signatures734-20261105/CURRENT.md)
+adds one genuine POM verification: GPG0/GOODSIG/VALIDSIG/SHA512 and independently
+source-bound full primary20723A6399BC060154283B37CFAE163B64AC9189; TRUST_UNDEFINED.
+Accepted Compose/Kotlin/JUnit three are reused, not replayed. Lossless original
+receipt, public addendum and owned-child/socket cleanup are preserved; zero
+imports/global trust/ownertrust promotion. This is four representative descriptors,
+not binary/module/bootstrap/transitive-graph/ordinary-consumer acceptance.
+NO_ADMISSION/null reviewed expectations, original120 refusals and #40/#64 open
+remain. Protected untracked success-trace source is excluded from staging.
+Lead integration/Git/dispatch/closure; max2 combined hosted INCLUDINGqueued and
+all Actions/all/no mandatorySHA/minimumpermissions, security/native/consumer/
+API–ABI/legal/release-readiness/publication gates remain. No package/release/deploy.
+
 ## Representative dependency signatures verified; policy remains closed — 2026-11-05
 
 [Publisher signature evidence](docs/development/evidence/current-platform-recovery-20261101/dependency-representative-signatures734-20261105/README.md)

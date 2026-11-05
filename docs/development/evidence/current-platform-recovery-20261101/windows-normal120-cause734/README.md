@@ -60,6 +60,12 @@ actual bootstrap/binary/transitive graph, deterministic two-root policy/staging,
 consumer/native/API–ABI/legal/security/readiness gates still need their own evidence.
 Central signatures cannot authorize different Portal-synthesized POM bytes.
 
+**Issue scope:** #64 is NATIVE-005, WebView request-state reset. Its original
+criteria are fail/success/reload/stop/redirect behavior across targets, browser
+origin/inline/framing/offline transitions and iOS provisional DNS/TLS resets.
+The dependency gates above are separate prerequisites for the ordinary Windows
+runner, not additional original #64 criteria or request-state test results.
+
 The original 42051371077/a1 source/protocol result remains **58 public-text
 observations and 62 refusals**, not consumer or dependency admission. Original
 303/404/header absence is preserved, and the 743 private captured stream bytes

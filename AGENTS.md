@@ -19,9 +19,12 @@ ARCHIVE809 includes ONLY safe summaryJSON+MD/two byte-identical explicit0644
 copies and provenance hashes; privateURL/headers/worker/review/log/ZIP/POM payloads
 stay unpublished. Source-held newone signature target remains UNEXECUTED;
 no original18/POM replay, wildcard/hop/fallback, body/key review or consumer
-authority. NO_ADMISSION=true/REVIEWED_EXPECTATIONS_SHA256=null; #64 staysOPEN for
-original dependency/graph/two-root/staging/native/consumer/API–ABI/security/legal
-criteria. DocumentationHEAD is not substituted for immutable source-under-test.
+authority. NO_ADMISSION=true/REVIEWED_EXPECTATIONS_SHA256=null. Dependency/graph/
+two-root/staging/native/consumer/API–ABI/security/legal are separate Windows runner
+prerequisite gates, NOT original#64 criteria. #64 is NATIVE-005 request-state:
+fail→success/fail→fail/reload/stop/redirects on every target, browser origin/inline/
+framing/offline, iOS provisionalDNS/TLS resets. No such new result is inferred;
+#64 staysOPEN. DocumentationHEAD is not substituted for source-under-test.
 Protected untracked scripts/ci/test_javafx_ordinary_success_trace.py MUST NOT be
 read/stat'ed/scanned/modified/staged. ROOTCI/macos stayisolated; lead integration/
 Git/dispatch/acceptance/closure, max2combinedhosted INCLUDINGqueued/reserved,

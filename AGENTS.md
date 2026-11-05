@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows source identity recovery verified locally — 2026-11-05
+
+[734/742/764–765](docs/development/evidence/current-platform-recovery-20261101/windows-identity-recovery734-765/README.md)
+adopts the related observer and NEW regression file after **NEW9 9/9 PASS** once
+(67 passing simulated subcases; suite0.352381503s/outer0.615876390s), independent
+source/results acceptance and passive exact2/inverse review. Both sources0644;
+22 protected identities held during lead adoption. Accepted Stage A8 controls are
+reused, not replayed; unqualified `test_javafx_ordinary_success_trace.py` remains
+untracked and MUST NOT be staged. ROOT remains clean4cc and this branch isolated.
+Original42017529396/job127211680966 at6d21150e FAILED before worker/download;
+the source pathname and differing stat field were not retained. Do not invent
+them or retry that HEAD unchanged. Full native FileIdInfo18 bridges separate
+stable Python namedstat/fdstat views; owning write-close permits bounded forward
+timestamps only with exact non-time identity and full final byte readback.
+Timestamp transitions do not establish actor/cause. ZERO actual Windows/HTTPS,
+Gradle/native/consumer/trust acceptance or issue closure. Next development-only
+freeze/push and exact manual `windows-ordinary-dependency-observation1` after
+fresh max2 combined hosted capacity INCLUDING queued/reserved. #64/#40 remain
+open;120 observational requests are not strict dependency/provenance adoption.
+Actions/all/no mandatory SHA pinning/minimum permissions; all native/consumer/
+API–ABI/dependency/legal/security/publishing/release/Pages/main/history gates
+remain. Lead alone owns integration/Git/GitHub/dispatch/acceptance/closure.
+
 ## Isolated Windows dependency observation — 2026-11-05
 
 [742/756](docs/development/evidence/current-platform-recovery-20261101/windows-dependency-observer742-756/README.md)

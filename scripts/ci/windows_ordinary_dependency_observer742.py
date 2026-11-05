@@ -115,7 +115,158 @@ def parents_pins(root, path):
     return result
 
 
+WIN32_SOURCE_FIELDS = ('volume_serial_64', 'file_id_128', 'file_attributes', 'number_of_links',
+                       'file_size', 'creation_time_100ns', 'last_write_time_100ns', 'change_time_100ns')
+
+
+def source_stat_identity(info):
+    return tuple(getattr(info, field) for field in SOURCE_FIELDS)
+
+
+def require_identity(actual, expected, fields, message, relative):
+    need(len(actual) == len(expected) == len(fields), 'Exact complete identity view required')
+    different = [field for field, current, old in zip(fields, actual, expected) if current != old]
+    need(not different, message + ': ' + relative + ' [' + ','.join(different) + ']')
+
+
+def require_source_shape(info, limit, allow_empty=False):
+    need(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and
+         (0 <= info.st_size if allow_empty else 0 < info.st_size) and info.st_size <= limit and
+         not getattr(info, 'st_file_attributes', 0) & 1024,
+         'Only bounded unshared ordinary source/evidence')
+
+
+class _Win32FileIdentity:
+    """Same native view for named no-reparse handles and borrowed CRT handles.
+
+    Required FileIdInfo18 retains all 128 ID bits and the 64-bit volume number.
+    FileBasicInfo0/StandardInfo1 retain complete owning metadata, not the
+    potentially different CPython named-stat and CRT-fstat representations.
+    No unsupported-query fallback, timestamp truncation or descriptor ownership
+    transfer is admitted. This is custody, not a general OS/security sandbox.
+    """
+    class BasicInfo(ctypes.Structure):
+        _fields_ = [('CreationTime', ctypes.c_int64), ('LastAccessTime', ctypes.c_int64),
+                    ('LastWriteTime', ctypes.c_int64), ('ChangeTime', ctypes.c_int64),
+                    ('FileAttributes', ctypes.c_uint32)]
+
+    class StandardInfo(ctypes.Structure):
+        _fields_ = [('AllocationSize', ctypes.c_int64), ('EndOfFile', ctypes.c_int64),
+                    ('NumberOfLinks', ctypes.c_uint32), ('DeletePending', ctypes.c_ubyte),
+                    ('Directory', ctypes.c_ubyte)]
+
+    class IdInfo(ctypes.Structure):
+        _fields_ = [('VolumeSerialNumber', ctypes.c_uint64), ('FileId', ctypes.c_ubyte * 16)]
+
+    def __init__(self):
+        import msvcrt
+        self.get_osfhandle = msvcrt.get_osfhandle
+        self.api = ctypes.WinDLL('kernel32', use_last_error=True)
+        need((ctypes.sizeof(self.BasicInfo), ctypes.sizeof(self.StandardInfo), ctypes.sizeof(self.IdInfo)) ==
+             (40, 24, 24), 'Exact Windows native metadata ABI required')
+        self.api.CreateFileW.argtypes = [ctypes.c_wchar_p, ctypes.c_uint32, ctypes.c_uint32,
+                                        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p]
+        self.api.CreateFileW.restype = ctypes.c_void_p
+        self.api.GetFileType.argtypes, self.api.GetFileType.restype = [ctypes.c_void_p], ctypes.c_uint32
+        self.api.GetFileInformationByHandleEx.argtypes = [ctypes.c_void_p, ctypes.c_int32,
+                                                        ctypes.c_void_p, ctypes.c_uint32]
+        self.api.GetFileInformationByHandleEx.restype = ctypes.c_int32
+        self.api.CloseHandle.argtypes, self.api.CloseHandle.restype = [ctypes.c_void_p], ctypes.c_int32
+
+    def query(self, handle, limit, allow_empty=False):
+        need(type(handle) is int and handle > 0 and handle != ctypes.c_void_p(-1).value,
+             'Exact live owning or borrowed native file handle required')
+        need(self.api.GetFileType(handle) == 1, 'Only ordinary disk file handles')
+        basic, standard, identifier = self.BasicInfo(), self.StandardInfo(), self.IdInfo()
+        for information_class, value in ((0, basic), (1, standard), (18, identifier)):
+            need(self.api.GetFileInformationByHandleEx(handle, information_class, ctypes.byref(value),
+                                                      ctypes.sizeof(value)) != 0,
+                 'Required full Win32 metadata query failed: ' + str(information_class))
+        attributes, size = int(basic.FileAttributes), int(standard.EndOfFile)
+        need(not attributes & (0x400 | 0x10) and standard.Directory == 0 and standard.DeletePending == 0 and
+             standard.NumberOfLinks == 1 and (0 <= size if allow_empty else 0 < size) and size <= limit,
+             'Native reparse/directory/deleting/shared/bounded file guard')
+        need(basic.CreationTime >= 0 and basic.LastWriteTime >= 0 and basic.ChangeTime >= 0,
+             'Complete nonnegative native file times')
+        return (int(identifier.VolumeSerialNumber), int.from_bytes(bytes(identifier.FileId), 'little'),
+                attributes, int(standard.NumberOfLinks), size, int(basic.CreationTime),
+                int(basic.LastWriteTime), int(basic.ChangeTime))
+
+    def close_owned(self, handle, primary=None):
+        try:
+            need(self.api.CloseHandle(handle) != 0, 'Owned native metadata handle close failed')
+        except BaseException as error:
+            if primary is None:
+                raise
+            primary.add_note('Owned metadata-handle close refusal: ' + type(error).__name__)
+
+    def named(self, path, limit, allow_empty=False):
+        text = os.fspath(path)
+        need(type(text) is str and 0 < len(text) <= 4096 and path.is_absolute(),
+             'Exact bounded absolute source/evidence metadata path')
+        # FILE_READ_ATTRIBUTES; share read/write/delete; OPEN_EXISTING.
+        # OPEN_REPARSE_POINT applies to the final path and BACKUP_SEMANTICS lets
+        # the queried regular/directory guard reject rather than follow aliases.
+        handle = self.api.CreateFileW(text, 0x80, 0x7, None, 3, 0x00200000 | 0x02000000, None)
+        need(type(handle) is int and handle > 0 and handle != ctypes.c_void_p(-1).value,
+             'Owned native metadata handle open failed')
+        try:
+            identity = self.query(handle, limit, allow_empty)
+        except BaseException as primary:
+            self.close_owned(handle, primary)
+            raise
+        self.close_owned(handle)
+        return identity
+
+    def borrowed(self, descriptor, limit, allow_empty=False):
+        # get_osfhandle borrows the CRT descriptor's handle. Never CloseHandle
+        # this value: the enclosing fdopen context alone owns descriptor close.
+        return self.query(self.get_osfhandle(descriptor), limit, allow_empty)
+
+
+def _read_windows_regular(root, relative, limit=SOURCE_LIMIT, allow_empty=False):
+    path = root.joinpath(*relative_path(relative).parts)
+    parents = parents_pins(root, path)
+    old = path.lstat()
+    require_source_shape(old, limit, allow_empty)
+    named_stat = source_stat_identity(old)
+    native = _Win32FileIdentity()
+    identity = native.named(path, limit, allow_empty)
+    need(identity[3:5] == (old.st_nlink, old.st_size), 'Named native link/size custody')
+    fd = os.open(path, os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_BINARY', 0))
+    with os.fdopen(fd, 'rb') as stream:
+        opened = os.fstat(stream.fileno())
+        require_source_shape(opened, limit, allow_empty)
+        descriptor_stat = source_stat_identity(opened)
+        need((opened.st_nlink, opened.st_size) == (old.st_nlink, old.st_size), 'Opened source link/size custody')
+        require_identity(native.borrowed(stream.fileno(), limit, allow_empty), identity, WIN32_SOURCE_FIELDS,
+                         'Opened native source identity drift', relative)
+        payload = stream.read(limit + 1)
+        require_identity(source_stat_identity(os.fstat(stream.fileno())), descriptor_stat, SOURCE_FIELDS,
+                         'Read descriptor-stat source identity drift', relative)
+        require_identity(native.borrowed(stream.fileno(), limit, allow_empty), identity, WIN32_SOURCE_FIELDS,
+                         'Read native source identity drift', relative)
+        require_identity(source_stat_identity(path.lstat()), named_stat, SOURCE_FIELDS,
+                         'Read named-stat source identity drift', relative)
+        require_identity(native.named(path, limit, allow_empty), identity, WIN32_SOURCE_FIELDS,
+                         'Read named-native source identity drift', relative)
+    fresh = path.lstat()
+    require_source_shape(fresh, limit, allow_empty)
+    require_identity(source_stat_identity(fresh), named_stat, SOURCE_FIELDS, 'Closed named-stat source identity drift', relative)
+    require_identity(native.named(path, limit, allow_empty), identity, WIN32_SOURCE_FIELDS,
+                     'Closed named-native source identity drift', relative)
+    need(len(payload) == old.st_size, 'Exact complete source/evidence payload size')
+    need(all(directory_pin(parent) == pin for parent, pin in parents.items()), 'Source ancestor identity drift')
+    return payload, {'bytes': len(payload), 'sha256': digest(payload), 'mode': format(stat.S_IMODE(old.st_mode), '04o'),
+                     'stat_identity': list(named_stat), 'descriptor_stat_identity': list(descriptor_stat),
+                     'windows_file_identity': {'view': 'Win32-FileBasic0-Standard1-Id18-v1',
+                                               'fields': list(WIN32_SOURCE_FIELDS),
+                                               'values': [str(value) for value in identity]}}
+
+
 def read_regular(root, relative, limit=SOURCE_LIMIT):
+    if os.name == 'nt':
+        return _read_windows_regular(root, relative, limit)
     path = root.joinpath(*relative_path(relative).parts)
     parents = parents_pins(root, path)
     old = path.lstat()
@@ -428,8 +579,75 @@ def create_owned(path, parent_pins):
     need(directory_pin(parent) == parent_pins[parent], 'Owned directory creation parent drift')
 
 
+def _write_windows_exclusive(root, relative, payload, pins):
+    path = root.joinpath(*relative_path(relative).parts)
+    parent = path.parent
+    need(parent in pins and directory_pin(parent) == pins[parent], 'Owned output ancestor identity')
+    native = _Win32FileIdentity()
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_BINARY', 0), 0o600)
+    with os.fdopen(fd, 'wb') as stream:
+        need(stream.write(payload) == len(payload), 'Exact complete exclusive write')
+        stream.flush()
+        os.fsync(stream.fileno())
+        opened = os.fstat(stream.fileno())
+        require_source_shape(opened, MAX_BODY + SOURCE_LIMIT, allow_empty=True)
+        need(opened.st_size == len(payload), 'Exclusive write size')
+        descriptor_stat = source_stat_identity(opened)
+        named = path.lstat()
+        require_source_shape(named, MAX_BODY + SOURCE_LIMIT, allow_empty=True)
+        named_stat = source_stat_identity(named)
+        need(named.st_size == len(payload), 'Exclusive named write size')
+        identity = native.borrowed(stream.fileno(), MAX_BODY + SOURCE_LIMIT, allow_empty=True)
+        require_identity(native.named(path, MAX_BODY + SOURCE_LIMIT, allow_empty=True), identity, WIN32_SOURCE_FIELDS,
+                         'Exclusive opened native/path identity drift', relative)
+        require_identity(source_stat_identity(os.fstat(stream.fileno())), descriptor_stat, SOURCE_FIELDS,
+                         'Exclusive descriptor-stat identity drift', relative)
+        require_identity(source_stat_identity(path.lstat()), named_stat, SOURCE_FIELDS,
+                         'Exclusive named-stat identity drift', relative)
+        require_identity(native.borrowed(stream.fileno(), MAX_BODY + SOURCE_LIMIT, allow_empty=True), identity,
+                         WIN32_SOURCE_FIELDS, 'Exclusive descriptor-native identity drift', relative)
+    # Windows may finalize last-write/change timestamps at owning writer close.
+    # This explicit self-write interval is not a source-read drift waiver:
+    # every non-time field stays exact, times cannot move backwards, and the
+    # permitted time deltas do not identify an actor or establish intrinsic cause.
+    # closed payload is reopened read-only with full final path+descriptor+native
+    # before/after custody and exact byte-for-byte content readback.
+    final_payload, final = _read_windows_regular(root, relative, MAX_BODY + SOURCE_LIMIT, allow_empty=True)
+    need(final_payload == payload and final['sha256'] == digest(payload), 'Exclusive final complete content readback')
+    final_native = tuple(int(value) for value in final['windows_file_identity']['values'])
+    final_stat = tuple(final['stat_identity'])
+    native_non_time = tuple(field for field in WIN32_SOURCE_FIELDS
+                            if field not in ('last_write_time_100ns', 'change_time_100ns'))
+    native_indices = [WIN32_SOURCE_FIELDS.index(field) for field in native_non_time]
+    require_identity(tuple(final_native[index] for index in native_indices), tuple(identity[index] for index in native_indices),
+                     native_non_time, 'Exclusive owning-close non-time native identity drift', relative)
+    stat_non_time = tuple(field for field in SOURCE_FIELDS if field not in ('st_mtime_ns', 'st_ctime_ns'))
+    stat_indices = [SOURCE_FIELDS.index(field) for field in stat_non_time]
+    require_identity(tuple(final_stat[index] for index in stat_indices), tuple(named_stat[index] for index in stat_indices),
+                     stat_non_time, 'Exclusive owning-close non-time named-stat drift', relative)
+    need(all(final_native[index] >= identity[index] for index in (6, 7)) and
+         all(final_stat[index] >= named_stat[index] for index in (5, 6)), 'Owning write-close time moved backwards')
+    need(directory_pin(parent) == pins[parent], 'Evidence close/path/parent drift')
+    changed_native = [WIN32_SOURCE_FIELDS[index] for index in (6, 7) if final_native[index] != identity[index]]
+    changed_named = [SOURCE_FIELDS[index] for index in (5, 6) if final_stat[index] != named_stat[index]]
+    return {'path': relative, 'bytes': len(payload), 'sha256': digest(payload),
+            'windows_write_close_custody': {
+                'only_forward_time_fields_changed_across_owning_close_interval': True,
+                'forward_time_transition_does_not_establish_actor_or_cause': True,
+                'changed_native_time_fields': changed_native, 'changed_named_time_fields': changed_named,
+                'before_close_native_values': [str(value) for value in identity],
+                'final_closed_native_values': [str(value) for value in final_native],
+                'before_close_named_stat7': [str(value) for value in named_stat],
+                'before_close_descriptor_stat7': [str(value) for value in descriptor_stat],
+                'final_closed_named_stat7': [str(value) for value in final_stat],
+                'full_final_path_descriptor_native_custody': True,
+                'exact_final_complete_content_readback': True}}
+
+
 def write_exclusive(root, relative, payload, pins):
     need(type(payload) is bytes and len(payload) <= MAX_BODY + SOURCE_LIMIT, 'Bounded exclusive evidence')
+    if os.name == 'nt':
+        return _write_windows_exclusive(root, relative, payload, pins)
     path = root.joinpath(*relative_path(relative).parts)
     parent = path.parent
     need(parent in pins and directory_pin(parent) == pins[parent], 'Owned output ancestor identity')

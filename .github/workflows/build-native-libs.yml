@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: all
-        options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source, picker-jni-actual-jvm2]
+        options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source, picker-jni-actual-jvm2, picker-awt-generation]
 permissions:
   contents: read
 concurrency:
@@ -230,3 +230,39 @@ jobs:
           path: |
             build/ci-runtime/picker-jni-actual-jvm2.json
             build/ci-verification/picker-jni-actual-jvm2/*.json
+
+  picker-awt-generation:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'picker-awt-generation'
+    runs-on: macos-26
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
+        with:
+          toolchain: '1.98.0'
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - name: Standard verified host resources then one fresh real AWT generation method; no modal or old JNI replay
+        run: python3 -B scripts/ci/picker_awt_generation.py --output build/ci-verification/picker-awt-generation
+      - name: Preserve only five allowlisted JSON receipts, including failures; raw native diagnostics stay private
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: picker-awt-generation-evidence
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-verification/picker-awt-generation/receipt.json
+            build/ci-verification/picker-awt-generation/inputs-before.json
+            build/ci-verification/picker-awt-generation/inputs-after.json
+            build/ci-verification/picker-awt-generation/runtime-before.json
+            build/ci-verification/picker-awt-generation/runtime-after.json

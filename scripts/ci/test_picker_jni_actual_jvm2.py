@@ -238,8 +238,8 @@ class PickerActualJvm2Receipts(unittest.TestCase):
 
     def test_additive_workflow_is_manual_readonly_macos_only_exact2_json_only_and_does_not_replay_old_controls(self):
         workflow = (r.library.ROOT / r.WORKFLOW).read_text()
-        self.assertIn("options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source, picker-jni-actual-jvm2]", workflow)
-        job = workflow.split("\n  picker-jni-actual-jvm2:", 1)[1]
+        self.assertIn("options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source, picker-jni-actual-jvm2, picker-awt-generation]", workflow)
+        job = workflow.split("\n  picker-jni-actual-jvm2:", 1)[1].split("\n  picker-awt-generation:", 1)[0]
         for needed in ("github.repository == 'Apdelrahman1911/nativeCmpkit'", "github.event_name == 'workflow_dispatch'",
                        "inputs.profile == 'picker-jni-actual-jvm2'", "runs-on: macos-26", "timeout-minutes: 15",
                        "persist-credentials: false", "java-version: '17'", "toolchain: '1.98.0'",

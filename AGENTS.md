@@ -1,5 +1,10 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## macOS parent-generation native-only patch adopted — 2026-11-05
+
+[809–812](docs/development/evidence/current-platform-recovery-20261101/picker-awt809-812-native-only/README.md) coalesces6 sources (3 existing/3 additions) once. FIRST10 source controls pass10/10; only the changed no-hosted-replay workflow method subsequently passes1/1; unchanged9 reused.742 independently accepts source and saved results,33 inputs held/owned cleanup/child absence. Actionlint0; no compiler/native/consumer/closure result yet. Exact native-only profile picker-awt-generation prepares standard verified resources, requires javap one annotated instance method and one DirectJUnit AWT peer replacement with post-finally marker; five allowlisted JSON only. Accepted actual JNI2 is excluded. Actual wrapper812 gradlew/properties/wrapper-properties hashes are already sampled by the existing source snapshot chain. Owned Java home/tmp/cache/Gradle startup and daemon settings are configuration, not observed foreign-write/daemon or checker/panel certification. #58 stays open for its original remaining criteria; no blanket #64 dependency-trust issue reinterpretation. Lead owns immutable dispatch/results/closures; isolated parallel work, max2 combined hosted INCLUDING queued/reserved, local compiler6GiB memory/8GiB disk. Actions/all/no mandatory SHA pinning/minimum read permissions and every publication/Pages/main/history/API–ABI/dependency/legal/security/readiness gate remain. No packages, releases or deployments. ROOT4cc remains separate and unchanged at this source-adoption receipt.
+
+
 ## Actual macOS/JVM2 accepted; parent issue remains open — 2026-11-05
 
 [Run42086043267/a1](docs/development/evidence/current-platform-recovery-20261101/picker-parent-resource-r3-jvm2-20261105/README.md)

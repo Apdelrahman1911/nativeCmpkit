@@ -44,6 +44,9 @@ METHOD_LINE = re.compile(r"^test jni_path_tests::([a-z0-9_:]+) \.\.\. (.*)$")
 def expected_methods(host: str, focus: str = "all") -> tuple[str, ...]:
     if host not in {"Linux", "Darwin", "Windows"}:
         raise ValueError("JNI fixture requires an explicit supported real JVM host")
+    if focus == "actual-jvm2":
+        import picker_jni_actual_jvm2 as actual_jvm2
+        return tuple(method.split("::", 1)[1] for method in actual_jvm2.expected_methods(host))
     if focus == "macos-domain":
         if host != "Darwin":
             raise ValueError("macos-domain recovery requires the actual macOS filesystem/JVM host")
@@ -81,6 +84,8 @@ def failure_details(log: str) -> dict:
 
 
 def review_log(log: str, host: str, focus: str = "all") -> dict:
+    if focus == "actual-jvm2":
+        raise ValueError("actual-jvm2 requires one held compile and two separately exact process receipts")
     if len(log.encode("utf-8")) > 8 * 1024 ** 2:
         raise ValueError("Cargo/JVM diagnostic exceeds bounded reviewer input")
     ordered = expected_methods(host, focus)
@@ -137,13 +142,17 @@ def review_log(log: str, host: str, focus: str = "all") -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--focus", choices=("all", "macos-domain"), default="all",
-                        help="macos-domain recovers only the failed filesystem/negative JNI cases, not accepted Unicode/Compose")
+    parser.add_argument("--focus", choices=("all", "macos-domain", "actual-jvm2"), default="all",
+                        help=("macos-domain recovers only the failed filesystem/negative JNI cases, not accepted Unicode/Compose; "
+                              "actual-jvm2 selects only two new private-entry/parser methods separately"))
     args = parser.parse_args()
     try:
         expected_methods(platform.system(), args.focus)
     except ValueError as error:
         parser.error(str(error))
+    if args.focus == "actual-jvm2":
+        import picker_jni_actual_jvm2 as actual_jvm2
+        return actual_jvm2.run(args.output)
     root = library.ROOT
     requested_output = root / args.output
     output = requested_output.resolve()

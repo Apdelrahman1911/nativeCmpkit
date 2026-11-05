@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: all
-        options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source]
+        options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source, picker-jni-actual-jvm2]
 permissions:
   contents: read
 concurrency:
@@ -190,3 +190,43 @@ jobs:
           path: |
             build/ci-runtime/picker-jni-macos.json
             build/ci-verification/picker-jni-macos-domain/*.json
+
+  picker-jni-actual-jvm2:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'picker-jni-actual-jvm2'
+    runs-on: macos-26
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
+        with:
+          toolchain: '1.98.0'
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - name: NEW exact JVM2 ingress lifecycle capture and refusal controls; zero native tests
+        run: |
+          python3 -B -m unittest discover -s scripts/ci -p test_picker_jni_actual_jvm2.py -v
+          PYTHONPATH=scripts/ci python3 -B -m unittest test_picker_jni_paths.PickerJniPathReceipts.test_failure_only_native_workflow_does_not_replay_accepted_hosts_or_unrelated_gradle_and_gui -v
+      - name: Record actual clean macOS arm64 JDK17 Rust and Xcode runtime; no simulator
+        id: runtime
+        run: python3 scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple --output build/ci-runtime/picker-jni-actual-jvm2.json
+      - name: One held compile then two separately exact real JVM methods; no picker or old JNI replay
+        run: python3 scripts/ci/picker_jni_paths.py --focus actual-jvm2 --output build/ci-verification/picker-jni-actual-jvm2
+      - name: Preserve JSON-only evidence including failed attempts; native payloads remain private
+        if: always() && steps.runtime.outcome == 'success'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: picker-jni-actual-jvm2-evidence
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-runtime/picker-jni-actual-jvm2.json
+            build/ci-verification/picker-jni-actual-jvm2/*.json

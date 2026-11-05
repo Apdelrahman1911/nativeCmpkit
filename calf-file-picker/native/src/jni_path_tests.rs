@@ -111,6 +111,134 @@ pub(super) fn observe_array_if_requested(
     })
 }
 
+// NEW R3 tests of the actual private JNI boundaries. These do not open a picker,
+// acquire a native parent, inject OOM, or establish AppKit/release completion.
+fn r3_owned_clean_jni_frame(
+    env: &mut JNIEnv,
+    body: impl FnOnce(&mut JNIEnv) -> jni::errors::Result<()>,
+) {
+    use std::io::Write;
+
+    assert!(!env.exception_check().unwrap());
+    env.push_local_frame(32).unwrap();
+    let primary = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| body(env)));
+    // This frame started clean and performs only the owned test operation.
+    // Remove its newly raised exception and pop the frame even on a failed
+    // assertion/JNI error. These JNI teardown calls are allowed while pending.
+    let cleared = env.exception_check().and_then(|pending| {
+        if pending {
+            env.exception_clear()
+        } else {
+            Ok(())
+        }
+    });
+    // SAFETY: this helper pushed the current frame above, body returned no local
+    // reference, and no local from that frame is used after this one pop.
+    let popped = unsafe { env.pop_local_frame(&JObject::null()) };
+    if let Err(error) = &cleared {
+        let _ = writeln!(std::io::stderr(), "R3 owned JNI exception cleanup failed: {error}");
+    }
+    if let Err(error) = &popped {
+        let _ = writeln!(std::io::stderr(), "R3 owned JNI frame cleanup failed: {error}");
+    }
+    match primary {
+        Ok(result) => {
+            result.unwrap(); // The original test/JNI failure keeps precedence.
+            cleared.unwrap();
+            popped.unwrap();
+        }
+        Err(panic) => std::panic::resume_unwind(panic),
+    }
+}
+
+#[test]
+fn actual_jni_pending_primary_stops_parsers_results_and_picker_entry_body() {
+    use super::{catch_panic_and_throw, jstring_array_to_vec, jstring_to_string, picker_entry};
+    use jni::objects::JThrowable;
+
+    let mut env = vm().attach_current_thread().unwrap();
+    r3_owned_clean_jni_frame(&mut env, |env| -> jni::errors::Result<()> {
+        let title = env.new_string("not parsed while pending 研究 😀")?;
+        let string_class = env.find_class("java/lang/String")?;
+        let array = env.new_object_array(1, &string_class, JString::default())?;
+        env.set_object_array_element(&array, 0, &title)?;
+        let primary = env.new_object("java/lang/IllegalStateException", "()V", &[])?;
+        let throwable: &JThrowable = (&primary).into();
+        env.throw(throwable)?;
+        let entered = AtomicUsize::new(0);
+
+        assert!(matches!(
+            jstring_to_string(env, &title),
+            Err(jni::errors::Error::JavaException)
+        ));
+        assert!(matches!(
+            jstring_array_to_vec(env, &array),
+            Err(jni::errors::Error::JavaException)
+        ));
+        let path = PathBuf::from("/not-opened/nativeCmpKit/unchanged.txt");
+        assert!(matches!(
+            path_to_jstring(env, &path),
+            Err(jni::errors::Error::JavaException)
+        ));
+        assert!(matches!(
+            paths_to_jstring_array(env, &[path]),
+            Err(jni::errors::Error::JavaException)
+        ));
+        assert_eq!(
+            catch_panic_and_throw(env, -1, |_env| {
+                entered.fetch_add(1, Ordering::SeqCst);
+                77
+            }),
+            -1
+        );
+        assert_eq!(
+            picker_entry(env, -2, |_env| {
+                entered.fetch_add(1, Ordering::SeqCst);
+                Ok(88)
+            }),
+            -2
+        );
+        assert_eq!(entered.load(Ordering::SeqCst), 0);
+        // ExceptionOccurred/Clear are permitted while pending. Object/class
+        // identity operations happen only AFTER clearing the owned test primary.
+        let observed = env.exception_occurred()?;
+        assert!(!observed.is_null());
+        env.exception_clear()?;
+        let observed = env.auto_local(observed);
+        assert!(env.is_same_object(&*observed, &primary)?);
+        assert!(env.is_instance_of(&*observed, "java/lang/IllegalStateException")?);
+        assert!(!env.exception_check()?);
+        println!("NATIVECMPKIT_ACTUAL_JNI_GUARD same_primary=true picker_entry_body=0");
+        Ok(())
+    });
+}
+
+#[test]
+fn actual_jni_optional_nulls_and_unicode_parser_arguments_keep_their_meaning() {
+    use super::{jstring_array_to_vec, jstring_to_string};
+
+    let mut env = vm().attach_current_thread().unwrap();
+    r3_owned_clean_jni_frame(&mut env, |env| -> jni::errors::Result<()> {
+        assert_eq!(jstring_to_string(env, &JString::default())?, None);
+        assert!(jstring_array_to_vec(env, &JObjectArray::default())?.is_empty());
+        let title = env.new_string("Résumé 研究 😀")?;
+        let empty = env.new_string("")?;
+        assert_eq!(
+            jstring_to_string(env, &title)?,
+            Some("Résumé 研究 😀".to_owned())
+        );
+        assert_eq!(jstring_to_string(env, &empty)?, Some(String::new()));
+        let string_class = env.find_class("java/lang/String")?;
+        let array = env.new_object_array(3, &string_class, JString::default())?;
+        env.set_object_array_element(&array, 0, &title)?;
+        env.set_object_array_element(&array, 2, &empty)?;
+        assert_eq!(jstring_array_to_vec(env, &array)?, ["Résumé 研究 😀", ""]);
+        assert!(!env.exception_check()?);
+        println!("NATIVECMPKIT_ACTUAL_JNI_PARSERS unicode_exact=true optional_nulls=true");
+        Ok(())
+    });
+}
+
 #[test]
 fn actual_jni_keeps_non_ascii_and_supplementary_filename_bytes_exact() {
     let root = OwnedDirectory::new();
@@ -132,7 +260,7 @@ fn actual_jni_keeps_non_ascii_and_supplementary_filename_bytes_exact() {
                 std::fs::read(path).unwrap()
             );
         }
-        let raw = path_to_jstring(env, &paths[0]);
+        let raw = path_to_jstring(env, &paths[0])?;
         assert!(!raw.is_null());
         assert_eq!(
             java_string(env, unsafe { JString::from_raw(raw) }),
@@ -185,7 +313,10 @@ fn actual_directory_result_raises_io_exception_instead_of_returning_a_lossy_path
     let invalid = root.invalid(true);
     let mut env = vm().attach_current_thread().unwrap();
     env.with_local_frame(16, |env| -> jni::errors::Result<()> {
-        assert!(path_to_jstring(env, &invalid).is_null());
+        assert!(matches!(
+            path_to_jstring(env, &invalid),
+            Err(jni::errors::Error::JavaException)
+        ));
         assert_io_exception(env);
         assert!(invalid.is_dir());
         Ok(())
@@ -201,7 +332,10 @@ fn actual_save_path_failure_does_not_open_or_overwrite_the_lossy_peer() {
     let peer = root.file("selected-�.txt", b"must not be overwritten");
     let mut env = vm().attach_current_thread().unwrap();
     env.with_local_frame(16, |env| -> jni::errors::Result<()> {
-        assert!(path_to_jstring(env, &invalid).is_null());
+        assert!(matches!(
+            path_to_jstring(env, &invalid),
+            Err(jni::errors::Error::JavaException)
+        ));
         assert_io_exception(env);
         Ok(())
     })
@@ -365,9 +499,12 @@ mod macos_domain {
         std::fs::create_dir(&peer).unwrap();
         let mut env = vm().attach_current_thread().unwrap();
         env.with_local_frame(16, |env| -> jni::errors::Result<()> {
-            assert!(path_to_jstring(env, &invalid).is_null());
+            assert!(matches!(
+                path_to_jstring(env, &invalid),
+                Err(jni::errors::Error::JavaException)
+            ));
             assert_io_exception(env);
-            let raw = path_to_jstring(env, &peer);
+            let raw = path_to_jstring(env, &peer)?;
             assert!(!raw.is_null());
             assert_eq!(
                 Path::new(&java_string(env, unsafe { JString::from_raw(raw) })),
@@ -390,7 +527,10 @@ mod macos_domain {
         let peer = root.file("selected-�.txt", b"real peer must not be overwritten");
         let mut env = vm().attach_current_thread().unwrap();
         env.with_local_frame(16, |env| -> jni::errors::Result<()> {
-            assert!(path_to_jstring(env, &invalid).is_null());
+            assert!(matches!(
+                path_to_jstring(env, &invalid),
+                Err(jni::errors::Error::JavaException)
+            ));
             assert_io_exception(env);
             Ok(())
         })

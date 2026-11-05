@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated picker/JNI batch ready for actual JVM2 — 2026-11-05
+
+[R3/789/798/800](docs/development/evidence/current-platform-recovery-20261101/picker-parent-resource-r3-jvm2-20261105/README.md)
+adopts nine existing/five NEW source endpoints on the isolated
+`development/macos-parent-lease-20261105` branch. R3 source15/protocol16 and direct
+std-only compile are reviewed reuse, not fresh library/native acceptance.
+Actual-worktree FIRST NEW21+owning1 passes22/22 once (suite0.054s,
+supervision0.688178956s),540 FDstat9/SHA/modes held, complete original captures,
+owned group absent and empty runtime removed;777 independently accepts saved
+results. Supervisor admission alone projects frozen `files` into `inputs` and
+uses explicit NEW0644 rather than0600 transport. Original R1/R2 refusals and
+sparse prewrite refusal remain. Actionlint/whitespace0 qualify no native tests.
+Next freeze/push THIS development branch and dispatch only
+`build-native-libs.yml`/`picker-jni-actual-jvm2`: one locked compile-only arm64
+library build, then two separate exact inventory/run pairs under one600s budget
+and8GiB disk reserve. No old JNI/AppKit/native-population replay or multi-filter
+assumption. #58 remains open for original AppKit/parent-destruction/Windows/Linux/
+fallback criteria; retain/release completion, shutdown/epoch/ABI/consumer/security
+are NOT established by source controls. No main/history rewrite/publication.
+Lead owns Git/dispatch/acceptance/closures; max2 combined hosted INCLUDINGqueued/
+reserved. Actions/all/no mandatory SHA pinning/minimum permissions and every
+publishing/Pages/native/consumer/API–ABI/dependency/legal/security/readiness gate
+remain. Root shared CI recovery stays isolated from this immutable native request.
+
 ## Related CI/Android batch accepted; ready for changed producer — 2026-11-05
 
 [730/732–735](docs/development/evidence/current-platform-recovery-20261101/ci-ingress730-controls732-adoption733/README.md)

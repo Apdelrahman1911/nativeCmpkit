@@ -1,19 +1,26 @@
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
-use jni::objects::{JClass, JObjectArray, JString};
+use jni::objects::{JClass, JObject, JObjectArray, JString};
 use jni::sys::{jboolean, jint, jlong, jobjectArray, jstring, JNI_TRUE};
 use jni::JNIEnv;
+#[cfg(not(target_os = "macos"))]
 use raw_window_handle::{
     HandleError, HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle,
 };
 use rfd::FileDialog;
 use std::path::PathBuf;
-#[cfg(target_os = "macos")]
-use std::ptr::NonNull;
 use std::sync::{Arc, OnceLock};
 #[cfg(test)]
 mod jni_path_tests;
+#[cfg(target_os = "macos")]
+mod macos_parent;
+#[cfg(any(target_os = "macos", test))]
+mod macos_release_slots;
+#[cfg(any(target_os = "macos", test))]
+mod parent_retain_slot;
 mod path_encoding;
 mod registry;
+#[cfg(target_os = "macos")]
+type ParentWindow = macos_parent::ParentLease;
 use path_encoding::unicode_path;
 use registry::Registry;
 
@@ -21,28 +28,69 @@ use registry::Registry;
 // Helpers
 // ---------------------------------------------------------------------------
 
-/// Convert a JString to a Rust String, returning None for null.
-fn jstring_to_string(env: &mut JNIEnv, js: &JString) -> Option<String> {
-    if js.is_null() {
-        return None;
+/// Preserve a pending primary without clearing/replacing it or doing later JNI.
+fn ensure_clean(env: &JNIEnv) -> Result<(), jni::errors::Error> {
+    if env.exception_check()? {
+        Err(jni::errors::Error::JavaException)
+    } else {
+        Ok(())
     }
-    env.get_string(js).ok().map(|s| s.into())
+}
+
+/// Convert a JString to a Rust String, retaining None for a valid null argument.
+/// JNI/reference failures are errors, never silently changed to an absent value.
+fn jstring_to_string(
+    env: &mut JNIEnv,
+    js: &JString,
+) -> Result<Option<String>, jni::errors::Error> {
+    ensure_clean(env)?;
+    if js.is_null() {
+        return Ok(None);
+    }
+    let string_class = env.find_class("java/lang/String")?;
+    let string_class = env.auto_local(string_class);
+    let is_string = env.is_instance_of(js, &*string_class)?;
+    ensure_clean(env)?;
+    if !is_string {
+        return Err(jni::errors::Error::JniCall(
+            jni::errors::JniError::InvalidArguments,
+        ));
+    }
+    // SAFETY: nonnull String instance was checked above in this clean env.
+    // Do not use get_string's hidden unchecked GetObjectClass allocation path.
+    let value = unsafe { env.get_string_unchecked(js) }?;
+    let value = String::from(value); // JavaStr Drop releases UTF chars on all paths.
+    ensure_clean(env)?;
+    Ok(Some(value))
 }
 
 /// Convert a Java String[] to Vec<String>, properly releasing JNI local references.
-fn jstring_array_to_vec(env: &mut JNIEnv, array: &JObjectArray) -> Vec<String> {
-    let len = env.get_array_length(array).unwrap_or(0);
-    let mut result = Vec::with_capacity(len as usize);
+fn jstring_array_to_vec(
+    env: &mut JNIEnv,
+    array: &JObjectArray,
+) -> Result<Vec<String>, jni::errors::Error> {
+    ensure_clean(env)?;
+    if array.is_null() {
+        return Ok(Vec::new());
+    }
+    let len = env.get_array_length(array)?;
+    ensure_clean(env)?; // jni0.21.1 GetArrayLength is unchecked.
+    let capacity = usize::try_from(len).map_err(|_| {
+        jni::errors::Error::JniCall(jni::errors::JniError::InvalidArguments)
+    })?;
+    let mut result = Vec::new();
+    result.try_reserve(capacity).map_err(|_| {
+        jni::errors::Error::JniCall(jni::errors::JniError::NoMemory)
+    })?;
     for i in 0..len {
-        if let Ok(obj) = env.get_object_array_element(array, i) {
-            let jstr: JString = obj.into();
-            if let Some(s) = jstring_to_string(env, &jstr) {
-                result.push(s);
-            }
-            let _ = env.delete_local_ref(jstr);
+        ensure_clean(env)?;
+        let obj = env.get_object_array_element(array, i)?;
+        let jstr = env.auto_local(JString::from(obj));
+        if let Some(value) = jstring_to_string(env, &jstr)? {
+            result.push(value);
         }
     }
-    result
+    Ok(result)
 }
 
 /// Convert a Vec of paths to a Java String[], with proper error handling.
@@ -50,6 +98,7 @@ fn paths_to_jstring_array(
     env: &mut JNIEnv,
     paths: &[PathBuf],
 ) -> Result<jobjectArray, jni::errors::Error> {
+    ensure_clean(env)?;
     let string_class = env.find_class("java/lang/String")?;
     let array = env.new_object_array(paths.len() as i32, &string_class, JString::default())?;
     // Test-only weak observer of the real result array; no production JNI export/hook.
@@ -57,6 +106,7 @@ fn paths_to_jstring_array(
     jni_path_tests::observe_array_if_requested(env, &array)?;
 
     for (i, path) in paths.iter().enumerate() {
+        ensure_clean(env)?;
         let path_str = match unicode_path(path) {
             Ok(s) => s,
             Err(message) => {
@@ -72,18 +122,20 @@ fn paths_to_jstring_array(
     Ok(array.into_raw())
 }
 
-/// Convert a path to a jstring, returning null on failure.
-fn path_to_jstring(env: &mut JNIEnv, path: &std::path::Path) -> jstring {
+/// Convert a path to a jstring, propagating an error before subsequent JNI work.
+fn path_to_jstring(
+    env: &mut JNIEnv,
+    path: &std::path::Path,
+) -> Result<jstring, jni::errors::Error> {
+    ensure_clean(env)?;
     let s = match unicode_path(path) {
         Ok(s) => s,
         Err(message) => {
-            let _ = env.throw_new("java/io/IOException", message);
-            return std::ptr::null_mut();
+            env.throw_new("java/io/IOException", message)?;
+            return Err(jni::errors::Error::JavaException);
         }
     };
-    env.new_string(s)
-        .map(|s| s.into_raw())
-        .unwrap_or(std::ptr::null_mut())
+    Ok(env.new_string(s)?.into_raw())
 }
 
 /// Throw a Java RuntimeException with the given message.
@@ -102,21 +154,67 @@ where
     let env_ptr = env as *mut JNIEnv;
     match std::panic::catch_unwind(|| {
         let env = unsafe { &mut *env_ptr };
-        f(env)
+        if ensure_clean(env).is_err() {
+            return None;
+        }
+        Some(f(env))
     }) {
-        Ok(result) => result,
+        Ok(Some(result)) => result,
+        Ok(None) => fallback,
         Err(panic_info) => {
-            let msg = if let Some(s) = panic_info.downcast_ref::<&str>() {
-                format!("Native panic: {}", s)
-            } else if let Some(s) = panic_info.downcast_ref::<String>() {
-                format!("Native panic: {}", s)
-            } else {
-                "Native panic: unknown error".to_string()
-            };
-            throw_runtime_exception(env, &msg);
+            // Guard error formatting/JNI reporting too. A reporting panic must
+            // not unwind across the exported JNI system ABI or replace a primary.
+            let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                let msg = if let Some(s) = panic_info.downcast_ref::<&str>() {
+                    format!("Native panic: {}", s)
+                } else if let Some(s) = panic_info.downcast_ref::<String>() {
+                    format!("Native panic: {}", s)
+                } else {
+                    "Native panic: unknown error".to_string()
+                };
+                throw_runtime_exception(env, &msg);
+            }));
             fallback
         }
     }
+}
+
+/// Only outer create/show/destroy entries may drain. The retain callback must
+/// use the plain panic wrapper while the JDK resource read lock is still held.
+/// An Err/panic skips exit cleanup even if Throw itself failed: the logical
+/// primary is not replaced by a later cleanup exception.
+fn picker_entry<F, T>(env: &mut JNIEnv, fallback: T, f: F) -> T
+where
+    F: FnOnce(&mut JNIEnv) -> Result<T, ()> + std::panic::UnwindSafe,
+{
+    let result = catch_panic_and_throw(env, Err(()), |env| {
+        // The common wrapper's pending guard has already run inside its panic
+        // boundary. Only this explicit outer-picker closure admits any drain.
+        #[cfg(target_os = "macos")]
+        macos_parent::drain_pending_releases(env);
+        ensure_clean(env).map_err(|_| ())?;
+        match f(env) {
+            Ok(value) => {
+                ensure_clean(env).map_err(|_| ())?;
+                // Closure locals (including the final Arc/parent owner) have
+                // dropped. Only a successful clean result admits this pass.
+                #[cfg(target_os = "macos")]
+                macos_parent::drain_pending_releases(env);
+                ensure_clean(env).map_err(|_| ())?;
+                Ok(value)
+            }
+            Err(()) => Err(()),
+        }
+    });
+    match result {
+        Ok(value) => value,
+        Err(()) => fallback,
+    }
+}
+
+/// Report parsing/conversion failure, but preserve any original Java throwable.
+fn picker_jni_failure(env: &mut JNIEnv, context: &str, error: jni::errors::Error) {
+    throw_runtime_exception(env, &format!("{context}: {error}"));
 }
 
 // ---------------------------------------------------------------------------
@@ -125,16 +223,20 @@ where
 
 /// A wrapper that implements HasWindowHandle + HasDisplayHandle for rfd::set_parent.
 /// Constructed from a raw native window pointer passed from the JVM.
+#[cfg(not(target_os = "macos"))]
 struct ParentWindow {
     raw_window: RawWindowHandle,
     raw_display: RawDisplayHandle,
 }
 
-// Safety: The window handle comes from the JVM's AWT thread and is valid
-// for the duration of the dialog. rfd internally dispatches to the correct thread.
+// Existing Windows/Linux assumptions remain UNVERIFIED under IO-023.
+// macOS deliberately does NOT use these raw-handle Send/Sync assertions.
+#[cfg(not(target_os = "macos"))]
 unsafe impl Send for ParentWindow {}
+#[cfg(not(target_os = "macos"))]
 unsafe impl Sync for ParentWindow {}
 
+#[cfg(not(target_os = "macos"))]
 impl HasWindowHandle for ParentWindow {
     fn window_handle(&self) -> Result<raw_window_handle::WindowHandle<'_>, HandleError> {
         // Safety: The raw handle is valid for the lifetime of this struct.
@@ -142,6 +244,7 @@ impl HasWindowHandle for ParentWindow {
     }
 }
 
+#[cfg(not(target_os = "macos"))]
 impl HasDisplayHandle for ParentWindow {
     fn display_handle(&self) -> Result<raw_window_handle::DisplayHandle<'_>, HandleError> {
         // Safety: The raw handle is valid for the lifetime of this struct.
@@ -149,36 +252,13 @@ impl HasDisplayHandle for ParentWindow {
     }
 }
 
+#[cfg(not(target_os = "macos"))]
 impl ParentWindow {
     /// Create a ParentWindow from a native window pointer.
     /// Returns None if the pointer is 0 (no parent).
     fn from_raw_ptr(ptr: jlong) -> Option<Self> {
         if ptr == 0 {
             return None;
-        }
-
-        #[cfg(target_os = "macos")]
-        {
-            use objc2::rc::Retained;
-            use objc2_app_kit::{NSView, NSWindow};
-            use raw_window_handle::{AppKitDisplayHandle, AppKitWindowHandle};
-
-            // ComposeWindow.windowHandle returns an NSWindow pointer.
-            // AppKitWindowHandle expects an NSView pointer.
-            // Get the contentView from the NSWindow.
-            let ns_window_ptr = ptr as *mut NSWindow;
-            let ns_window: Retained<NSWindow> = unsafe { Retained::retain(ns_window_ptr) }?;
-            let ns_view: Retained<NSView> = ns_window.contentView()?;
-            let ns_view_ptr = NonNull::new(Retained::as_ptr(&ns_view) as *mut std::ffi::c_void)?;
-
-            let raw_window = RawWindowHandle::AppKit(AppKitWindowHandle::new(ns_view_ptr));
-            // Note: ns_window and ns_view are kept alive by the NSWindow's
-            // own strong reference. We just need the pointer value here.
-            let raw_display = RawDisplayHandle::AppKit(AppKitDisplayHandle::new());
-            Some(ParentWindow {
-                raw_window,
-                raw_display,
-            })
         }
 
         #[cfg(target_os = "windows")]
@@ -213,6 +293,30 @@ impl ParentWindow {
         {
             None
         }
+    }
+}
+
+/// Legacy numeric parent ABI is retained, but cannot establish macOS ownership.
+fn legacy_parent(
+    env: &mut JNIEnv,
+    pointer: jlong,
+) -> Result<Option<ParentWindow>, jni::errors::Error> {
+    ensure_clean(env)?;
+    #[cfg(target_os = "macos")]
+    {
+        if pointer != 0 {
+            env.throw_new(
+                "java/lang/UnsupportedOperationException",
+                "A macOS parent requires the owned AWT-parent JNI capability, not a raw pointer",
+            )?;
+            return Err(jni::errors::Error::JavaException);
+        }
+        Ok(None)
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = env;
+        Ok(ParentWindow::from_raw_ptr(pointer))
     }
 }
 
@@ -264,11 +368,37 @@ impl DialogConfig {
             dialog = dialog.set_file_name(name);
         }
 
+        #[cfg(not(target_os = "macos"))]
         if let Some(ref parent) = self.parent {
             dialog = dialog.set_parent(parent);
         }
 
         dialog
+    }
+
+    /// Only current call sites return owned path data; a parent-bound dialog
+    /// is constructed and synchronously shown inside the same AppKit scope.
+    fn with_built_dialog<T: Send>(
+        &self,
+        _env: &mut JNIEnv,
+        show: impl FnOnce(FileDialog) -> T + Send,
+    ) -> Result<T, ()> {
+        ensure_clean(_env).map_err(|error| {
+            picker_jni_failure(_env, "Native dialog worker is not clean", error)
+        })?;
+        #[cfg(target_os = "macos")]
+        if let Some(parent) = &self.parent {
+            return match parent.with_parent(_env, |borrow| show(self.build().set_parent(borrow))) {
+                Ok(result) => Ok(result),
+                Err(error) => {
+                    let _ = error.throw(_env);
+                    Err(())
+                }
+            };
+        }
+        // Explicitly absent parent preserves the existing rfd path. Requested
+        // but unavailable parents never reach this branch: creation throws.
+        Ok(show(self.build()))
     }
 }
 
@@ -278,25 +408,26 @@ fn configs() -> &'static Registry<DialogConfig> {
     CONFIGS.get_or_init(Registry::new)
 }
 
-fn register_config(env: &mut JNIEnv, config: DialogConfig) -> jlong {
-    if env.exception_check().unwrap_or(true) {
-        return 0;
-    }
+fn register_config(env: &mut JNIEnv, config: DialogConfig) -> Result<jlong, ()> {
+    ensure_clean(env)
+        .map_err(|error| picker_jni_failure(env, "Native dialog creation refused", error))?;
     match configs().insert(config) {
-        Ok(handle) => handle,
+        Ok(handle) => Ok(handle),
         Err(message) => {
             throw_runtime_exception(env, message);
-            0
+            Err(())
         }
     }
 }
 
-fn lease_config(env: &mut JNIEnv, handle: jlong) -> Option<Arc<DialogConfig>> {
+fn lease_config(env: &mut JNIEnv, handle: jlong) -> Result<Arc<DialogConfig>, ()> {
+    ensure_clean(env)
+        .map_err(|error| picker_jni_failure(env, "Native dialog show refused", error))?;
     match configs().lease(handle) {
-        Ok(config) => Some(config),
+        Ok(config) => Ok(config),
         Err(message) => {
             throw_runtime_exception(env, message);
-            None
+            Err(())
         }
     }
 }
@@ -335,19 +466,23 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     multiple: jboolean,
     parent_window: jlong,
 ) -> jlong {
-    catch_panic_and_throw(&mut env, 0, |env| {
+    picker_entry(&mut env, 0, |env| {
+        let title = jstring_to_string(env, &title)
+            .map_err(|error| picker_jni_failure(env, "Native title parsing failed", error))?;
+        let initial_directory = jstring_to_string(env, &initial_directory)
+            .map_err(|error| picker_jni_failure(env, "Native directory parsing failed", error))?;
+        let extensions = jstring_array_to_vec(env, &extensions)
+            .map_err(|error| picker_jni_failure(env, "Native filter parsing failed", error))?;
+        let parent = legacy_parent(env, parent_window)
+            .map_err(|error| picker_jni_failure(env, "Native parent creation failed", error))?;
         let config = DialogConfig {
             kind: DialogKind::PickFiles {
                 multiple: multiple == JNI_TRUE,
             },
-            title: jstring_to_string(env, &title),
-            initial_directory: jstring_to_string(env, &initial_directory),
-            extensions: if extensions.is_null() {
-                Vec::new()
-            } else {
-                jstring_array_to_vec(env, &extensions)
-            },
-            parent: ParentWindow::from_raw_ptr(parent_window),
+            title,
+            initial_directory,
+            extensions,
+            parent,
         };
         register_config(env, config)
     })
@@ -364,13 +499,19 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     initial_directory: JString,
     parent_window: jlong,
 ) -> jlong {
-    catch_panic_and_throw(&mut env, 0, |env| {
+    picker_entry(&mut env, 0, |env| {
+        let title = jstring_to_string(env, &title)
+            .map_err(|error| picker_jni_failure(env, "Native title parsing failed", error))?;
+        let initial_directory = jstring_to_string(env, &initial_directory)
+            .map_err(|error| picker_jni_failure(env, "Native directory parsing failed", error))?;
+        let parent = legacy_parent(env, parent_window)
+            .map_err(|error| picker_jni_failure(env, "Native parent creation failed", error))?;
         let config = DialogConfig {
             kind: DialogKind::PickDirectory,
-            title: jstring_to_string(env, &title),
-            initial_directory: jstring_to_string(env, &initial_directory),
+            title,
+            initial_directory,
             extensions: Vec::new(),
-            parent: ParentWindow::from_raw_ptr(parent_window),
+            parent,
         };
         register_config(env, config)
     })
@@ -389,18 +530,140 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     extension: JString,
     parent_window: jlong,
 ) -> jlong {
-    catch_panic_and_throw(&mut env, 0, |env| {
-        let ext = jstring_to_string(env, &extension);
+    picker_entry(&mut env, 0, |env| {
+        let title = jstring_to_string(env, &title)
+            .map_err(|error| picker_jni_failure(env, "Native title parsing failed", error))?;
+        let initial_directory = jstring_to_string(env, &initial_directory)
+            .map_err(|error| picker_jni_failure(env, "Native directory parsing failed", error))?;
+        let default_name = jstring_to_string(env, &default_name)
+            .map_err(|error| picker_jni_failure(env, "Native default name parsing failed", error))?;
+        let extension = jstring_to_string(env, &extension)
+            .map_err(|error| picker_jni_failure(env, "Native extension parsing failed", error))?;
+        let parent = legacy_parent(env, parent_window)
+            .map_err(|error| picker_jni_failure(env, "Native parent creation failed", error))?;
         let config = DialogConfig {
-            kind: DialogKind::SaveFile {
-                default_name: jstring_to_string(env, &default_name),
-            },
-            title: jstring_to_string(env, &title),
-            initial_directory: jstring_to_string(env, &initial_directory),
-            extensions: ext.into_iter().filter(|e| !e.is_empty()).collect(),
-            parent: ParentWindow::from_raw_ptr(parent_window),
+            kind: DialogKind::SaveFile { default_name },
+            title,
+            initial_directory,
+            extensions: extension.into_iter().filter(|e| !e.is_empty()).collect(),
+            parent,
         };
         register_config(env, config)
+    })
+}
+
+/// Additive feature handshake. Old ABI-1 payloads do not have this symbol.
+#[no_mangle]
+pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePickerBridge_macOsParentLeaseAbiVersion(
+    _env: JNIEnv,
+    _class: JClass,
+) -> jint {
+    if cfg!(target_os = "macos") {
+        1
+    } else {
+        0
+    }
+}
+
+/// Private additive JNI entry: actual Window, not a transferable raw Long.
+/// Signature: (ILjava/lang/String;Ljava/lang/String;[Ljava/lang/String;ZLjava/lang/String;Ljava/awt/Window;)J
+#[no_mangle]
+pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePickerBridge_createDialogWithAwtParent(
+    mut env: JNIEnv,
+    class: JClass,
+    kind: jint,
+    title: JString,
+    initial_directory: JString,
+    extensions: JObjectArray,
+    multiple: jboolean,
+    default_name: JString,
+    parent_window: JObject,
+) -> jlong {
+    picker_entry(&mut env, 0, |env| {
+        #[cfg(target_os = "macos")]
+        {
+            if !matches!(kind, 0..=2) {
+                let _ = env.throw_new(
+                    "java/lang/IllegalArgumentException",
+                    "Unsupported native dialog kind",
+                );
+                return Err(());
+            }
+            // Complete all fallible caller parsing BEFORE any parent borrow,
+            // including save default_name and the optional filter array.
+            let title = jstring_to_string(env, &title)
+                .map_err(|error| picker_jni_failure(env, "Native title parsing failed", error))?;
+            let initial_directory = jstring_to_string(env, &initial_directory)
+                .map_err(|error| picker_jni_failure(env, "Native directory parsing failed", error))?;
+            let extensions = jstring_array_to_vec(env, &extensions)
+                .map_err(|error| picker_jni_failure(env, "Native filter parsing failed", error))?;
+            let default_name = jstring_to_string(env, &default_name)
+                .map_err(|error| picker_jni_failure(env, "Native default name parsing failed", error))?;
+            let kind = match kind {
+                0 => DialogKind::PickFiles {
+                    multiple: multiple == JNI_TRUE,
+                },
+                1 => DialogKind::PickDirectory,
+                2 => DialogKind::SaveFile { default_name },
+                _ => unreachable!("dialog kind checked before parsing"),
+            };
+            let parent = match macos_parent::ParentLease::acquire(env, &class, &parent_window) {
+                Ok(parent) => parent,
+                Err(error) => {
+                    let _ = error.throw(env);
+                    return Err(());
+                }
+            };
+            let config = DialogConfig {
+                kind,
+                title,
+                initial_directory,
+                extensions,
+                parent: Some(parent),
+            };
+            register_config(env, config)
+        }
+        #[cfg(not(target_os = "macos"))]
+        {
+            let _ = (
+                class,
+                kind,
+                title,
+                initial_directory,
+                extensions,
+                multiple,
+                default_name,
+                parent_window,
+            );
+            let _ = env.throw_new(
+                "java/lang/UnsupportedOperationException",
+                "Owned AWT parenting is macOS-only",
+            );
+            Err(())
+        }
+    })
+}
+
+/// Called by the exact one-shot CFNativeAction during execute's read lock.
+/// Signature: (JJ)V
+#[no_mangle]
+pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePickerBridge_retainMacOsParent(
+    mut env: JNIEnv,
+    _class: JClass,
+    ticket: jlong,
+    pointer: jlong,
+) {
+    catch_panic_and_throw(&mut env, (), |env| {
+        #[cfg(target_os = "macos")]
+        macos_parent::retain_under_borrow(env, ticket, pointer);
+        #[cfg(not(target_os = "macos"))]
+        {
+            let _ = (ticket, pointer);
+            let _ = env.throw_new(
+                "java/lang/UnsupportedOperationException",
+                "Owned AWT parenting is macOS-only",
+            );
+        }
     })
 }
 
@@ -414,23 +677,19 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     _class: JClass,
     handle: jlong,
 ) -> jobjectArray {
-    catch_panic_and_throw(&mut env, std::ptr::null_mut(), |env| {
-        let Some(config) = lease_config(env, handle) else {
-            return std::ptr::null_mut();
-        };
-        let dialog = config.build();
-
-        let paths: Vec<PathBuf> = match &config.kind {
+    picker_entry(&mut env, std::ptr::null_mut(), |env| {
+        let config = lease_config(env, handle)?;
+        let paths = config.with_built_dialog(env, |dialog| match &config.kind {
             DialogKind::PickFiles { multiple: true } => dialog.pick_files().unwrap_or_default(),
             DialogKind::PickFiles { multiple: false } => dialog.pick_file().into_iter().collect(),
             _ => Vec::new(),
-        };
+        })?;
 
         match paths_to_jstring_array(env, &paths) {
-            Ok(arr) => arr,
+            Ok(arr) => Ok(arr),
             Err(e) => {
                 throw_runtime_exception(env, &format!("Failed to create result array: {}", e));
-                std::ptr::null_mut()
+                Err(())
             }
         }
     })
@@ -445,15 +704,13 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     _class: JClass,
     handle: jlong,
 ) -> jstring {
-    catch_panic_and_throw(&mut env, std::ptr::null_mut(), |env| {
-        let Some(config) = lease_config(env, handle) else {
-            return std::ptr::null_mut();
-        };
-        let dialog = config.build();
-
-        match dialog.pick_folder() {
-            Some(path) => path_to_jstring(env, &path),
-            None => std::ptr::null_mut(),
+    picker_entry(&mut env, std::ptr::null_mut(), |env| {
+        let config = lease_config(env, handle)?;
+        let path = config.with_built_dialog(env, |dialog| dialog.pick_folder())?;
+        match path {
+            Some(path) => path_to_jstring(env, &path)
+                .map_err(|error| picker_jni_failure(env, "Native directory result failed", error)),
+            None => Ok(std::ptr::null_mut()),
         }
     })
 }
@@ -467,15 +724,13 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     _class: JClass,
     handle: jlong,
 ) -> jstring {
-    catch_panic_and_throw(&mut env, std::ptr::null_mut(), |env| {
-        let Some(config) = lease_config(env, handle) else {
-            return std::ptr::null_mut();
-        };
-        let dialog = config.build();
-
-        match dialog.save_file() {
-            Some(path) => path_to_jstring(env, &path),
-            None => std::ptr::null_mut(),
+    picker_entry(&mut env, std::ptr::null_mut(), |env| {
+        let config = lease_config(env, handle)?;
+        let path = config.with_built_dialog(env, |dialog| dialog.save_file())?;
+        match path {
+            Some(path) => path_to_jstring(env, &path)
+                .map_err(|error| picker_jni_failure(env, "Native save result failed", error)),
+            None => Ok(std::ptr::null_mut()),
         }
     })
 }
@@ -489,10 +744,11 @@ pub extern "system" fn Java_com_mohamedrejeb_calf_picker_platform_NativeFilePick
     _class: JClass,
     handle: jlong,
 ) {
-    catch_panic_and_throw(&mut env, (), |env| {
-        if let Err(message) = configs().close(handle) {
-            throw_runtime_exception(env, message);
-        }
+    picker_entry(&mut env, (), |env| {
+        configs()
+            .close(handle)
+            .map_err(|message| throw_runtime_exception(env, message))?;
+        Ok(())
     })
 }
 

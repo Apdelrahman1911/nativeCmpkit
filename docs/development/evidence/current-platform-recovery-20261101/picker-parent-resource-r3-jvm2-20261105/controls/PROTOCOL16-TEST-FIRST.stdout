@@ -1,0 +1,21 @@
+
+running 16 tests
+test macos_release_slots::tests::capacity_sixty_four_is_finite_and_all_actual_model_records_transfer_once ... ok
+test macos_release_slots::tests::concurrent_drain_passes_cannot_duplicate_one_retained_model_record ... ok
+test macos_release_slots::tests::concurrent_reservations_are_bounded_and_each_record_transfers_once ... ok
+test macos_release_slots::tests::empty_capacity_has_no_reservation_or_release_work ... ok
+test macos_release_slots::tests::full_reservation_refuses_before_any_model_retain ... ok
+test macos_release_slots::tests::memory_handoff_keeps_one_actual_record_until_request_transfer ... ok
+test macos_release_slots::tests::one_drain_pass_visits_each_retryable_physical_slot_only_once ... ok
+test macos_release_slots::tests::owner_unwind_parks_the_real_record_without_record_destructor_work ... ok
+test macos_release_slots::tests::potentially_invoked_failure_is_quarantined_and_never_retried ... ok
+test macos_release_slots::tests::provably_uninvoked_failure_restores_the_same_owned_record ... ok
+test macos_release_slots::tests::request_metadata_destructor_can_reenter_without_a_held_mutex ... ok
+test macos_release_slots::tests::requested_metadata_unwind_does_not_reinstate_a_release_record ... ok
+test macos_release_slots::tests::uninvoked_transfer_is_refused_without_discarding_the_retain_record ... ok
+test macos_release_slots::tests::unwind_after_possible_invocation_keeps_unknown_not_retryable ... ok
+test macos_release_slots::tests::unwind_before_invocation_keeps_known_unscheduled_ownership ... ok
+test macos_release_slots::tests::wrong_vm_pass_does_not_move_known_or_quarantined_records ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

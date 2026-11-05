@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.Locale
 
 internal object PlatformFilePicker {
 
@@ -62,6 +63,12 @@ internal object PlatformFilePicker {
         parentWindow: ComposeWindow? = null,
     ): Long {
         val extensions = resolveExtensions(type)
+        if (usesOwnedAppKitParent && parentWindow != null) {
+            return NativeFilePickerBridge.createFileDialogForParent(
+                title, initialDirectory, extensions?.toTypedArray(),
+                selectionMode is FilePickerSelectionMode.Multiple, parentWindow,
+            )
+        }
 
         return NativeFilePickerBridge.createFileDialog(
             title = title,
@@ -81,6 +88,9 @@ internal object PlatformFilePicker {
         title: String?,
         parentWindow: ComposeWindow? = null,
     ): Long {
+        if (usesOwnedAppKitParent && parentWindow != null) {
+            return NativeFilePickerBridge.createDirectoryDialogForParent(title, initialDirectory, parentWindow)
+        }
         return NativeFilePickerBridge.createDirectoryDialog(
             title = title,
             initialDirectory = initialDirectory,
@@ -99,6 +109,11 @@ internal object PlatformFilePicker {
         title: String? = null,
         parentWindow: ComposeWindow? = null,
     ): Long {
+        if (usesOwnedAppKitParent && parentWindow != null) {
+            return NativeFilePickerBridge.createSaveDialogForParent(
+                title, initialDirectory, suggestedFileName(baseName, extension), extension, parentWindow,
+            )
+        }
         return NativeFilePickerBridge.createSaveDialog(
             title = title,
             initialDirectory = initialDirectory,
@@ -143,6 +158,13 @@ internal object PlatformFilePicker {
         NativeFilePickerBridge.destroyDialog(handle)
     }
 }
+
+// Use the same macOS/Darwin family as NativeLibLoader. If the property is
+// changed after load, the macOS native legacy path still REFUSES a raw parent.
+private val usesOwnedAppKitParent: Boolean
+    get() = System.getProperty("os.name").orEmpty().lowercase(Locale.ROOT).let {
+        "mac" in it || "darwin" in it
+    }
 
 /**
  * Resolves [FilePickerFileType] to a list of file extensions for the native dialog filter.

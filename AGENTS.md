@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows exact-import-context diagnostic qualified — 2026-11-05
+
+[734R2C1](docs/development/evidence/current-platform-recovery-20261101/windows-context-stat-only734-r2c1/README.md)
+adopts one exact existing workflow/twoNEW0644 after742 source+saved-results review.
+SoleNEW1 passes1/1 once,0.147s suite/0.274895938s protocol/0.334877562s launcher;
+four source/model full10/hash maps hold, child0/owned cleanup pass. Accepted
+controls are reused, not replayed. Actionlint0/0.007576270s; no shellcheck/pyflakes.
+Companion reproduces original import prologue/global lookup/stat call and stops
+BOTH equality/mismatch before base body/hash/legacy/controller/GET. New manual
+Windows2025/Python3.12/2min/contentsread job excludes every prior job filter,
+no upload/native/consumer. Original42100069342 remains FAILED/causeUNKNOWN;
+42105898874 equality is not context proof/trust or blind-retry admission. Next
+only new context diagnostic after exact development push/fresh max2 combined
+hosted INCLUDING queued/reserved. #64 remainsOPEN; ZERO new native/consumer/
+closure/publication. Protected untracked success-trace path must NEVER be read,
+stat'ed/scanned/modified/staged. ROOT/macos isolated; lead integration/Git/dispatch/
+acceptance/closure. Actions/all/no mandatorySHA/minimum permissions, local8GiBdisk/
+6GiBmemory and all release/security/native/consumer/API–ABI/legal/dependency/
+main/history/Pages/publication gates remain. No package, release or deployment.
+
 ## Windows failed-import prerequisite qualified — 2026-11-05
 
 [734R2B/813](docs/development/evidence/current-platform-recovery-20261101/windows-import-stat-only734-813/README.md)

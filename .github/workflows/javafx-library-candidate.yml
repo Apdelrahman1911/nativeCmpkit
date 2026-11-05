@@ -16,7 +16,7 @@ on:
         type: choice
         required: true
         default: linux-arm64
-        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1, windows-ordinary-dependency-observation1]
+        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1, windows-ordinary-dependency-observation1, windows-observer-one-request-diagnostic1]
 
 permissions:
   contents: read
@@ -266,3 +266,37 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           path: build/ci-verification/windows-ordinary-observation742/public/*
+  # One-request diagnostic770: original120 is not replayed; no dependency admission.
+  windows-observer-one-request-diagnostic1:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.ref == 'refs/heads/development/javafx-ordinary-consumer1' && github.event_name == 'workflow_dispatch' && inputs.platform == 'windows-observer-one-request-diagnostic1'
+    runs-on: windows-2025
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+      NATIVECMPKIT_DIAGNOSTIC_PLATFORM: ${{ inputs.platform }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: One fixed original row, owned Windows Job, sanitized operation-error evidence only
+        run: python -I -S -B scripts/ci/windows_observer_one_request_diagnostic770.py
+      - name: Retain diagnostic JSON only, never response bytes or private streams
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-one-request-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 14
+          path: build/ci-verification/windows-one-request-diagnostic770/public/*.json

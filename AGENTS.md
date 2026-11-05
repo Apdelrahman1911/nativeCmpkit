@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows one-request diagnostic batch adopted — 2026-11-05
+
+[770](docs/development/evidence/current-platform-recovery-20261101/windows-one-request-diagnostic770/README.md)
+adopts exact4 on this isolated branch after NEW4 passes4/4 once/22subtests,
+suite0.06464852602221072s/outer0.31199236400425434s/child0 and independent742
+original source/results acceptance. Candidate19/full23 hold; one owned actual
+AF_UNIX pair/two descriptor wraps and empty-only cleanup qualify local scope only.
+Old2 modes0644 preserved/NEW2 explicit0644; protected15+unqualified trace16 hold.
+Lead adoption0/2.374706s; changed workflow Actionlint1.7.12 exit0/no diagnostics.
+Original model-mode and archive-stat prewrite refusals remain; original differing
+archive operands were not retained, no cause inference.28 immutable evidence
+files/251856B retain originals/inverses/reviews/adoption/lint; accepted tests are
+reused, not replayed. ROOT stays clean4cc; unqualified success_trace MUST NOT stage.
+Original42026646274/job127242413607 protocol completed but120/120 responses REFUSED;
+no public-text/trust/native/consumer acceptance and original cause UNKNOWN.
+Next freeze/push/fresh max2combined hosted INCLUDINGqueued/reserved, then only
+windows-observer-one-request-diagnostic1 on this branch (fixed originalindex0;
+90s/cleanup30s; actual unchanged observe_one/WindowsJob/120plan). Authenticate
+HEAD/run/attempt/job/input/artifact; worker observation is nested, private bodies/
+streams never export. Terminal-budget-refusal overrides earlier protocol flags;
+protocol completion is not response/dependency success. #64/#40 remain open,
+ZERO issue closure/publication. Lead integration/Git/dispatch/acceptance/closure;
+Actions/all/no mandatorySHA/minimumpermissions and every native/consumer/API–ABI/
+dependency/legal/security/readiness/publishing/Pages/main/history gate remain.
+
 ## Windows source identity recovery verified locally — 2026-11-05
 
 [734/742/764–765](docs/development/evidence/current-platform-recovery-20261101/windows-identity-recovery734-765/README.md)

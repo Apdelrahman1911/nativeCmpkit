@@ -371,6 +371,25 @@ def validate_request(row, plan):
     return urllib.parse.urlsplit(row['url'])
 
 
+def restore_diagnostic_workflow770(workflow):
+    """Only the exact diagnostic route inverse; all original checks remain fresh."""
+    need(type(workflow) is bytes and len(workflow) <= SOURCE_LIMIT, 'Bounded exact owning workflow bytes')
+    marker = b'  # One-request diagnostic770: original120 is not replayed; no dependency admission.\n'
+    if marker not in workflow:
+        return workflow
+    need(workflow.count(marker) == 1, 'One exact appended diagnostic job770')
+    prefix, suffix = workflow.split(marker)
+    need(len(marker + suffix) == 1509 and digest(marker + suffix) == '7dae7cfcbee6b5e687efdc7c2cd30a3b7854afea356336afc98895b025555bcf',
+         'Exact diagnostic job body; no altered permissions, acquisition or exports')
+    before = b'        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1, windows-ordinary-dependency-observation1]'
+    after = b'        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1, windows-ordinary-dependency-observation1, windows-observer-one-request-diagnostic1]'
+    need(prefix.count(after) == 1 and before not in prefix, 'One exact added diagnostic manual choice')
+    restored = prefix.replace(after, before)
+    need(len(restored) == 13748 and digest(restored) == '5f5b2ed46adaf900f157d5dab37b04087226ecd27e1cedbec88912999d574a9f',
+         'Diagnostic inverse must restore all original native, Stop, ordinary and120 bodies')
+    return restored
+
+
 def snapshot_sources(root, plan, clock=time.monotonic, deadline=None):
     rows = {}
     for relative, expected in plan['source_bindings'].items():
@@ -391,6 +410,7 @@ def snapshot_sources(root, plan, clock=time.monotonic, deadline=None):
             need(len(assignments) == 1 and isinstance(assignments[0].value, ast.Constant) and
                  assignments[0].value.value is None, 'Production expectation authority must remain None')
     workflow, workflow_row = read_regular(root, '.github/workflows/javafx-library-candidate.yml')
+    workflow = restore_diagnostic_workflow770(workflow)
     recipe = plan['workflow_preservation']
     marker = recipe['suffix_marker'].encode('utf-8')
     need(workflow.count(marker) == 1, 'Only the independent appended observational job')

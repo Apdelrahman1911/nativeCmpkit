@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows signature prerequisite source/fake qualified — 2026-11-05
+
+[734-r2a](docs/development/evidence/current-platform-recovery-20261101/windows-vanniktech-signature734-r2a/README.md)
+adds four source files and changes exactly two workflow leaves. Independently
+accepted FIRST22 passes22/22 once,0.910s suite/1.0348944200668484s protocol;
+five input/model identities and owned cleanup hold. Original R2 privacy refusal
+remains. This is source/fake acceptance only: the one previously-unfollowed
+signature observation still needs a fresh immutable hosted run and authentication.
+New server Location is count/digest only; public JSON only, raw body/private
+worker streams excluded and ephemeral. No payload/key/crypto/consumer/native
+admission, #64 closure or release readiness. Lead Git/dispatch/acceptance; max2
+combined hosted including queued/reserved, Actions/all/no mandatory SHA pinning,
+minimum contents:read and all publishing/security/release gates remain.
+
+
 ## Actual Windows failed18+conditional1 observation accepted — 2026-11-05
 
 [Run42087525896/a1](docs/development/evidence/current-platform-recovery-20261101/windows-normal120-cause734/README.md)

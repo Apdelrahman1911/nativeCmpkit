@@ -257,7 +257,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Public descriptors only, contained Python worker, zero Gradle/native/policy execution
-        run: python -I -S -B scripts/ci/windows_ordinary_dependency_cause_observer734.py
+        run: python -I -S -B scripts/ci/windows_ordinary_vanniktech_signature_observer734.py
       - name: Retain only public text observations and bounded JSON receipts, never packages/private logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -265,7 +265,7 @@ jobs:
           name: windows-ordinary-dependency-observations-${{ github.run_id }}-${{ github.run_attempt }}
           if-no-files-found: error
           retention-days: 14
-          path: build/ci-verification/windows-ordinary-cause734/public/*
+          path: build/ci-verification/windows-ordinary-signature734/public/*
   # One-request diagnostic770: original120 is not replayed; no dependency admission.
   windows-observer-one-request-diagnostic1:
     if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.ref == 'refs/heads/development/javafx-ordinary-consumer1' && github.event_name == 'workflow_dispatch' && inputs.platform == 'windows-observer-one-request-diagnostic1'

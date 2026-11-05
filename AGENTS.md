@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Representative dependency signatures verified; policy remains closed — 2026-11-05
+
+[Publisher signature evidence](docs/development/evidence/current-platform-recovery-20261101/dependency-representative-signatures734-20261105/README.md)
+records FIRST3 exact POM/signature checks: Compose1.12.0, Kotlin2.4.20 and
+JUnit4.13.2 each GPG0/GOODSIG/VALIDSIG, matching full primary/signing fingerprints,
+digests and GAV. All TRUST_UNDEFINED; Compose/Kotlin SHA512, JUnit SHA256.
+Lead passive readback validates three original status streams, not new crypto.
+JUnit exact r4.13.2 tag/commit/tree contains the already acquired KEYS blob;
+tag unsigned, metadata binding only. Prior partial Compose import/exit2 is
+preserved; short-home recovery copies only known public keybox and reimports0,
+with no auto agents/keys, global/private trust state or ownertrust promotion.
+Eight owned GPG children waited/remaining0/sockets0. Public JSON evidence only,
+no original response bodies, keys/keyrings or binaries copied into Git.
+This is THREE descriptors, not JARs/GMM/native/plugin bootstrap/transitive graph,
+revocation/compromise/reproducible-build/policy or consumer acceptance.
+AGP namespace and Material3/Coroutines/OpenJFX/Vanniktech gaps remain;
+normal120 retains18HTTP303/44HTTP404. REVIEWED_EXPECTATIONS_SHA256 remains null;
+NO_ADMISSION unchanged. #40/#64 OPEN, all security/readiness/publication gates
+remain. ROOT clean4cc, unqualified success_trace MUST NOT stage; no native/Stop
+replay. Next complete bounded publisher/graph evidence and real negative-policy
+enforcement before ordinary consumer. Lead Git/integration/dispatch/closure,
+max2 combined hosted INCLUDINGqueued/reserved, Actions/all/no mandatorySHA/
+minimum permissions and every publishing/Pages/main/history gate unchanged.
+
+
 ## Actual Windows EOF and normal observer verification accepted — 2026-11-05
 
 [Changed hosted observations](docs/development/evidence/current-platform-recovery-20261101/windows-owned-eof-hosted-verification-20261105/README.md)

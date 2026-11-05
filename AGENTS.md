@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual Windows EOF and normal observer verification accepted — 2026-11-05
+
+[Changed hosted observations](docs/development/evidence/current-platform-recovery-20261101/windows-owned-eof-hosted-verification-20261105/README.md)
+accepts two actual Windows executions at immutable32e834be: one-row42048537238/a1/
+job127318049405 and normal12042051371077/a1/job127328052322, both SUCCESS.
+One-row1/1 HTTP200/9034B completes genuine EOF;18 source inputs hold. Normal120
+attempts120, qualifies58 complete public-text observations and refuses18HTTP303/
+44HTTP404 without redirects;17 inputs hold. Worker26.312s/controller26.578s,
+child0/protocol complete/58 owned write-close receipts/seven cleanup records.
+Independent734 original-public3 acceptance receipts are retained, with exact
+run/attempt/job/artifact/digest pins. Original failures remain historical; no
+cause is inferred for original766 and no accepted native/Stop tests are replayed.
+Only validated public JSON reports and authentication/acceptance records are
+archived here, not private responses or streams. Nine same-registry checksums
+are integrity observations, NOT independent publisher authority. All62 refused
+rows remain gaps. None reviewed authority and NO_ADMISSION remain unchanged.
+Next bounded official publisher/key/source research, then complete two-root
+dependency closure and real negative policy enforcement before ordinary consumer
+execution. ZERO new Gradle/native/consumer/whole-issue acceptance;#64/#40 stay open.
+ROOT stays clean4cc; unqualified success_trace MUST NOT stage. Lead integration/
+Git/dispatch/acceptance/closure; max2 combined hosted INCLUDINGqueued/reserved.
+Actions/all/no mandatory SHA pinning/minimum permissions and every publication/
+Pages/main/history/native/consumer/API–ABI/dependency/legal/security/readiness
+gate remain. No package, release or deployment.
+
 ## Windows response EOF ownership fixed and adopted — 2026-11-05
 
 [OwnedEOF after770](docs/development/evidence/current-platform-recovery-20261101/windows-owned-eof-after770/LEAD-INTEGRATION.md)

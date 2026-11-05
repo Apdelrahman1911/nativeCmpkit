@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated Windows cause-aware dependency batch ready — 2026-11-05
+
+[734/743/799–803](docs/development/evidence/current-platform-recovery-20261101/windows-normal120-cause734/README.md)
+adopts2modified+5NEW once on `development/javafx-ordinary-consumer1`, exact
+preimage/postimage custody and0644 modes. FIRST NEW28/28 and owning1/1 pass once,
+independent743 source/saved-results accepted; complete captures, child0, owned
+groups empty and runtimes removed. NEW11 full10/hash held; owning21 stat9/hash
+held with9 atime-only model deltas/full10FALSE. Actionlint/whitespace0. The
+protected untracked `scripts/ci/test_javafx_ordinary_success_trace.py` must NEVER
+be accessed, modified or staged; original native/private Stop remains excluded.
+Next freeze/push THIS branch then fresh max2 combined hosted INCLUDINGqueued/
+reserved and only `javafx-library-candidate.yml`,
+`platform=windows-ordinary-dependency-observation1`: changed failed18 sourceGETs
+plus at most one exact conditional Central Vanniktech POM, shared bounded
+600s/420s/30s supervision,19 requests maximum. Other17 redirect destinations
+remain unapproved; accepted58/legacy7/full120/native populations not replayed.
+NO_ADMISSION=true/REVIEWED_EXPECTATIONS_SHA256=null: zero new ordinary trust,
+consumer/security/native acceptance or #64 closure. Original62 observations/
+refusals and source histories remain; root shared CI recovery is separate.
+Lead Git/dispatch/acceptance/closure; Actions/all/no mandatory SHA pinning/minimum
+permissions and every publishing/Pages/main/history/native/consumer/API–ABI/
+dependency/legal/security/readiness gate remain. No package/release/deployment.
+
 ## Fourth representative dependency signature verified — 2026-11-05
 
 [Material3 FIRST734](docs/development/evidence/current-platform-recovery-20261101/dependency-representative-signatures734-20261105/CURRENT.md)

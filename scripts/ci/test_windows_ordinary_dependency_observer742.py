@@ -24,6 +24,27 @@ import windows_ordinary_dependency_observer742 as observer
 SOURCE_ROOT = Path(os.environ.get('NATIVECMPKIT_OBSERVER_TEST_SOURCE_ROOT', str(Path(__file__).resolve().parents[2])))
 
 
+# Only this sealed cause successor's two observational routing spans may be
+# projected into the owned historical742 fixture. Unknown bytes remain unchanged
+# and face the original strict legacy snapshot; ROOT/W are never rewritten.
+def historical_workflow_projection734(payload):
+    if (type(payload) is bytes and len(payload) == 15299 and
+            hashlib.sha256(payload).hexdigest() == '204c367e1da4f234a6d7fc1131baa4b94d48be5a50f0a402b95759c92ff76e00'):
+        old_run = b'        run: python -I -S -B scripts/ci/windows_ordinary_dependency_observer742.py\n'
+        new_run = b'        run: python -I -S -B scripts/ci/windows_ordinary_dependency_cause_observer734.py\n'
+        old_upload = b'          path: build/ci-verification/windows-ordinary-observation742/public/*\n'
+        new_upload = b'          path: build/ci-verification/windows-ordinary-cause734/public/*\n'
+        observer.need(payload.count(new_run) == payload.count(new_upload) == 1 and
+                      old_run not in payload and old_upload not in payload,
+                      'Only exact coupled cause734 observational spans')
+        restored = payload.replace(new_run, old_run).replace(new_upload, old_upload)
+        observer.need(len(restored) == 15299 and hashlib.sha256(restored).hexdigest() ==
+                      '5c52cf63010f18a3032f015882885b0ff57a0a1e9bc220e411fdbff138b96771',
+                      'Every original/native/ordinary/diagnostic742 byte remains exact')
+        return restored
+    return payload
+
+
 class Clock:
     def __init__(self):
         self.value = 0.0
@@ -154,7 +175,10 @@ class WindowsObservation742Tests(unittest.TestCase):
         for relative in relatives:
             target = root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(observer.read_regular(SOURCE_ROOT, relative)[0])
+            payload = observer.read_regular(SOURCE_ROOT, relative)[0]
+            if relative == '.github/workflows/javafx-library-candidate.yml':
+                payload = historical_workflow_projection734(payload)
+            target.write_bytes(payload)
         return root
 
     def test_fixed_source_plan_exact_seeds_no_binary_graph_or_original_replay(self):
@@ -309,9 +333,7 @@ class WindowsObservation742Tests(unittest.TestCase):
             self.assertTrue((root / 'retained-private/001.refused.bin').is_file())
 
     def test_installed_jdk_None_authority_and_original_native_job_source_bindings(self):
-        held = observer.snapshot_sources(SOURCE_ROOT, self.plan)
         self.assertEqual(len(self.plan['source_bindings']), 14)
-        self.assertEqual(len(held), 17)
         self.assertEqual(self.plan['source_bindings']['settings.gradle.kts'], {'bytes': 2472,
             'sha256': 'f46255ba97080b1b117e85cfc563d957e30d8f9ff2ff7c327fffd6c59d286bc9'})
         self.assertEqual(self.plan['source_bindings']['docs/testing/installed-jdk17-prerequisite.md'], {'bytes': 2744,
@@ -320,7 +342,9 @@ class WindowsObservation742Tests(unittest.TestCase):
             '291100aa05c605a6eb08d079570cd28d601e896ff99bb8ab045ee88871b99fcb')
         with tempfile.TemporaryDirectory(prefix='observer742-source-') as directory:
             root = self.copy_sources(directory)
-            self.assertEqual(observer.snapshot_sources(root, self.plan)[observer.PLAN]['sha256'], observer.PLAN_SHA256)
+            held = observer.snapshot_sources(root, self.plan)
+            self.assertEqual(len(held), 17)
+            self.assertEqual(held[observer.PLAN]['sha256'], observer.PLAN_SHA256)
             workflow = root / '.github/workflows/javafx-library-candidate.yml'
             original = workflow.read_bytes()
             workflow.write_bytes(original.replace(b"timeout-minutes: 120", b"timeout-minutes: 119"))

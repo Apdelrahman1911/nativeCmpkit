@@ -23,7 +23,7 @@ SPEC_RELATIVE = "scripts/ci/fixtures/cookie-ci668-outer-source-inverse.json"
 NEW_CONTROL_RELATIVE = "scripts/ci/tests/test_cookie_ci668_outer_scope609.py"
 OWNING_CONTROL_RELATIVE = "scripts/ci/tests/test_cookie_common_jdk_scope681.py"
 OWNING_CONTROL_BEFORE_SHA256 = "29da5e6de99b7a91cae2603b09f2f02fc3433982f3bebf5a69b21658977dbc42"
-SPEC_SHA256 = "9ee4fec400669dfc4fd772989873527ae223d7fa344c454550cc4dfebc97410b"
+SPEC_SHA256 = "5fc3e645636f9ab3109933fb9bfa5c8abf243b9ea8d9804d73ce3179fcabb14f"
 COOKIE_GUARD = "scripts/ci/cookie_common_jdk_source_projection.py"
 COOKIE_GUARD_BEFORE_SHA256 = "b5eca01bbbe89e584b18279cb15aa36a8d1e06d205a2c4fcd52d24b271e55774"
 COOKIE_SPEC = "scripts/ci/fixtures/cookie-common-jdk-source-inverse.json"
@@ -285,6 +285,9 @@ def _restore(row, payload):
 def source_before_cookie_outer(relative, payload, root: Path = ROOT):
     """Exact Cookie/hook inverse or its one historical preimage, not admission."""
     _identity(relative, payload)
+    if relative == LIBRARY:
+        from macos_share_ci668_composition import peel_android_lifecycle_for_history
+        payload = peel_android_lifecycle_for_history(relative, payload, root)
     document, _ = _document(root)
     row = (document["share607_library_binding"] if relative == LIBRARY
            else document["bindings"].get(relative))
@@ -305,6 +308,9 @@ def _expected(document, source_digest):
 def current_source_before_cookie_outer(relative, payload, root: Path = ROOT):
     """One strict newest raw ingress; old Cookie or pre-hook current refuses."""
     _identity(relative, payload)
+    if relative == LIBRARY:
+        from macos_share_ci668_composition import source_before_android_lifecycle
+        payload = source_before_android_lifecycle(relative, payload, root)
     document, source_digest = _document(root)
     row = (document["share607_library_binding"] if relative == LIBRARY
            else document["bindings"].get(relative))
@@ -318,6 +324,9 @@ def current_source_before_cookie_outer(relative, payload, root: Path = ROOT):
 def peel_cookie_outer_for_history(relative, payload, root: Path = ROOT):
     """After-only Cookie/hook peel; callback init is deliberately NOT peeled."""
     _identity(relative, payload)
+    if relative == LIBRARY:
+        from macos_share_ci668_composition import peel_android_lifecycle_for_history
+        payload = peel_android_lifecycle_for_history(relative, payload, root)
     document, _ = _document(root)
     row = (document["share607_library_binding"] if relative == LIBRARY
            else document["bindings"].get(relative))

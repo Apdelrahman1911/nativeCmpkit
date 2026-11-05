@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: Apache-2.0; selected disposable verification role only. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <permission android:name="${applicationId}.CONTROL_COMPATIBILITY" android:protectionLevel="signature" />
+    <queries><package android:name="io.github.apdelrahman1911.nativecmpkit.verification.permissioncompat.reporter" /></queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit permission compatibility verification">
+        <activity android:name="io.github.apdelrahman1911.nativecmpkit.verification.permissioncompat.PermissionCompatibilityActivity"
+            android:exported="true" android:permission="${applicationId}.CONTROL_COMPATIBILITY"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <service android:name="io.github.apdelrahman1911.nativecmpkit.verification.permissioncompat.PermissionCompatibilityService"
+            android:exported="true" android:permission="${applicationId}.CONTROL_COMPATIBILITY" />
+    </application>
+</manifest>

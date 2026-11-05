@@ -1,0 +1,321 @@
+"""Review-sealed FIRST-only three-entry pure/read-only source profile recorder."""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path, PurePosixPath
+import selectors
+import signal
+import stat
+import subprocess
+import sys
+import time
+
+HERE = Path(__file__).resolve().parent
+ROOT = Path('/root/projects/nativeCmpKit')
+FIELDS = ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+CAP, RESERVE, MAX_FILE = 32 * 1024 * 1024, 1024 * 1024, 4 * 1024 * 1024
+ENTRIES = ('validate_current_sources', 'current_input_hashes', 'current_source_before_tooling671')
+
+
+def digest(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def need(condition):
+    if not condition:
+        raise ValueError()
+
+
+def identity(value):
+    return [getattr(value, field) for field in FIELDS]
+
+
+def ordinary(path, maximum=MAX_FILE):
+    need(path.resolve(strict=True) == path)
+    before = path.lstat()
+    need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and 0 < before.st_size <= maximum)
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+    try:
+        need(identity(os.fstat(fd)) == identity(before))
+        raw = b''
+        while len(raw) <= before.st_size:
+            part = os.read(fd, min(65536, before.st_size + 1 - len(raw)))
+            if not part:
+                break
+            raw += part
+        need(identity(os.fstat(fd)) == identity(before))
+    finally:
+        os.close(fd)
+    need(identity(path.lstat()) == identity(before) and len(raw) == before.st_size)
+    return raw, {'stat_identity': identity(before), 'bytes': len(raw), 'sha256': digest(raw), 'mode': oct(stat.S_IMODE(before.st_mode))}
+
+
+def relative_name(value):
+    need(type(value) is str and 0 < len(value) <= 4096 and '\\' not in value)
+    path = PurePosixPath(value)
+    need(not path.is_absolute() and '..' not in path.parts and path.as_posix() == value)
+
+
+def snapshot(held):
+    need(len(held) == 328 and sum(row['domain'] == 'actual-ROOT-current282' for row in held.values()) == 282 and sum(row['domain'] == 'held-ROOT-dependency-only46' for row in held.values()) == 46)
+    result = {}
+    for relative, expected in sorted(held.items()):
+        relative_name(relative)
+        try:
+            _, current = ordinary(ROOT / relative)
+        except BaseException as error:
+            current = {'failure_type': type(error).__name__}
+        current['domain'] = expected['domain']
+        result[relative] = current
+    return result
+
+
+def output_bytes(result):
+    return sum(path.lstat().st_size for path in result.iterdir() if path.is_file())
+
+
+def save(result, name, value, reserve=0):
+    raw = json.dumps(value, sort_keys=True, indent=2, ensure_ascii=True).encode() + b'\n'
+    need(output_bytes(result) + len(raw) <= CAP - reserve)
+    fd = os.open(result / name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+    try:
+        while raw:
+            count = os.write(fd, raw)
+            raw = raw[count:]
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def ascii_type(value):
+    need(value is None or (type(value) is str and 0 < len(value) <= 96 and value.isascii() and value.replace('_', '').isalnum()))
+
+
+def exact_keys(value, keys):
+    need(type(value) is dict and set(value) == set(keys.split()))
+
+
+def numeric(value):
+    need(type(value) in (int, float) and 0 <= value < 10**12)
+
+
+def digest_string(value):
+    need(type(value) is str and len(value) == 64 and all(c in '0123456789abcdef' for c in value))
+
+
+def validate_record(record, recipe, held):
+    # Exact sealed seven-module closure has no print/subprocess/exec/network calls.
+    # This short schema gate additionally rejects any extra raw field before saving.
+    need(type(record) is dict)
+    kind = record.get('kind')
+    if kind == 'refusal':
+        exact_keys(record, 'kind failure_type'); ascii_type(record['failure_type']); return
+    if kind == 'finished':
+        exact_keys(record, 'kind entry_calls_attempted one_shared_child_import_and_path_cache')
+        need(type(record['entry_calls_attempted']) is int and record['entry_calls_attempted'] == 3 and record['one_shared_child_import_and_path_cache'] is True); return
+    if kind == 'cold_import':
+        exact_keys(record, 'kind seconds origins'); numeric(record['seconds'])
+    else:
+        need(kind == 'call_profile')
+        exact_keys(record, 'kind index entry status failure_type wall_seconds_including_profile_overhead summary functions origins')
+        index = record['index']; need(type(index) is int and 1 <= index <= 3 and record['entry'] == ENTRIES[index - 1])
+        need(record['status'] in ('accepted', 'refused')); ascii_type(record['failure_type']); numeric(record['wall_seconds_including_profile_overhead'])
+        summary = record['summary']
+        need(record['status'] != 'accepted' or (summary is not None and record['failure_type'] is None))
+        if summary is not None:
+            if index == 1:
+                exact_keys(summary, 'boolean'); need(summary['boolean'] is True)
+            elif index == 2:
+                exact_keys(summary, 'map_count map_sha256'); need(type(summary['map_count']) is int and summary['map_count'] == 282); digest_string(summary['map_sha256'])
+                need(summary['map_sha256'] == recipe['expected_current282_map_sha256'])
+            else:
+                exact_keys(summary, 'projected_bytes projected_sha256'); need(type(summary['projected_bytes']) is int and summary['projected_bytes'] == recipe['projection_row']['before_bytes']); digest_string(summary['projected_sha256'])
+                need(summary['projected_sha256'] == recipe['projection_row']['before_sha256'])
+        need(type(record['functions']) is list and len(record['functions']) <= 8192)
+        for row in record['functions']:
+            exact_keys(row, 'source line function total_calls primitive_calls cumulative_seconds self_seconds')
+            source, function = row['source'], row['function']
+            need(type(source) is str and len(source) <= 4096 and source.isascii() and '\n' not in source)
+            if source.startswith('<stdlib>/'):
+                relative_name(source[len('<stdlib>/'):])
+            elif source.startswith('<frozen '):
+                need(source.endswith('>') and len(source) <= 256 and all(32 <= ord(c) <= 126 for c in source))
+            else:
+                need(source in recipe['runtime_root_module_allowlist'] or source in ('<builtin>', '<string>', '<generated>', '<recorder>/profile_child.py'))
+            need(type(function) is str and 0 < len(function) <= 256 and all(32 <= ord(c) <= 126 for c in function))
+            for key in ('line', 'total_calls', 'primitive_calls'):
+                need(type(row[key]) is int); numeric(row[key])
+            need(row['primitive_calls'] <= row['total_calls']); numeric(row['cumulative_seconds']); numeric(row['self_seconds'])
+    origins = record['origins']; need(type(origins) is dict and len(origins) <= 7)
+    for name, row in origins.items():
+        exact_keys(row, 'source sha256')
+        need(row['source'] in recipe['runtime_root_module_allowlist'] and name == Path(row['source']).stem and row['sha256'] == held[row['source']]['sha256'])
+
+
+def main():
+    os.umask(0o077)
+    start = time.monotonic()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--run-reviewed-first', action='store_true', required=True)
+    parser.add_argument('--review-acceptance', required=True)
+    parser.add_argument('--review-sha256', required=True)
+    args = parser.parse_args()
+    need(sys.flags.dont_write_bytecode and sys.flags.no_site)
+    need(sys.platform == 'linux' and all(hasattr(os, name) for name in ('waitid', 'P_PID', 'WEXITED', 'WNOHANG', 'WNOWAIT', 'getpgid', 'getsid', 'killpg')))
+    seal_raw, _ = ordinary(HERE / 'SOURCE-SEAL.json'); seal_sha = digest(seal_raw); seal = json.loads(seal_raw)
+    review_raw, _ = ordinary(Path(args.review_acceptance).absolute()); review = json.loads(review_raw)
+    need(digest(review_raw) == args.review_sha256 and review.get('accepted') is True and review.get('source_seal_sha256') == seal_sha)
+    def check_seal():
+        for name, expected in seal['files'].items():
+            _, current = ordinary(HERE / name)
+            need((current['bytes'], current['sha256'], current['mode']) == (expected['bytes'], expected['sha256'], expected['mode']))
+    check_seal()
+    recipe = json.loads((HERE / 'RECIPE.json').read_bytes())
+    held = json.loads((HERE / 'ROOT328-CUSTODY.json').read_bytes())['files']
+    interpreter = Path(recipe['interpreter']['path'])
+    _, interpreter_before = ordinary(interpreter, 8 * 1024 * 1024)
+    need(interpreter_before == recipe['interpreter']['custody'])
+    result, runtime = HERE / 'results-FIRST', HERE / 'runtime-FIRST'
+    need(not result.exists() and not runtime.exists() and not result.is_symlink() and not runtime.is_symlink())
+    result.mkdir(mode=0o700)
+    proc, selector, before, runtime_identity = None, None, None, None
+    owned_dirs, pipe_files, records, cleanup_failures, signals = {}, [], [], [], set()
+    hashes = {'stdout': hashlib.sha256(), 'stderr': hashlib.sha256()}; counts = {'stdout': 0, 'stderr': 0}
+    streams_bytes, failure_type = 0, None
+    receipt = {'schema_version': 1, 'status': 'refused', 'source_seal_sha256': seal_sha, 'review_sha256': args.review_sha256, 'inherited_ROOT_HEAD_unqueried': recipe['inherited_ROOT_HEAD_unqueried'], 'test_methods_executed': 0, 'primitive_entry_calls_required': 3, 'source_closure_count': 328, 'total_budget_seconds': 180, 'output_cap_bytes': CAP, 'profile_is_not_hosted_last_test_or_hang_cause_proof': True}
+    def cleanup_error(stage, error):
+        cleanup_failures.append({'stage': stage, 'failure_type': type(error).__name__})
+    def retain_child():
+        need(proc.returncode is None)
+        observed = os.waitid(os.P_PID, proc.pid, os.WEXITED | os.WNOHANG | os.WNOWAIT)
+        need(observed is None or observed.si_pid == proc.pid)
+        return observed
+    def signal_owned(requested):
+        if requested in signals:
+            return
+        signals.add(requested)
+        try:
+            retain_child()
+            need(os.getpgid(proc.pid) == proc.pid and os.getsid(proc.pid) == proc.pid)
+            os.killpg(proc.pid, requested)
+        except BaseException as error:
+            cleanup_error('original_group_' + signal.Signals(requested).name, error)
+    try:
+        before = snapshot(held); save(result, 'CUSTODY-BEFORE.json', {'stat_fields': FIELDS, 'files': before}); need(before == held)
+        runtime.mkdir(mode=0o700); runtime_identity = identity(runtime.lstat())
+        for name in ('home', 'tmp', 'pycache'):
+            path = runtime / name; path.mkdir(mode=0o700); owned_dirs[name] = identity(path.lstat())
+        argv = recipe['child_argv_prefix'] + [str(min(170.0, 180.0 - (time.monotonic() - start) - 10.0))]
+        save(result, 'INVOCATION.json', {'argv': argv, 'environment': recipe['child_environment'], 'cwd': str(ROOT / 'scripts/ci'), 'source_seal_sha256': seal_sha, 'shared_child_cache_policy': recipe['shared_child_cache_policy']})
+        proc = subprocess.Popen(argv, cwd=ROOT / 'scripts/ci', env=recipe['child_environment'], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True, close_fds=True)
+        receipt['owned_child_pid_and_process_group'] = proc.pid
+        pipe_files = [proc.stdout, proc.stderr]; selector = selectors.DefaultSelector()
+        selector.register(proc.stdout, selectors.EVENT_READ, 'stdout'); selector.register(proc.stderr, selectors.EVENT_READ, 'stderr')
+        buffer, stopping = b'', None
+        while selector.get_map() or retain_child() is None:
+            now = time.monotonic()
+            if (now >= start + 170.0 or streams_bytes + output_bytes(result) >= CAP - RESERVE) and stopping is None:
+                receipt['bounded_stop'] = 'wall_budget' if now >= start + 170.0 else 'output_cap'
+                stopping = now; signal_owned(signal.SIGTERM)
+            if stopping is not None and now - stopping >= 1.0:
+                signal_owned(signal.SIGKILL)
+            if now >= start + 172.0:
+                raise TimeoutError()
+            for key, mask in selector.select(timeout=0.05):
+                raw = os.read(key.fileobj.fileno(), 65536)
+                if not raw:
+                    selector.unregister(key.fileobj)
+                    continue  # All owned pipe objects are closed independently in finally.
+                stream = key.data; hashes[stream].update(raw); counts[stream] += len(raw); streams_bytes += len(raw)
+                if stream == 'stderr':
+                    continue  # Count/hash only; no traceback, message or raw transcript.
+                buffer += raw; need(len(buffer) <= MAX_FILE)
+                while b'\n' in buffer:
+                    line, buffer = buffer.split(b'\n', 1); record = json.loads(line)
+                    validate_record(record, recipe, held); need(len(records) < 6)
+                    save(result, 'CHILD-RECORD-%02d.json' % (len(records) + 1), record, reserve=RESERVE)
+                    records.append(record)
+        observed = retain_child(); need(observed is not None)
+        receipt['unreaped_terminal_observation'] = {'si_code': observed.si_code, 'si_status': observed.si_status}
+        profiles = [record for record in records if record['kind'] == 'call_profile']
+        need(not buffer and not counts['stderr'] and not receipt.get('bounded_stop'))
+        need([row['index'] for row in profiles] == [1, 2, 3] and all(row['status'] == 'accepted' for row in profiles) and records[-1]['kind'] == 'finished')
+        receipt['all_three_entry_profiles_accepted'] = True
+    except BaseException as error:
+        failure_type = type(error).__name__
+    finally:
+        # Each primary/cleanup failure is retained independently; no disposal error
+        # can skip fresh AFTER custody, interpreter/seal checks or FIRST RESULT.
+        if proc is not None:
+            signal_owned(signal.SIGTERM); signal_owned(signal.SIGKILL)
+            try:
+                if retain_child() is None:
+                    os.kill(proc.pid, signal.SIGKILL)  # Pinned direct child, never a foreign group.
+                receipt['child_returncode'] = proc.wait(timeout=2)
+            except BaseException as error:
+                cleanup_error('pinned_direct_child_reap', error)
+            try:
+                os.killpg(proc.pid, 0)
+                receipt['owned_process_group_absent'] = False
+            except ProcessLookupError:
+                receipt['owned_process_group_absent'] = True
+            except BaseException as error:
+                receipt['owned_process_group_absent'] = False; cleanup_error('independent_group_absence', error)
+        else:
+            receipt['owned_process_group_absent'] = True
+        if selector is not None:
+            try:
+                selector.close()
+            except BaseException as error:
+                cleanup_error('selector_close', error)
+        for pipe in pipe_files:
+            try:
+                pipe.close()
+            except BaseException as error:
+                cleanup_error('owned_pipe_close', error)
+        try:
+            after = snapshot(held); save(result, 'CUSTODY-AFTER.json', {'stat_fields': FIELDS, 'files': after})
+            receipt['ROOT328_before_after_equal'] = before is not None and after == before == held
+        except BaseException as error:
+            receipt['ROOT328_before_after_equal'] = False; cleanup_error('fresh_AFTER_custody', error)
+        try:
+            _, interpreter_after = ordinary(interpreter, 8 * 1024 * 1024)
+            receipt['interpreter_before_after_equal'] = interpreter_after == interpreter_before == recipe['interpreter']['custody']
+        except BaseException as error:
+            receipt['interpreter_before_after_equal'] = False; cleanup_error('interpreter_AFTER_custody', error)
+        try:
+            check_seal(); receipt['runner_seal_before_after_equal'] = True
+        except BaseException as error:
+            receipt['runner_seal_before_after_equal'] = False; cleanup_error('runner_AFTER_seal', error)
+        try:
+            if runtime.exists() or runtime.is_symlink():
+                need(runtime_identity is not None and identity(runtime.lstat())[:3] == runtime_identity[:3] and runtime.resolve(strict=True) == runtime and receipt['owned_process_group_absent'])
+                need({path.name for path in runtime.iterdir()} == set(owned_dirs))
+                for name, original in owned_dirs.items():
+                    path = runtime / name; need(identity(path.lstat()) == original and path.resolve(strict=True) == path); path.rmdir()
+                need(identity(runtime.lstat())[:3] == runtime_identity[:3]); runtime.rmdir()
+            receipt['owned_runtime_directory_absent'] = not runtime.exists() and not runtime.is_symlink()
+        except BaseException as error:
+            receipt['owned_runtime_directory_absent'] = False; cleanup_error('owned_empty_runtime_cleanup', error)
+        try:
+            disk_bytes = output_bytes(result)
+        except BaseException as error:
+            disk_bytes = None; cleanup_error('output_size_readback', error)
+        receipt.update({'failure_type': failure_type, 'cleanup_failures': cleanup_failures, 'streams': {name: {'bytes': counts[name], 'sha256': hashes[name].hexdigest(), 'raw_retained': False} for name in counts}, 'completed_entry_record_indices': [row['index'] for row in records if row.get('kind') == 'call_profile'], 'wall_seconds_total_including_profile_custody_cleanup': time.monotonic() - start, 'output_bytes_before_receipt': disk_bytes, 'stream_bytes_total': streams_bytes})
+        if failure_type is None and not cleanup_failures and receipt.get('all_three_entry_profiles_accepted') and receipt.get('child_returncode') == 0 and all(receipt.get(key) is True for key in ('ROOT328_before_after_equal', 'interpreter_before_after_equal', 'runner_seal_before_after_equal', 'owned_process_group_absent', 'owned_runtime_directory_absent')) and receipt['wall_seconds_total_including_profile_custody_cleanup'] <= 180:
+            receipt['status'] = 'accepted'
+        try:
+            save(result, 'RESULT.json', receipt)
+        except BaseException as error:
+            print(json.dumps({'status': 'result_write_refused', 'failure_type': type(error).__name__, 'primary_failure_type': failure_type}, sort_keys=True)); return 2
+    print(json.dumps({'status': receipt['status'], 'result': str(result / 'RESULT.json'), 'failure_type': failure_type}, sort_keys=True))
+    return 0 if receipt['status'] == 'accepted' else 2
+
+
+if __name__ == '__main__':
+    try:
+        code = main()
+    except BaseException as error:
+        print(json.dumps({'status': 'preflight_refused', 'failure_type': type(error).__name__, 'primitive_execution': 'not_claimed'}, sort_keys=True)); code = 2
+    raise SystemExit(code)

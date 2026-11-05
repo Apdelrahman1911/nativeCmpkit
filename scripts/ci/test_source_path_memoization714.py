@@ -123,7 +123,7 @@ class SourcePathMemoization714Tests(unittest.TestCase):
         raw = (ROOT / "scripts/ci/library_tests.py").read_bytes()
         result = current_source_for_history("scripts/ci/library_tests.py", raw)
         self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
-                         (409466, "038ffa83f883f24396b35103edafa47a9b4a13fe4df6faf88175e56768819299"))
+                         (412990, "6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127"))
         self.assertEqual((len(result), hashlib.sha256(result).hexdigest()),
                          (356159, "5012c3e2be83e62eba8239a0db12104d5f9f7efb3f262abd3b3080012f7afdc2"))
 

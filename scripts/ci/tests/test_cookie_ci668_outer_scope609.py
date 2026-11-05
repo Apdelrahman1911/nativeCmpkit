@@ -137,7 +137,9 @@ class CookieCi668OuterDerivative609Test(unittest.TestCase):
         offline = "scripts/ci/offline_tooling_reuse.py"
         split = "scripts/ci/test_ios_ui_split664_native_routing.py"
         provenance = "scripts/ci/offline_tooling_provenance.py"
-        changed = {owning, outer.LIBRARY, offline, split, ci.WORKFLOW, provenance}
+        device = "scripts/ci/android_device_tests.py"
+        matrix = "scripts/ci/workflow_matrix.py"
+        changed = {owning, outer.LIBRARY, offline, split, ci.WORKFLOW, provenance, device, matrix}
         self.assertEqual(changed, {name for name in finite if finite[name] != actual_finite[name]})
         self.assertNotIn(outer.LIBRARY, expected)  # Exact payload ancestry is outside raw40.
         self.assertEqual("8e6d2e76f9de755f5d53bdc6a5a29aeb7161e9777ffcf7b5a0a163164889dfce", previous[owning])
@@ -145,12 +147,14 @@ class CookieCi668OuterDerivative609Test(unittest.TestCase):
         self.assertEqual(previous[owning], _sha(joint.current_source_in_view(owning, _bytes(owning), joint.CI_VIEW, ROOT)))
         self.assertEqual(outer.LIBRARY_BEFORE_SHA256, previous[outer.LIBRARY])
         self.assertEqual(previous[outer.LIBRARY], _sha(joint.current_source_in_view(outer.LIBRARY, _bytes(outer.LIBRARY), joint.CI_VIEW, ROOT)))
-        self.assertEqual(outer.LIBRARY_AFTER_SHA256, actual_finite[outer.LIBRARY])
+        self.assertEqual("6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127", actual_finite[outer.LIBRARY])
+        # The original Share library remains an explicit predecessor, never raw current.
+        self.assertEqual(outer.LIBRARY_AFTER_SHA256, _sha(joint.source_before_android_lifecycle(outer.LIBRARY, _bytes(outer.LIBRARY), ROOT)))
         self.assertEqual({ci.WORKFLOW, provenance}.intersection(expected), set())
-        self.assertEqual({ci.WORKFLOW: "7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566",
+        self.assertEqual({ci.WORKFLOW: "a1ea0950a96472e6c602e3a776f74ce519cb8bdadf78920512a1ee6649961d5b",
                           provenance: "dc4811e34272e4b67e1abfb82b9cf0bc9d79a7bf01a9cfad205eb0f007b3f63a"},
                          {name: actual_finite[name] for name in (ci.WORKFLOW, provenance)})
-        for name in (offline, split, ci.WORKFLOW, provenance):
+        for name in (offline, split, ci.WORKFLOW, provenance, device, matrix):
             self.assertEqual(previous[name], _sha(joint.current_source_in_view(name, _bytes(name), joint.CI_VIEW, ROOT)))
             self.assertNotEqual(previous[name], actual_finite[name])
         for name in changed:

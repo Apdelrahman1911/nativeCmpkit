@@ -1,0 +1,185 @@
+"""Three NEW source-only entry profiles; no testcase, raw payload or traceback output."""
+import cProfile
+import hashlib
+import json
+import os
+from pathlib import Path
+import signal
+import stat
+import sys
+import time
+
+HERE = Path(__file__).resolve().parent
+ROOT = Path('/root/projects/nativeCmpKit')
+STDLIB = Path('/usr/lib/python3.12')
+FIELDS = ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+MAX_RECORD = 4 * 1024 * 1024
+
+
+class ProfileBudgetExpired(Exception):
+    pass
+
+
+def budget_signal(signum, frame):
+    raise ProfileBudgetExpired()
+
+
+def emit(record):
+    raw = json.dumps(record, sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode() + b'\n'
+    if len(raw) > MAX_RECORD:
+        raise ValueError()
+    while raw:
+        written = os.write(1, raw)
+        raw = raw[written:]
+
+
+def ordinary(relative, row):
+    path = ROOT / relative
+    if path.resolve(strict=True) != path or not path.is_relative_to(ROOT):
+        raise ValueError()
+    before = path.lstat()
+    identity = [getattr(before, key) for key in FIELDS]
+    if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or identity != row['stat_identity']:
+        raise ValueError()
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+    try:
+        if [getattr(os.fstat(fd), key) for key in FIELDS] != identity:
+            raise ValueError()
+        pieces = []
+        total = 0
+        while True:
+            part = os.read(fd, min(65536, row['bytes'] + 1 - total))
+            if not part:
+                break
+            pieces.append(part)
+            total += len(part)
+            if total > row['bytes']:
+                raise ValueError()
+        raw = b''.join(pieces)
+        if [getattr(os.fstat(fd), key) for key in FIELDS] != identity:
+            raise ValueError()
+    finally:
+        os.close(fd)
+    if [getattr(path.lstat(), key) for key in FIELDS] != identity:
+        raise ValueError()
+    if len(raw) != row['bytes'] or hashlib.sha256(raw).hexdigest() != row['sha256']:
+        raise ValueError()
+    return raw
+
+
+def origins(allowlist, held):
+    found = {}
+    for name, module in tuple(sys.modules.items()):
+        filename = getattr(module, '__file__', None)
+        if not filename:
+            continue
+        path = Path(filename).absolute()
+        if not path.is_relative_to(ROOT):
+            continue
+        relative = path.relative_to(ROOT).as_posix()
+        if relative not in allowlist or name != Path(relative).stem:
+            raise ValueError()
+        ordinary(relative, held[relative])
+        found[name] = {'source': relative, 'sha256': held[relative]['sha256']}
+    return found
+
+
+def source_name(filename):
+    if filename.startswith('<'):
+        if filename == '<string>' or (filename.startswith('<frozen ') and filename.endswith('>') and len(filename) <= 256 and all(32 <= ord(c) <= 126 for c in filename)):
+            return filename
+        return '<generated>'
+    path = Path(filename).absolute()
+    for base, prefix in ((ROOT, ''), (STDLIB, '<stdlib>/'), (HERE, '<recorder>/')):
+        if path.is_relative_to(base):
+            return prefix + path.relative_to(base).as_posix()
+    raise ValueError()
+
+
+def aggregates(profiler):
+    rows = {}
+    for entry in profiler.getstats():
+        code = entry.code
+        if isinstance(code, str):
+            key = ('<builtin>', 0, code)
+        else:
+            key = (source_name(code.co_filename), code.co_firstlineno, code.co_name)
+        if len(key[2]) > 256 or any(ord(c) < 32 or ord(c) > 126 for c in key[2]):
+            raise ValueError()
+        row = rows.setdefault(key, {'source': key[0], 'line': key[1], 'function': key[2], 'total_calls': 0, 'primitive_calls': 0, 'cumulative_seconds': 0.0, 'self_seconds': 0.0})
+        row['total_calls'] += entry.callcount
+        row['primitive_calls'] += entry.callcount - entry.reccallcount
+        row['cumulative_seconds'] += entry.totaltime
+        row['self_seconds'] += entry.inlinetime
+    if len(rows) > 8192:
+        raise ValueError()
+    return sorted(rows.values(), key=lambda row: (-row['cumulative_seconds'], row['source'], row['line'], row['function']))
+
+
+def main():
+    os.umask(0o077)
+    if len(sys.argv) != 2 or not sys.flags.dont_write_bytecode or not sys.flags.no_site:
+        raise ValueError()
+    seconds = float(sys.argv[1])
+    if not 0 < seconds <= 170:
+        raise ValueError()
+    signal.signal(signal.SIGALRM, budget_signal)
+    signal.signal(signal.SIGTERM, budget_signal)
+    signal.setitimer(signal.ITIMER_REAL, seconds)
+    recipe = json.loads((HERE / 'RECIPE.json').read_bytes())
+    held = json.loads((HERE / 'ROOT328-CUSTODY.json').read_bytes())['files']
+    import_start = time.monotonic()
+    import tooling_recovery671_source_projection as tooling671
+    emit({'kind': 'cold_import', 'seconds': time.monotonic() - import_start, 'origins': origins(recipe['runtime_root_module_allowlist'], held)})
+    for index, name in enumerate(('validate_current_sources', 'current_input_hashes', 'current_source_before_tooling671'), 1):
+        profile = cProfile.Profile()
+        summary = None
+        status = 'refused'
+        failure_type = None
+        # Actual selected row read is fresh, and is not part of the projection profile.
+        raw = ordinary(recipe['projection_row']['relative'], held[recipe['projection_row']['relative']]) if index == 3 else None
+        start = time.monotonic()
+        try:
+            profile.enable()
+            if index == 1:
+                result = tooling671.validate_current_sources(ROOT)
+            elif index == 2:
+                result = tooling671.current_input_hashes()
+            else:
+                result = tooling671.current_source_before_tooling671(recipe['projection_row']['relative'], raw)
+            profile.disable()
+            if index == 1:
+                if result is not True:
+                    raise ValueError()
+                summary = {'boolean': True}
+            elif index == 2:
+                expected = {relative: row['sha256'] for relative, row in held.items() if row['domain'] == 'actual-ROOT-current282'}
+                if type(result) is not dict or result != expected:
+                    raise ValueError()
+                summary = {'map_count': len(result), 'map_sha256': hashlib.sha256(json.dumps(result, sort_keys=True, separators=(',', ':')).encode()).hexdigest()}
+            else:
+                if type(result) is not bytes or len(result) != recipe['projection_row']['before_bytes'] or hashlib.sha256(result).hexdigest() != recipe['projection_row']['before_sha256']:
+                    raise ValueError()
+                summary = {'projected_bytes': len(result), 'projected_sha256': hashlib.sha256(result).hexdigest()}
+            status = 'accepted'
+        except BaseException as error:
+            failure_type = type(error).__name__
+        finally:
+            profile.disable()
+        elapsed = time.monotonic() - start
+        emit({'kind': 'call_profile', 'index': index, 'entry': name, 'status': status, 'failure_type': failure_type, 'wall_seconds_including_profile_overhead': elapsed, 'summary': summary, 'functions': aggregates(profile), 'origins': origins(recipe['runtime_root_module_allowlist'], held)})
+        if status != 'accepted':
+            return 2
+    signal.setitimer(signal.ITIMER_REAL, 0)
+    emit({'kind': 'finished', 'entry_calls_attempted': 3, 'one_shared_child_import_and_path_cache': True})
+    return 0
+
+
+if __name__ == '__main__':
+    try:
+        exit_code = main()
+    except BaseException as error:
+        # Exception class only: no message, stack, locals, source or environment.
+        emit({'kind': 'refusal', 'failure_type': type(error).__name__})
+        exit_code = 2
+    raise SystemExit(exit_code)

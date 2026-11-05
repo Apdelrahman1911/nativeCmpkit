@@ -1,5 +1,43 @@
 # NativeCmpKit development after the audit
 
+## Related source batch verified and adopted — 2026-11-05
+
+[730/732–735](evidence/current-platform-recovery-20261101/ci-ingress730-controls732-adoption733/README.md)
+adopts the final CI ingress, immutable JSON-content optimization and bounded
+failure-only parent identities as one related patch. NEW6+affected17 pass23/23
+once (42.579s suite), independently reviewed with source custody and owned cleanup.
+The prior Android51 sources are preserved; accepted component populations are
+reused, not replayed. Exact seven-existing/four-new adoption and actual ROOT
+Camera5/AndroidWebView5 source plans pass, as do Actionlint and resolution freshness.
+303 registered sources/323 physical/46 dependency-only files are distinct domains.
+No native, compiler, consumer, issue-closure or complete-producer pass is implied.
+
+Next commit/push development only and run the changed complete producer; successful
+producer/four-ID authentication must precede same-HEAD native reuse. Continue
+separate compatibility and ordinary Windows-consumer patches during CI without
+changing that cohort HEAD. The failed626 producer remains nonreusable. Current
+last authenticated103closed/69open/172 and all release/security gates are unchanged.
+
+## Related Android source batch and measured CI blocker — 2026-11-04
+
+[Android718–725](evidence/current-platform-recovery-20261101/android-permission-lifecycle718-725/README.md)
+adopts51 source paths after important checks and independent review:30/30 lifecycle
+and owning-fixture controls, plus19/19 compatibility controls. No accepted source
+populations were replayed. The three API35 lifecycle routes are authored;14 broader
+compatibility profiles remain unregistered. No compiler/device result or issue
+closure follows from these source checks.
+
+[Producer720](evidence/current-platform-recovery-20261101/tooling-producer720-android724/README.md)
+remains failed and nonreusable. Its saved lexical progress is not a complete test
+report or root-cause proof. A new once-only baseline measures22.37s/32.42s/0.17s
+for the source validation/hash/projection primitives, with328 unchanged inputs and
+verified owned cleanup. Repeated manifest work is a measured optimization target;
+performance/diagnostic successors still need their focused verification before
+the next changed producer. Diagnostic FIRST24 retains22 passes/two model errors.
+
+Current103closed/69open/172 and all publication/security/readiness gates remain.
+The complete related patch is not yet committed at this dated checkpoint.
+
 ## Qualified producer performance and failure-only evidence batch — 2026-11-04
 
 [714](evidence/current-platform-recovery-20261101/tooling-producer709-path714/README.md)

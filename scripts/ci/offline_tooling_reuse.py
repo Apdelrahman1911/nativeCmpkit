@@ -591,6 +591,13 @@ def emit_scope_buffer_metadata(scope, output, *, phase, sampled_after_refusal):
         emit_scope_failure_inventory(output)
         emit_scope_failure_progress(scope, output, phase=phase,
                                     sampled_after_refusal=sampled_after_refusal)
+        try:
+            from offline_tooling_failure_parent_ids658 import emit_failure_parent_ids
+            emit_failure_parent_ids(output, scope_index=SCOPES.index(scope) + 1,
+                                    phase=phase, sampled_after_refusal=sampled_after_refusal,
+                                    stream=sys.stderr)
+        except BaseException:
+            pass
     except BaseException:
         pass
 

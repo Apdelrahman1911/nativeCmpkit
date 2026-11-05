@@ -370,3 +370,28 @@ and owning inventory/disposal results require their separate sealed receipts.
 Source routing is not a compiler/native, consumer, reuse-certificate, issue-closure,
 security or release-readiness result. All original Share650 failures, missing
 receipts/console and unknown cause are retained; no publication follows this work.
+
+## Exact Android permission-lifecycle successor source domain
+
+The Android18 source patch is admitted once before the unchanged711 diagnostic,
+707 budget and four named CI175/producer190/Cookie40/Share36 data domains. The
+original six/36 reversible rows are stored once in the independently pinned
+`android-permission-lifecycle-source-inverse.json` leaf; the compact joint
+manifest contains its endpoint only and retains the512KiB cap. Newly introduced
+Android helpers, three native test fixtures and six owned consumer application
+files are source identities, not native/compiler/consumer success receipts.
+
+Current Cookie40 remains separately copyable: its current owning control, guard
+template and manifest are resealed honestly, while original named40 metadata,
+Cookie4/10, callback/init and all old ancestor rows remain exact. The library
+source is outside Cookie40 and receives a narrowly scoped Android prelude before
+the old library comparison. The real External328 raw checkout boundary likewise
+admits the new Android source before unchanged historical current pins; old
+preimages never become new current. Path-only714 memoization remains path-only;
+every actual file, endpoint, template and transition is freshly reread.
+
+The related NEW/changed controls qualify source arithmetic, explicit domains,
+old/unknown refusal and current custody only. Accepted Android source23/FIRST8
+results are reused unchanged, not rerun or renamed. No native platform execution,
+whole issue19/107 resolution, consumer compatibility, security, release or
+publication acceptance is granted by this fixture successor.

@@ -10,7 +10,8 @@ and closes verified subsets. Agents do not mutate GitHub or publish. Important
 affected tests → source/results review → immediate justified batch closures still
 apply; no unchanged accepted-population replay. Maximum two combined hosted-heavy
 reservations INCLUDING queued/reserved and serial local heavy builds with an
-8 GiB reserve remain. Actions/all/no mandatory SHA pinning/read-only verification,
+8 GiB disk reserve and 6 GiB available compiler-memory gate remain.
+Actions/all/no mandatory SHA pinning/read-only verification,
 all publishing/security/readiness/Pages/main/history gates remain unchanged.
 This supersedes the solo amendment below, not its historical receipts.
 

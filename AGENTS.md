@@ -1,5 +1,70 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related CI/Android batch accepted; ready for changed producer — 2026-11-05
+
+[730/732–735](docs/development/evidence/current-platform-recovery-20261101/ci-ingress730-controls732-adoption733/README.md)
+integrates seven existing sources/41 reversible fragments and four additions
+after independent source and original-results review. The unique important cohort
+is **NEW6 + affected17 = 23** (not the earlier double-counted25):23/23 pass once,
+suite42.579s/outer43.381073826923966s, child0; candidate369 and ROOT365 hold and
+owned group/runtime cleanup passes. Accepted676/658/Android populations are reused,
+not replayed; their original failed/partial/refused records remain. Exact adoption
+writes7 once/adds4 explicitly0644, preserves358 unchanged original identities and
+all369 final sources. Current303 registered/raw301, physical323 including20
+unregistered compatibility files, plus46 dependencies; never call369 registered.
+The compact518906B manifest retains512KiB cap/5382B headroom and named175/190/40/36.
+Actual Camera5/AndroidWebView5 source plans, Actionlint and resolution-index check
+pass; all369 hold. ZERO new compiler/native/consumer/issue closure or producer pass.
+
+This dated receipt observes precommit626. Next development-only commit/push,
+fresh max2 combined hosted reservations INCLUDING queued/reserved, and changed
+complete producer. Failed41901107006 at626 is nonreusable; never retry unchanged.
+Only successful producer plus authenticated exact run/attempt/job/artifact permits
+same-HEAD Camera5/AndroidWebView5 reuse, with no intervening documentation commit.
+Continue isolated compatibility/Windows patches while CI runs; do not integrate
+them into that immutable cohort. #76 still requires Android active A→B capture;
+#13 still needs Dont-keep C1. Last authenticated103closed/69open/172 and dispositions
+22implemented/36partial/101verified/five unresolved remain;#144/#171/#102 closed.
+Lead integration/Git/dispatch/acceptance/closure; isolated agents authorized.
+Local heavy builds require8GiB disk/6GiB MemAvailable (current capacity does not
+qualify). Actions/all/no mandatory SHA pinning/minimum permissions remain.
+Every publishing/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/release-readiness gate remains; no package, release or deployment.
+
+## Android source batch adopted; failed CI measured — 2026-11-04
+
+[Android718–725](docs/development/evidence/current-platform-recovery-20261101/android-permission-lifecycle718-725/README.md)
+integrates the related51 source paths:17 existing/34 additions. FIRST30 passes
+30/30 once (suite92.239424s/outer92.426994s), independently accepted607; separate
+compatibility FIRST19 passes19/19 once (suite0.132s/outer0.305331s), accepted607.
+Actual current joint299 and separate physical source union319 are qualified;
+compatibility14 profiles remain UNREGISTERED, not compiler/native acceptance.
+Original Android23/XML8/711-FIRST13 are reused, not replayed. Initial lead
+postwrite fstat refusal leaves one exact path applied; remaining30 apply once,
+then a readback-schema KeyError follows all writes. Separate passive final
+readback accepts31/current299 without reapplying sources; originals remain.
+
+[Failed producer720](docs/development/evidence/current-platform-recovery-20261101/tooling-producer720-android724/README.md)
+41901107006 at626 remains FAILED/nonreusable/zero artifacts or native executions.
+Only211 reported tests completed; lexical3013/2879ok/24FAIL/96ERROR/14unresolved
+are observations, not a complete result or cause. Do not retry626 unchanged.
+New baseline620 FIRST measures three source primitives once:22.372631s,
+32.421926s,0.169627s/outer55.751351s;328 held/child0/owned cleanup qualify705.
+Document/JSON multiplicity is measured, not hosted failure causation. Pure676
+performance and658 failure-only evidence remain separately unadopted proposals;
+658 FIRST24 is22pass/twoERROR, with only failed2 recovery permitted.
+
+ROOT remains uncommitted above626 at this checkpoint; freeze the complete related
+patch before CI. Successful changed producer/all four authenticated selectors
+must precede same-HEAD native reuse; no intervening documentation commit.
+#19/#107/#13/#76/#64 stay open;103closed/69open/172 and22implemented/36partial/
+101verified/five unresolved unchanged. All16 upstream issues already mapped.
+Lead integration/Git/dispatch/closure; isolated agents authorized, max2 combined
+hosted reservations INCLUDING queued/reserved. Local heavy builds need8GiB disk
+and6GiB available memory. Actions/all/no mandatory SHA pinning/minimum permissions;
+every publishing/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/release-readiness gate remains. No package, release or deployment.
+
 ## Changed producer patch qualified and frozen — 2026-11-04
 
 [711/717–719](docs/development/evidence/current-platform-recovery-20261101/tooling-progress711-719/README.md)

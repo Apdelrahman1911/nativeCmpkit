@@ -54,7 +54,7 @@ class Ci668OuterIngressTests(unittest.TestCase):
         self.assertEqual(set(hashes), tooling.fixture_inputs())
         self.assertTrue(all(sha((ROOT / name).read_bytes()) == digest for name, digest in hashes.items()))
         self.assertEqual(hashes[ci668.WORKFLOW],
-                         "7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566")
+                         "a1ea0950a96472e6c602e3a776f74ce519cb8bdadf78920512a1ee6649961d5b")
         workflow = (ROOT / ci668.WORKFLOW).read_bytes()
         named_ci175 = latest.current_source_in_view(ci668.WORKFLOW, workflow, latest.CI_VIEW, ROOT)
         self.assertEqual(sha(named_ci175), ci668.WORKFLOW_AFTER_SHA256)

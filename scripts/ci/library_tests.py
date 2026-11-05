@@ -33,6 +33,7 @@ import desktop_media_context
 import desktop_security_plan
 import picker_dialog_context
 import android_storage_compatibility_plan as storage_plan
+import android_permission_lifecycle_contract as permission_lifecycle
 import secure_alert_input_plan as secure_alert
 import ios_calendar_native_focus as calendar_native
 import macos_share_native_focus as macos_share_native
@@ -209,6 +210,7 @@ ANDROID_PERMISSION_DEVICE_SPECS = {
         "scope": "One media method on the exact actual API: API33 public-library image/video request/full scope; API34 real platform explicit selected-photo request followed by public library Limited/denied observation. Platform selection is not a library request result; no accepted Call/denial/picker replay or foreign-media/packaged/ABI/release inference.",
     },
 }
+ANDROID_PERMISSION_DEVICE_SPECS.update(permission_lifecycle.SPECS)
 # NEW controlled-loopback routes; no full/default fixture population is admitted.
 ANDROID_IO_REMOTE_FOCUSES = ("android-io-controlled-remote", "android-io-controlled-remote-positive",
                             "android-io-controlled-remote-cancel")
@@ -3055,7 +3057,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["android_io_documents"] = {"package": android_io_documents.PACKAGE,
             "source_fixture": android_io_documents.FIXTURE, "verification_api_level": 35,
             "source_contract": android_io_documents.source_contract(root)}
-    if android_permission_demo_required(result):
+    if android_permission_lifecycle_required(result):
+        result["android_permission_lifecycle"] = {"package": permission_lifecycle.PACKAGE,
+            "source_fixture": permission_lifecycle.FIXTURE, "verification_api_level": permission_lifecycle.API,
+            "source_contract": permission_lifecycle.source_contract(root)}
+    elif android_permission_demo_required(result):
         import android_permission_demo
         result["android_permission_demo"] = {"package": android_permission_demo.PACKAGE,
             "source_fixture": android_permission_demo.FIXTURE, "source_contract": android_permission_demo.source_contract(root)}
@@ -3064,6 +3070,8 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
 
 def android_permission_device_filter(focus: str) -> str:
     spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]  # Unknown focus must never become a whole-class fallback.
+    if focus in permission_lifecycle.FOCUSES:
+        return permission_lifecycle.test_filter(focus)
     if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:
         # One FUNCTION/RUNTIME marker survives ATE CSV transport; exact XML identities stay required.
         return ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION
@@ -3108,11 +3116,19 @@ def android_permission_device_identities(focus: str) -> list[dict]:
 
 def android_permission_demo_required(test_plan: dict) -> bool:
     return (test_plan.get("suite") == "android-device" and
-        test_plan.get("explicit_test_focus") in ANDROID_PERMISSION_DEVICE_SPECS and any(
+        test_plan.get("explicit_test_focus") in ANDROID_PERMISSION_DEVICE_SPECS and
+        test_plan.get("explicit_test_focus") not in permission_lifecycle.FOCUSES and any(
             item.get("module") == "calf-permissions/core" for item in test_plan.get("expected", [])))
 
 
+def android_permission_lifecycle_required(test_plan: dict) -> bool:
+    return (test_plan.get("suite") == "android-device" and test_plan.get("explicit_test_focus") in permission_lifecycle.FOCUSES and
+            test_plan.get("explicit_module_subset") == [permission_lifecycle.MODULE] and
+            any(item.get("module") == permission_lifecycle.MODULE for item in test_plan.get("expected", [])))
+
+
 def validate_android_permission_demo_plan(test_plan: dict) -> None:
+    permission_lifecycle.validate_plan(test_plan)
     helper = test_plan.get("android_permission_demo")
     if not android_permission_demo_required(test_plan):
         if helper is not None:
@@ -4311,6 +4327,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                    android_serial: str | None = None, android_io_documents_receipt: dict | None = None,
                    android_io_remote_documents_receipt: dict | None = None,
                    android_permission_demo_receipt: dict | None = None,
+                   android_permission_lifecycle_receipt: dict | None = None,
                    for_assembly: bool = False, android_storage_probe_receipt: dict | None = None) -> list[str]:
     boundary_focus = validate_test_focus(test_plan)
     if for_assembly and suite != "android-device":
@@ -4326,6 +4343,15 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         if not for_assembly:
             remote.validate_prepared_receipt(android_io_remote_documents_receipt,
                 test_plan["android_io_remote_documents"]["source_contract"])
+    lifecycle_required = android_permission_lifecycle_required(test_plan)
+    if android_permission_lifecycle_receipt is not None and (not lifecycle_required or for_assembly):
+        raise ValueError("No lifecycle prepared receipt on unrelated/default/assembly-only commands")
+    if lifecycle_required:
+        if permission_lifecycle.source_contract(root) != test_plan["android_permission_lifecycle"]["source_contract"]:
+            raise ValueError("Permission lifecycle current source identities changed before the owning command")
+        if not for_assembly:
+            permission_lifecycle.validate_prepared_receipt(android_permission_lifecycle_receipt,
+                test_plan["android_permission_lifecycle"]["source_contract"], focus=test_plan["explicit_test_focus"])
     permission_required = android_permission_demo_required(test_plan)
     if android_permission_demo_receipt is not None and not permission_required:
         raise ValueError("No permission preparation on unrelated or accepted suites")
@@ -4451,6 +4477,9 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         if remote_required and not for_assembly:
             # Preparation identity only; neither this argument nor a source receipt proves native success.
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedRemoteIoDocuments=true")
+        if lifecycle_required and not for_assembly:
+            command.extend(["-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedPermissionLifecycle=true",
+                            "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitPermissionLifecycleFocus=" + test_plan["explicit_test_focus"]])
         if permission_required and not for_assembly:
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedPermissionDemo=true")
         if storage_required and not for_assembly:
@@ -4977,7 +5006,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         android_serial: str | None = None, android_user_home: str | None = None, focus: str | None = None,
         android_io_documents_receipt: dict | None = None,
         android_io_remote_documents_receipt: dict | None = None,
-        android_permission_demo_receipt: dict | None = None, android_storage_probe_receipt: dict | None = None) -> dict:
+        android_permission_demo_receipt: dict | None = None, android_storage_probe_receipt: dict | None = None,
+        android_permission_lifecycle_receipt: dict | None = None) -> dict:
     if focus == share_missing.FOCUS:
         raise ValueError("Accepted Share JNI3 are retired from live execution; use the existing-profile same-job AppKit6-only CLI reference")
     output = safe_path(root, output_relative)
@@ -4989,6 +5019,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         raise ValueError("Remote instrumentation requires the controller's same existing private signing home")
     if android_io_documents_required(test_plan) and android_user_home is None:
         raise ValueError("Owned IO instrumentation requires the controller's existing private signing home")
+    if android_permission_lifecycle_required(test_plan) and android_user_home is None:
+        raise ValueError("Permission lifecycle instrumentation requires the controller's same existing private signing home")
     if android_permission_demo_required(test_plan) and android_user_home is None:
         raise ValueError("Native permission instrumentation requires the controller's exact private signing home")
     if android_storage_probe_required(test_plan) and android_user_home is None:
@@ -4997,6 +5029,7 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                              android_serial=android_serial, android_io_documents_receipt=android_io_documents_receipt,
                              android_io_remote_documents_receipt=android_io_remote_documents_receipt,
                              android_permission_demo_receipt=android_permission_demo_receipt,
+                             android_permission_lifecycle_receipt=android_permission_lifecycle_receipt,
                              android_storage_probe_receipt=android_storage_probe_receipt)
     execution_environment = android_device_environment(android_serial) if android_serial else None
     if android_user_home is not None:
@@ -5046,6 +5079,14 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                 test_plan["android_io_remote_documents"]["source_contract"])
             if remote.source_contract(root) != test_plan["android_io_remote_documents"]["source_contract"]:
                 raise ValueError("Remote current source map changed before native execution")
+        if android_permission_lifecycle_required(test_plan):
+            actual_api = context.get("android_emulator", {}).get("api_level")
+            if actual_api != "35":
+                raise ValueError("Permission lifecycle native execution requires actual API35")
+            permission_lifecycle.validate_prepared_receipt(android_permission_lifecycle_receipt,
+                test_plan["android_permission_lifecycle"]["source_contract"], int(actual_api), focus=focus)
+            if permission_lifecycle.source_contract(root) != test_plan["android_permission_lifecycle"]["source_contract"]:
+                raise ValueError("Permission lifecycle source map changed before native execution")
         if android_permission_demo_required(test_plan):
             import android_permission_demo
             actual_api = context["android_emulator"]["api_level"]
@@ -5107,6 +5148,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
             receipt["scope"] = test_plan["scope"]
         if android_io_remote_documents_required(test_plan):
             receipt["android_io_remote_documents"] = dict(android_io_remote_documents_receipt)
+        if android_permission_lifecycle_required(test_plan):
+            receipt["android_permission_lifecycle"] = dict(android_permission_lifecycle_receipt)
         if android_permission_demo_required(test_plan):
             receipt["android_permission_demo"] = dict(android_permission_demo_receipt)
         try:

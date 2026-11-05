@@ -1,0 +1,37 @@
+{
+  "closure_sha256": "34576d83741b92e65463b26be2a1508986104a6da9526666871456f267d5c07a",
+  "exact_refusals": [
+    {
+      "AST_observation": "own_raw, own = fresh(Path(__file__)) is a direct main-body assignment immediately before, outside, its protected try/finally.",
+      "cause": "Failure of the original-self custody read after fresh results/original allocation escapes without the promised guard/result/exit receipt.",
+      "id": "FIRST19-SELF-REFUSAL",
+      "impact": "Refusal accounting gap, not an observed execution/native failure.",
+      "location": "/root/nativecmpkit-source-proposals-20261104/android-compatibility840-r2-FIRST19-frozen-executor604/run_frozen_FIRST19.py:104-105",
+      "minimal_solution": "Move self acquisition inside protected try/finally and retain explicit unavailable-self fields on refusal. Preserve initial runner/seals unchanged."
+    },
+    {
+      "AST_observation": "child_started = True precedes subprocess.run; spawn OSError is caught with candidate_started True while process remains None.",
+      "cause": "Spawn attempt is conflated with actual successful process creation.",
+      "id": "FIRST19-SPAWN-ACCOUNTING",
+      "impact": "A future executable/permission/OS spawn refusal could incorrectly assert candidate execution. No execution has occurred.",
+      "location": "/root/nativecmpkit-source-proposals-20261104/android-compatibility840-r2-FIRST19-frozen-executor604/run_frozen_FIRST19.py:173-175",
+      "minimal_solution": "Keep launch-attempt distinct from actual successful Popen/PID admission; record PID and direct wait/exit, no retry/fallback."
+    }
+  ],
+  "guard_copy_closure_remaining_review": "Deferred until corrected executor; no completed69-guard qualification is claimed by this refusal receipt.",
+  "issue_closure": 0,
+  "native_compiler_execution": 0,
+  "new_requested_scope": "Only retained narrow executor successor for the2 accounting paths; candidate20/guard18/closure/NEW19 and prior accepted proofs remain unchanged.",
+  "outer_source_seal_sha256": "60789a985aab537a09f90481f3d3977839ec7f565fbaad7ffb7ec46958f5c494",
+  "publication": 0,
+  "runner_bytes": 13575,
+  "runner_path": "/root/nativecmpkit-source-proposals-20261104/android-compatibility840-r2-FIRST19-frozen-executor604/run_frozen_FIRST19.py",
+  "runner_preexecution_accepted": false,
+  "runner_sha256": "3c1771dee8f233bd99e3d101497ff959d568da3fc4ceed2bd2aecee21073e9d5",
+  "schema_version": 1,
+  "scope": "Independent passive AST/source review of unexecuted outer FIRST19 runner only. No imports/tests/plans/Git/ROOT/hosted originals/native.",
+  "source20_18_R2_body_proof_repeated": false,
+  "source_controls_executed": 0,
+  "source_selector_acceptance_reused": "12c5761bce50c26bcb76b3426fe52d4a9a1d97e49a313c10dce43cdfaa6049c1",
+  "utc": "2026-11-04T21:23:08.649131+00:00"
+}

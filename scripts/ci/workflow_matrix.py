@@ -11,6 +11,7 @@ from pathlib import Path
 import subprocess
 import sys
 import android_storage_compatibility_plan as storage_plan
+import android_permission_lifecycle_contract as permission_lifecycle
 import android_device_batch_plan as android_batch_plan
 import desktop_security_plan
 import ios_calendar_native_focus as calendar_native
@@ -31,6 +32,9 @@ SLOTS = (
     {"slot": "android-device-api35", "suite": "android-device", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3", "emulator-api": "35"},
 )
 PROFILES = {
+    "android-permission-location-api35": ("android-device-api35",),
+    "android-permission-lifecycle-grant-api35": ("android-device-api35",),
+    "android-permission-lifecycle-revoke-api35": ("android-device-api35",),
     "android-io-permission-storage-api35": ("android-device-api35",),
     "android-permission-storage-api35-recovery": ("android-device-api35",),
     "android-permission-storage-compatibility": ("android-device-api35",),
@@ -247,6 +251,9 @@ PROFILES = {
     "tooling": (),
 }
 MODULE_SUBSETS = {
+    "android-permission-location-api35": "calf-permissions/core",
+    "android-permission-lifecycle-grant-api35": "calf-permissions/core",
+    "android-permission-lifecycle-revoke-api35": "calf-permissions/core",
     "android-io-permission-storage-api35": "calf-io,calf-permissions/core",
     "android-permission-storage-api35-recovery": "calf-permissions/core",
     "android-permission-storage-compatibility": "calf-permissions/core",
@@ -560,6 +567,10 @@ def matrix(profile: str) -> dict:
     if profile == "android-geo-prerequisites":
         for row in rows:
             row["test-focus"] = "geo-android-real-prerequisites"
+    if profile in permission_lifecycle.FOCUSES:
+        if len(rows) != 1 or rows[0]["slot"] != "android-device-api35" or MODULE_SUBSETS[profile] != permission_lifecycle.MODULE:
+            raise ValueError("Permission lifecycle refuses broad or default matrix routing")
+        rows[0].update(**{"emulator-api": "35", "test-focus": profile})
     if profile == "android-permission-demo":
         for row in rows:
             row["test-focus"] = "android-permission-demo-contracts"

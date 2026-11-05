@@ -1,0 +1,31 @@
+[
+  {
+    "id": "PERM-004",
+    "issue": {
+      "number": 19,
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/19",
+      "mapping_key": "audit:PERM-004",
+      "historical_mapping_state": "open"
+    },
+    "required_tests": [
+      "API23,29,30,31,33+ with both current and legacy targetSdk: fine alone, coarse alone, fine+coarse, foreground+background.",
+      "Accept approximate, deny precise, deny background and return from Settings.",
+      "Verify manifest omissions and location services disabled are distinguished."
+    ],
+    "status": "partially-verified"
+  },
+  {
+    "id": "PERM-006",
+    "issue": {
+      "number": 107,
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/107",
+      "mapping_key": "audit:PERM-006",
+      "historical_mapping_state": "open"
+    },
+    "required_tests": [
+      "Granted notification/camera/location toggled off in Settings then resume without process death.",
+      "Denied-to-granted, one-time grant expiry, repeated resumes, batched permissions and lifecycle disposal."
+    ],
+    "status": "partially-verified"
+  }
+]

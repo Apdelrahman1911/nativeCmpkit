@@ -32,6 +32,15 @@ SCOPE = SCOPES[3]
 PREFIX = "[offline-scope-progress] "
 
 
+def original711_source():
+    # Strict exact658 data inverse; original711 assertions stay unchanged.
+    # Import no scope owner, planner or restored executable.
+    from macos_share_ci668_composition import source_before_failure_parent658
+    return source_before_failure_parent658(
+        "scripts/ci/offline_tooling_reuse.py", SOURCE.read_bytes(),
+        SOURCE.resolve().parents[2])
+
+
 def parent(method="test_active", token="", newline=True, suffix=None):
     suffix = (" " + token) if suffix is None else suffix
     return (f"{method} (test_fixture.Control.{method}) ...{suffix}" + ("\n" if newline else "")).encode()
@@ -40,7 +49,7 @@ def parent(method="test_active", token="", newline=True, suffix=None):
 def emitter(stream=None):
     # Execute only the actual secondary emitter + original pure canonical/require.
     # Do not import or execute the scope owner, planners, scopes or subprocesses.
-    tree = ast.parse(SOURCE.read_bytes())
+    tree = ast.parse(original711_source())
     selected = [node for node in tree.body if isinstance(node, ast.FunctionDef)
                 and node.name in {"canonical", "require", "emit_scope_failure_progress"}]
     if len(selected) != 3:
@@ -203,7 +212,7 @@ class FailureProgress711Controls(unittest.TestCase):
             self.assertLessEqual(len(stream.getvalue().encode("ascii")), 4097)
 
     def test_exact_two_fragment_delta_preserves_primary_cleanup_eligibility_and_all_other_source(self):
-        after = SOURCE.read_bytes()
+        after = original711_source()
         self.assertEqual(1, after.count(NEW_WIRING))
         without_wiring = after.replace(NEW_WIRING, OLD_WIRING)
         start = without_wiring.index(b"def emit_scope_failure_progress(")
@@ -221,7 +230,7 @@ class FailureProgress711Controls(unittest.TestCase):
             self.assertEqual(ast.dump(old_nodes[name], include_attributes=False), ast.dump(new_nodes[name], include_attributes=False))
 
     def test_only_failure_buffer_wiring_keeps_inventory_first_and_adds_no_heartbeat_or_child_read(self):
-        tree = ast.parse(SOURCE.read_bytes())
+        tree = ast.parse(original711_source())
         owners = {node.name: node for node in tree.body if isinstance(node, ast.FunctionDef)}
         calls = [(name, node) for name, owner in owners.items() for node in ast.walk(owner)
                  if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
@@ -231,7 +240,7 @@ class FailureProgress711Controls(unittest.TestCase):
         names = [node.value.func.id for node in body if isinstance(node, ast.Expr)
                  and isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name)]
         self.assertEqual(["emit_scope_failure_inventory", "emit_scope_failure_progress"], names[-2:])
-        emitter_source = ast.get_source_segment(SOURCE.read_text(), owners["emit_scope_failure_progress"])
+        emitter_source = ast.get_source_segment(original711_source().decode(), owners["emit_scope_failure_progress"])
         for forbidden in ("os.pread", "os.fstat", "time.", "subprocess", "log.", "open(", "heartbeat_count"):
             self.assertNotIn(forbidden, emitter_source)
         helper_tree = ast.parse(Path(progress.__file__).read_bytes())

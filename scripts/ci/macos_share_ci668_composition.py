@@ -17,7 +17,7 @@ import stat
 ROOT = Path(__file__).resolve().parents[2]
 OWNER = "scripts/ci/macos_share_ci668_composition.py"
 SPEC = "scripts/ci/fixtures/macos-share-ci668-composition.json"
-SPEC_SHA256 = "68373d73aac26d71c0ca092fe2b0517fdb940417adca6430f15e744a5faf4988"
+SPEC_SHA256 = "06d04d038b06c00e5aafb9b7defdf39ae069f3df305e4dbc84198bc8ed178a24"
 CI_VIEW = "final_ci175"
 SHARE_VIEW = "share607"
 COOKIE_VIEW = "cookie609_raw40"
@@ -70,8 +70,34 @@ FAILURE711_ADDITION_ENDPOINTS = {
     FAILURE711_HELPER: {"sha256": "3bcb54e114807b6ffd4c2337367407354412312b1adecaba356ad57cdb5ccd28", "bytes": 3590},
     FAILURE711_CONTROL: {"sha256": "c82a70f4890b4a7d2bddfa60ef2273dfb4a41c9005871234282363e745fed14f", "bytes": 15313},
 }
+FAILURE658_HELPER = 'scripts/ci/offline_tooling_failure_parent_ids658.py'
+FAILURE658_CONTROL = 'scripts/ci/test_offline_tooling_failure_parent_ids658.py'
+PURE676_CONTROL = 'scripts/ci/test_share_ci_pure_json_content676.py'
+CURRENT620_CONTROL = 'scripts/ci/test_related_current_ingress620.py'
+FAILURE658_BINDING_SHA256 = '862dda5f631abe26b8e82da16d2f2d512ace8c8112efca13380c9fefd7338dcc'
+FAILURE658_CURRENT_SHA256 = '3f19d0f4e93a66b8ba4928e88819fb35ac469709f9c26bfef87ee57fbd4778ca'
+RELATED620_ADDITION_ENDPOINTS = {'scripts/ci/offline_tooling_failure_parent_ids658.py': {'sha256': '5d5ad0c3db820522ef91bf6c936be47806a94311cc920b572850b4e317cf5cc3', 'bytes': 14244}, 'scripts/ci/test_offline_tooling_failure_parent_ids658.py': {'sha256': '90d99f07e04381a34b8a542ec171154ffa1af4d9c3cc706ce7595bf0bc14016a', 'bytes': 30925}, 'scripts/ci/test_related_current_ingress620.py': {'sha256': 'baed5f2f18e1cea051f63c8407ba4b146b4f4467e0c621bd034147d93147bc32', 'bytes': 7135}, 'scripts/ci/test_share_ci_pure_json_content676.py': {'sha256': '77afb9c66209fba9f93223c5aae9b15e36897bb891f0b5240b67f616bce5df9b', 'bytes': 16113}}
+CURRENT_CONTEXT620_FRAGMENT_COUNTS = {'scripts/ci/test_android_permission_lifecycle_fixture_admission.py': 4, 'scripts/ci/test_macos_share_ci668_composition.py': 15, 'scripts/ci/test_offline_tooling_failure_evidence711.py': 5, 'scripts/ci/test_producer698_batch_source_fixture_recovery.py': 1}
+CURRENT_CONTEXT620_PATHS = frozenset(CURRENT_CONTEXT620_FRAGMENT_COUNTS)
+CURRENT_CONTEXT620_BEFORE_ENDPOINTS = {'scripts/ci/test_android_permission_lifecycle_fixture_admission.py': {'sha256': 'a51bc025d510b0560d746ced7a4542ddf64596d9161e739c145d7c915df56602', 'bytes': 15228}, 'scripts/ci/test_macos_share_ci668_composition.py': {'sha256': '063dab68c556e19a30eebaf2cc21157dab6c02bb97838ae8beeb90fed5fa0f10', 'bytes': 68263}, 'scripts/ci/test_offline_tooling_failure_evidence711.py': {'sha256': 'c82a70f4890b4a7d2bddfa60ef2273dfb4a41c9005871234282363e745fed14f', 'bytes': 15313}, 'scripts/ci/test_producer698_batch_source_fixture_recovery.py': {'sha256': '75f313c12c615e61e21a14c69d947e9e7f1a637e73aeeebe1379bedeebfacda2', 'bytes': 16177}}
+CURRENT_CONTEXT620_BINDING_SHA256 = '62a0722cecddc83550ab0fcbcdf3451605e246502eb008c3462c9aa87b33f505'
+ANDROID_SPEC = 'scripts/ci/fixtures/android-permission-lifecycle-source-inverse.json'
+ANDROID_CONTROL = 'scripts/ci/test_android_permission_lifecycle_fixture_admission.py'
+ANDROID_MEMO = 'scripts/ci/test_source_path_memoization714.py'
+ANDROID_BRIDGE = 'scripts/ci/android_external328_source_projection.py'
+ANDROID_TRANSITION_ENDPOINT = {'sha256': 'ebb781e0e1c62f34f774d6dae737b8225098108a1fffe555b2a12ae6c054edba', 'bytes': 139437}
+ANDROID_AUTHOR_RECIPE_SHA256 = 'e2260f56286ee946bed458e76e2d29126d80c6f6ce3fb1b04ab19b2da02562e6'
+ANDROID_AUTHOR_FINAL_MAP_SHA256 = '39c02ea6930a7024a1dd83bda1a6dc6236894937ea75f7a11c2702157a8b81c8'
+ANDROID_ORIGINAL_BINDINGS_SHA256 = '3798f3f00f7304b25ba30d71b49ea1d07155e1db5c77a4a127f1df05ed551f1a'
+ANDROID_PATCH_FRAGMENT_COUNTS = {'scripts/ci/library_tests.py': 10, 'scripts/ci/android_device_tests.py': 15, 'scripts/ci/workflow_matrix.py': 4, 'scripts/ci/android_storage_probe.py': 3, 'calf-permissions/core/src/androidDeviceTest/AndroidManifest.xml': 1, '.github/workflows/gradle.yml': 3}
+ANDROID_CONTEXT_FRAGMENT_COUNTS = {'scripts/ci/test_ci668_outer_source_projection.py': 1, 'scripts/ci/test_producer698_batch_source_fixture_recovery.py': 1, 'scripts/ci/tests/test_cookie_ci668_outer_scope609.py': 1, 'scripts/ci/cookie_ci668_outer_source_projection.py': 4, 'scripts/ci/fixtures/cookie-ci668-outer-source-inverse.json': 2}
+ANDROID_PATCH_PATHS = frozenset(ANDROID_PATCH_FRAGMENT_COUNTS)
+ANDROID_BOUND_PATHS = ANDROID_PATCH_PATHS | frozenset(ANDROID_CONTEXT_FRAGMENT_COUNTS)
+ANDROID_SOURCE_INPUTS = frozenset(['calf-permissions/core/src/androidDeviceTest/AndroidManifest.xml', 'calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionLifecycleDeviceTest.kt', 'calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionLifecycle.kt', 'calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionLifecycleSystemUi.kt', 'scripts/ci/android_permission_lifecycle.py', 'scripts/ci/android_permission_lifecycle_contract.py', 'scripts/ci/test_android_permission_lifecycle_source.py', 'tests/consumer/android-permission-lifecycle/build.gradle.kts', 'tests/consumer/android-permission-lifecycle/gradle.properties', 'tests/consumer/android-permission-lifecycle/settings.gradle.kts', 'tests/consumer/android-permission-lifecycle/src/main/AndroidManifest.xml', 'tests/consumer/android-permission-lifecycle/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/permissionlifecycle/PermissionLifecycleActivity.kt', 'tests/consumer/android-permission-lifecycle/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/permissionlifecycle/PermissionLifecycleService.kt'])
+ANDROID_ADDED_INPUTS = ANDROID_SOURCE_INPUTS | {ANDROID_SPEC, ANDROID_CONTROL, ANDROID_MEMO, ANDROID_BRIDGE}
+ANDROID_GENERIC_EXCLUSIONS = ANDROID_ADDED_INPUTS | {NEW_COOKIE_CONTROL}
 ADDED_INPUTS = frozenset({NEW_CONTROL, NEW_DOC, BUDGET707_CONTROL,
-                          FAILURE711_HELPER, FAILURE711_CONTROL})
+                          FAILURE711_HELPER, FAILURE711_CONTROL}) | ANDROID_ADDED_INPUTS | frozenset(RELATED620_ADDITION_ENDPOINTS)
 BOUND_FRAGMENT_COUNTS = {'.github/workflows/gradle.yml': 1,
  'scripts/ci/ci668_outer_source_projection.py': 7,
  'scripts/ci/cookie_ci668_outer_source_projection.py': 8,
@@ -106,7 +132,7 @@ BUDGET707_CURRENT_SHA256 = {'.github/workflows/gradle.yml': '7c9af733acf8ac35aad
 MAX_SOURCE = 4 * 1024 * 1024
 MAX_SPEC = 512 * 1024
 DIGEST = re.compile(r"[0-9a-f]{64}\Z")
-SCOPE = 'Exact joint282 raw source, exact711 diagnostic transition then unchanged707 prelude then CI175/Cookie40/Share36/producer190 named ancestry; ZERO native/compiler/producer-reuse/consumer/security/issue/release acceptance'
+SCOPE = 'Exact joint303 raw source, separately sealed current620 control context above immutable Android18, exact658 failure-only hook before original711 then unchanged707 then CI175/Cookie40/Share36/producer190 named ancestry; ZERO native/compiler/producer-reuse/consumer/security/issue/release acceptance'
 CURRENT_REFUSAL = "An old or unknown image cannot replace exact current final CI668 source"
 PREDECESSOR_CUSTODY = {'CI175_map_sha256': '281ba98ae69e597f41f1c417c142878791c0931bce7542b280ba0bd8315cfe4e',
  'CI200_import_map_sha256': 'dcefd6b81ea2d7e1c51819df4fe9b1977aae3c5655f1031e199d3bc9bca0f212',
@@ -251,16 +277,78 @@ def _ordinary(root, relative, maximum=MAX_SOURCE):
     return _portable_ordinary(root, relative, maximum)
 
 
+class _UncachedJSONResult(Exception):
+    """An unexpected parser result is returned unchanged, never retained."""
+
+
+def _freeze_json_content(value):
+    if type(value) is dict:
+        if any(type(key) is not str for key in value):
+            raise TypeError("not ordinary JSON object keys")
+        return ("object", tuple((key, _freeze_json_content(child))
+                                for key, child in value.items()))
+    if type(value) is list:
+        return ("array", tuple(_freeze_json_content(child) for child in value))
+    if type(value) not in (str, int, float, bool, type(None)):
+        raise TypeError("not ordinary immutable JSON values")
+    return ("value", value)
+
+
+def _thaw_json_content(tree):
+    kind, value = tree
+    if kind == "object":
+        return {key: _thaw_json_content(child) for key, child in value}
+    if kind == "array":
+        return [_thaw_json_content(child) for child in value]
+    return value
+
+
+def _json_parser_context(parser):
+    namespace = getattr(parser, "__globals__", {})
+    dependencies = (namespace.get("_unique"), namespace.get("need"),
+                    getattr(namespace.get("json"), "loads", None))
+    return (parser, getattr(parser, "__code__", None),
+            tuple((dependency, getattr(dependency, "__code__", None))
+                  for dependency in dependencies),
+            "AppKit-JSON-duplicate-nonfinite-depth64-v1", MAX_SPEC)
+
+
+@lru_cache(maxsize=16)
+def _cached_json_tree(payload, context):
+    """Successful pure parsing only; callers bound exact bytes BEFORE key hashing.
+
+    Keys include complete raw content and the declared parser/dependency semantics.
+    Values contain only immutable JSON tuples/scalars. Exceptions are not cached;
+    concurrent misses may repeat pure parsing. No source/schema/custody result is
+    memoized: every filesystem read/hash and every mutable _shape check stays live.
+    """
+    value = context[0](payload)
+    try:
+        return _freeze_json_content(value)
+    except (TypeError, RecursionError):
+        raise _UncachedJSONResult(value) from None
+
+
 def _json(payload):
     from macos_share_appkit_only_source_projection import json_bytes
     need(type(payload) is bytes and 0 < len(payload) <= MAX_SPEC,
          "bounded-complete-share-CI-manifest-required")
-    return json_bytes(payload)
+    context = _json_parser_context(json_bytes)
+    try:
+        hash(context)
+    except TypeError:
+        return json_bytes(payload)  # Unhashable foreign parser context stays uncached.
+    try:
+        tree = _cached_json_tree(payload, context)
+    except _UncachedJSONResult as result:
+        return result.args[0]  # Preserve foreign parser behavior without mutable retention.
+    return _thaw_json_content(tree)  # Fresh dict/list containers on EVERY call.
 
 
 def _sealed_predecessor_hashes(root, document):
     def spec(relative, expected):
         raw = _ordinary(root, relative, MAX_SPEC)[0]
+        raw = peel_android_lifecycle_for_history(relative, raw, root)
         need(sha(raw) == expected, "unchanged-share-CI-predecessor-manifest-required")
         return _json(raw)
     ci = spec(CI_SPEC, CI_SPEC_SHA256)
@@ -357,11 +445,179 @@ def _failure711_binding(document):
     return row
 
 
+def _failure658_binding(document):
+    """Separately sealed58f->3f19 failure-only hook, never a711/707 repin."""
+    need(type(document) is dict and type(document.get("failure658_bindings")) is dict and
+         set(document["failure658_bindings"]) == {OFFLINE},
+         "exact658-one-path-diagnostic-transition-required")
+    row = document["failure658_bindings"][OFFLINE]
+    _binding(row, 1)
+    import json
+    encoded = (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    need(sha(encoded) == FAILURE658_BINDING_SHA256 and
+         (row["before_sha256"], row["before_bytes"]) == (FAILURE711_CURRENT_SHA256, 59762) and
+         (row["after_sha256"], row["after_bytes"]) == (FAILURE658_CURRENT_SHA256, 60138),
+         "exact658-original376-byte-hook-before-original711-required")
+    return row
+
+
+def _current_context620_bindings(document):
+    """Current control context is separate from immutable718 and original711."""
+    need(type(document) is dict and type(document.get("current_context620_bindings")) is dict and
+         set(document["current_context620_bindings"]) == CURRENT_CONTEXT620_PATHS,
+         "exact620-four-owning-current-control-transitions-required")
+    rows = document["current_context620_bindings"]
+    for relative, row in rows.items():
+        _identity(relative, b"source-identity-only")
+        _binding(row, CURRENT_CONTEXT620_FRAGMENT_COUNTS[relative])
+        need({"sha256": row["before_sha256"], "bytes": row["before_bytes"]} ==
+             CURRENT_CONTEXT620_BEFORE_ENDPOINTS[relative],
+             "exact620-original-current299-control-endpoint-required")
+    import json
+    encoded = (json.dumps(rows, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    need(sha(encoded) == CURRENT_CONTEXT620_BINDING_SHA256,
+         "exact620-separately-sealed-current-control-fragments-required")
+    return rows
+
+
+def _successor620_to_before(payload, row):
+    inverse = {"before_sha256": row["after_sha256"], "before_bytes": row["after_bytes"],
+               "after_sha256": row["before_sha256"], "after_bytes": row["before_bytes"],
+               "fragments": [{"before": f["after"], "after": f["before"],
+                              "before_fragment_sha256": f["after_fragment_sha256"],
+                              "after_fragment_sha256": f["before_fragment_sha256"]}
+                             for f in reversed(row["fragments"])]}
+    return _inverse_to_ancestor(payload, inverse)
+
+
+def _failure658_to711(payload, document):
+    """Strict exact658 inverse only; data comparison, never restored execution."""
+    return _successor620_to_before(payload, _failure658_binding(document))
+
+
+def _current_context620_before(relative, payload, document):
+    row = _current_context620_bindings(document).get(relative)
+    return payload if row is None else _successor620_to_before(payload, row)
+
+
+def _transition620_document(root):
+    """One fresh bounded repository manifest; no named/current traversal."""
+    raw = _ordinary(root, SPEC, MAX_SPEC)[0]
+    need(sha(raw) == SPEC_SHA256, "exact620-transition-manifest-required")
+    return _json(raw)
+
+
+def source_before_failure_parent658(relative, payload, root=ROOT):
+    """Strict658 source comparison for unchanged711 assertions; not execution."""
+    _identity(relative, payload)
+    if relative != OFFLINE:
+        return payload
+    return _failure658_to711(payload, _transition620_document(root))
+
+
+def source_before_current_context620(relative, payload, root=ROOT):
+    """Strict finite current-control comparison above unchanged718/711 pins."""
+    _identity(relative, payload)
+    if relative not in CURRENT_CONTEXT620_PATHS:
+        return payload
+    return _current_context620_before(relative, payload, _transition620_document(root))
+
+
+def _android_transition(root=ROOT):
+    """Fresh separately sealed Android18/data-only context; never named admission."""
+    raw = _ordinary(root, ANDROID_SPEC, MAX_SPEC)[0]
+    need((sha(raw), len(raw)) == (ANDROID_TRANSITION_ENDPOINT["sha256"], ANDROID_TRANSITION_ENDPOINT["bytes"]),
+         "exact-separately-sealed-Android18-transition-required")
+    document = _json(raw)
+    need(type(document) is dict and set(document) == {"schema_version", "scope",
+         "original_recipe_sha256", "original_final_map_sha256", "original_bindings",
+         "current_context_bindings", "source_inputs"} and
+         type(document["schema_version"]) is int and document["schema_version"] == 1 and
+         document["scope"] == "Exact Android18 six36 source prelude and separately bound truthful current controls; source data only, ZERO compiler/native/consumer/reuse/security/issue/release acceptance" and
+         document["original_recipe_sha256"] == ANDROID_AUTHOR_RECIPE_SHA256 and
+         document["original_final_map_sha256"] == ANDROID_AUTHOR_FINAL_MAP_SHA256 and
+         type(document["original_bindings"]) is dict and
+         set(document["original_bindings"]) == ANDROID_PATCH_PATHS and
+         type(document["current_context_bindings"]) is dict and
+         set(document["current_context_bindings"]) == set(ANDROID_CONTEXT_FRAGMENT_COUNTS) and
+         type(document["source_inputs"]) is dict and set(document["source_inputs"]) == ANDROID_SOURCE_INPUTS,
+         "finite-original-six36-and-separate-Android-current-context-required")
+    for key, counts in (("original_bindings", ANDROID_PATCH_FRAGMENT_COUNTS),
+                        ("current_context_bindings", ANDROID_CONTEXT_FRAGMENT_COUNTS)):
+        for relative, row in document[key].items():
+            _identity(relative, b"source-identity-only")
+            _binding(row, counts[relative])
+    import json
+    original = (json.dumps(document["original_bindings"], sort_keys=True, separators=(",", ":")) + "\n").encode()
+    need(sha(original) == ANDROID_ORIGINAL_BINDINGS_SHA256 and
+         sum(len(row["fragments"]) for row in document["original_bindings"].values()) == 36,
+         "original-Android-six36-exact-recipe-cannot-be-repinned")
+    for relative, endpoint in document["source_inputs"].items():
+        _identity(relative, b"source-identity-only")
+        _endpoint(endpoint)
+        if relative in ANDROID_PATCH_PATHS:
+            row = document["original_bindings"][relative]
+            need(endpoint == {"sha256": row["after_sha256"], "bytes": row["after_bytes"]},
+                 "new-Android-manifest-source-identity-must-match-original-patch-endpoint")
+    return document
+
+
+def _android_before(relative, payload, document):
+    """One finite exact after-only inverse; no source import or restored execution."""
+    row = (document["original_bindings"] | document["current_context_bindings"]).get(relative)
+    if row is None:
+        return payload
+    inverse = {"before_sha256": row["after_sha256"], "before_bytes": row["after_bytes"],
+               "after_sha256": row["before_sha256"], "after_bytes": row["before_bytes"],
+               "fragments": [{"before": f["after"], "after": f["before"],
+                              "before_fragment_sha256": f["after_fragment_sha256"],
+                              "after_fragment_sha256": f["before_fragment_sha256"]}
+                             for f in reversed(row["fragments"])]}
+    return _inverse_to_ancestor(payload, inverse)
+
+
+def source_before_android_lifecycle(relative, payload, root=ROOT):
+    """Strict Android current comparison; old endpoints never become new current.
+
+    Unbound paths pass as data, not admission. New helper/test/consumer sources
+    are never converted into historical executables or native success receipts.
+    """
+    _identity(relative, payload)
+    if relative not in ANDROID_BOUND_PATHS:
+        return payload
+    if relative in CURRENT_CONTEXT620_PATHS:
+        payload = source_before_current_context620(relative, payload, root)
+    return _android_before(relative, payload, _android_transition(root))
+
+
+def peel_android_lifecycle_for_history(relative, payload, root=ROOT):
+    """After-only Android/context data prelude; no named175/190/40/36 traversal.
+
+    Old, partial, tailed and unknown bytes pass unchanged as data, never current.
+    New sources, controls and init images are excluded from generic history.
+    """
+    _identity(relative, payload)
+    if relative not in ANDROID_BOUND_PATHS or relative in ANDROID_GENERIC_EXCLUSIONS:
+        return payload
+    if relative in CURRENT_CONTEXT620_PATHS:
+        context = _transition620_document(root)
+        row620 = _current_context620_bindings(context)[relative]
+        if sha(payload) != row620["after_sha256"] or len(payload) != row620["after_bytes"]:
+            return payload  # Old299 context is data, never new-current admission.
+        payload = _current_context620_before(relative, payload, context)
+    document = _android_transition(root)
+    row = (document["original_bindings"] | document["current_context_bindings"])[relative]
+    if sha(payload) != row["after_sha256"] or len(payload) != row["after_bytes"]:
+        return payload
+    return _android_before(relative, payload, document)
+
+
 def _shape(document, root=ROOT):
     need(type(document) is dict and set(document) == {
          "schema_version", "scope", "predecessor_custody", "predecessor_inputs", "raw_inputs",
          "derivative_bindings", "failure711_bindings", "views", "noncurrent_sibling_bindings",
-         "named_cookie609_manifest", "own_guard"} and
+         "named_cookie609_manifest", "android_lifecycle_transition", "own_guard",
+         "failure658_bindings", "current_context620_bindings"} and
          type(document["schema_version"]) is int and document["schema_version"] == 1 and
          document["scope"] == SCOPE and document["predecessor_custody"] == PREDECESSOR_CUSTODY and
          all(type(document["predecessor_custody"].get(key)) is bool for key in (
@@ -377,12 +633,39 @@ def _shape(document, root=ROOT):
          set(document["derivative_bindings"]) == set(BOUND_FRAGMENT_COUNTS) and
          type(document["views"]) is dict and set(document["views"]) == VIEWS,
          "finite-four-named-joint-source-views-required")
-    failure711 = _failure711_binding(document)
-    need(document["raw_inputs"].get(OFFLINE) == {"sha256": failure711["after_sha256"],
-         "bytes": failure711["after_bytes"]}, "actual711-endpoint-never-projected707-current-required")
-    for relative, endpoint in FAILURE711_ADDITION_ENDPOINTS.items():
+    context620 = _current_context620_bindings(document)
+    before_current620 = {name: {"sha256": row["before_sha256"], "bytes": row["before_bytes"]}
+                         for name, row in context620.items()}
+    for relative, row in context620.items():
+        need(document["raw_inputs"].get(relative) == {"sha256": row["after_sha256"], "bytes": row["after_bytes"]},
+             "actual620-current-control-endpoint-never-old299-required")
+    android = _android_transition(root)
+    need(document["android_lifecycle_transition"] == {"path": ANDROID_SPEC, **ANDROID_TRANSITION_ENDPOINT},
+         "exact-separately-sealed-Android18-transition-reference-required")
+    android_bindings = android["original_bindings"] | android["current_context_bindings"]
+    before_android = {name: {"sha256": row["before_sha256"], "bytes": row["before_bytes"]}
+                      for name, row in android_bindings.items()}
+    before_android.update({name: endpoint for name, endpoint in before_current620.items()
+                           if name not in android_bindings})
+    for relative, row in android_bindings.items():
+        need(before_current620.get(relative, document["raw_inputs"].get(relative)) ==
+             {"sha256": row["after_sha256"], "bytes": row["after_bytes"]},
+             "actual-Android18-or-context-endpoint-never-old-current-required")
+    need(document["raw_inputs"].get(ANDROID_SPEC) == ANDROID_TRANSITION_ENDPOINT,
+         "actual-Android18-data-leaf-must-be-in-whole-current-source-custody")
+    for relative, endpoint in android["source_inputs"].items():
         need(document["raw_inputs"].get(relative) == endpoint,
+             "all-thirteen-Android-source-identities-in-current-finite-custody-required")
+    failure711 = _failure711_binding(document)
+    failure658 = _failure658_binding(document)
+    need(document["raw_inputs"].get(OFFLINE) == {"sha256": failure658["after_sha256"],
+         "bytes": failure658["after_bytes"]}, "actual658-endpoint-never-old711-or707-current-required")
+    for relative, endpoint in FAILURE711_ADDITION_ENDPOINTS.items():
+        need(before_current620.get(relative, document["raw_inputs"].get(relative)) == endpoint,
              "exact-two-new711-source-input-endpoints-required")
+    for relative, endpoint in RELATED620_ADDITION_ENDPOINTS.items():
+        need(document["raw_inputs"].get(relative) == endpoint,
+             "exact-four-related620-new-source-endpoints-required")
     ancestors = _sealed_predecessor_hashes(root, document)
     for view in VIEWS:
         inputs = document["predecessor_inputs"][view]
@@ -423,15 +706,16 @@ def _shape(document, root=ROOT):
             CI_CONTROL: PRODUCER_VIEW}.items():
         base[relative] = ancestors[view][relative]
     need(len(base) == 275 and set(document["raw_inputs"]) == set(base) | ADDED_INPUTS,
-         "complete-finite-joint-raw280-plus-owner-spec-required")
+         "complete-finite-joint-raw301-plus-owner-spec-required")
     for relative, row in document["raw_inputs"].items():
         _identity(relative, b"source-identity-only")
         _endpoint(row)
         if relative in base and relative not in BOUND_FRAGMENT_COUNTS:
-            need(row["sha256"] == base[relative], "unchanged-share-CI-full-raw-input-required")
+            qualified = before_android.get(relative, row)
+            need(qualified["sha256"] == base[relative], "unchanged-share-CI-full-raw-input-required")
     for relative, row in document["derivative_bindings"].items():
         _binding(row, BOUND_FRAGMENT_COUNTS[relative])
-        raw = document["raw_inputs"][relative]
+        raw = before_android.get(relative, document["raw_inputs"][relative])
         if relative == OFFLINE:
             raw = {"sha256": failure711["before_sha256"], "bytes": failure711["before_bytes"]}
         need(row["before_sha256"] == base[relative] and row["after_sha256"] == raw["sha256"] and
@@ -447,14 +731,15 @@ def _shape(document, root=ROOT):
         # Finite707 prelude is stored ONCE, not repeated into every ancestor.
         # These named rows start only after that exact original-raw qualification.
         effective = {relative: (document["derivative_bindings"][relative]["before_sha256"]
-                      if relative in BUDGET707_FRAGMENT_COUNTS else document["raw_inputs"][relative]["sha256"])
+                      if relative in BUDGET707_FRAGMENT_COUNTS else before_android.get(relative, document["raw_inputs"][relative])["sha256"])
                      for relative in ancestors[view]}
         changed = {relative for relative, digest in ancestors[view].items() if effective[relative] != digest}
         need(type(rows) is dict and set(rows) == changed,
              "every-changed-input-in-its-explicit-share-CI-view-required")
         for relative, row in rows.items():
             _binding(row)
-            raw, ancestor = document["raw_inputs"][relative], document["predecessor_inputs"][view][relative]
+            raw = before_android.get(relative, document["raw_inputs"][relative])
+            ancestor = document["predecessor_inputs"][view][relative]
             if relative in BUDGET707_FRAGMENT_COUNTS:
                 prelude = document["derivative_bindings"][relative]
                 raw = {"sha256": prelude["before_sha256"], "bytes": prelude["before_bytes"]}
@@ -560,7 +845,7 @@ def _budget707_in_named_domain(view, relative, payload, document):
 
 
 def peel_budget707_for_history(relative, payload, root=ROOT):
-    """Exact711->707->2ee data; other707 leaves unchanged, no175/190/9bd.
+    """Exact658->711->707->2ee data; other707 leaves unchanged, no175/190/9bd.
 
     One repository transition manifest is read. Pass-through is not admission;
     no old source becomes current and no source/native/result code is executed.
@@ -581,9 +866,10 @@ def peel_budget707_for_history(relative, payload, root=ROOT):
          row["after_sha256"] == BUDGET707_CURRENT_SHA256[relative],
          "exact707-three-path-six-fragment-transition-required")
     if relative == OFFLINE:
-        failure711 = _failure711_binding(document)
-        if sha(payload) != failure711["after_sha256"] or len(payload) != failure711["after_bytes"]:
-            return payload  # Old6a4 is data, not a new711 descendant or layer search.
+        failure658 = _failure658_binding(document)
+        if sha(payload) != failure658["after_sha256"] or len(payload) != failure658["after_bytes"]:
+            return payload  # Old58f/6a4 is data, never a new658 descendant or layer search.
+        payload = _failure658_to711(payload, document)
         payload = _failure711_to_budget707(payload, document)
     if sha(payload) != row["after_sha256"] or len(payload) != row["after_bytes"]:
         return payload  # Data only, not old-current admission or a layer search.
@@ -596,9 +882,14 @@ def peel_budget707_for_history(relative, payload, root=ROOT):
     return _inverse_to_ancestor(payload, inverse)
 
 
-def _view(view, relative, payload, document):
+def _view(view, relative, payload, document, root=ROOT):
     need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
+    if relative in CURRENT_CONTEXT620_PATHS and relative in document["predecessor_inputs"][view]:
+        payload = _current_context620_before(relative, payload, document)
+    if relative in ANDROID_BOUND_PATHS and relative in document["predecessor_inputs"][view]:
+        payload = _android_before(relative, payload, _android_transition(root))
     if relative == OFFLINE and relative in document["predecessor_inputs"][view]:
+        payload = _failure658_to711(payload, document)
         payload = _failure711_to_budget707(payload, document)
     payload = _budget707_in_named_domain(view, relative, payload, document)
     row = document["views"][view].get(relative)
@@ -609,7 +900,7 @@ def current_source_in_view(relative, payload, view, root=ROOT):
     """Single strict latest raw ingress, then the explicitly named owning ancestor."""
     document = _document(root)
     _raw_payload(relative, payload, document)
-    return _view(view, relative, payload, document)
+    return _view(view, relative, payload, document, root)
 
 
 def peel_for_history(relative, payload, view, root=ROOT):
@@ -620,17 +911,29 @@ def peel_for_history(relative, payload, view, root=ROOT):
     # Sealed source comparisons are explicit; generic history must NEVER
     # peel either Cookie control source or callback-init bytes.
     if relative in {NEW_COOKIE_CONTROL, OWNING_COOKIE_CONTROL, CALLBACK_INIT, BUDGET707_CONTROL,
-                    FAILURE711_HELPER, FAILURE711_CONTROL}:
+                    FAILURE711_HELPER, FAILURE711_CONTROL, FAILURE658_HELPER,
+                    FAILURE658_CONTROL, PURE676_CONTROL, CURRENT620_CONTROL, NEW_CONTROL} | ANDROID_GENERIC_EXCLUSIONS:
         return payload
+    if relative in CURRENT_CONTEXT620_PATHS and relative in document["predecessor_inputs"][view]:
+        row620 = _current_context620_bindings(document)[relative]
+        if sha(payload) == row620["after_sha256"] and len(payload) == row620["after_bytes"]:
+            return _view(view, relative, payload, document, root)
+        return payload  # Old299 context is not a current620 descendant.
+    if relative in ANDROID_BOUND_PATHS and relative in document["predecessor_inputs"][view]:
+        android = _android_transition(root)
+        row = (android["original_bindings"] | android["current_context_bindings"])[relative]
+        if sha(payload) == row["after_sha256"] and len(payload) == row["after_bytes"]:
+            return _view(view, relative, payload, document, root)
+        return payload  # Old/partial Android or context bytes are data, not new-current descendants.
     if relative == OFFLINE and relative in document["predecessor_inputs"][view]:
-        failure711 = _failure711_binding(document)
-        if sha(payload) == failure711["after_sha256"] and len(payload) == failure711["after_bytes"]:
-            return _view(view, relative, payload, document)
-        return payload  # Never readmit old707/2ee/named images into the new711 chain.
+        failure658 = _failure658_binding(document)
+        if sha(payload) == failure658["after_sha256"] and len(payload) == failure658["after_bytes"]:
+            return _view(view, relative, payload, document, root)
+        return payload  # Never readmit old711/707/2ee/named images into the new658 chain.
     if relative in BUDGET707_FRAGMENT_COUNTS and relative in document["predecessor_inputs"][view]:
         budget = document["derivative_bindings"][relative]
         if sha(payload) == budget["after_sha256"] and len(payload) == budget["after_bytes"]:
-            return _view(view, relative, payload, document)
+            return _view(view, relative, payload, document, root)
         return payload  # Never treat an old2ee inverse as current707 or search its older layers.
     row = document["views"][view].get(relative)
     if row is not None and sha(payload) == row["before_sha256"] and len(payload) == row["before_bytes"]:
@@ -645,7 +948,7 @@ def predecessor_input_hashes(view, root=ROOT):
 
 
 def validate_current_sources(root=ROOT):
-    """Whole finite joint282 raw custody and all named inverses; ZERO code execution."""
+    """Whole finite joint303 raw custody and all named inverses; ZERO code execution."""
     document = _document(root)
     identities = {}
     for relative, row in document["raw_inputs"].items():
@@ -656,11 +959,20 @@ def validate_current_sources(root=ROOT):
     _own_payload(raw, document)
     raw, identities[SPEC] = _ordinary(root, SPEC, MAX_SPEC)
     need(sha(raw) == SPEC_SHA256, "exact-share-CI-manifest-held-through-validation-required")
+    context620 = _current_context620_bindings(document)
+    for relative in context620:
+        _current_context620_before(relative, _ordinary(root, relative)[0], document)
+    android = _android_transition(root)
+    for relative in ANDROID_BOUND_PATHS:
+        raw = _ordinary(root, relative)[0]
+        if relative in context620:
+            raw = _current_context620_before(relative, raw, document)
+        _android_before(relative, raw, android)
     for view in VIEWS:
         for relative, ancestor in document["predecessor_inputs"][view].items():
             raw = _ordinary(root, relative)[0]
             if sha(raw) != ancestor["sha256"]:
-                restored = _view(view, relative, raw, document)
+                restored = _view(view, relative, raw, document, root)
                 need((sha(restored), len(restored)) == (ancestor["sha256"], ancestor["bytes"]),
                      "complete-budget707-and-named-ancestor-custody-required")
     for relative, identity in identities.items():
@@ -671,7 +983,7 @@ def validate_current_sources(root=ROOT):
 
 
 def current_input_hashes(root=ROOT):
-    """Actual complete joint282 map; no named predecessor is relabelled current."""
+    """Actual complete joint303 map; no named predecessor is relabelled current."""
     validate_current_sources(root)
     document = _document(root)
     owner = _own_payload(_ordinary(root, OWNER)[0], document)

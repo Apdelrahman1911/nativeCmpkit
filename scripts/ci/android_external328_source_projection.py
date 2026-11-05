@@ -81,10 +81,19 @@ def current_source_for_history(relative: str, payload: bytes) -> bytes:
     """Admit actual current bytes before constructing a historical fixture view."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current source identity and ordinary bytes are required")
+    # Exact Android18 admission occurs only at this outer raw boundary.
+    # Its literal before-view is not admitted as new current, and nested older
+    # readers retain their original ancestor-idempotence/pins.
+    from macos_share_ci668_composition import ANDROID_PATCH_PATHS, source_before_android_lifecycle
     # Qualify each newest complete image ONCE, at this raw checkout boundary.
     # Nested readers receive exact ancestors, not another raw-current admission.
-    from ios_geometry_simulator_source_projection import current_source_before_owned_geometry
-    payload = current_source_before_owned_geometry(relative, payload)
+    if relative in ANDROID_PATCH_PATHS:
+        payload = source_before_android_lifecycle(relative, payload)
+        from ios_geometry_simulator_source_projection import source_before_owned_geometry
+        payload = source_before_owned_geometry(relative, payload)
+    else:
+        from ios_geometry_simulator_source_projection import current_source_before_owned_geometry
+        payload = current_source_before_owned_geometry(relative, payload)
     from camera_tooling566_source_projection import current_source_before_tooling566
     payload = current_source_before_tooling566(relative, payload)
     from camera_tooling562_source_projection import current_source_before_tooling

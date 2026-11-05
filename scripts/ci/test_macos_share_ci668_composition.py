@@ -46,11 +46,11 @@ class ShareCi668CompositionTests(unittest.TestCase):
     def test01_actual_raw_union_is231_not_either_predecessor(self):
         # The historical identifier231 is retained; actual joint282 has711 before unchanged707; accepted264 stays historical.
         hashes = latest.current_input_hashes(ROOT)
-        self.assertEqual(len(hashes), 282)
+        self.assertEqual(len(hashes), 303)
         self.assertEqual(set(hashes), latest.fixture_inputs(ROOT))
         self.assertTrue(all(sha((ROOT / name).read_bytes()) == digest for name, digest in hashes.items()))
-        self.assertEqual(hashes[latest.WORKFLOW], "7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566")
-        self.assertEqual(hashes[latest.LIBRARY], "038ffa83f883f24396b35103edafa47a9b4a13fe4df6faf88175e56768819299")
+        self.assertEqual(hashes[latest.WORKFLOW], "a1ea0950a96472e6c602e3a776f74ce519cb8bdadf78920512a1ee6649961d5b")
+        self.assertEqual(hashes[latest.LIBRARY], "6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127")
         self.assertEqual(len(latest.predecessor_input_hashes(latest.CI_VIEW)), 175)
         self.assertEqual(len(latest.predecessor_input_hashes(latest.COOKIE_VIEW)), 40)
         self.assertEqual(len(latest.predecessor_input_hashes(latest.SHARE_VIEW)), 36)
@@ -80,10 +80,26 @@ class ShareCi668CompositionTests(unittest.TestCase):
                     for fragment in document["failure711_bindings"][relative]["fragments"]:
                         self.assertEqual(forward.count(fragment["before"].encode()), 1)
                         forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
+                android = latest._android_transition(ROOT)
+                android_row = (android["original_bindings"] | android["current_context_bindings"]).get(relative)
+                if android_row is not None:
+                    for fragment in android_row["fragments"]:
+                        self.assertEqual(forward.count(fragment["before"].encode()), 1)
+                        forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
+                if relative == latest.OFFLINE:
+                    for fragment in document["failure658_bindings"][relative]["fragments"]:
+                        self.assertEqual(forward.count(fragment["before"].encode()), 1)
+                        forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
+                context620 = document["current_context620_bindings"].get(relative)
+                if context620 is not None:
+                    for fragment in context620["fragments"]:
+                        self.assertEqual(forward.count(fragment["before"].encode()), 1)
+                        forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
                 self.assertEqual(forward, raw)
         library = (ROOT / latest.LIBRARY).read_bytes()
         workflow = (ROOT / latest.WORKFLOW).read_bytes()
-        self.assertEqual(latest.current_source_in_view(latest.LIBRARY, library, latest.SHARE_VIEW), library)
+        self.assertEqual(latest.current_source_in_view(latest.LIBRARY, library, latest.SHARE_VIEW),
+                         latest.source_before_android_lifecycle(latest.LIBRARY, library, ROOT))
         self.assertEqual(sha(latest.current_source_in_view(latest.WORKFLOW, workflow, latest.CI_VIEW)),
                          "47878318993f0ca28899f782b1ba8780fe1c6e210e187ef097acfaa4fb1d19f8")
 
@@ -96,6 +112,8 @@ class ShareCi668CompositionTests(unittest.TestCase):
                              for name in latest.BUDGET707_FRAGMENT_COUNTS), 6)
         for relative, row in document["derivative_bindings"].items():
             raw = (ROOT / relative).read_bytes()
+            if relative in latest.ANDROID_BOUND_PATHS:
+                raw = latest.source_before_android_lifecycle(relative, raw, ROOT)
             if relative == latest.OFFLINE:
                 raw = latest._failure711_to_budget707(raw, document)
             self.assertEqual((sha(raw), len(raw)), (row["after_sha256"], row["after_bytes"]))
@@ -146,7 +164,8 @@ class ShareCi668CompositionTests(unittest.TestCase):
         unknown = b"pass-through is not certification"
         self.assertEqual(latest.peel_for_history("unlisted-source.py", unknown, latest.CI_VIEW), unknown)
         library = (ROOT / latest.LIBRARY).read_bytes()
-        self.assertEqual(latest.peel_for_history(latest.LIBRARY, library, latest.SHARE_VIEW), library)
+        self.assertEqual(latest.peel_for_history(latest.LIBRARY, library, latest.SHARE_VIEW),
+                         latest.source_before_android_lifecycle(latest.LIBRARY, library, ROOT))
 
     def test07_no_generic_layer_or_third_view_is_accepted(self):
         raw = (ROOT / latest.LIBRARY).read_bytes()
@@ -339,10 +358,10 @@ class ShareCi668CompositionTests(unittest.TestCase):
         # A controlled source feature route, NOT an executed Windows/native host.
         with patch.object(latest, "_descriptor_source_io_supported", return_value=False):
             hashes = latest.current_input_hashes(ROOT)
-        self.assertEqual(len(hashes), 282)
+        self.assertEqual(len(hashes), 303)
         self.assertTrue(all(sha((ROOT / name).read_bytes()) == digest for name, digest in hashes.items()))
-        self.assertEqual(hashes[latest.LIBRARY], "038ffa83f883f24396b35103edafa47a9b4a13fe4df6faf88175e56768819299")
-        self.assertEqual(hashes[latest.WORKFLOW], "7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566")
+        self.assertEqual(hashes[latest.LIBRARY], "6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127")
+        self.assertEqual(hashes[latest.WORKFLOW], "a1ea0950a96472e6c602e3a776f74ce519cb8bdadf78920512a1ee6649961d5b")
 
     def test22_portable_route_retains_tail_hardlink_parent_and_read_bounds_refusals(self):
         for mutation in ("tail", "hardlink", "parent-alias"):
@@ -402,7 +421,8 @@ class CookieShareCi668JointSuccessor607Tests(unittest.TestCase):
         ancestor = cookie_outer.current_source_before_cookie_outer(latest.LIBRARY, raw, ROOT)
         self.assertEqual(sha(ancestor), "ddd7b38615bef7ec99bfefddb625bf0816d9c90c297604d7baaea898a6e90aa6")
         self.assertEqual(latest.current_source_in_view(latest.LIBRARY, raw, latest.CI_VIEW), ancestor)
-        self.assertEqual(latest.current_source_in_view(latest.LIBRARY, raw, latest.SHARE_VIEW), raw)
+        self.assertEqual(latest.current_source_in_view(latest.LIBRARY, raw, latest.SHARE_VIEW),
+                         latest.source_before_android_lifecycle(latest.LIBRARY, raw, ROOT))
         # NEW dual-raw ingress: the Cookie inverse is never re-admitted by joint.
         self.assertEqual(ci668.current_source_before_ci668(latest.LIBRARY, raw), ancestor)
         self.assertEqual(ci668.source_before_ci668(latest.LIBRARY, raw), ancestor)
@@ -448,7 +468,7 @@ class CookieShareCi668JointSuccessor607Tests(unittest.TestCase):
     def test27_actual_Cookie40_and_CI264_are_separate_current_certificates(self):
         cookie40 = cookie_outer.current_input_hashes(ROOT)
         joint264 = latest.current_input_hashes(ROOT)
-        self.assertEqual((len(cookie40), len(joint264)), (40, 282))  # Identifier264 is historical, never new-map custody.
+        self.assertEqual((len(cookie40), len(joint264)), (40, 303))  # Identifier264 is historical, never new-map custody.
         self.assertEqual({name: joint264[name] for name in cookie40}, cookie40)
         self.assertEqual(ci668.current_input_hashes(), joint264)
         self.assertEqual(ci668.fixture_inputs(), set(joint264))
@@ -560,7 +580,7 @@ class CookieShareProducerSourceSuccessor2eeTests(unittest.TestCase):
         import producer698_source_fixture_recovery as producer
         hashes = latest.current_input_hashes(ROOT)
         views = {view: latest.predecessor_input_hashes(view) for view in latest.VIEWS}
-        self.assertEqual(282, len(hashes))
+        self.assertEqual(303, len(hashes))
         self.assertEqual({"final_ci175": 175, "cookie609_raw40": 40, "share607": 36,
                           "producer676_raw190": 190}, {v: len(m) for v, m in views.items()})
         self.assertEqual(hashes, producer.current_input_hashes(ROOT))
@@ -678,7 +698,8 @@ class CookieShareBudget707SourceSuccessorTests(unittest.TestCase):
         for relative, digest in expected.items():
             raw = (ROOT / relative).read_bytes()
             self.assertEqual(current[relative], sha(raw))
-            budget_raw = latest._failure711_to_budget707(raw, document) if relative == latest.OFFLINE else raw
+            before_android = latest.peel_android_lifecycle_for_history(relative, raw, ROOT)
+            budget_raw = latest._failure711_to_budget707(before_android, document) if relative == latest.OFFLINE else before_android
             self.assertEqual(digest, sha(budget_raw))  # Original707 endpoint is not repinned to actual711.
             self.assertEqual(document["derivative_bindings"][relative]["after_bytes"], len(budget_raw))
             for view in latest.VIEWS:
@@ -753,7 +774,10 @@ class CookieShareBudget707SourceSuccessorTests(unittest.TestCase):
     def test40_narrow_budget707_projection_reads_only_repository_transition_and_never_named_ancestors(self):
         document = latest._document(ROOT)
         for relative in latest.BUDGET707_FRAGMENT_COUNTS:
-            raw = (ROOT / relative).read_bytes()
+            actual_raw = (ROOT / relative).read_bytes()
+            # This unchanged707 function owns only its historical data stage.
+            # The exact Android prelude is explicit, never another named reader.
+            raw = latest.peel_android_lifecycle_for_history(relative, actual_raw, ROOT)
             with patch.object(latest, "_document", side_effect=AssertionError("no whole ancestor traversal")), \
                  patch.object(latest, "_view", side_effect=AssertionError("no named ancestor view")), \
                  patch.object(latest, "_ordinary", wraps=latest._ordinary) as read:
@@ -773,22 +797,25 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
     def test41_actual282_reports_new711_bytes_and_only_two_new_raw_paths(self):
         document = latest._document(ROOT)
         hashes = latest.current_input_hashes(ROOT)
-        self.assertEqual((280, 282), (len(document["raw_inputs"]), len(hashes)))
+        self.assertEqual((301, 303), (len(document["raw_inputs"]), len(hashes)))
         self.assertEqual(set(hashes), latest.fixture_inputs(ROOT))
         self.assertEqual({latest.NEW_CONTROL, latest.NEW_DOC, latest.BUDGET707_CONTROL,
-                          latest.FAILURE711_HELPER, latest.FAILURE711_CONTROL}, latest.ADDED_INPUTS)
+                          latest.FAILURE711_HELPER, latest.FAILURE711_CONTROL} | latest.ANDROID_ADDED_INPUTS |
+                         set(latest.RELATED620_ADDITION_ENDPOINTS), latest.ADDED_INPUTS)
         old_names = set().union(*(set(rows) for rows in document["predecessor_inputs"].values()))
         old_names.update(latest.IMPORT_CLOSURE24)
         self.assertEqual(275, len(old_names))
         self.assertEqual(set(document["raw_inputs"]), old_names | latest.ADDED_INPUTS)
-        self.assertEqual("58f08f3fcda1e490743a8d28f7881473a28f5fcd1a3127abfffce35d6e7b2cb5", hashes[latest.OFFLINE])
+        self.assertEqual(latest.FAILURE658_CURRENT_SHA256, hashes[latest.OFFLINE])
         self.assertEqual("6a4c6509ce1c205f590456789c63fe99b475dc0e83242e751aef08e274fa087c",
                          document["derivative_bindings"][latest.OFFLINE]["after_sha256"])
         self.assertNotEqual(hashes[latest.OFFLINE], latest.BUDGET707_CURRENT_SHA256[latest.OFFLINE])
         self.assertTrue(all(sha((ROOT / name).read_bytes()) == digest for name, digest in hashes.items()))
         for relative, endpoint in latest.FAILURE711_ADDITION_ENDPOINTS.items():
-            self.assertEqual(endpoint, document["raw_inputs"][relative])
-            self.assertEqual(endpoint["sha256"], hashes[relative])
+            actual = (ROOT / relative).read_bytes()
+            original711 = latest.source_before_current_context620(relative, actual, ROOT)
+            self.assertEqual((endpoint["sha256"], endpoint["bytes"]), (sha(original711), len(original711)))
+            self.assertEqual(sha(actual), hashes[relative])
             for view in latest.VIEWS:
                 self.assertNotIn(relative, document["predecessor_inputs"][view])
                 self.assertNotIn(relative, document["views"][view])
@@ -798,7 +825,8 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
 
     def test42_explicit711_then_unchanged707_then_named_175_190_order_roundtrips(self):
         document = latest._document(ROOT)
-        raw = (ROOT / latest.OFFLINE).read_bytes()
+        raw658 = (ROOT / latest.OFFLINE).read_bytes()
+        raw = latest._failure658_to711(raw658, document)
         row = document["failure711_bindings"][latest.OFFLINE]
         budget = latest._failure711_to_budget707(raw, document)
         self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(budget), len(budget)))
@@ -818,17 +846,17 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
                 return real707(named_view, relative, payload, doc)
             with patch.object(latest, "_failure711_to_budget707", side_effect=observe711), \
                  patch.object(latest, "_budget707_in_named_domain", side_effect=observe707):
-                named = latest.current_source_in_view(latest.OFFLINE, raw, view, ROOT)
+                named = latest.current_source_in_view(latest.OFFLINE, raw658, view, ROOT)
             self.assertEqual([("711", row["after_sha256"]), ("707", row["before_sha256"])], calls)
             endpoint = document["predecessor_inputs"][view][latest.OFFLINE]
             self.assertEqual((endpoint["sha256"], endpoint["bytes"]), (sha(named), len(named)))
         self.assertEqual("6126390c11769f3ea3b111510b7220f5a2d0956171e767c88b50b5def6e74757",
                          sha(real707(latest.PRODUCER_VIEW, latest.OFFLINE, budget, document)))
         self.assertEqual("9bd6b6d8daa7d8e6270fc874c28a8b7692f815334d4d77130fb3d81c35d7897b",
-                         sha(latest.current_source_in_view(latest.OFFLINE, raw, latest.CI_VIEW, ROOT)))
+                         sha(latest.current_source_in_view(latest.OFFLINE, raw658, latest.CI_VIEW, ROOT)))
         for view in (latest.COOKIE_VIEW, latest.SHARE_VIEW):
             with patch.object(latest, "_failure711_to_budget707", side_effect=AssertionError("not this domain")):
-                self.assertEqual(raw, latest.current_source_in_view(latest.OFFLINE, raw, view, ROOT))
+                self.assertEqual(raw658, latest.current_source_in_view(latest.OFFLINE, raw658, view, ROOT))
 
     def test43_separately_sealed_two_fragment711_binding_refuses_mutants_without_repinning707(self):
         document = latest._document(ROOT)
@@ -874,7 +902,7 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
         document = latest._document(ROOT)
         raw = (ROOT / latest.OFFLINE).read_bytes()
         row = document["failure711_bindings"][latest.OFFLINE]
-        old707 = latest._failure711_to_budget707(raw, document)
+        old707 = latest._failure711_to_budget707(latest._failure658_to711(raw, document), document)
         fragment = row["fragments"][0]
         self.assertEqual(1, old707.count(fragment["before"].encode()))
         partial = old707.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
@@ -892,7 +920,10 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
     def test45_narrow711_707_data_peel_reads_only_repository_transition_no_named_ancestors(self):
         document = latest._document(ROOT)
         for relative in latest.BUDGET707_FRAGMENT_COUNTS:
-            raw = (ROOT / relative).read_bytes()
+            actual_raw = (ROOT / relative).read_bytes()
+            # This unchanged707 function owns only its historical data stage.
+            # The exact Android prelude is explicit, never another named reader.
+            raw = latest.peel_android_lifecycle_for_history(relative, actual_raw, ROOT)
             row = document["derivative_bindings"][relative]
             with patch.object(latest, "_document", side_effect=AssertionError("no whole ancestor traversal")), \
                  patch.object(latest, "_view", side_effect=AssertionError("no named view")), \
@@ -902,7 +933,7 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
             self.assertEqual([(ROOT, latest.SPEC, latest.MAX_SPEC)], [call.args for call in read.call_args_list])
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(before), len(before)))
         raw = (ROOT / latest.OFFLINE).read_bytes()
-        old707 = latest._failure711_to_budget707(raw, document)
+        old707 = latest._failure711_to_budget707(latest._failure658_to711(raw, document), document)
         old190 = latest.current_source_in_view(latest.OFFLINE, raw, latest.PRODUCER_VIEW, ROOT)
         old175 = latest.current_source_in_view(latest.OFFLINE, raw, latest.CI_VIEW, ROOT)
         for image in (old707, old190, old175, raw + b"\n# unrecognized diagnostic tail\n"):
@@ -930,11 +961,17 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
         nodes = {node.name: node for node in tree.body if isinstance(node, ast.FunctionDef)}
         unchanged714_ast_sha256 = {'_binding': '6ba592ce270a9a706935c244451647c876378efded71479ca6feedbb8b2641d2', '_budget707_in_named_domain': 'c84509a2b4a51cb7ec23baca441531dcdceb8366023d4304937b25a27bc00b39', '_cached_source_path_parts': '5835654a0ba8aad1e7af3cfc78ca8e62f763c9c651941be8753a8abd87962110', '_descriptor_source_io_supported': '27ac006fc5cf879f981e92e92127c2f63dc8708bc4c61ac6155eb7372045752e', '_endpoint': '540a530093decfec67d9a59a4d50627a1fc13a22ebba189f4512181fdec640d9', '_identity': '74b6a95e82827ed5d196df0000c94134b8c01baffc7e6c49d37c28f33173ccf2', '_inverse_to_ancestor': 'bd084e93798ef6194dce5ce46ea1be4ff4f6c7541decf5dc72dda6490a19e9fa', '_ordinary': '86ae381abd3132f59d5eba89dd600bf4f32e9b2fc3eebb897f8d6c8393335df2', '_own_payload': 'ecf4bcaa7bdb2110948a48e4c18d96b9bcab2c627ef461720e2993764e4dc7e9', '_portable_ordinary': 'b718e70eb8d21ae27fda58fa9187d3d2353c96ce6c074a8942ed08b79666de93', '_raw_payload': '1cfaf674f3a8ac70ec573a7b6e78884bc09301a6c58142634b107ac95592aced', '_sealed_predecessor_hashes': 'a5663d25777af4094b751a4f094b48bb7ce531bd886fe6d19f09ad0accdd4e2e'}
         for name, digest in unchanged714_ast_sha256.items():
-            self.assertEqual(digest, sha(ast.dump(nodes[name], include_attributes=False).encode()), name)
+            node = nodes[name]
+            if name == "_sealed_predecessor_hashes":
+                text = ast.get_source_segment(source.decode(), node)
+                prelude = "        raw = peel_android_lifecycle_for_history(relative, raw, root)\n"
+                self.assertEqual(1, text.count(prelude))
+                node = ast.parse(text.replace(prelude, "", 1)).body[0]
+            self.assertEqual(digest, sha(ast.dump(node, include_attributes=False).encode()), name)
         decorated_cache = [node.name for node in nodes.values()
                            if any(isinstance(decorator, ast.Call) and isinstance(decorator.func, ast.Name)
                                   and decorator.func.id == "lru_cache" for decorator in node.decorator_list)]
-        self.assertEqual(["_cached_source_path_parts"], decorated_cache)
+        self.assertEqual(["_cached_source_path_parts", "_cached_json_tree"], decorated_cache)
         document = latest._document(ROOT)
         needle = ('SPEC_SHA256 = "' + latest.SPEC_SHA256 + '"\n').encode()
         self.assertEqual(1, source.count(needle))
@@ -944,7 +981,8 @@ class CookieShareFailure711SourceSuccessorTests(unittest.TestCase):
         self.assertEqual(512 * 1024, latest.MAX_SPEC)
         self.assertLessEqual(len((ROOT / latest.SPEC).read_bytes()), 512 * 1024)
         self.assertEqual("c82a70f4890b4a7d2bddfa60ef2273dfb4a41c9005871234282363e745fed14f",
-                         sha((ROOT / latest.FAILURE711_CONTROL).read_bytes()))
+                         sha(latest.source_before_current_context620(
+                             latest.FAILURE711_CONTROL, (ROOT / latest.FAILURE711_CONTROL).read_bytes(), ROOT)))
         self.assertEqual("3bcb54e114807b6ffd4c2337367407354412312b1adecaba356ad57cdb5ccd28",
                          sha((ROOT / latest.FAILURE711_HELPER).read_bytes()))
         self.assertEqual("128e215ccbe2077b8089930fea4f0bb3f989208f645f1f047d079b8b15d7d496",

@@ -1,0 +1,20 @@
+{
+  "accepted_test_native_compiler_replay": false,
+  "assumption": "Passive saver required identical JSON byte ordering between console and saved file.",
+  "bytes_equal": false,
+  "command": "python3 -B - [passive original-result read/seal script]",
+  "correction": "Require equal decoded JSON documents; preserve and seal both distinct raw originals. Continue only unfinished passive console/maps/seal checks.",
+  "decoded_documents_equal": true,
+  "execution_status": "FIRST actual30/30 pass direct0 unchanged; no reexecution.",
+  "exit": 1,
+  "first_refusal": "ValueError: stdout and saved report disagree",
+  "root_cause": "Reviewed runner write_original sorts keys, while final print(json.dumps(report, indent=2)) preserves insertion ordering.",
+  "saved_report_sha256": "3be84f15f0bc837d06883081c00a2ad36b09064242531a8a251ec885e798c7b0",
+  "schema_version": 1,
+  "scope": "Retained author passive result-sealing refusal; not a candidate/control failure or new execution",
+  "stdout_sha256": "020035f8ff4ca74bd70dfdd4b8bf03a74ecae631f941dd5629dc8a940424992e",
+  "verified_before_refusal": [
+    "Exact selected30 equals original selection; actual30/failure0/error0/skip0/success true",
+    "Direct exit original0"
+  ]
+}

@@ -1,0 +1,214 @@
+--- run_diagnostic4_once770.py
++++ run_owned_eof6_once_after770.py
+@@ -1,9 +1,9 @@
+ # SPDX-License-Identifier: Apache-2.0
+-"""Unexecuted bounded one-shot DIAGNOSTIC4 source runner; review/execute by lead only.
++"""Unexecuted bounded one-shot OWNED-EOF6 source runner; review/execute by lead only.
+ 
+ A source seal binds bytes, not reviewer authorization or dependency trust. No
+ runnable review gate is supplied by742. FIRST outputs are exclusive and retained.
+-Only finite19 diagnostic/observer/plan/test/reference inputs are held once
++Only finite21 diagnostic/observer/plan/test/reference inputs are held once
+ before and after; no global checkout/stdlib scan, Git, network or Gradle runs.
+ """
+ import argparse
+@@ -18,17 +18,17 @@
+ import time
+ 
+ HERE = Path(__file__).resolve().parent
+-FIXED_HERE = Path("/root/nativecmpkit-source-proposals-20261105/windows-one-request-diagnostic770-r1/runner")
+-OUTPUT = HERE / 'FIRST-DIAGNOSTIC4-RESULTS'
++FIXED_HERE = Path("/root/nativecmpkit-source-proposals-20261105/windows-observer-owned-eof-after770-r1/runner")
++OUTPUT = HERE / 'FIRST-OWNED-EOF6-RESULTS'
+ FIELDS = ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+ MAX = 4 * 1024 * 1024
+ TOTAL = 180
+ CLEANUP_RESERVE = 30
+ OUTPUT_CAP = 1024 * 1024
+-SELECTED = ["test_windows_observer_one_request_diagnostic770.WindowsOneRequestDiagnostic770Tests.test_NEW_owned_operation_errors_preserve_primary_and_bounded_integer_codes","test_windows_observer_one_request_diagnostic770.WindowsOneRequestDiagnostic770Tests.test_NEW_real_httpresponse_full_read_close_boundary_is_attributed_not_original766_cause","test_windows_observer_one_request_diagnostic770.WindowsOneRequestDiagnostic770Tests.test_NEW_sanitized_refusal_unknown_error_and_cleanup_never_promote_HTTP200","test_windows_observer_one_request_diagnostic770.WindowsOneRequestDiagnostic770Tests.test_CHANGED_route_inverse_fixed_row_and_NEW_worker_lifecycle_source"]
+-SELECTOR_SOURCE = Path("/root/nativecmpkit-source-proposals-20261105/windows-one-request-diagnostic770-r1/NEW4-DIAGNOSTIC-SELECTORS770-R1.txt")
+-CONTROLLER = Path("/root/nativecmpkit-source-proposals-20261105/windows-one-request-diagnostic770-r1/candidate/scripts/ci/javafx_ordinary_maven_consumer.py")
+-SAFE_ROOT = "/root/nativecmpkit-source-proposals-20261105/windows-one-request-diagnostic770-r1/candidate"
++SELECTED = ["test_windows_observer_owned_eof_after770.WindowsObserverOwnedEOFAfter770Tests.test_NEW_real_owned_ContentLength_full_EOF_and_truncation_are_not_lifetime_shortcuts","test_windows_observer_owned_eof_after770.WindowsObserverOwnedEOFAfter770Tests.test_NEW_real_owned_chunked_full_and_missing_zero_terminator_remain_distinct","test_windows_observer_owned_eof_after770.WindowsObserverOwnedEOFAfter770Tests.test_NEW_real_closed_EOF_still_refuses_expired_deadline_and_exact_hard_cap","test_windows_observer_owned_eof_after770.WindowsObserverOwnedEOFAfter770Tests.test_NEW_open_body_timeout_OSError_and_cleanup_errors_are_never_swallowed","test_windows_ordinary_dependency_observer742.WindowsObservation742Tests.test_mocked_transport_refuses_redirects_credentials_compression_partial_and_caps","test_windows_observer_one_request_diagnostic770.WindowsOneRequestDiagnostic770Tests.test_CHANGED_route_inverse_fixed_row_and_NEW_worker_lifecycle_source"]
++SELECTOR_SOURCE = Path("/root/nativecmpkit-source-proposals-20261105/windows-observer-owned-eof-after770-r1/NEW4-CHANGED2-OWNED-EOF6-SELECTORS-AFTER770-R1.txt")
++CONTROLLER = Path("/root/nativecmpkit-source-proposals-20261105/windows-observer-owned-eof-after770-r1/candidate/scripts/ci/javafx_ordinary_maven_consumer.py")
++SAFE_ROOT = "/root/nativecmpkit-source-proposals-20261105/windows-observer-owned-eof-after770-r1/candidate"
+ 
+ def sha(b):return hashlib.sha256(b).hexdigest()
+ 
+@@ -70,12 +70,12 @@
+     rows = {}
+     for absolute, old in expected.items():
+         if time.monotonic() >= deadline:
+-            raise TimeoutError('Bounded DIAGNOSTIC4 source custody exhausted its allocation')
++            raise TimeoutError('Bounded OWNED-EOF6 source custody exhausted its allocation')
+         raw, current = read(Path(absolute))
+         if any(current[key] != old[key] for key in ('bytes', 'sha256', 'mode')):
+-            raise ValueError('Frozen DIAGNOSTIC4 source endpoint changed: ' + absolute)
++            raise ValueError('Frozen OWNED-EOF6 source endpoint changed: ' + absolute)
+         if old.get('stat_identity') is not None and current['stat_identity'] != old['stat_identity']:
+-            raise ValueError('DIAGNOSTIC4 source identity changed: ' + absolute)
++            raise ValueError('OWNED-EOF6 source identity changed: ' + absolute)
+         rows[absolute] = current
+     return rows
+ 
+@@ -103,27 +103,29 @@
+     cleanup = []
+     runtime_cleanup = []
+     child_report = None
+-    runtime = OUTPUT / 'runtime-FIRST-DIAGNOSTIC4'
++    runtime = OUTPUT / 'runtime-FIRST-OWNED-EOF6'
+     watch = selectors.DefaultSelector()
+     def budget(cutoff, message):
+         if time.monotonic() >= cutoff:
+             raise TimeoutError(message)
+     try:
+-        seal_raw, seal_row = read(HERE.parent / 'RELATED-ONE-REQUEST-NEW4-PACKET770-R1.json')
++        seal_raw, seal_row = read(HERE.parent / 'RELATED-OWNED-EOF-NEW4-CHANGED2-PACKET-AFTER770-R1.json')
+         if seal_row['sha256'] != args.source_seal_sha256:
+             raise ValueError('Exact lead-reviewed source-seal bytes required, not an approval flag')
+         seal = json.loads(seal_raw)
+-        if (seal['schema'] != 'nativecmpkit-Windows-DIAGNOSTIC4-runner-source-seal770-r1' or
+-            seal['selectors'] != SELECTED or (len(SELECTED) != 4 or len(set(SELECTED)) != 4) or
++        if (seal['schema'] != 'nativecmpkit-Windows-owned-EOF6-runner-source-seal-after770-r1' or
++            seal['selectors'] != SELECTED or (len(SELECTED) != 6 or len(set(SELECTED)) != 6) or
+             seal['total_seconds'] != TOTAL or seal['cleanup_reserve_seconds'] != CLEANUP_RESERVE or
+             seal['combined_stdout_stderr_cap_bytes'] != OUTPUT_CAP):
+             raise ValueError('Exact finite source/selection/budget recipe required')
+         expected = dict(seal['external_inputs'])
+         expected.update({str(HERE / relative): row for relative, row in seal['runner_files'].items()})
+-        expected[str(HERE.parent / 'RELATED-ONE-REQUEST-NEW4-PACKET770-R1.json')] = seal_row
++        expected[str(HERE.parent / 'RELATED-OWNED-EOF-NEW4-CHANGED2-PACKET-AFTER770-R1.json')] = seal_row
++        if len(expected) != 25 or len(seal['local_executor']['source_model21']) != 21:
++            raise ValueError('Exact finite21 plus selector/two runners/seal25 required')
+         before = snapshot(expected, execution_deadline)
+         if read(SELECTOR_SOURCE)[0].decode().splitlines() != SELECTED:
+-            raise ValueError('The actual exact four-selector file changed')
++            raise ValueError('The actual exact NEW4 plus changed2 selector file changed')
+         controller = read(CONTROLLER)[0]
+         import ast  # Standard library only; do not import the controller.
+         authority = [node for node in ast.parse(controller).body if isinstance(node, ast.Assign) and
+@@ -131,7 +133,7 @@
+         if len(authority) != 1 or not isinstance(authority[0].value, ast.Constant) or authority[0].value.value is not None:
+             raise ValueError('Production authority must stay None in this synthetic source-only cohort')
+         emit('INPUTS-BEFORE.json', before)
+-        emit('INTENT.json', {'exact_selectors': SELECTED, 'unique_NEW_methods': 4, 'source_seal': seal_row,
++        emit('INTENT.json', {'exact_selectors': SELECTED, 'unique_NEW_methods': 4, 'changed_methods': 2, 'tests_selected': 6, 'source_seal': seal_row,
+              'primary_source_names': list(seal['primary_sources']), 'finite_input_count': len(before),
+              'total_seconds': TOTAL, 'cleanup_reserve_seconds': CLEANUP_RESERVE,
+              'combined_stdout_stderr_cap_bytes': OUTPUT_CAP, 'accepted_populations_replayed': 0,
+@@ -143,11 +145,12 @@
+         environment = {'PATH': '/usr/bin:/bin', 'HOME': str(runtime / 'home'), 'TMPDIR': str(runtime / 'tmp'),
+                        'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8', 'PYTHONDONTWRITEBYTECODE': '1',
+                        'PYTHONNOUSERSITE': '1', 'PYTHONHASHSEED': '0',
+-                       'NATIVECMPKIT_DIAGNOSTIC_TEST_SOURCE_ROOT': SAFE_ROOT}
+-        argv = ['/usr/bin/python3.12', '-I', '-B', '-S', '-u', str(HERE / 'child_diagnostic4_770.py')]
++                       'NATIVECMPKIT_DIAGNOSTIC_TEST_SOURCE_ROOT': SAFE_ROOT,
++                       'NATIVECMPKIT_OBSERVER_TEST_SOURCE_ROOT': SAFE_ROOT}
++        argv = ['/usr/bin/python3.12', '-I', '-B', '-S', '-u', str(HERE / 'child_owned_eof6_after770.py')]
+         emit('CHILD-COMMAND.json', {'argv': argv, 'cwd': str(runtime), 'no_parent_environment_values_exported': True,
+                                    'remaining_execution_seconds': max(0, execution_deadline - time.monotonic())})
+-        budget(execution_deadline, 'DIAGNOSTIC4 source/runtime preflight exhausted the shared execution allocation; no child started')
++        budget(execution_deadline, 'OWNED-EOF6 source/runtime preflight exhausted the shared execution allocation; no child started')
+         with (OUTPUT / 'stdout.log').open('xb') as stdout, (OUTPUT / 'stderr.log').open('xb') as stderr:
+             os.fchmod(stdout.fileno(), 0o600)
+             os.fchmod(stderr.fileno(), 0o600)
+@@ -161,7 +164,7 @@
+                 os.set_blocking(stream.fileno(), False)
+                 watch.register(stream, selectors.EVENT_READ, (label, target))
+             while watch.get_map():
+-                budget(execution_deadline, 'DIAGNOSTIC4 capture exceeded its shared execution allocation')
++                budget(execution_deadline, 'OWNED-EOF6 capture exceeded its shared execution allocation')
+                 for key, events in watch.select(min(0.25, max(0, execution_deadline - time.monotonic()))):
+                     block = os.read(key.fileobj.fileno(), 65536)
+                     if not block:
+@@ -176,9 +179,9 @@
+                     captured[label] += len(portion)
+                     if len(portion) != len(block):
+                         capture_overflow = True
+-                        raise ValueError('DIAGNOSTIC4 combined capture exceeded1MiB; retained first prefix is incomplete')
++                        raise ValueError('OWNED-EOF6 combined capture exceeded1MiB; retained first prefix is incomplete')
+             while os.waitid(os.P_PID, process.pid, os.WEXITED | os.WNOHANG | os.WNOWAIT) is None:
+-                budget(execution_deadline, 'DIAGNOSTIC4 unreaped child exceeded its shared execution allocation')
++                budget(execution_deadline, 'OWNED-EOF6 unreaped child exceeded its shared execution allocation')
+                 time.sleep(0.05)
+             capture_complete = True
+     except BaseException as error:
+@@ -198,7 +201,7 @@
+                 except BaseException as error:
+                     cleanup.append({'signal': sig.name, 'error_type': type(error).__name__, 'message': str(error)})
+             try:
+-                budget(deadline, 'DIAGNOSTIC4 cleanup allocation exhausted before direct-child reap')
++                budget(deadline, 'OWNED-EOF6 cleanup allocation exhausted before direct-child reap')
+                 child_rc = process.wait(timeout=min(3, max(0.001, deadline - time.monotonic())))
+             except BaseException as error:
+                 cleanup.append({'wait_error_type': type(error).__name__})
+@@ -223,13 +226,13 @@
+             except BaseException as error:
+                 custody_error = {'type': type(error).__name__, 'message': str(error)}
+         group_safe = process is None or any(row.get('group_absent') is True for row in cleanup)
+-        for name in ('home', 'tmp', 'pycache', 'runtime-FIRST-DIAGNOSTIC4'):
+-            path = runtime if name == 'runtime-FIRST-DIAGNOSTIC4' else runtime / name
++        for name in ('home', 'tmp', 'pycache', 'runtime-FIRST-OWNED-EOF6'):
++            path = runtime if name == 'runtime-FIRST-OWNED-EOF6' else runtime / name
+             if path not in directory_pins:
+                 runtime_cleanup.append({'owned': name, 'not_created_by_wrapper': True})
+                 continue
+             try:
+-                budget(deadline, 'DIAGNOSTIC4 total allocation exhausted before owned runtime cleanup')
++                budget(deadline, 'OWNED-EOF6 total allocation exhausted before owned runtime cleanup')
+                 if not group_safe:
+                     raise ValueError('Owned runtime cleanup requires group absence or no child started')
+                 parent = path.parent
+@@ -249,7 +252,7 @@
+             for name in ('stdout.log', 'stderr.log'):
+                 path = OUTPUT / name
+                 if path.exists():
+-                    budget(deadline, 'DIAGNOSTIC4 total allocation exhausted before bounded log readback')
++                    budget(deadline, 'OWNED-EOF6 total allocation exhausted before bounded log readback')
+                     raw, row = read(path, OUTPUT_CAP)
+                     logs[name] = row
+                     if name == 'stdout.log' and capture_complete and not capture_overflow:
+@@ -259,27 +262,27 @@
+         except BaseException as error:
+             output_error = {'type': type(error).__name__, 'message': str(error)}
+         elapsed = time.monotonic() - started
+-        budget_error = None if elapsed < TOTAL else {'type': 'TimeoutError', 'message': 'Measured total DIAGNOSTIC4 exceeded180s; not accepted'}
++        budget_error = None if elapsed < TOTAL else {'type': 'TimeoutError', 'message': 'Measured total OWNED-EOF6 exceeded180s; not accepted'}
+         group_absent = any(row.get('group_absent') is True for row in cleanup)
+         group_errors = any(any(key in row for key in ('error_type', 'wait_error_type', 'group_absence_error', 'pipe_close_error')) for row in cleanup)
+         runtime_removed = len(runtime_cleanup) == 4 and all(row.get('empty_removed') is True for row in runtime_cleanup)
+-        report_complete = (type(child_report) is dict and child_report.get('schema') == 'nativecmpkit-Windows-DIAGNOSTIC4-child-result770-r1' and
+-                           child_report.get('tests_run') == 4 and set(child_report.get('methods', {})) == set(SELECTED))
++        report_complete = (type(child_report) is dict and child_report.get('schema') == 'nativecmpkit-Windows-owned-EOF6-child-result-after770-r1' and
++                           child_report.get('tests_run') == 6 and set(child_report.get('methods', {})) == set(SELECTED))
+         passed = (primary is None and custody_error is None and output_error is None and budget_error is None and
+                   before is not None and before == after and child_rc == 0 and capture_complete and not capture_overflow and
+                   group_absent and not group_errors and runtime_removed and report_complete and child_report.get('successful') is True and
+-                  child_report.get('method_counts') == {'PASS': 4, 'FAIL': 0, 'ERROR': 0, 'SKIP': 0, 'UNKNOWN': 0} and
++                  child_report.get('method_counts') == {'PASS': 6, 'FAIL': 0, 'ERROR': 0, 'SKIP': 0, 'UNKNOWN': 0} and
+                   child_report.get('failure_records') == child_report.get('error_records') == child_report.get('skipped') ==
+                   child_report.get('expected_failures') == child_report.get('unexpected_successes') == 0 and
+                   not child_report.get('forbidden_modules') and not child_report.get('remaining_threads'))
+-        result = {'schema': 'nativecmpkit-Windows-DIAGNOSTIC4-one-shot-result770-r1', 'outcome': 'passed' if passed else 'failed-or-refused',
++        result = {'schema': 'nativecmpkit-Windows-owned-EOF6-one-shot-result-after770-r1', 'outcome': 'passed' if passed else 'failed-or-refused',
+                   'child_exit': child_rc, 'primary_refusal': primary, 'custody_refusal': custody_error,
+                   'output_refusal': output_error, 'budget_refusal': budget_error, 'elapsed_seconds': elapsed,
+                   'total_seconds': TOTAL, 'cleanup_reserve_seconds': CLEANUP_RESERVE,
+                   'combined_stdout_stderr_cap_bytes': OUTPUT_CAP, 'captured_bytes': captured, 'observed_output_bytes': total_observed,
+                   'capture_complete': capture_complete, 'capture_overflow': capture_overflow,
+                   'finite_input_count': len(before) if before is not None else 0, 'inputs_before_after_held': before is not None and before == after,
+-                  'exact_NEW_selectors': SELECTED, 'unique_NEW_methods': 4, 'logs': logs, 'child_report': child_report,
++                  'exact_NEW_and_changed_selectors': SELECTED, 'unique_NEW_methods': 4, 'changed_methods': 2, 'tests_selected': 6, 'logs': logs, 'child_report': child_report,
+                   'owned_group_absent': group_absent, 'cleanup': cleanup, 'runtime_cleanup': runtime_cleanup,
+                   'created_runtime_directory_pins': {str(path): value for path, value in directory_pins.items() if path != OUTPUT},
+                   'owned_output_parent_pin': directory_pins[OUTPUT], 'owned_runtime_removed': runtime_removed,
+@@ -293,7 +296,7 @@
+         if terminal_elapsed >= TOTAL:
+             emit('TERMINAL-BUDGET-REFUSAL.json', {'type': 'TimeoutError',
+                  'terminal_elapsed_seconds': terminal_elapsed,
+-                 'message': 'First receipt retained but full DIAGNOSTIC4 terminal allocation exceeded180s; no acceptance'})
++                 'message': 'First receipt retained but full OWNED-EOF6 terminal allocation exceeded180s; no acceptance'})
+             return 2
+     return 0 if passed else 2
+ 

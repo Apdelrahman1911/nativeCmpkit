@@ -25,8 +25,8 @@ import time
 
 ROOT = Path(__file__).resolve().parents[2]
 OBSERVER = 'scripts/ci/windows_ordinary_dependency_observer742.py'
-OBSERVER_BYTES = 64924
-OBSERVER_SHA256 = '4e457aa68a5bfd7e94097eca9936a620a2b2e4aae5a8663f9c3c07410b3968d3'
+OBSERVER_BYTES = 65242
+OBSERVER_SHA256 = '23c89b500571dff6f347a349b59391e0b6c816493f08b2232130f7aa73d82c14'
 OUTPUT = 'build/ci-verification/windows-one-request-diagnostic770'
 CHOICE = 'windows-observer-one-request-diagnostic1'
 REQUEST_ID = 'convention-gradlePlugin-android:pom'
@@ -127,6 +127,10 @@ class DelegatingResponse:
     @property
     def status(self):
         return self.actual.status
+
+    def isclosed(self):
+        # Read-only owning lifetime, never an EOF/completeness assertion.
+        return self.actual.isclosed()
 
     def getheaders(self):
         return self.recorder.call('response-getheaders', self.actual.getheaders)

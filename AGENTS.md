@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows response EOF ownership fixed and adopted — 2026-11-05
+
+[OwnedEOF after770](docs/development/evidence/current-platform-recovery-20261101/windows-owned-eof-after770/LEAD-INTEGRATION.md)
+adopts existing4+NEW1 once after NEW4+changed2 passes6/6 once/27subtests,
+suite0.6788584489841014s/outer0.9828476589173079s and independent742 source/results
+acceptance. Six actual local AF_UNIX pairs/twelve descriptor wraps all close;
+25 inputs and owned group/runtime cleanup hold. Adopter0/0.78040855913423s,
+lead0.8367133769206703s; original modes/inodes/protected17 and candidate5 hold,
+NEW0644. ROOT remains clean4cc; unqualified success_trace MUST NOT stage.
+The body loop skips only borrowed-socket settimeout when owning response.isclosed(),
+still reads genuine EOF with fresh deadlines/caps and strict framing/refusals.
+Workflow/fixedrow0/120plan/WindowsJob/NO_ADMISSION/trust remain unchanged.
+Original42040119698/attempt1/job127288430984 atb2f protocol completes, but sole
+HTTP200/9034B response REFUSES transport-settimeout-body10038; private body not
+exported, complete/public false, cleanup succeeds. Original120-run cause remains
+UNKNOWN.43 immutable files retain source/inverse/result/review and public3 originals;
+this local mechanism is NOT Windows/HTTPS/native/consumer/trust or issue completion.
+Next freeze/push/fresh max2combined hosted INCLUDINGqueued/reserved, then only
+changed windows-observer-one-request-diagnostic1. #64/#40 remain open; no new
+closure/publication. Lead Git/integration/dispatch/acceptance/closure; Actions/all/
+no mandatorySHA/minimumpermissions; every native/consumer/API–ABI/dependency/legal/
+security/release-readiness/publishing/Pages/main/history gate remains.
+
 ## Windows one-request diagnostic batch adopted — 2026-11-05
 
 [770](docs/development/evidence/current-platform-recovery-20261101/windows-one-request-diagnostic770/README.md)

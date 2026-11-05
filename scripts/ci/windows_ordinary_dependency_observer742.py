@@ -554,7 +554,12 @@ def observe_one(row, plan, budget, connection_factory=None):
             declared = int(lengths[0])
             need(0 < declared <= MAX_BODY, 'Response advertised body bound')
         while True:
-            transport.settimeout(min(IO_SECONDS, bounded_time(deadline, 'Request body budget', budget.clock)))
+            remaining = bounded_time(deadline, 'Request body budget', budget.clock)
+            # read1 may release the owning response fp and its borrowed socket.
+            # Closed lifetime skips only settimeout: still read EOF, keep caps,
+            # framing/declared-length checks and the shared deadline unchanged.
+            if not response.isclosed():
+                transport.settimeout(min(IO_SECONDS, remaining))
             room = min(MAX_BODY - len(body), MAX_TOTAL_BODY - budget.body_bytes)
             # Never read a probing byte past either hard cap. A response that
             # exactly exhausts a cap before EOF is conservatively refused.

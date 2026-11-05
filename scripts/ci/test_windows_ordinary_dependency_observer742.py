@@ -48,6 +48,9 @@ class FakeResponse:
         self.clock, self.tick = clock, tick
         self.closed = False
 
+    def isclosed(self):
+        return self.closed
+
     def getheaders(self):
         self.events.append(('getheaders',))
         return self.headers

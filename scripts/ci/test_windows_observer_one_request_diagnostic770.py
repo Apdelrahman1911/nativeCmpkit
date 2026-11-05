@@ -188,6 +188,11 @@ class WindowsOneRequestDiagnostic770Tests(unittest.TestCase):
                 with self.assertRaises(diagnostic.base.ObservationRefusal):
                     diagnostic.base.restore_diagnostic_workflow770(mutation)
         source = diagnostic.read_regular(SOURCE_ROOT, diagnostic.OBSERVER)[0].decode('utf-8')
+        body_original = "        while True:\n            transport.settimeout(min(IO_SECONDS, bounded_time(deadline, 'Request body budget', budget.clock)))\n"
+        body_lifetime = "        while True:\n            remaining = bounded_time(deadline, 'Request body budget', budget.clock)\n            # read1 may release the owning response fp and its borrowed socket.\n            # Closed lifetime skips only settimeout: still read EOF, keep caps,\n            # framing/declared-length checks and the shared deadline unchanged.\n            if not response.isclosed():\n                transport.settimeout(min(IO_SECONDS, remaining))\n"
+        self.assertEqual(source.count(body_lifetime), 1)
+        self.assertNotIn(body_original, source)
+        source = source.replace(body_lifetime, body_original, 1)
         tree = ast.parse(source)
         inverse = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and
                        node.name == 'restore_diagnostic_workflow770')

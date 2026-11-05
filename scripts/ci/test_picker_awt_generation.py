@@ -363,8 +363,8 @@ class PickerAwtGenerationSourceControls(unittest.TestCase):
 
     def test_additive_manual_macos_profile_uploads_only_five_named_json_and_keeps_old_scope_assertions(self):
         workflow = (r.library.ROOT / r.shared.WORKFLOW).read_text()
-        self.assertIn("options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source, picker-jni-actual-jvm2, picker-awt-generation]", workflow)
-        job = workflow.split("\n  picker-awt-generation:", 1)[1]
+        self.assertIn("options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source, picker-jni-actual-jvm2, picker-awt-generation, picker-awt-preparation]", workflow)
+        job = workflow.split("\n  picker-awt-generation:", 1)[1].split("\n  picker-awt-preparation:", 1)[0]
         for required in ("github.repository == 'Apdelrahman1911/nativeCmpkit'", "github.event_name == 'workflow_dispatch'",
                          "inputs.profile == 'picker-awt-generation'", "runs-on: macos-26", "timeout-minutes: 15",
                          "persist-credentials: false", "distribution: temurin", "java-version: '17'", "toolchain: '1.98.0'",

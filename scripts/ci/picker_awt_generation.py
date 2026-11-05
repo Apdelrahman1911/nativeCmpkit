@@ -22,6 +22,7 @@ import tomllib
 import zipfile
 
 import picker_jni_actual_jvm2 as shared
+import picker_awt_prepare_failure as prepare_diagnostics
 
 # The checked-in, side-effect-free native validator; never a downloaded helper.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "native"))
@@ -58,7 +59,8 @@ JDK_FILES = ("release", "bin/java", "bin/javap", "lib/modules", "lib/server/libj
              "lib/libjava.dylib", "lib/libjli.dylib", "lib/libawt.dylib", "lib/libawt_lwawt.dylib")
 OWNING_INPUTS = ("scripts/ci/picker_awt_generation.py", "scripts/ci/test_picker_awt_generation.py",
                  "scripts/native/artifacts.py", "convention-plugins/src/main/kotlin/NativeLibraries.kt",
-                 "calf-file-picker/build.gradle.kts", "gradle/libs.versions.toml", TEST_SOURCE)
+                 "calf-file-picker/build.gradle.kts", "gradle/libs.versions.toml", TEST_SOURCE,
+                 "scripts/ci/picker_awt_prepare_failure.py")
 PREPARE_TASKS = (":calf-file-picker:desktopProcessResources",
                  ":calf-file-picker:writeNativeTestRuntimeClasspath", ":calf-file-picker:verifyNativeResources")
 FRESH_OUTPUTS = ("calf-file-picker/build/native-host", "calf-file-picker/build/native-libs",
@@ -525,6 +527,51 @@ def write_public(output: Path, name: str, value: dict) -> None:
     library.write_json(output / name, value)
 
 
+def prepare_failure_diagnostic(root: Path, stage: str, log: Path, result: dict, budget) -> dict | None:
+    # Only the observed nonzero complete owned PREPARE exit is eligible. Do not
+    # read successful, inventory/JUnit, stopped, incomplete or surviving groups.
+    if (stage != "prepare" or result.get("started") is not True or type(result.get("exit_code")) is not int or
+            result["exit_code"] == 0 or result.get("capture_complete") is not True or
+            result.get("stop_reason") is not None or result.get("post_exit_group_state") != "absent"):
+        return None
+    try:
+        budget.remaining()
+    except Exception:
+        return prepare_diagnostics.unavailable("remaining_budget_refused")
+    size, digest = result.get("captured_bytes"), result.get("private_capture_sha256")
+    if (type(size) is not int or size < 0 or type(digest) is not str or
+            re.fullmatch(r"[0-9a-f]{64}", digest) is None):
+        return prepare_diagnostics.unavailable("capture_identity_refused")
+    if size > prepare_diagnostics.MAX_PRIVATE_BYTES:
+        return prepare_diagnostics.unavailable("diagnostic_limit")
+    try:
+        # Unchanged FD/path/stat/size/hash/UTF8 private-log custody owner.
+        body = shared.read_private_log(log, result)
+    except Refusal as error:
+        return prepare_diagnostics.unavailable("UTF8_refused" if isinstance(error.__cause__, UnicodeError)
+                                               else "capture_identity_refused")
+    except Exception:
+        return prepare_diagnostics.unavailable("capture_unavailable")
+    try:
+        budget.remaining()
+    except Exception:
+        return prepare_diagnostics.unavailable("remaining_budget_refused")
+    try:
+        payload = body.encode("utf-8", errors="strict")
+        if len(payload) != size or hashlib.sha256(payload).hexdigest() != digest:
+            return prepare_diagnostics.unavailable("capture_identity_refused")
+        diagnostic = prepare_diagnostics.bounded_public(prepare_diagnostics.classify(root, body))
+    except UnicodeError:
+        return prepare_diagnostics.unavailable("UTF8_refused")
+    except Exception:
+        return prepare_diagnostics.unavailable("classifier_error")
+    try:
+        budget.remaining()
+    except Exception:
+        return prepare_diagnostics.unavailable("remaining_budget_refused")
+    return diagnostic
+
+
 def phase(root: Path, private: Path, stage: str, command: list[str], budget, receipt: dict) -> str:
     if stage not in {"prepare", "inventory", "junit"}:
         raise Refusal("unknown-owned-awt-phase-refused")
@@ -532,7 +579,18 @@ def phase(root: Path, private: Path, stage: str, command: list[str], budget, rec
     result = shared.owned_phase(root, command, log, saved, budget)
     receipt["phases"][stage] = {key: result.get(key) for key in ("started", "exit_code", "capture_complete",
                                "captured_bytes", "private_capture_sha256", "post_exit_group_state", "stop_reason", "elapsed_seconds")}
-    shared.require_phase_success(result, budget)
+    try:
+        shared.require_phase_success(result, budget)
+    except Exception:
+        # Best effort only. A secondary classifier/assignment refusal must not
+        # replace the original phase/deadline exception or its cleanup owner.
+        try:
+            diagnostic = prepare_failure_diagnostic(root, stage, log, result, budget)
+            if diagnostic is not None:
+                receipt["prepare_failure_diagnostic"] = diagnostic
+        except Exception:
+            pass
+        raise
     return shared.read_private_log(log, result)
 
 

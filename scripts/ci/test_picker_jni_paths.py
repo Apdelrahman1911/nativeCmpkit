@@ -87,7 +87,7 @@ class PickerJniPathReceipts(unittest.TestCase):
     def test_failure_only_native_workflow_does_not_replay_accepted_hosts_or_unrelated_gradle_and_gui(self):
         workflow = (r.library.ROOT / ".github/workflows/build-native-libs.yml").read_text()
         ancestor_choices = 'options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source]'
-        self.assertIn(ancestor_choices[:-1] + ', picker-jni-actual-jvm2, picker-awt-generation]', workflow)
+        self.assertIn(ancestor_choices[:-1] + ', picker-jni-actual-jvm2, picker-awt-generation, picker-awt-preparation]', workflow)
         self.assertIn("&& inputs.profile == 'all'", workflow)
         recovery = workflow.split('\n  picker-jni-macos-domain:', 1)[1].split('\n  picker-jni-actual-jvm2:', 1)[0]
         for required in ("inputs.profile == 'picker-jni-macos-domain'", 'runs-on: macos-26',

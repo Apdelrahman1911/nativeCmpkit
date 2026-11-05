@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows one-ASC original protocol verified — 2026-11-05
+
+[Original42124372683/a1](docs/development/evidence/current-platform-recovery-20261101/windows-signature-one-get-20261105/README.md)
+at3b37ce37 succeeds; job127584658754/artifact13458749689 authenticated. Lead+742
+accept oneGET/HTTP200/801B/no redirects or accepted replay; source24held/child0/
+ownedJobempty/seven cleanup records/0.891s. Private ASC body uninspected/absent
+upload, observed SHA is not independent trust; expectations/key null, crypto/
+native/ordinary-consumer/legal/readiness false/#64OPEN. Never replay the accepted
+stat-only or one-ASC observational profiles. Original42100069342 causeUNKNOWN.
+Next owning publisher/key verification, not unqualified bootstrap execution.
+Frozen ROOT ee879e2c/producer42123517799 unchanged; all gates/lead roles retained.
+
+
 ## Isolated Windows ancestry recovery adopted — 2026-11-05
 
 [Signature ancestry734](docs/development/evidence/current-platform-recovery-20261101/windows-signature-ancestry-20261105/README.md)

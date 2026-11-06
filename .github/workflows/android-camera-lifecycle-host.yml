@@ -3,6 +3,14 @@ name: Android Camera lifecycle host NEW2
 # R3's two new Robolectric host regressions only; never device/native C1 acceptance.
 on:
   workflow_dispatch:
+  # Bootstrap the new workflow without modifying the protected default branch.
+  # Further unrelated/documentation pushes do not rerun these two methods.
+  push:
+    branches: ['development/android-camera-lifecycle-20261106']
+    paths:
+      - '.github/workflows/android-camera-lifecycle-host.yml'
+      - 'calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraLifecycleTest.kt'
+      - 'calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt'
 
 permissions:
   contents: read
@@ -13,7 +21,7 @@ concurrency:
 
 jobs:
   host-new2:
-    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch'
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/development/android-camera-lifecycle-20261106'))
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     defaults:

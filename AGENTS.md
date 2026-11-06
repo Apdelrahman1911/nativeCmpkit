@@ -3,7 +3,7 @@
 ## Isolated Android lifecycle host batch prepared — 2026-11-06
 
 [Host NEW2](docs/development/evidence/current-platform-recovery-20261101/android-camera-lifecycle-host-20261106/README.md)
-adopts one existing/twoNEW sources plus a manual focused workflow. Three source
+adopts one existing/twoNEW sources plus a focused manual/exact-isolated-branch-push workflow. Three source
 controls pass3/3 once; independent742 accepts saved results/42originals/137runtime/
 14model held/ownedcleanup. First R1 Actionlint fails job.env runner context;
 changed four context edits pass Actionlint0 once. NEW2 actual Robolectric/API23

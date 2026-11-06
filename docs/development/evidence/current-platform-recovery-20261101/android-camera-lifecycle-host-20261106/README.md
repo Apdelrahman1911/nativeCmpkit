@@ -20,7 +20,7 @@ No production/API/native-criterion bytes are changed.
 - First workflow Actionlint fails because `runner.temp` is not available in job.env.
   Four exact context edits move the binding to the two run steps and the artifact
   path. Changed Actionlint passes once, exit0/empty output. The original failure stays.
-- **Robolectric NEW2 is still unexecuted at this source freeze.** The manual-only
+- **Robolectric NEW2 is still unexecuted at this source freeze.** The manual/exact-isolated-branch-push
   `android-camera-lifecycle-host.yml` runs only these two methods. Its owned init
   script disables cache/up-to-date only for that Test task, retaining production
   caching. Exactly one fresh XML report must contain the two declared methods
@@ -52,3 +52,15 @@ source pins and retained first failure. The baseline sparse-materialization refu
 was before source writes; recovery materialized only the declared baseline, then
 adopted one existing/two new sources exactly once, preserving original mode/inode
 and creating additions0644. A separate reviewed workflow is adopted once.
+
+## Default-branch-safe execution bootstrap
+
+The first REST lookup for the new workflow returns404; no dispatch was attempted.
+To verify the tests without modifying protected `main`, a minimal successor adds
+`push` for only `development/android-camera-lifecycle-20261106`, filtered to the
+workflow, this host test and its production Android owner. The job additionally
+checks the exact repository/ref/event. Unrelated/documentation-only pushes cannot
+replay the tests. Its two source edits leave every command, selector, cache/XML
+check and permission unchanged; changed Actionlint passes once/0/empty output.
+The first lookup refusal and R2 identity remain preserved. This branch push is one
+hosted reservation, not a producer/native request or release/deployment.

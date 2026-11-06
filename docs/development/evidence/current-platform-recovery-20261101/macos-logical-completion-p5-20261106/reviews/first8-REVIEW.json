@@ -1,0 +1,188 @@
+{
+  "acceptance_owner": "lead only",
+  "carrier_findings": [
+    {
+      "captured_evidence": "All eight final traceback blocks end at RUNNER audit86 from shutil os.unlink(entry.name, dir_fd=topfd).",
+      "certainty": "Cleanup failure is directly captured. The first mkdir explains the pre-PREPARE calls=[] by exact source control flow; the original log does not carry the primary controller receipt/reason, so do not describe that reason as directly captured.",
+      "finding": "dirfd-relative mutation paths are misclassified against model cwd",
+      "static_evidence": "RUNNER audit82\u201386 ignores event dir_fd operands. OwnedJavaDirectories._add generation392\u2013401 calls os.mkdir(relative java-home, dir_fd=private_fd) before PREPARE; model cwd causes the same refusal before phase. run catches it and can emit calls=[] failures."
+    },
+    {
+      "captured_evidence": "Only two model test-source atimes differ; content/hash and nine other full10 fields hold for both. Traceback source lines were rendered.",
+      "certainty": "An exact source-identified bypass consistent with the atime-only drift; no event-level historical trace exists to prove it was the sole reader.",
+      "finding": "prebound tokenize open alias bypasses later builtin/io noatime wrappers",
+      "static_evidence": "Runner imports unittest before installing wrappers. unittest error formatting uses traceback/linecache; linecache.updatecache uses tokenize.open; tokenize.py27 captures builtins.open and449 uses it. RUNNER does not patch that alias or add noatime at the audit event."
+    }
+  ],
+  "custody": {
+    "full10_model_held": 36,
+    "full10_originals_held": 38,
+    "full10_proposals_held": 5,
+    "limits": "This is not original model38/38 full10 custody or a cleanup-success receipt. No identities were normalized/restored.",
+    "model_bytes": 1000824,
+    "model_bytes_sha256_held": 38,
+    "model_differences": {
+      "scripts/ci/test_picker_awt_generation.py": {
+        "st_atime_ns": {
+          "actual": 1793983131194855331,
+          "expected": 1793983130730855358
+        }
+      },
+      "scripts/ci/test_picker_awt_prepare_contract.py": {
+        "st_atime_ns": {
+          "actual": 1793983131153855333,
+          "expected": 1793983130731855358
+        }
+      }
+    },
+    "model_non_atime_identity_fields_held": 38,
+    "model_total": 38,
+    "originals_total": 38,
+    "proposals_total": 5,
+    "source_bytes": 966502
+  },
+  "holds": [
+    "Original FIRST8 remains failed; no unchanged replay.",
+    "P5 source-method evidence only; no native/compiler/consumer/API-ABI/issue acceptance.",
+    "#58 stays open; all release/publication/deployment gates remain."
+  ],
+  "method_outcomes": {
+    "only_failed_recovery_selection": [
+      "test_picker_awt_prepare_contract.NativePreparationLogicalCompletionTests.test_p5_06_both_controllers_bind_before_any_inventory_or_JUnit_and_prep_stays_zero",
+      "test_picker_awt_generation.PickerAwtGenerationSourceControls.test_new_phase_and_controller_delegate_owned_cleanup_and_one_deadline_then_refuse_changed_or_exhausted_final_custody"
+    ],
+    "reusable_completed_source_method_results": [
+      "test_picker_awt_prepare_contract.NativePreparationLogicalCompletionTests.test_p5_01_source_owners_history_commands_and_caps_hold",
+      "test_picker_awt_prepare_contract.NativePreparationLogicalCompletionTests.test_p5_02_only_exact_owning_resource_names_bypass_test_suffix_refusal",
+      "test_picker_awt_prepare_contract.NativePreparationLogicalCompletionTests.test_p5_03_one_logical_completion_not_repeated_task_rendering_owns_native_return",
+      "test_picker_awt_prepare_contract.NativePreparationLogicalCompletionTests.test_p5_04_missing_duplicate_malformed_unknown_or_dirty_build_records_refuse",
+      "test_picker_awt_prepare_contract.NativePreparationLogicalCompletionTests.test_p5_05_build_binary_source_and_platform_bind_to_validated_native_identity",
+      "test_picker_awt_generation.PickerAwtGenerationSourceControls.test_exact_standard_prepare_inventory_and_junit_have_one_target_no_custom_host_or_old_replay"
+    ]
+  },
+  "minimum_remaining": [
+    "Use the already planned corrected transport for the exact two failed methods only, without altering test sources/assertions or relaxing protected/model/process/budget checks. Resolve event-specific dirfd path operands; ensure failure formatting model reads use noatime.",
+    "Retain FIRST8 originals and this explicit atime-only custody limitation. Lead recovery needs original complete failed2 capture/footer, complete named source/model full10 custody and owned runtime/group cleanup under unchanged Q300/source270/cleanup30.",
+    "Lead-only adoption/integration after recovery qualification; no extra speculative diagnostic, test population, approval gate or accepted-population replay is introduced."
+  ],
+  "original_result": {
+    "capture_eof": true,
+    "child_exit": 1,
+    "child_group_absent": true,
+    "classification": "FAILED; never relabel as FIRST8 pass",
+    "complete_controlled_framing": true,
+    "completed_passing_methods": 6,
+    "failed_parent_methods": 2,
+    "failures": 0,
+    "log_bytes": 21749,
+    "outer_elapsed_seconds": 0.5041231859941036,
+    "owned_runtime_removed": false,
+    "runtime_retained_in_original": "/tmp/nck-mac-p5-important8-vz0qtd7v",
+    "skips": 0,
+    "suite_elapsed_seconds": 0.13787980820052326,
+    "tests": 8,
+    "unittest_error_entries": 8
+  },
+  "pinned_original_evidence": {
+    "log": {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-resume-R11-P5-20261106-rh98k8cp/mac-p5-important8/IMPORTANT8-ORIGINAL.log",
+      "sha256": "b948646abebfd5ee61a95e7babe778c02142038637f486a2b54d3c0cf8397142",
+      "size": 21749,
+      "stat": {
+        "st_atime_ns": 1793983130738855358,
+        "st_ctime_ns": 1793983131195855330,
+        "st_dev": 23,
+        "st_gid": 0,
+        "st_ino": 5779467,
+        "st_mode": 33152,
+        "st_mtime_ns": 1793983131195855330,
+        "st_nlink": 1,
+        "st_size": 21749,
+        "st_uid": 0
+      }
+    },
+    "preflight": {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-resume-R11-P5-20261106-rh98k8cp/mac-p5-important8/PREFLIGHT-MANIFEST.json",
+      "sha256": "d59501356b7feea09fff33d53317ae4b162f7c5eed97e32855f62934eabba803",
+      "size": 51604,
+      "stat": {
+        "st_atime_ns": 1793983130732855358,
+        "st_ctime_ns": 1793983130732855358,
+        "st_dev": 23,
+        "st_gid": 0,
+        "st_ino": 5779464,
+        "st_mode": 33152,
+        "st_mtime_ns": 1793983130732855358,
+        "st_nlink": 1,
+        "st_size": 51604,
+        "st_uid": 0
+      }
+    },
+    "result": {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-resume-R11-P5-20261106-rh98k8cp/mac-p5-important8/IMPORTANT8-ONCE-RESULT.json",
+      "sha256": "4f4712db73d321167fdc0cd0c55b8bb05e9ec382df3168b1b1d91a3881f36f12",
+      "size": 2807,
+      "stat": {
+        "st_atime_ns": 1793983131242855328,
+        "st_ctime_ns": 1793983131242855328,
+        "st_dev": 23,
+        "st_gid": 0,
+        "st_ino": 5779468,
+        "st_mode": 33152,
+        "st_mtime_ns": 1793983131242855328,
+        "st_nlink": 1,
+        "st_size": 2807,
+        "st_uid": 0
+      }
+    },
+    "runner": {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-resume-R11-P5-20261106-rh98k8cp/mac-p5-important8/RUNNER-IMPORTANT8.py",
+      "sha256": "2436ab48710479e54d0225f12671a0a8947004bc5fe1ff1a4ec5fdedf259deea",
+      "size": 5994,
+      "stat": {
+        "st_atime_ns": 1793983130735855358,
+        "st_ctime_ns": 1793983130735855358,
+        "st_dev": 23,
+        "st_gid": 0,
+        "st_ino": 5779465,
+        "st_mode": 33152,
+        "st_mtime_ns": 1793983130735855358,
+        "st_nlink": 1,
+        "st_size": 5994,
+        "st_uid": 0
+      }
+    }
+  },
+  "reuse_disposition": "Recommend lead accept/reuse the six completed passing methods narrowly as source-method assertion results for these unchanged bytes, rather than replay. Complete framed attribution, unchanged compiled source bytes and held non-atime identities support that reuse. This does not accept FIRST8 as a whole, waive full10/cleanup checks, reclassify the original failure, or certify compiler/native/consumer/issue closure.",
+  "scope": {
+    "Git_GitHub_network_mutations": 0,
+    "ROOT_worktree_model_source_writes": 0,
+    "all_evidence_source_reads": "O_RDONLY|O_NOATIME|O_NOFOLLOW; full10 Python integer filesystem identities",
+    "compiler_native_commands": 0,
+    "directory": "/root/nativecmpkit-source-proposals-20261105/mac-p5-saved-results-review-astra-hf4loojc",
+    "project_import_execution": 0,
+    "saved_results_only": true,
+    "source_only": true,
+    "tests_executed": 0
+  },
+  "source_review": {
+    "AST_parse_only_no_execution": true,
+    "all_forward_inverse_unique_and_exact": true,
+    "exact_spans": 20,
+    "important_coverage": "NEW6 + affected2 =8 unique methods. Passing NEW1\u20135 and affected exact-command control cover owners/history/caps, 16 exact task names/statuses and near-neighbor refusal, one logical completion with repeated headers, malformed/duplicate/dirty records and binary/source/platform binding. The two errored controller methods remain unqualified and must not be counted as passing. No new/replayed diagnostic method is required by this review.",
+    "postimages": [
+      "scripts/ci/picker_awt_generation.py",
+      "scripts/ci/picker_awt_preparation.py",
+      "scripts/ci/test_picker_awt_generation.py",
+      "scripts/ci/test_picker_awt_prepare_contract.py",
+      "scripts/ci/test_picker_awt_prepare_failure_diagnostics.py"
+    ],
+    "production_changes": [
+      "Sixteen exact owning-module Compose resource tasks only bypass inherited Test-suffix rejection, with exact allowed rendered statuses.",
+      "Require one exact clean five-key build result, rejecting duplicates/malformed/unknown candidate records; repeated native task headings no longer substitute for or duplicate the logical result.",
+      "Both controllers bind the build result to already validated current native binary/source/platform before classpath/inventory/JUnit."
+    ],
+    "unchanged_scope": "Native commands, owned process/deadline logic, five-JSON allowlist, original library/native source bytes and historical anchors remain outside the production changes. Test fixtures gain the exact logical-completion/native-identity fields; historical inverse remains exact."
+  },
+  "status": "independent-source-and-saved-results-review-complete"
+}

@@ -40,7 +40,10 @@ def compiler_body(message="Unresolved reference: " + PRIVATE_SENTINEL):
 
 
 def preparation():
-    return "\n".join("> Task " + task for task in (d.TASKS["host_native_build"], *r.PREPARE_TASKS)) + "\nBUILD SUCCESSFUL in 1s\n"
+    completion = {"module": r.MODULE, "platform": r.PLATFORM, "sha256": "d" * 64,
+                  "sourceSha256": "c" * 64, "sourceTreeDirty": False}
+    return ("\n".join("> Task " + task for task in (d.TASKS["host_native_build"], *r.PREPARE_TASKS)) +
+            "\n" + json.dumps(completion) + "\nBUILD SUCCESSFUL in 1s\n")
 
 
 def runtime(revision):
@@ -294,7 +297,8 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
             with tempfile.TemporaryDirectory() as directory, ExitStack() as stack:
                 root, revision, clock = Path(directory).resolve(), "a" * 40, [0]
                 source_map = {"synthetic-source": "c" * 64}
-                native = {"files": {name: {"sha256": "d" * 64, "size": 1} for name in (r.NATIVE_RESOURCE, r.MANIFEST_RESOURCE)}}
+                native = {"platform": r.PLATFORM, "source_sha256": "c" * 64,
+                          "files": {name: {"sha256": "d" * 64, "size": 1} for name in (r.NATIVE_RESOURCE, r.MANIFEST_RESOURCE)}}
                 cp = {"resources": {name: [{"entry_index": 0, "sha256": "d" * 64, "size": 1}] for name in r.REQUIRED_RESOURCES}}
                 native_after = copy.deepcopy(native)
                 if mode == "changed-native": native_after["files"][r.NATIVE_RESOURCE]["sha256"] = "e" * 64

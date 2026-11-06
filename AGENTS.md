@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## macOS logical-completion repair adopted — 2026-11-06
+
+[P5 evidence](docs/development/evidence/current-platform-recovery-20261101/macos-logical-completion-p5-20261106/README.md) records five existing sources/20 exact
+reversible spans adopted once, preserving modes/inodes/atimes and 33 other inputs.
+Only 16 exact resource tasks bypass the test-suffix refusal; one strict native
+build result binds binary/source/platform before either controller proceeds.
+FIRST8 remains FAILED: six narrowly reusable source-method passes/two errored
+methods/eight errors, original model atime limitation and runtime retained.
+Carrier-only dirfd/tokenize repair then ONLYfailed2 passes2/2 once, suite0.125170s/
+outer0.495719s, complete845B/child0, source38/proposal5/model38 full10 and owned
+cleanup. Independent Astra/max source/results review accepts; no accepted replay.
+The report/SEAL hash pre-execution refusal is preserved. Zero new native/compiler/
+consumer/issue acceptance; #58 stays open. Next changed registered PREPARE-only
+request after commit/push, not the unregistered standalone workflow.
+
+ROOT d968257f remains immutable and separate. Its run42253956931 ended startup
+failure with zero jobs/checks/artifacts; GitHub reports an internal error, while
+public status reports operational. No source cause or reuse certificate, and no
+unchanged retry. Preserve original evidence and investigate without inventing a
+source fix. Max2 combined hosted INCLUDINGqueued/reserved; compiler6GiB/8GiBdisk.
+Astra/max delegation, Actions/all/no mandatorySHA/minimumpermissions, protected
+Windows-file prohibition and every history/main/native/consumer/API–ABI/dependency/
+legal/security/readiness/Pages/publication gate remain. No publication or closure.
+
 ## Delegated execution model — owner decision, 2026-11-06
 
 When delegating authorized related patches, explicitly use `gpt-6-astra` with

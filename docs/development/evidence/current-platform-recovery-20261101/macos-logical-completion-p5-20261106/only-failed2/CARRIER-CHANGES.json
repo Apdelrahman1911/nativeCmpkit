@@ -1,0 +1,79 @@
+{
+  "changes": [
+    {
+      "after": "tempfile,unittest,time,tokenize\n",
+      "before": "tempfile,unittest,time\n"
+    },
+    {
+      "after": "rawopen=os.open;rawbuiltin=builtins.open;rawio=io.open\n_audit_open_requests=[]\n",
+      "before": "rawopen=os.open;rawbuiltin=builtins.open;rawio=io.open\n"
+    },
+    {
+      "after": "def effective_path(path,dir_fd=None):\n if type(path) is int:\n  path=os.readlink('/proc/self/fd/'+str(path))\n if not isinstance(path,(str,bytes,os.PathLike)):return None\n path=os.fsdecode(path)\n if not os.path.isabs(path) and dir_fd not in (None,-1,-100):\n  if type(dir_fd) is not int:raise RuntimeError('invalid directory descriptor')\n  base=os.readlink('/proc/self/fd/'+str(dir_fd))\n  if not os.path.isabs(base) or base.endswith(' (deleted)'):raise RuntimeError('unbound directory descriptor')\n  path=base+'/'+path\n return os.path.abspath(path)\n\ndef prohibited(path,dir_fd=None):\n p=effective_path(path,dir_fd)\n if p is None:return\n if 'test_javafx_ordinary_success_trace.py' in p.split('/'):raise RuntimeError('protected source/copy access refused')\n if any(p==r or p.startswith(r+'/') for r in originals):raise RuntimeError('original worktree/ROOT access refused; finite model only')\n return p\n",
+      "before": "def prohibited(path):\n if not isinstance(path,(str,bytes,os.PathLike)):return\n p=os.path.abspath(os.fsdecode(path))\n if 'test_javafx_ordinary_success_trace.py' in p.split('/'):raise RuntimeError('protected source/copy access refused')\n if any(p==r or p.startswith(r+'/') for r in originals):raise RuntimeError('original worktree/ROOT access refused; finite model only')\n"
+    },
+    {
+      "after": "def noatime_open(path,flags,mode=0o777,*,dir_fd=None):\n full=prohibited(path,dir_fd)\n if full is not None and (full==model or full.startswith(prefix)):\n  if flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND):raise RuntimeError('model source write refused')\n  flags|=os.O_NOATIME|os.O_NOFOLLOW\n _audit_open_requests.append((os.fsdecode(path),full))\n try:return rawopen(path,flags,mode,dir_fd=dir_fd)\n finally:_audit_open_requests.pop()\n",
+      "before": "def noatime_open(path,flags,mode=0o777,*,dir_fd=None):\n request=path\n if dir_fd is not None and isinstance(path,(str,bytes,os.PathLike)) and not os.path.isabs(os.fsdecode(path)):\n  base=os.readlink('/proc/self/fd/'+str(dir_fd));request=base+'/'+os.fsdecode(path)\n prohibited(request)\n if isinstance(request,(str,bytes,os.PathLike)):\n  full=os.path.abspath(os.fsdecode(request))\n  if full==model or full.startswith(prefix):\n   if flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND):raise RuntimeError('model source write refused')\n   flags|=os.O_NOATIME|os.O_NOFOLLOW\n return rawopen(path,flags,mode,dir_fd=dir_fd)\n"
+    },
+    {
+      "after": "builtins.open=stream(rawbuiltin);io.open=stream(rawio)\nassert tokenize._builtin_open is rawbuiltin\ntokenize._builtin_open=builtins.open\n",
+      "before": "builtins.open=stream(rawbuiltin);io.open=stream(rawio)\n"
+    },
+    {
+      "after": "def wrapped(path,*a,_original=original,**kw):prohibited(path,kw.get(\"dir_fd\"));return _original(path,*a,**kw)",
+      "before": "def wrapped(path,*a,_original=original,**kw):prohibited(path);return _original(path,*a,**kw)"
+    },
+    {
+      "after": " if event in ('os.scandir','os.listdir') and args:prohibited(args[0])\n if event=='open' and args:\n  request=args[0]\n  if _audit_open_requests and isinstance(request,(str,bytes,os.PathLike)) and os.fsdecode(request)==_audit_open_requests[-1][0]:\n   request=_audit_open_requests[-1][1]\n  p=prohibited(request);mode=args[1] if len(args)>1 else None;flags=args[2] if len(args)>2 else 0\n  if p is not None and (p==model or p.startswith(prefix)):\n   if (isinstance(mode,str) and any(c in mode for c in 'wax+')) or (type(flags) is int and flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND)):raise RuntimeError('readonly source model required')\n mutation_operands={'os.remove':((0,1),),'os.rmdir':((0,1),),'os.rename':((0,2),(1,3)),\n                    'os.mkdir':((0,2),),'os.chmod':((0,2),),'os.chown':((0,3),),\n                    'os.utime':((0,3),),'os.truncate':((0,None),)}\n for path_index,fd_index in mutation_operands.get(event,()):\n  descriptor=None if fd_index is None or fd_index>=len(args) else args[fd_index]\n  p=prohibited(args[path_index],descriptor)\n  if p is not None and (p==model or p.startswith(prefix)):raise RuntimeError('model source mutation refused')\n",
+      "before": " if event in ('open','os.scandir','os.listdir') and args:prohibited(args[0])\n if event=='open' and args and isinstance(args[0],(str,bytes,os.PathLike)):\n  p=os.path.abspath(os.fsdecode(args[0]));mode=args[1] if len(args)>1 else None;flags=args[2] if len(args)>2 else 0\n  if p==model or p.startswith(prefix):\n   if (isinstance(mode,str) and any(c in mode for c in 'wax+')) or (type(flags) is int and flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND)):raise RuntimeError('readonly source model required')\n if event in ('os.remove','os.rmdir','os.rename','os.mkdir','os.chmod','os.chown','os.utime','os.truncate'):\n  for p in args[:2]:\n   if isinstance(p,(str,bytes,os.PathLike)):\n    prohibited(p);p=os.path.abspath(os.fsdecode(p))\n    if p==model or p.startswith(prefix):raise RuntimeError('model source mutation refused')\n"
+    },
+    {
+      "after": "print('NCK_MAC_P5_FAILED2_BEGIN',flush=True);suite=unittest.TestLoader().loadTestsFromNames(m['selected']);assert suite.countTestCases()==2",
+      "before": "print('NCK_MAC_P5_IMPORTANT8_BEGIN',flush=True);suite=unittest.TestLoader().loadTestsFromNames(m['selected']);assert suite.countTestCases()==8"
+    },
+    {
+      "after": "print('NCK_MAC_P5_FAILED2_END '+json.dumps(out,sort_keys=True),flush=True)",
+      "before": "print('NCK_MAC_P5_IMPORTANT8_END '+json.dumps(out,sort_keys=True),flush=True)"
+    },
+    {
+      "after": "result.testsRun==2",
+      "before": "result.testsRun==8"
+    }
+  ],
+  "forward_inverse_exact": true,
+  "new_runner": {
+    "path": "/root/nativecmpkit-source-proposals-20261105/lead-resume-P6-tooling-startup-20261106-61q2z79j/mac-p5-only-failed2/RUNNER-FAILED2.py",
+    "sha256": "c419abf9b9dd7245cbf8d4b70c31856c034c0d680b9069ad4951e9511c6a2f94",
+    "size": 6814,
+    "stat": {
+      "st_atime_ns": 1793983759642817872,
+      "st_ctime_ns": 1793983759642817872,
+      "st_dev": 23,
+      "st_gid": 0,
+      "st_ino": 65079442,
+      "st_mode": 33152,
+      "st_mtime_ns": 1793983759642817872,
+      "st_nlink": 1,
+      "st_size": 6814,
+      "st_uid": 0
+    }
+  },
+  "old_runner": {
+    "path": "/root/nativecmpkit-source-proposals-20261105/lead-resume-R11-P5-20261106-rh98k8cp/mac-p5-important8/RUNNER-IMPORTANT8.py",
+    "sha256": "2436ab48710479e54d0225f12671a0a8947004bc5fe1ff1a4ec5fdedf259deea",
+    "size": 5994,
+    "stat": {
+      "st_atime_ns": 1793983130735855358,
+      "st_ctime_ns": 1793983130735855358,
+      "st_dev": 23,
+      "st_gid": 0,
+      "st_ino": 5779465,
+      "st_mode": 33152,
+      "st_mtime_ns": 1793983130735855358,
+      "st_nlink": 1,
+      "st_size": 5994,
+      "st_uid": 0
+    }
+  }
+}

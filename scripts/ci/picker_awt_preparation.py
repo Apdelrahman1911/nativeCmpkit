@@ -89,6 +89,7 @@ def run(output_argument: Path) -> int:
         if source_snapshot(root) != before or r.qualify_jdk(context, budget)[1] != jdk:
             raise r.Refusal("source-or-qualified-jdk-changed-after-standard-preparation")
         native = r.native_identity(root, revision, version, budget)
+        r.require_prepare_native_identity(receipt["preparation"], native)
         _, cp = r.classpath_identity(root, budget)
         r.require_bundled_identity(cp, native)
         runtime_before = {"context": context, "jdk": jdk, "classpath": cp, "native_bundle": native,

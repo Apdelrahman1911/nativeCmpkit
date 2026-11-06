@@ -459,12 +459,111 @@ def exact_command(java_home: Path, classpath: str, root: Path, private: Path, *,
             "-Dnativecmpkit.picker.trustSystemLibrary=false", "-cp", classpath, "org.junit.runner.JUnitCore", CLASS]
 
 
+# P5: logical native-build completion, never a rendered task-header count.
+# NativeLibraries.writeNativeTestRuntimeClasspath depends on desktopTestClasses,
+# not desktopTest. Hirearchy/Targets supply the four desktop test source sets.
+# Only these exact owning-module resource tasks may bypass the old suffix guard.
+PREPARE_RESOURCE_TASKS = frozenset(
+    ":calf-file-picker:" + prefix + source_set
+    for prefix in ("convertXmlValueResourcesFor", "copyNonXmlValueResourcesFor",
+                   "prepareComposeResourcesTaskFor", "generateResourceAccessorsFor")
+    for source_set in ("CommonTest", "DesktopTest", "MaterialTest", "NonAndroidTest"))
+_PREPARE_BUILD_KEYS = frozenset(("module", "platform", "sha256", "sourceSha256", "sourceTreeDirty"))
+_PREPARE_VERIFIED_KEYS = frozenset(("verified", "module", "platforms", "sourceRevision", "require_clean"))
+
+
+def _prepare_json_object(pairs: list) -> dict:
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate-preparation-JSON-key")
+        result[key] = value
+    return result
+
+
+def _prepare_build_completion_valid(record) -> bool:
+    return (type(record) is dict and set(record) == _PREPARE_BUILD_KEYS and
+            type(record["module"]) is str and record["module"] == MODULE and
+            type(record["platform"]) is str and record["platform"] == PLATFORM and
+            record["sourceTreeDirty"] is False and
+            all(type(record[key]) is str and re.fullmatch(r"[0-9a-f]{64}", record[key])
+                for key in ("sha256", "sourceSha256")))
+
+
+def _prepare_native_completion(body: str) -> dict | None:
+    """One artifacts.main(build) return; all source-generated JSON stays private.
+
+    build emits its five-key result once, only after Cargo/staging validation
+    returns. assemble/verify emit a different fixed schema, never a build result.
+    Unknown/malformed/duplicate objects cannot be hidden beside a valid result.
+    The caller already authenticated complete owned-child capture and UTF-8.
+    """
+    completion = None
+    for line in body.split("\n"):
+        probe = line.lstrip(" \t\r")
+        # Ordinary Gradle [Incubating]/[INFO] text is not a JSON array. A
+        # JSON value/open/close prefix is a candidate even when it is malformed.
+        array_record = re.match(
+            r'\[[ \t\r]*(?:\{|\[|"|\]|-|[0-9]|true\b|false\b|null\b|$)', probe) is not None
+        if not probe.startswith("{") and not array_record:
+            # Detection only: never normalize prefixed/ANSI apparent objects or
+            # a missing-opening-brace key/value record into accepted JSON. A
+            # quoted field name in an ordinary warning is not a record by itself.
+            if (re.search(r'\{[ \t\r]*"', probe) or
+                    re.match(r'"(?:module|platform|sha256|sourceSha256|sourceTreeDirty)"[ \t\r]*:', probe)):
+                return None
+            continue
+        if line != probe:
+            return None
+        try:
+            record = json.loads(line, object_pairs_hook=_prepare_json_object)
+        except (ValueError, TypeError, RecursionError):
+            return None
+        if (type(record) is dict and set(record) == _PREPARE_VERIFIED_KEYS and
+                record["verified"] is True and record["module"] == MODULE and
+                type(record["platforms"]) is list and record["platforms"] == [PLATFORM] and
+                type(record["sourceRevision"]) is str and re.fullmatch(r"[0-9a-f]{40}", record["sourceRevision"]) and
+                record["require_clean"] is False):
+            continue
+        if completion is not None or not _prepare_build_completion_valid(record):
+            return None
+        completion = record
+    return completion
+
+
+def _prepare_forbidden_test_task(body: str) -> bool:
+    # The original LF/token grammar is retained; do not normalize private logs.
+    for match in re.finditer(r"(?m)^> Task (\S*(?:desktopTest|connectedAndroidDeviceTest|Test))(?:\s|$)", body):
+        if match[1] not in PREPARE_RESOURCE_TASKS:
+            return True
+        end = body.find("\n", match.end(1))
+        suffix = body[match.end(1):len(body) if end < 0 else end]
+        if suffix not in ("", " UP-TO-DATE", " FROM-CACHE", " NO-SOURCE", " SKIPPED"):
+            return True
+    return False
+
+
+def require_prepare_native_identity(preparation: dict, native: dict) -> None:
+    """Bind the unique build return to native_identity's already validated files."""
+    try:
+        record = preparation["native_build_completion"]
+        held = (_prepare_build_completion_valid(record) and native["platform"] == record["platform"] and
+                native["source_sha256"] == record["sourceSha256"] and
+                native["files"][NATIVE_RESOURCE]["sha256"] == record["sha256"])
+    except (KeyError, TypeError):
+        held = False
+    if not held:
+        raise Refusal("preparation-build-completion-or-validated-native-identity-mismatch")
+
+
 def review_prepare(body: str, failure_receipt: dict | None = None) -> dict:
     shared._bounded_text(body)
-    tasks = (":calf-file-picker:buildNativeLib", *PREPARE_TASKS)
-    if (any(len(re.findall(r"(?m)^> Task " + re.escape(task) + r"$", body)) != 1 for task in tasks) or
+    completion = _prepare_native_completion(body)
+    tasks = PREPARE_TASKS
+    if (completion is None or not re.search(r"(?m)^> Task :calf-file-picker:buildNativeLib$", body) or
+            any(len(re.findall(r"(?m)^> Task " + re.escape(task) + r"$", body)) != 1 for task in tasks) or
             len(re.findall(r"(?m)^BUILD SUCCESSFUL in .+$", body)) != 1 or
-            re.search(r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)|BUILD FAILED", body)):
+            _prepare_forbidden_test_task(body) or "BUILD FAILED" in body):
         if failure_receipt is not None:
             # Passive, bounded observations of an already refused contract.
             # Secondary classifier/assignment failures never replace its reason.
@@ -478,7 +577,8 @@ def review_prepare(body: str, failure_receipt: dict | None = None) -> dict:
             except Exception:
                 pass
         raise Refusal("standard-fresh-host-preparation-task-or-zero-test-contract-refused")
-    return {"required_resource_tasks": list(PREPARE_TASKS), "host_native_build_task_returned": True, "executed_tests": 0}
+    return {"required_resource_tasks": list(PREPARE_TASKS), "host_native_build_task_returned": True, "executed_tests": 0,
+            "native_build_completion": completion}
 
 
 def review_inventory(body: str) -> dict:
@@ -650,6 +750,7 @@ def run(output_argument: Path) -> int:
         if source_snapshot(root) != before or qualify_jdk(context, budget)[1] != jdk:
             raise Refusal("source-or-qualified-jdk-changed-after-standard-preparation")
         native = native_identity(root, revision, version, budget)
+        require_prepare_native_identity(receipt["preparation"], native)
         cp_text, cp = classpath_identity(root, budget)
         require_bundled_identity(cp, native)
         runtime_before = {"context": context, "jdk": jdk, "classpath": cp, "native_bundle": native,

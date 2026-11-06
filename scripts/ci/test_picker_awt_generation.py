@@ -38,7 +38,10 @@ def junit():
 
 
 def preparation():
-    return "\n".join("> Task " + task for task in (":calf-file-picker:buildNativeLib", *r.PREPARE_TASKS)) + "\nBUILD SUCCESSFUL in 1s\n"
+    completion = {"module": r.MODULE, "platform": r.PLATFORM, "sha256": "d" * 64,
+                  "sourceSha256": "c" * 64, "sourceTreeDirty": False}
+    return ("\n".join("> Task " + task for task in (":calf-file-picker:buildNativeLib", *r.PREPARE_TASKS)) +
+            "\n" + json.dumps(completion) + "\nBUILD SUCCESSFUL in 1s\n")
 
 
 def good_phase():
@@ -313,7 +316,8 @@ class PickerAwtGenerationSourceControls(unittest.TestCase):
                 clock = [0]
                 selected_budget = budget(lambda: clock[0])
                 revision, source = "a" * 40, {"synthetic-source": "c" * 64}
-                native = {"files": {name: {"sha256": "d" * 64, "size": 1} for name in (r.NATIVE_RESOURCE, r.MANIFEST_RESOURCE)}}
+                native = {"platform": r.PLATFORM, "source_sha256": "c" * 64,
+                          "files": {name: {"sha256": "d" * 64, "size": 1} for name in (r.NATIVE_RESOURCE, r.MANIFEST_RESOURCE)}}
                 cp = {"resources": {name: [{"entry_index": 0, "sha256": "d" * 64, "size": 1}] for name in r.REQUIRED_RESOURCES}}
                 snapshots = [("synthetic-cp", cp)] * 4
                 if mode == "changed-classpath": snapshots[1] = ("synthetic-cp", {**cp, "changed": True})

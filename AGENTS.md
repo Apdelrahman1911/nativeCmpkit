@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android Camera lifecycle host batch genuinely verified — 2026-11-06
+
+[R6.1 host evidence](docs/development/evidence/current-platform-recovery-20261101/android-host-owner-scope-recovery-20261106/README.md)
+accepts immutable a34a0abb5967959918a771d9ad7619124c24b8e5 only: run42160522539/
+attempt1/job127704827219/artifact13477235688, one fresh732B JUnit XML,2 unique
+Robolectric API23 cases pass/zero failures/errors/skips/suite10.38s. Genuine bare
+owning Test execution and report binding hold; declared plugin composite is scoped
+separately. Lead+independent original review accepts;12 Kotlin w: heads plus one
+Node20-to24 Actions warning remain. Raw XML and compact receipt are preserved
+additively; R5 failure, prior source-only records and lead warning_count0 remain.
+No accepted test replay. This docs-only successor does not certify a new source
+HEAD. #13/#76/#19/#107 remain OPEN: host NEW2 is not device Dont-keep C1, native
+active A-to-B capture, iOS delegate/GC or permission compatibility acceptance.
+Canonical ROOT0c7 producer remains failed/nonreusable until its complete changed
+related recovery qualifies; same-HEAD four-ID reuse/native gates stay. Terminal
+host reservation released, fresh global capacity required before push/dispatch,
+max2 INCLUDING queued/reserved. Protected Windows trace never read/stat/scan/stage.
+Actions/all/no mandatory SHA/minimum permissions and all history/main/API–ABI/
+native/consumer/dependency/legal/security/readiness/Pages/publishing gates remain.
+No package/release/deployment or issue closure.
+
 ## Android owning-build CI recovery verified at source — 2026-11-06
 
 [Owner scope R6](docs/development/evidence/current-platform-recovery-20261101/android-host-owner-scope-recovery-20261106/README.md) repairs the global init graph applicability gap with canonical invocation/owning settings-root qualification. Only exact declared convention-plugins is exempt, never an alias to owner; foreign/missing/wrong-type refuse. Prior nine methods, exact host NEW2 selectors, finalized fresh JUnit, strict XML2 and report-only upload remain. NEW3 passes3/3 once/suite0.005004882s/outer0.153914305s/child0/915Bcomplete/sevenfull10held/ownedcleanup; Actionlint1.7.12 exit0/zerooutput once. Independent777 source/results accepts. ZERO new Gradle/host/native/XML/wholeissue acceptance.

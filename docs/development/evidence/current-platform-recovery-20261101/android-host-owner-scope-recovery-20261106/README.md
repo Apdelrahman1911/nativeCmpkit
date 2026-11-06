@@ -54,3 +54,31 @@ ROOT remains isolated; producer42142584633 remains failed/nonreusable and cannot
 authorize native reuse. The original164 audit findings remain
 unchanged; no finding, issue, package, release, deployment or Pages closure/publication
 is made by this source-only patch. Follow the grouped roadmap and preserve history.
+
+
+## R6.1 host NEW2 authenticated at a34 — 2026-11-06
+
+[Run42160522539/attempt1/job127704827219](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/42160522539/job/127704827219)
+**succeeds at immutable `a34a0abb5967959918a771d9ad7619124c24b8e5`**.
+Artifact13477235688 has one allowlisted [732B raw JUnit XML](r61-host-new2-42160522539.xml):
+two unique passing Android JVM/Robolectric host regressions, zero failures/errors/skips,
+suite10.38s (cases6.336s and2.189s). Actual exact Test and owned report/scope markers
+are fresh; the whole43-line init echo matches accepted R6.1 source, excluding command
+echo from execution events. [Compact run/test/warning receipt](r61-host-new2-42160522539.json)
+binds the exact run/attempt/job/artifact/HEAD and original hashes. Source/FIRST3/Actionlint
+acceptance is reused, not replayed; this documentation adds no tests or acceptance gate.
+
+Actual warnings are retained additively: **12 Kotlin `w:` heads +1 action warning**
+(four unavailable native/cinterop heads with continuations, six expect/actual Beta heads,
+two deprecated test-API heads, one Node20→24 setup-android runtime head). Lead's narrow
+original `warning_count0` receipt stays unchanged; the build is not warning-free.
+Neither warning suppression nor vulnerability/native-failure inference is justified.
+
+Both passive reviewer write0 refusals remain recorded: leading UTF-8 BOM at log line1
+and exact-empty YAML heredoc lines75/82/95; these are not hosted/source failures.
+The failedR5 run42157111562 and earlier source-only records remain unchanged; R5's
+actual root/selected-task operand is still UNKNOWN. Host NEW2 does **not** prove device/native
+Dont-keep C1, active A→B capture, whole #13/#76/#19/#107 acceptance, or #58 recovery.
+Empty XML properties do not independently encode SDK level. No closures, Apple/other-platform,
+packaged-consumer, release/security-readiness or publication acceptance. Any later evidence
+commit records this a34 result; it does not rebind the accepted execution to the docs HEAD.

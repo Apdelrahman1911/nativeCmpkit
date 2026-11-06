@@ -130,5 +130,76 @@ class AndroidCameraHostJUnitReportBinding740Tests(unittest.TestCase):
         self.assertIn('./gradlew --no-daemon --no-configuration-cache --console=plain', source)
 
 
+    def test_new10_invocation_qualifies_owner_and_refuses_included_top_or_foreign_root(self):
+        source = workflow()
+        self.assertIn('HOST_NEW2_REPOSITORY_ROOT: ' + chr(36) + '{{ github.workspace }}', source)
+        prefix = source.split("python3 -B - <<'PYTHON'\n", 1)[1].split('          disk = ', 1)[0]
+        code = compile(textwrap.dedent(prefix), '<owning-new2-root-qualification>', 'exec')
+        with tempfile.TemporaryDirectory(prefix='nativecmpkit-new2-owner-') as name:
+            owner = Path(name)
+            declared_plugin = owner / 'convention-plugins'
+            foreign = owner / 'foreign'
+            declared_plugin.mkdir()
+            foreign.mkdir()
+            for invocation in (owner, declared_plugin, foreign):
+                with self.subTest(invocation=invocation.name), patch.dict(
+                    os.environ, {'HOST_NEW2_REPOSITORY_ROOT': str(owner)}
+                ), patch.object(Path, 'cwd', return_value=invocation):
+                    if invocation == owner:
+                        exec(code, {'__name__': '__main__'})
+                    else:
+                        with self.assertRaisesRegex(SystemExit, 'exact owning checkout root'):
+                            exec(code, {'__name__': '__main__'})
+            with patch.dict(os.environ, {'HOST_NEW2_REPOSITORY_ROOT': 'relative'}), patch.object(
+                Path, 'cwd', return_value=owner
+            ), self.assertRaisesRegex(SystemExit, 'exact owning checkout root'):
+                exec(code, {'__name__': '__main__'})
+        self.assertLess(source.index("repository = Path(os.environ['HOST_NEW2_REPOSITORY_ROOT'])"),
+                        source.index("root.mkdir(mode=0o700)"))
+        command = source.split('./gradlew ', 1)[1].split('\n      - name:', 1)[0]
+        self.assertNotIn('--project-dir', command)
+        self.assertNotIn('--settings-file', command)
+
+    def test_new11_settings_scope_exempts_only_declared_composite_before_owning_graph(self):
+        source = textwrap.dedent(workflow().split("<<'GRADLE'\n", 1)[1].split('          GRADLE\n', 1)[0])
+        self.assertIn("def owningRootInput = System.getenv('HOST_NEW2_REPOSITORY_ROOT')", source)
+        self.assertIn('!new File(owningRootInput).isAbsolute()', source)
+        self.assertIn('def owningRoot = new File(owningRootInput).canonicalFile', source)
+        self.assertIn("def declaredPluginRoot = new File(owningRoot, 'convention-plugins').canonicalFile", source)
+        self.assertEqual(1, source.count('gradle.settingsEvaluated { settings ->'))
+        self.assertIn('def actualRoot = settings.rootDir.canonicalFile', source)
+        declared = source.index('if (actualRoot == declaredPluginRoot && actualRoot != owningRoot) {')
+        foreign = source.index('if (actualRoot != owningRoot) {')
+        graph = source.index('gradle.taskGraph.whenReady { graph ->')
+        self.assertLess(declared, foreign)
+        self.assertNotIn('if (actualRoot == declaredPluginRoot) {', source)
+        self.assertLess(foreign, graph)
+        self.assertIn("println 'NATIVECMPKIT_HOST_NEW2_SCOPE context=declared-plugin'\n        return", source)
+        self.assertEqual(1, source.count('return'))
+        self.assertIn("throw new GradleException('Host NEW2 refused a foreign settings root')", source)
+        self.assertNotIn('gradle.parent', source)
+
+    def test_new12_owning_missing_or_wrong_type_never_skips_finalized_fresh_test(self):
+        source = textwrap.dedent(workflow().split("<<'GRADLE'\n", 1)[1].split('          GRADLE\n', 1)[0])
+        graph = source.split('gradle.taskGraph.whenReady { graph ->', 1)[1]
+        self.assertNotIn('return', graph)
+        self.assertEqual(1, graph.count("graph.allTasks.find { it.path == ':calf-camera-picker:testAndroidHostTest' }"))
+        self.assertIn("if (!(task instanceof Test)) {\n            def selectedTaskState = task == null ? 'missing' : 'wrong-type'", graph)
+        self.assertIn("throw new GradleException('Expected the exact Android host Test task in the selected execution graph; owning_selected_task=' + selectedTaskState)", graph)
+        guard = graph.index("throw new GradleException('Expected the exact Android host Test task")
+        for property_name in ('required', 'outputLocation'):
+            setter = graph.index(f'task.reports.junitXml.{property_name}.set(')
+            finalizer = graph.index(f'task.reports.junitXml.{property_name}.finalizeValue()')
+            self.assertLess(guard, setter)
+            self.assertLess(setter, finalizer)
+        for unchanged in (
+            'task.outputs.upToDateWhen { false }',
+            "task.outputs.doNotCacheIf('Fresh actual AndroidCameraLifecycle NEW2 execution') { true }",
+            'task.filter.setFailOnNoMatchingTests(true)',
+            'task.ignoreFailures = false',
+        ):
+            self.assertIn(unchanged, graph)
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

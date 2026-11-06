@@ -47,12 +47,16 @@ jobs:
         id: regressions
         env:
           HOST_NEW2_ROOT: ${{ runner.temp }}/android-camera-lifecycle-host-new2
+          HOST_NEW2_REPOSITORY_ROOT: ${{ github.workspace }}
         run: |
           python3 -B - <<'PYTHON'
           import os
           import shutil
           from pathlib import Path
 
+          repository = Path(os.environ['HOST_NEW2_REPOSITORY_ROOT'])
+          if not repository.is_absolute() or repository.resolve(strict=True) != Path.cwd().resolve(strict=True):
+              raise SystemExit('Host NEW2 not started: invocation must use the exact owning checkout root.')
           disk = shutil.disk_usage(Path.cwd()).free
           memory_fields = next((line.split() for line in Path('/proc/meminfo').read_text(encoding='ascii').splitlines()
                                 if line.startswith('MemAvailable:')), None)
@@ -69,24 +73,46 @@ jobs:
           cat > "$HOST_NEW2_ROOT/fresh-test-only.init.gradle" <<'GRADLE'
           import org.gradle.api.tasks.testing.Test
 
-          // Bind the report after project/plugin configuration and task selection.
-          // The exact output is finalized before Test executes; no later convention
-          // may silently redirect the evidence away from this owned fresh directory.
-          gradle.taskGraph.whenReady { graph ->
-              def task = graph.allTasks.find { it.path == ':calf-camera-picker:testAndroidHostTest' }
-              if (!(task instanceof Test)) {
-                  throw new GradleException('Expected the exact Android host Test task in the selected execution graph')
+          def owningRootInput = System.getenv('HOST_NEW2_REPOSITORY_ROOT')
+          if (owningRootInput == null || owningRootInput.isEmpty() || !new File(owningRootInput).isAbsolute()) {
+              throw new GradleException('Host NEW2 requires an explicit absolute owning checkout root')
+          }
+          def owningRoot = new File(owningRootInput).canonicalFile
+          def declaredPluginRoot = new File(owningRoot, 'convention-plugins').canonicalFile
+
+          // Init scripts also apply to the explicitly declared plugin composite.
+          // Qualify its exact settings root, never an absent task in an arbitrary graph.
+          gradle.settingsEvaluated { settings ->
+              def actualRoot = settings.rootDir.canonicalFile
+              if (actualRoot == declaredPluginRoot && actualRoot != owningRoot) {
+                  println 'NATIVECMPKIT_HOST_NEW2_SCOPE context=declared-plugin'
+                  return
               }
-              task.outputs.upToDateWhen { false }
-              task.outputs.doNotCacheIf('Fresh actual AndroidCameraLifecycle NEW2 execution') { true }
-              task.reports.junitXml.required.set(true)
-              task.reports.junitXml.outputLocation.set(new File(System.getenv('HOST_NEW2_ROOT'), 'junit'))
-              task.reports.junitXml.required.finalizeValue()
-              task.reports.junitXml.outputLocation.finalizeValue()
-              task.filter.setFailOnNoMatchingTests(true)
-              task.ignoreFailures = false
-              task.logger.lifecycle('NATIVECMPKIT_HOST_NEW2_JUNIT task=' + task.path +
-                  ' directory=' + task.reports.junitXml.outputLocation.get().asFile)
+              if (actualRoot != owningRoot) {
+                  throw new GradleException('Host NEW2 refused a foreign settings root')
+              }
+              println 'NATIVECMPKIT_HOST_NEW2_SCOPE context=owning'
+
+              // Bind the report after project/plugin configuration and task selection.
+              // The exact output is finalized before Test executes; no later convention
+              // may silently redirect the evidence away from this owned fresh directory.
+              gradle.taskGraph.whenReady { graph ->
+                  def task = graph.allTasks.find { it.path == ':calf-camera-picker:testAndroidHostTest' }
+                  if (!(task instanceof Test)) {
+                      def selectedTaskState = task == null ? 'missing' : 'wrong-type'
+                      throw new GradleException('Expected the exact Android host Test task in the selected execution graph; owning_selected_task=' + selectedTaskState)
+                  }
+                  task.outputs.upToDateWhen { false }
+                  task.outputs.doNotCacheIf('Fresh actual AndroidCameraLifecycle NEW2 execution') { true }
+                  task.reports.junitXml.required.set(true)
+                  task.reports.junitXml.outputLocation.set(new File(System.getenv('HOST_NEW2_ROOT'), 'junit'))
+                  task.reports.junitXml.required.finalizeValue()
+                  task.reports.junitXml.outputLocation.finalizeValue()
+                  task.filter.setFailOnNoMatchingTests(true)
+                  task.ignoreFailures = false
+                  task.logger.lifecycle('NATIVECMPKIT_HOST_NEW2_JUNIT task=' + task.path +
+                      ' directory=' + task.reports.junitXml.outputLocation.get().asFile)
+              }
           }
           GRADLE
           ./gradlew --no-daemon --no-configuration-cache --console=plain --max-workers=2 --build-cache \

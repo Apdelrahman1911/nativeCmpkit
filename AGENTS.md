@@ -1,5 +1,10 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android owning-build CI recovery verified at source — 2026-11-06
+
+[Owner scope R6](docs/development/evidence/current-platform-recovery-20261101/android-host-owner-scope-recovery-20261106/README.md) repairs the global init graph applicability gap with canonical invocation/owning settings-root qualification. Only exact declared convention-plugins is exempt, never an alias to owner; foreign/missing/wrong-type refuse. Prior nine methods, exact host NEW2 selectors, finalized fresh JUnit, strict XML2 and report-only upload remain. NEW3 passes3/3 once/suite0.005004882s/outer0.153914305s/child0/915Bcomplete/sevenfull10held/ownedcleanup; Actionlint1.7.12 exit0/zerooutput once. Independent777 source/results accepts. ZERO new Gradle/host/native/XML/wholeissue acceptance.
+R5 c541 run42157111562 FAILED/zeroartifacts; task-null/type/graph operands remain UNKNOWN. No unchanged retry. R4 build-success/XML-unknown remains separate. Next changed immutable hosted NEW2/XML2; native Dont-keep C1/#13 and active Camera A→B/#76 remain separately required. ROOT0c7 remains untouched/producer42142584633 failed/nonreusable. Lead Git/dispatch/acceptance/closure; max2 combinedhosted INCLUDINGqueued/reserved; preserve0600AGENTS/0644sources. Actions/all/no mandatorySHA/minimumread and all main/history/API/native/consumer/dependency/legal/security/readiness/Pages/publication gates remain. No package/release/deployment.
+
 ## Android host report binding repaired; fresh NEW2 required — 2026-11-06
 
 [Host JUnit recovery](docs/development/evidence/current-platform-recovery-20261101/android-host-junit-binding-recovery-20261106/README.md) adopts late Test report binding and explicit

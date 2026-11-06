@@ -69,22 +69,27 @@ jobs:
           cat > "$HOST_NEW2_ROOT/fresh-test-only.init.gradle" <<'GRADLE'
           import org.gradle.api.tasks.testing.Test
 
-          gradle.beforeProject { project ->
-              if (project.path == ':calf-camera-picker') {
-                  project.tasks.withType(Test).configureEach { task ->
-                      if (task.name == 'testAndroidHostTest') {
-                          task.outputs.upToDateWhen { false }
-                          task.outputs.doNotCacheIf('Fresh actual AndroidCameraLifecycle NEW2 execution') { true }
-                          task.reports.junitXml.required.set(true)
-                          task.reports.junitXml.outputLocation.set(new File(System.getenv('HOST_NEW2_ROOT'), 'junit'))
-                          task.filter.setFailOnNoMatchingTests(true)
-                          task.ignoreFailures = false
-                      }
-                  }
+          // Bind the report after project/plugin configuration and task selection.
+          // The exact output is finalized before Test executes; no later convention
+          // may silently redirect the evidence away from this owned fresh directory.
+          gradle.taskGraph.whenReady { graph ->
+              def task = graph.allTasks.find { it.path == ':calf-camera-picker:testAndroidHostTest' }
+              if (!(task instanceof Test)) {
+                  throw new GradleException('Expected the exact Android host Test task in the selected execution graph')
               }
+              task.outputs.upToDateWhen { false }
+              task.outputs.doNotCacheIf('Fresh actual AndroidCameraLifecycle NEW2 execution') { true }
+              task.reports.junitXml.required.set(true)
+              task.reports.junitXml.outputLocation.set(new File(System.getenv('HOST_NEW2_ROOT'), 'junit'))
+              task.reports.junitXml.required.finalizeValue()
+              task.reports.junitXml.outputLocation.finalizeValue()
+              task.filter.setFailOnNoMatchingTests(true)
+              task.ignoreFailures = false
+              task.logger.lifecycle('NATIVECMPKIT_HOST_NEW2_JUNIT task=' + task.path +
+                  ' directory=' + task.reports.junitXml.outputLocation.get().asFile)
           }
           GRADLE
-          ./gradlew --no-daemon --console=plain --max-workers=2 --build-cache \
+          ./gradlew --no-daemon --no-configuration-cache --console=plain --max-workers=2 --build-cache \
             --init-script "$HOST_NEW2_ROOT/fresh-test-only.init.gradle" \
             :calf-camera-picker:testAndroidHostTest \
             --tests 'com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest.nonFinishingRestorationThenCallbackSwapDeliversOneReadableResultToCurrentOwner' \

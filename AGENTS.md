@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android host report binding repaired; fresh NEW2 required — 2026-11-06
+
+[Host JUnit recovery](docs/development/evidence/current-platform-recovery-20261101/android-host-junit-binding-recovery-20261106/README.md) adopts late Test report binding and explicit
+no-configuration-cache. FIRST8 source/collector checks pass8/8 once; onlyNEW09
+passes1/1 subsequently, not a fresh9 replay. Independent743 accepts source/results.
+Original R4 build succeeds but XML/outcomes remain UNKNOWN; its missing-destination
+cause is unestablished. Never retry b036 unchanged. Next changed hosted NEW2 with
+exact fresh XML; Robolectric is not deviceC1, #13/#76 stay open. ROOT untouched.
+Lead integration/Git/dispatch/closure; max2 combined hosted including queued/reserved.
+Actions/all/no mandatory SHA/minimum read permissions and every publication/security/
+readiness/main/history/API/native/consumer/Pages gate remain. No publishing.
+
+
 ## Isolated Android host material build fix ready — 2026-11-06
 
 [Host R4](docs/development/evidence/current-platform-recovery-20261101/android-host-filter-api-recovery-20261106/README.md)

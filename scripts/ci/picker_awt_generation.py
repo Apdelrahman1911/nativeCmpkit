@@ -459,12 +459,20 @@ def exact_command(java_home: Path, classpath: str, root: Path, private: Path, *,
             "-Dnativecmpkit.picker.trustSystemLibrary=false", "-cp", classpath, "org.junit.runner.JUnitCore", CLASS]
 
 
-def review_prepare(body: str) -> dict:
+def review_prepare(body: str, failure_receipt: dict | None = None) -> dict:
     shared._bounded_text(body)
     tasks = (":calf-file-picker:buildNativeLib", *PREPARE_TASKS)
     if (any(len(re.findall(r"(?m)^> Task " + re.escape(task) + r"$", body)) != 1 for task in tasks) or
             len(re.findall(r"(?m)^BUILD SUCCESSFUL in .+$", body)) != 1 or
             re.search(r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)|BUILD FAILED", body)):
+        if failure_receipt is not None:
+            # Passive, bounded observations of an already refused contract.
+            # Secondary classifier/assignment failures never replace its reason.
+            try:
+                failure_receipt["prepare_contract_diagnostic"] = prepare_diagnostics.bounded_prepare_contract_public(
+                    prepare_diagnostics.observe_prepare_contract(body))
+            except Exception:
+                pass
         raise Refusal("standard-fresh-host-preparation-task-or-zero-test-contract-refused")
     return {"required_resource_tasks": list(PREPARE_TASKS), "host_native_build_task_returned": True, "executed_tests": 0}
 
@@ -634,7 +642,7 @@ def run(output_argument: Path) -> int:
         owned_directories.require()
         prepared = phase(root, private, stage, prepare_command(root, private), budget, receipt)
         owned_directories.require()
-        receipt["preparation"] = review_prepare(prepared)
+        receipt["preparation"] = review_prepare(prepared, receipt)
         if source_snapshot(root) != before or qualify_jdk(context, budget)[1] != jdk:
             raise Refusal("source-or-qualified-jdk-changed-after-standard-preparation")
         native = native_identity(root, revision, version, budget)

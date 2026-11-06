@@ -148,6 +148,103 @@ def bounded_public(value: dict) -> dict:
     return value
 
 
+# Passive observations for an already refused successful-child postcondition.
+# These enums never substitute for the original preparation acceptance predicate.
+PREPARE_CONTRACT_TASK_IDS = ("host_native_build", *REQUIRED_TASK_IDS)
+PREPARE_CONTRACT_COUNTS = frozenset(("unobserved", "absent", "one", "multiple"))
+PREPARE_CONTRACT_BANNER_STATES = frozenset((
+    "unobserved", "executed_line", "up_to_date_line", "from_cache_line", "no_source_line",
+    "skipped_line", "failed_line", "multiple", "unrecognized",
+))
+PREPARE_CONTRACT_SUFFIX_STATES = {
+    "": "executed_line", " UP-TO-DATE": "up_to_date_line", " FROM-CACHE": "from_cache_line",
+    " NO-SOURCE": "no_source_line", " SKIPPED": "skipped_line", " FAILED": "failed_line",
+}
+
+
+def prepare_contract_unavailable(code: str) -> dict:
+    if type(code) is not str or code not in UNAVAILABLE_CODES or code == "none":
+        code = "classifier_error"
+    return {"schema_version": 1, "status": "unavailable", "cause_established": False,
+            "task_exact_line_counts": {key: "unobserved" for key in PREPARE_CONTRACT_TASK_IDS},
+            "task_banner_states": {key: "unobserved" for key in PREPARE_CONTRACT_TASK_IDS},
+            "successful_footer_count": "unobserved", "forbidden_test_task_banner_observed": None,
+            "build_failed_text_observed": None, "unavailable_code": code}
+
+
+def bounded_prepare_contract_public(value: dict) -> dict:
+    """Fixed-schema/cap guard; no private operand can become a public string."""
+    if type(value) is not dict or set(value) != set(prepare_contract_unavailable("classifier_error")):
+        return prepare_contract_unavailable("classifier_error")
+    if (type(value["schema_version"]) is not int or value["schema_version"] != 1 or
+            value["cause_established"] is not False or type(value["status"]) is not str or
+            value["status"] not in {"observed", "unavailable"} or
+            type(value["unavailable_code"]) is not str or value["unavailable_code"] not in UNAVAILABLE_CODES or
+            type(value["successful_footer_count"]) is not str or
+            value["successful_footer_count"] not in PREPARE_CONTRACT_COUNTS):
+        return prepare_contract_unavailable("classifier_error")
+    counts, states = value["task_exact_line_counts"], value["task_banner_states"]
+    if (type(counts) is not dict or set(counts) != set(PREPARE_CONTRACT_TASK_IDS) or
+            any(type(count) is not str or count not in PREPARE_CONTRACT_COUNTS for count in counts.values()) or
+            type(states) is not dict or set(states) != set(PREPARE_CONTRACT_TASK_IDS) or
+            any(type(state) is not str or state not in PREPARE_CONTRACT_BANNER_STATES for state in states.values())):
+        return prepare_contract_unavailable("classifier_error")
+    flags = (value["forbidden_test_task_banner_observed"], value["build_failed_text_observed"])
+    if value["status"] == "observed":
+        if (value["unavailable_code"] != "none" or value["successful_footer_count"] == "unobserved" or
+                any(count == "unobserved" for count in counts.values()) or any(type(flag) is not bool for flag in flags)):
+            return prepare_contract_unavailable("classifier_error")
+    elif (value["unavailable_code"] == "none" or value["successful_footer_count"] != "unobserved" or
+            any(count != "unobserved" for count in counts.values()) or
+            any(state != "unobserved" for state in states.values()) or any(flag is not None for flag in flags)):
+        return prepare_contract_unavailable("classifier_error")
+    if len(json.dumps(value, ensure_ascii=True, separators=(",", ":")).encode("ascii")) > MAX_PUBLIC_BYTES:
+        return prepare_contract_unavailable("diagnostic_limit")
+    return value
+
+
+def _prepare_contract_count(count: int) -> str:
+    return "absent" if count == 0 else "one" if count == 1 else "multiple"
+
+
+def observe_prepare_contract(body: str) -> dict:
+    """Observe only the original regex operands and fixed task banner statuses.
+
+    The caller already authenticated this in-memory private body and already
+    refused its preparation contract. No reads, commands or acceptance here.
+    """
+    if type(body) is not str:
+        return prepare_contract_unavailable("classifier_error")
+    try:
+        encoded = body.encode("utf-8", errors="strict")
+    except UnicodeError:
+        return prepare_contract_unavailable("UTF8_refused")
+    if len(encoded) > MAX_PRIVATE_BYTES:
+        return prepare_contract_unavailable("diagnostic_limit")
+    lines = body.splitlines()
+    if (len(lines) > MAX_LINES or any(len(line.encode("utf-8")) > MAX_LINE_BYTES for line in lines) or
+            any(ord(char) < 32 and char not in "\t\r\n" for char in body)):
+        return prepare_contract_unavailable("diagnostic_limit")
+    result = prepare_contract_unavailable("classifier_error")
+    result.update(status="observed", unavailable_code="none")
+    for key in PREPARE_CONTRACT_TASK_IDS:
+        task = TASKS[key]
+        # Identical exact-line grammar to review_prepare; never normalize it.
+        count = len(re.findall(r"(?m)^> Task " + re.escape(task) + r"$", body))
+        result["task_exact_line_counts"][key] = _prepare_contract_count(count)
+        banners = [match[1] or "" for line in lines
+                   if (match := re.fullmatch(re.escape("> Task " + task) + r"([ \t].*)?", line))]
+        result["task_banner_states"][key] = ("unobserved" if not banners else "multiple" if len(banners) != 1 else
+                                             PREPARE_CONTRACT_SUFFIX_STATES.get(banners[0], "unrecognized"))
+    result["successful_footer_count"] = _prepare_contract_count(
+        len(re.findall(r"(?m)^BUILD SUCCESSFUL in .+$", body)))
+    result["forbidden_test_task_banner_observed"] = re.search(
+        r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)", body) is not None
+    # Preserve the unanchored literal alternative in the original regex.
+    result["build_failed_text_observed"] = "BUILD FAILED" in body
+    return bounded_prepare_contract_public(result)
+
+
 def _locations(root: Path) -> dict[str, str]:
     # root comes from the controller's already qualified checkout, never log text.
     # These are lexical guards, NOT a substitute for its filesystem custody.

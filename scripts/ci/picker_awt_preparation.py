@@ -85,7 +85,7 @@ def run(output_argument: Path) -> int:
         # Standard failure diagnostics only; the bounded capture stays PRIVATE.
         prepared = r.phase(root, private, stage, [*r.prepare_command(root, private), "--stacktrace"], budget, receipt)
         owned_directories.require()
-        receipt["preparation"] = r.review_prepare(prepared)
+        receipt["preparation"] = r.review_prepare(prepared, receipt)
         if source_snapshot(root) != before or r.qualify_jdk(context, budget)[1] != jdk:
             raise r.Refusal("source-or-qualified-jdk-changed-after-standard-preparation")
         native = r.native_identity(root, revision, version, budget)

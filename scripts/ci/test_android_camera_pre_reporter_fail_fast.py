@@ -882,7 +882,9 @@ class PreReporterFailFastNewOnlyTests(unittest.TestCase):
                 COUNTERS["other_route_models"] += 1
 
     def test_ff14_full_source_inverses_preserve_original_readers_actions_cleanup_and_single_call(self):
-        current = projection.camera197_helper_source_before_owned_console(HELPER_PATH.read_text())
+        from android_external328_source_projection import read_current_source_for_history
+        current = projection.camera197_helper_source_before_owned_console(
+            read_current_source_for_history(HELPER_PATH, TREE).decode("utf-8"))
         contract = json.loads(STARTUP_INVERSE_PATH.read_bytes())
         self.assertEqual(len(contract["inverse_fragments"]), 17)
         frozen = current

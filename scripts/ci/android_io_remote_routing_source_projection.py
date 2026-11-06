@@ -240,6 +240,16 @@ def current_input_hashes():
 
 def validate_current_sources(root: Path):
     """Qualify raw671 first; compare only complete qualified680/IO ancestor views."""
+    # Refusal-only743: fresh ordinary descriptors and the unchanged exact current
+    # raw predicates run BEFORE the expensive complete tooling/history operation.
+    # No schema/FS/admission result is cached; success still requires EVERY original
+    # validation below. This prefix cannot certify a source, native result or run.
+    import macos_share_ci668_composition as joint
+    latest = joint._document(root)
+    for relative in (*latest["raw_inputs"], joint.OWNER, joint.SPEC):
+        maximum = joint.MAX_SPEC if relative == joint.SPEC else joint.MAX_SOURCE
+        raw = joint._ordinary(root, relative, maximum)[0]
+        joint._raw_payload(relative, raw, latest, root)
     import tooling_recovery671_source_projection as tooling
     tooling.validate_current_sources(root)
     document = _document()

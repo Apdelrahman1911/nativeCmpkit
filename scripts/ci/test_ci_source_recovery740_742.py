@@ -17,6 +17,7 @@ import unittest
 from unittest.mock import patch
 
 import ci_source_recovery740_742 as recovery
+import ci_fixture_successor730 as fixture_successor
 import ci_source_domain740 as domain740
 import macos_share_ci668_composition as joint
 
@@ -38,6 +39,7 @@ class CentralSourceRecovery740742Controls(unittest.TestCase):
         self.assertLessEqual(len((ROOT / recovery.SPEC).read_bytes()), 512 * 1024)
         for relative, row in document["bindings"].items():
             raw = (ROOT / relative).read_bytes()
+            predecessor = fixture_successor.current_source_before_fixture_successor(relative, raw, ROOT)
             old = recovery.current_source_before_recovery(relative, raw, ROOT)
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(old), len(old)), relative)
             forward = old
@@ -45,7 +47,7 @@ class CentralSourceRecovery740742Controls(unittest.TestCase):
                 before, after = fragment["before"].encode(), fragment["after"].encode()
                 self.assertEqual(1, forward.count(before), relative)
                 forward = forward.replace(before, after, 1)
-            self.assertEqual(raw, forward, relative)
+            self.assertEqual(predecessor, forward, relative)
             self.assertEqual(old, recovery.peel_recovery_for_history(relative, raw, ROOT))
             self.assertEqual(old, recovery.peel_recovery_for_history(relative, old, ROOT))
             for bad in (old, raw[:-1], raw + b"\n", b"", None, bytearray(raw), raw.decode()):
@@ -77,7 +79,7 @@ class CentralSourceRecovery740742Controls(unittest.TestCase):
         self.assertEqual(303, len(actual))
         self.assertEqual(set(original) | {joint.OWNER, joint.SPEC}, set(actual))
         self.assertEqual({relative: sha((ROOT / relative).read_bytes()) for relative in actual}, actual)
-        changed = (domain740.MODIFIED | recovery.MODIFIED) & set(original)
+        changed = (domain740.MODIFIED | recovery.MODIFIED | fixture_successor.MODIFIED) & set(original)
         for relative in set(original) - changed:
             self.assertEqual(original[relative], actual[relative], relative)
         for relative in changed:

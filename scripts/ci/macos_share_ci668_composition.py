@@ -1165,6 +1165,7 @@ def _build_source_projection_operation(root, capture):
     import ci668_outer_source_projection as ci668
     import producer698_source_fixture_recovery as producer698
     import tooling_recovery671_source_projection as tooling671
+    import ci_fixture_successor730 as fixture_successor
     joint_roots = tuple(dict.fromkeys((root, ROOT)))
     inventories, origins = [], []
     def inventory(origin, relative, digest, sections, extras, refusal):
@@ -1190,9 +1191,14 @@ def _build_source_projection_operation(root, capture):
                                        ("bindings", "added_inputs"), (recovery.OWNER, recovery.CONTROL),
                                        "exact-finite-recovery-transition-manifest-required")
         names.update(more)
+        raw_fixture, more = inventory(origin, fixture_successor.SPEC, fixture_successor.SPEC_SHA256,
+                                      ("bindings",), (fixture_successor.OWNER, fixture_successor.CONTROL,
+                                                      *fixture_successor.COPIED734),
+                                      "exact-six-fixture-successor-manifest-required")
+        names.update(more)
         names.update((CI_SPEC, SHARE_SPEC, OBSERVATION_SPEC, COOKIE_SPEC,
                       COOKIE_COMMON_SPEC, CALLBACK_SPEC, PRODUCER_SPEC, ANDROID_SPEC))
-        inventories.append((origin, names, {SPEC, domain740.SPEC, recovery.SPEC}))
+        inventories.append((origin, names, {SPEC, domain740.SPEC, recovery.SPEC, fixture_successor.SPEC}))
     for module, sections, refusal in (
             (ci668, ("bindings", "added_inputs", "unchanged_inputs"),
              "The exact final CI668 manifest changed"),
@@ -1282,7 +1288,8 @@ def current_input_hashes(root=ROOT):
     import ci_source_domain740 as domain740
     actual = {name: row["sha256"] for name, row in document["raw_inputs"].items()}
     import ci_source_recovery740_742 as recovery
-    for name in (domain740.MODIFIED | recovery.MODIFIED) & set(actual):
+    import ci_fixture_successor730 as fixture_successor
+    for name in (domain740.MODIFIED | recovery.MODIFIED | fixture_successor.MODIFIED) & set(actual):
         actual[name] = sha(_ordinary(root, name)[0])
     return actual | {SPEC: SPEC_SHA256, OWNER: sha(_ordinary(root, OWNER)[0])}
 

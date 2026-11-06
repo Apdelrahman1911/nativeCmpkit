@@ -57,7 +57,9 @@ def _identity(relative, payload):
 def _ordinary(root, relative, maximum=MAX_SOURCE):
     """Always the existing descriptor reader; NEVER recurse through740 wrappers."""
     from macos_share_appkit_only_source_projection import ordinary_bytes
-    return ordinary_bytes(root, relative, maximum)
+    raw, identity = ordinary_bytes(root, relative, maximum)
+    from ci_fixture_successor730 import current_source_before_fixture_successor
+    return current_source_before_fixture_successor(relative, raw, root), identity
 
 
 def _endpoint(endpoint):
@@ -118,6 +120,8 @@ def _settings_document(root, document):
 def current_source_before_recovery(relative, payload, root=ROOT):
     """Strict outer RAW only; OLD/unknown listed sources can never be current."""
     _identity(relative, payload)
+    from ci_fixture_successor730 import current_source_before_fixture_successor
+    payload = current_source_before_fixture_successor(relative, payload, root)
     if relative not in MODIFIED:
         return payload  # Unlisted data earns no303 or other current-source admission.
     document = _document(root)
@@ -132,6 +136,8 @@ def current_source_before_recovery(relative, payload, root=ROOT):
 def peel_recovery_for_history(relative, payload, root=ROOT):
     """After-only finite source data; no OLD-as-current or generic layer search."""
     _identity(relative, payload)
+    from ci_fixture_successor730 import peel_fixture_successor_for_history
+    payload = peel_fixture_successor_for_history(relative, payload, root)
     if relative not in MODIFIED:
         return payload
     document = _document(root)
@@ -148,11 +154,14 @@ def peel_recovery_for_history(relative, payload, root=ROOT):
 
 def dependency_inputs():
     """Separate finite code/dependency custody, NEVER current303 enrollment."""
-    return MODIFIED | set(ADDED_INPUTS) | {OWNER, CONTROL, SPEC, CURRENT303_SPEC, DOMAIN740_SPEC}
+    from ci_fixture_successor730 import dependency_inputs as fixture_dependencies
+    return MODIFIED | set(ADDED_INPUTS) | {OWNER, CONTROL, SPEC, CURRENT303_SPEC, DOMAIN740_SPEC} | fixture_dependencies()
 
 
 def validate_current_sources(root=ROOT):
     """Fresh finite descriptors and exact endpoints; no restored code executes."""
+    from ci_fixture_successor730 import validate_current_sources as validate_fixture_successor
+    validate_fixture_successor(root)
     document = _document(root)
     identities = {}
     for relative, endpoint in ((CURRENT303_SPEC, CURRENT303_ENDPOINT), (DOMAIN740_SPEC, DOMAIN740_ENDPOINT)):

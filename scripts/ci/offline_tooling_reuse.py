@@ -62,7 +62,7 @@ MAX_SOURCE_FILES = 100000
 MAX_INPUT_BYTES = 128 * 1024**2
 SHA = re.compile(r"[0-9a-f]{40}\Z")
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
-ENVIRONMENT_RECIPE = "fresh-home-tmp;fixed-ci-locale;no-source-overrides-user-site-git-global;observed-path-cargo-rustup-v1"
+ENVIRONMENT_RECIPE = "fresh-home-tmp;fixed-ci-locale;no-source-overrides-user-site-git-global;observed-path-cargo-rustup-v1;ci-whole-module-fork2-private-home-tmp-v1"
 
 
 def digest(value: bytes) -> str:
@@ -76,6 +76,8 @@ def canonical(value) -> bytes:
 def scope_command(directory: str, pattern: str) -> list[str]:
     if (directory, pattern) not in SCOPES:
         raise ValueError("Only an exact fixed offline discovery scope is permitted")
+    if (directory, pattern) == ("scripts/ci", "test_*.py"):
+        return ["python3", "-B", "scripts/ci/offline_tooling_ci_parallel734.py"]
     return ["python3", "-B", "-m", "unittest", "discover", "-s", directory, "-p", pattern, "-v"]
 
 

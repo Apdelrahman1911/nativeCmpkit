@@ -1,0 +1,354 @@
+{
+  "bindings": {
+    "scripts/ci/ci_source_recovery740_742.py": {
+      "after_bytes": 21354,
+      "after_sha256": "01bfd17c2fac145f9b659b3931de44476d811bf7dbaeebbc2dc1b0c7e17cb260",
+      "before_bytes": 20636,
+      "before_sha256": "b891572937299dbf8ca1eef6327774d5b9076a9968b4304fd57ec65732edaab7",
+      "fragments": [
+        {
+          "after": "    raw, identity = ordinary_bytes(root, relative, maximum)\n    from ci_fixture_successor730 import current_source_before_fixture_successor\n    return current_source_before_fixture_successor(relative, raw, root), identity\n",
+          "after_fragment_sha256": "b4f7b307a298d5d38bfcb02cd12caaa33c911abb5d7639a10e0b4a1fd409a407",
+          "before": "    return ordinary_bytes(root, relative, maximum)\n",
+          "before_fragment_sha256": "cb9cb6108a51e73b6fa039f668b8ff2289c051923ccdd2bfc9569d12be82b802"
+        },
+        {
+          "after": "    _identity(relative, payload)\n    from ci_fixture_successor730 import current_source_before_fixture_successor\n    payload = current_source_before_fixture_successor(relative, payload, root)\n    if relative not in MODIFIED:\n        return payload  # Unlisted data earns no303 or other current-source admission.\n",
+          "after_fragment_sha256": "65aa1ce1d76a33ad3d96aac13227d3bfa435db6494754338a5d61e7955eef797",
+          "before": "    _identity(relative, payload)\n    if relative not in MODIFIED:\n        return payload  # Unlisted data earns no303 or other current-source admission.\n",
+          "before_fragment_sha256": "d193d54903e89b126f797e41ebce891d7392b316e77322c62c002442964dd6d1"
+        },
+        {
+          "after": "    _identity(relative, payload)\n    from ci_fixture_successor730 import peel_fixture_successor_for_history\n    payload = peel_fixture_successor_for_history(relative, payload, root)\n    if relative not in MODIFIED:\n        return payload\n    document = _document(root)\n",
+          "after_fragment_sha256": "1c1978fb9c7d734cb7e94790cce8ab40b8765b7ada84a25ca79995c52e6f1bb3",
+          "before": "    _identity(relative, payload)\n    if relative not in MODIFIED:\n        return payload\n    document = _document(root)\n",
+          "before_fragment_sha256": "58a7deb4f8270016d7e3b41ffe2567dc170437479ff902b2a5fddb2e3e836549"
+        },
+        {
+          "after": "    from ci_fixture_successor730 import dependency_inputs as fixture_dependencies\n    return MODIFIED | set(ADDED_INPUTS) | {OWNER, CONTROL, SPEC, CURRENT303_SPEC, DOMAIN740_SPEC} | fixture_dependencies()\n",
+          "after_fragment_sha256": "f1a79fe4fba9c257f1ab5e7be16c75dc0c4d9c76f44b55681662c241eb37b0f1",
+          "before": "    return MODIFIED | set(ADDED_INPUTS) | {OWNER, CONTROL, SPEC, CURRENT303_SPEC, DOMAIN740_SPEC}\n",
+          "before_fragment_sha256": "6708d543c48edc2e7bc88c89abe231092a2264adde3066df75ec183ffa458888"
+        },
+        {
+          "after": "    \"\"\"Fresh finite descriptors and exact endpoints; no restored code executes.\"\"\"\n    from ci_fixture_successor730 import validate_current_sources as validate_fixture_successor\n    validate_fixture_successor(root)\n    document = _document(root)\n",
+          "after_fragment_sha256": "ba5d2b90453f8deb12a0d3de0aa7603446c23fbf48ec1d81b00cae4eb8c67940",
+          "before": "    \"\"\"Fresh finite descriptors and exact endpoints; no restored code executes.\"\"\"\n    document = _document(root)\n",
+          "before_fragment_sha256": "b8352dd6a73973cf2371cbd2153786a66c97b2a4518ccd9ebcdb0ba6877d91d5"
+        }
+      ]
+    },
+    "scripts/ci/macos_share_ci668_composition.py": {
+      "after_bytes": 80498,
+      "after_sha256": "1cf7d1faea1f053b9873ec175549745d0914c81f1246cb23754bd4357527f84a",
+      "before_bytes": 80011,
+      "before_sha256": "fad15c34dbe4b4b91a347527c24e86a56a332fd5217b75aaee9dcdfed8d8670f",
+      "fragments": [
+        {
+          "after": "    import tooling_recovery671_source_projection as tooling671\n    import ci_fixture_successor730 as fixture_successor\n    joint_roots = tuple(dict.fromkeys((root, ROOT)))\n",
+          "after_fragment_sha256": "287b3c41df403c994d42e2307041319cffd91aac3f38ccc7b6a0704fc707e3cc",
+          "before": "    import tooling_recovery671_source_projection as tooling671\n    joint_roots = tuple(dict.fromkeys((root, ROOT)))\n",
+          "before_fragment_sha256": "33417eae975b9a7f160b91fa3e884f73ef2c305091f92e4847a6292eba680028"
+        },
+        {
+          "after": "        names.update(more)\n        raw_fixture, more = inventory(origin, fixture_successor.SPEC, fixture_successor.SPEC_SHA256,\n                                      (\"bindings\",), (fixture_successor.OWNER, fixture_successor.CONTROL),\n                                      \"exact-six-fixture-successor-manifest-required\")\n        names.update(more)\n        names.update((CI_SPEC, SHARE_SPEC, OBSERVATION_SPEC, COOKIE_SPEC,\n",
+          "after_fragment_sha256": "9123200c49bc6b397765c5fcf72d500cef8e8544899843c8f257bc13dfc2f3cd",
+          "before": "        names.update(more)\n        names.update((CI_SPEC, SHARE_SPEC, OBSERVATION_SPEC, COOKIE_SPEC,\n",
+          "before_fragment_sha256": "51703944088ad40b1c8b3a8007341117c9772a85e1363568209ca77e81a0e9ba"
+        },
+        {
+          "after": "        inventories.append((origin, names, {SPEC, domain740.SPEC, recovery.SPEC, fixture_successor.SPEC}))\n",
+          "after_fragment_sha256": "0911f0a3800721b3b29d426cdca337f6a8455d6e7338371112866dd07c4fef65",
+          "before": "        inventories.append((origin, names, {SPEC, domain740.SPEC, recovery.SPEC}))\n",
+          "before_fragment_sha256": "3340e7e8c8ec01da9a59b5c74699f79d49049ae64c77835267c1db7e131282e3"
+        },
+        {
+          "after": "    import ci_fixture_successor730 as fixture_successor\n    for name in (domain740.MODIFIED | recovery.MODIFIED | fixture_successor.MODIFIED) & set(actual):\n",
+          "after_fragment_sha256": "5aff91ac5e5e2c8e29e36d88a5000e329ecce532f0367c7778004f6833d7af2d",
+          "before": "    for name in (domain740.MODIFIED | recovery.MODIFIED) & set(actual):\n",
+          "before_fragment_sha256": "ce4a0e17bdce1390f9fc8ed8e398a929ec240b3bb8ffda0aaec300452f6d4778"
+        }
+      ]
+    },
+    "scripts/ci/test_android_io_remote_routing.py": {
+      "after_bytes": 34158,
+      "after_sha256": "1308aee1cf15037311a8a052e0865b8f15dde3c2337549a9689f3f1121eeef3d",
+      "before_bytes": 33865,
+      "before_sha256": "e0e25800d691e4fc859f22d16c1ca4362da2bae36f80b76a3e976ddf35628018",
+      "fragments": [
+        {
+          "after": "import workflow_matrix\nimport ci_source_domain740 as source_domain\nimport ci_source_recovery740_742 as source_recovery\n",
+          "after_fragment_sha256": "643ac4584fad5ff2773028f459e7982eff92352c27e076eda928da3244bc00c2",
+          "before": "import workflow_matrix\n",
+          "before_fragment_sha256": "3415251bf9b20253082d5987f9ee48300d40e6fd4a04490971118cf79823b1ea"
+        },
+        {
+          "after": "def copy_remote_fixture(root):\n    # Copy code/manifest dependencies separately; never enlarge raw fixture admission.\n    inputs = (projection.fixture_inputs() | source_domain.dependency_inputs() |\n              source_recovery.dependency_inputs())\n    for relative in inputs:\n        target = root / relative\n        target.parent.mkdir(parents=True, exist_ok=True)\n        target.write_bytes((TREE / relative).read_bytes())\n",
+          "after_fragment_sha256": "2472f533a32b24b98b3ddf552f7cef6feb0a7de4223d6079ef3b12d9da70b25d",
+          "before": "def copy_remote_fixture(root):\n    for relative in projection.fixture_inputs():\n        target = root / relative\n        target.parent.mkdir(parents=True, exist_ok=True)\n        target.write_bytes((TREE / relative).read_bytes())\n",
+          "before_fragment_sha256": "589d8aaef32394a6aa13e32a691f6294378837dfd81ad45d13f029a9a8dc8717"
+        }
+      ]
+    },
+    "scripts/ci/test_android_io_remote_routing_source_projection.py": {
+      "after_bytes": 30499,
+      "after_sha256": "a5910917794d06490cd16a00c17d3d32940642caf5d3a8b52c6434601119757b",
+      "before_bytes": 30209,
+      "before_sha256": "1ebc15e15b782b54411351116aff9fa070fde4190576643b78d34fa97023fb47",
+      "fragments": [
+        {
+          "after": "import android_io_remote_documents as remote\nimport ci_source_domain740 as source_domain\nimport ci_source_recovery740_742 as source_recovery\n",
+          "after_fragment_sha256": "0b609a87cf1c8bb7048f3d30e14c02528422e0046cdd23371d8b843c30d6eb8a",
+          "before": "import android_io_remote_documents as remote\n",
+          "before_fragment_sha256": "8962917ecc8e9419eb0bc5a92c90ab6a3ed9966d5125105a873da5f098e26679"
+        },
+        {
+          "after": "def copy_fixture(root):\n    # Dependencies exist physically without becoming current raw-source membership.\n    inputs = (projection.fixture_inputs() | source_domain.dependency_inputs() |\n              source_recovery.dependency_inputs())\n    for relative in inputs:\n        target = root / relative\n        target.parent.mkdir(parents=True, exist_ok=True)\n        target.write_bytes((TREE / relative).read_bytes())\n",
+          "after_fragment_sha256": "1fb7165caf65545fcbb6a47ab678b432a2453371b75a8746708b8d0419ea430e",
+          "before": "def copy_fixture(root):\n    for relative in projection.fixture_inputs():\n        target = root / relative\n        target.parent.mkdir(parents=True, exist_ok=True)\n        target.write_bytes((TREE / relative).read_bytes())\n",
+          "before_fragment_sha256": "c3cf1a6accd0defc7b5ab48e2a5797dec4be152e7c0ebcb77b9256771862a599"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_ios_ownership_source_projection.py": {
+      "after_bytes": 15375,
+      "after_sha256": "acd5a9b1a8ef6307bb930850af02b1db644cc916208ac87ce9641f86b7fd4f4c",
+      "before_bytes": 15167,
+      "before_sha256": "ab5f18af2709ca9eab5ccaff30249dd85e120aadf1c24068a72e448d7bd9e263",
+      "fragments": [
+        {
+          "after": "import webview_content_policy_source_projection as webview\nimport ci_source_domain740 as source_domain\nimport ci_source_recovery740_742 as source_recovery\n",
+          "after_fragment_sha256": "555cedd3e15b14af62a6eb06cd8e1d63690c227622a2cb35f1b454d5e0f5c58f",
+          "before": "import webview_content_policy_source_projection as webview\n",
+          "before_fragment_sha256": "57b89087b4053526821fe36c057c670eced2d74bbca5de41652fda183816d5ec"
+        },
+        {
+          "after": "def copy_fixture(root):\n    \"\"\"Owning46/controls plus separately copied dependencies, never enrollment.\"\"\"\n    inputs = (camera.fixture_inputs() | source_domain.dependency_inputs() |\n              source_recovery.dependency_inputs())\n    for name in inputs:\n        target = root / name\n        target.parent.mkdir(parents=True, exist_ok=True)\n        target.write_bytes((ROOT / name).read_bytes())\n",
+          "after_fragment_sha256": "62635b4521b2bb2f83d5e6434c6150d8e479ea85652da3a89d405abf1f2413ed",
+          "before": "def copy_fixture(root):\n    \"\"\"The owning46 inputs plus independent guard/control fixture files only.\"\"\"\n    for name in camera.fixture_inputs():\n        target = root / name\n        target.parent.mkdir(parents=True, exist_ok=True)\n        target.write_bytes((ROOT / name).read_bytes())\n",
+          "before_fragment_sha256": "ce2d5fcb8506eea726aaf460893ad145061480e37a1ad4e6a2d472de73ac3557"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_tooling562_source_projection.py": {
+      "after_bytes": 8222,
+      "after_sha256": "a2bd6826b4a13a884155b6109f30fc909fdf1f5eecf6340b52727f4a456e896a",
+      "before_bytes": 7953,
+      "before_sha256": "73a402c49c93a29db3bb5d8a46ad20423b84a803b333cbc0ec1f717c6db21dbd",
+      "fragments": [
+        {
+          "after": "import webview_content_policy_source_projection as content_history\nimport ci_source_recovery740_742 as source_recovery\n",
+          "after_fragment_sha256": "7d90c0180ea042f103d4082af242e1b0c454f86acf6bf067578be0622eab3169",
+          "before": "import webview_content_policy_source_projection as content_history\n",
+          "before_fragment_sha256": "e013b792424fb0daaa6e2a3e1273184d5264cc5be85799abbc2ac1feed8caed6"
+        },
+        {
+          "after": "        for path in MODULES:\n            raw_current = (ROOT / path).read_bytes()\n            source = source_recovery.current_source_before_recovery(path, raw_current, ROOT).decode(\"utf-8\")\n            tree = ast.parse(source)\n",
+          "after_fragment_sha256": "f0924b0379f2517bc36ae75d2a4d4d37d978bcf3abedc686b4cf5ce06ac30c7f",
+          "before": "        for path in MODULES:\n            source = (ROOT / path).read_text()\n            tree = ast.parse(source)\n",
+          "before_fragment_sha256": "d6346d30177b3ce467f4c67c0d198f1e6fc1b8112ee330fc94923954c65adacb"
+        },
+        {
+          "after": "            current = (ROOT / path).read_bytes()\n            dated_current = source_recovery.current_source_before_recovery(path, current, ROOT)\n            old = history.current_source_before_tooling(path, dated_current)\n",
+          "after_fragment_sha256": "3ce8aba66c338800c3cc5b68b5232dc1bb4331f15c1d80146edad3c61fe13843",
+          "before": "            current = (ROOT / path).read_bytes()\n            old = history.current_source_before_tooling(path, current)\n",
+          "before_fragment_sha256": "c2a73b66120bff1cbf6b03f27f8e48630d6854ed52ee33db4e33ab2f09f5ad80"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_tooling566_source_projection.py": {
+      "after_bytes": 9750,
+      "after_sha256": "d375e0d52de6120042c19177d486b7231833df54fa3742011257d78188253a5b",
+      "before_bytes": 9498,
+      "before_sha256": "b5fb8f12b24df974931c5cb8c850afee8f9a1c103fdd4b01f742290ad7f346db",
+      "fragments": [
+        {
+          "after": "import ios_geometry_simulator_source_projection as owned_history\nimport ci_source_recovery740_742 as source_recovery\n",
+          "after_fragment_sha256": "f255ac298642c7c2b491a0b010eb1e0c86140010c972f8a0a5b410773a2b93ba",
+          "before": "import ios_geometry_simulator_source_projection as owned_history\n",
+          "before_fragment_sha256": "55c843e73374a607d16979255689e7cc5a48703e7b5d2d9b6369a01c3817a434"
+        },
+        {
+          "after": "        for name in MODULES:\n            raw_current = (ROOT / name).read_bytes()\n            current = source_recovery.current_source_before_recovery(name, raw_current, ROOT)\n            expected = older.source_before_tooling(name, current)\n",
+          "after_fragment_sha256": "db7061ac9e8fbe16e2d92ac2aad68a09d246f8b6b1e01e37b92788e7c23562d2",
+          "before": "        for name in MODULES:\n            current = (ROOT / name).read_bytes()\n            expected = older.source_before_tooling(name, current)\n",
+          "before_fragment_sha256": "66e709e2ed8f995659dacbeaf2f65209b7efc882ef31bd68ac9b84e5ad6703f2"
+        },
+        {
+          "after": "                self.assertEqual(expected, bridge.current_source_for_history(name, raw_current))\n",
+          "after_fragment_sha256": "d9e39a1e532bf5351f9d8f07630cee3bf323b5aedad61f2d0487b7179c730ea6",
+          "before": "                self.assertEqual(expected, bridge.current_source_for_history(name, current))\n",
+          "before_fragment_sha256": "69317e89472a4dc32107397c1b2413827f65b0121bbd87393a6c573937140327"
+        },
+        {
+          "after": "        for name in MODULES:\n            raw_current = (ROOT / name).read_bytes()\n            current = source_recovery.current_source_before_recovery(name, raw_current, ROOT)\n            previous = older.source_before_tooling(name, current)\n",
+          "after_fragment_sha256": "5e6ed78fa8bee27f1cbaa7090db9bb765b19956a0a7b51900fc4fb7f8e61dfb2",
+          "before": "        for name in MODULES:\n            current = (ROOT / name).read_bytes()\n            previous = older.source_before_tooling(name, current)\n",
+          "before_fragment_sha256": "9d840327e2ae89d21dad7bf9370c2e0e0c77c2e45015169a1b61a5e4fc034c18"
+        }
+      ]
+    },
+    "scripts/ci/test_ci_source_domain740.py": {
+      "after_bytes": 22341,
+      "after_sha256": "bb8138b08b105b74381018b7784063dd1c6174ebbcb6c0f11f6edc68d583fbd6",
+      "before_bytes": 16648,
+      "before_sha256": "2e6184cd259db9acd0148815dfc7890199b985aa7319e0415737361f3d233e5f",
+      "fragments": [
+        {
+          "after": "        self.assertEqual(\"41979c2e9eb4b74b7da41da42408ac636d60102fea10269b1d181992df4bea5f\",\n                         sha(recovery.current_source_before_recovery(ci.SOURCE_RELATIVE,\n                             (ROOT / ci.SOURCE_RELATIVE).read_bytes(), ROOT)))\n",
+          "after_fragment_sha256": "93c1c7bbd9d78a95c0e46c0dd91cbc1f2854a38b97eef581d9286381a2fc2f4b",
+          "before": "        self.assertEqual(\"41979c2e9eb4b74b7da41da42408ac636d60102fea10269b1d181992df4bea5f\",\n                         sha((ROOT / ci.SOURCE_RELATIVE).read_bytes()))\n",
+          "before_fragment_sha256": "28eb18e7fefe91462f6fbb3ea091a77fd877b09081fd868d242b3e18172b82b9"
+        },
+        {
+          "after": "            dated = recovery.current_source_before_recovery(relative, raw, ROOT)\n            self.assertEqual(dated, tooling.current_source_before_tooling671(relative, raw))\n            self.assertEqual(dated, stage.current_source_before_domain740(relative, raw))\n",
+          "after_fragment_sha256": "79ff847e54273e9983691c24b9fe16b3797a2f1d934bba611edb6685d070415e",
+          "before": "            self.assertEqual(raw, tooling.current_source_before_tooling671(relative, raw))\n            self.assertEqual(raw, stage.current_source_before_domain740(relative, raw))\n",
+          "before_fragment_sha256": "c34d6034c3f63833b2ba218278f4778b4088529fa7cda5e3f40feb542bd886dd"
+        },
+        {
+          "after": "        raw_current = (ROOT / stage.BRIDGE).read_bytes()\n        raw = recovery.current_source_before_recovery(stage.BRIDGE, raw_current, ROOT)\n        document = joint._document()\n",
+          "after_fragment_sha256": "cf9538d64cd853d54441b14bca7ee9ff4d40896a1df6c6197142833539c61720",
+          "before": "        raw = (ROOT / stage.BRIDGE).read_bytes()\n        document = joint._document()\n",
+          "before_fragment_sha256": "a7dae41f2dc9a3e78e81cf0ceb566eed1e18e4cd7b21ee9bfef4d87ae5e2f858"
+        },
+        {
+          "after": "            self.assertEqual(raw, joint.current_source_in_view(stage.BRIDGE, raw_current, view))\n            # Generic history excludes the bridge; dated718 and actual RAW stay distinct.\n            self.assertEqual(raw, joint.peel_for_history(stage.BRIDGE, raw, view))\n            self.assertEqual(raw_current, joint.peel_for_history(stage.BRIDGE, raw_current, view))\n",
+          "after_fragment_sha256": "c14027d55408e309ec41dcc5f8be206dc0617de2286aa845bb948d18a81c5e85",
+          "before": "            self.assertEqual(raw, joint.current_source_in_view(stage.BRIDGE, raw, view))\n            self.assertEqual(raw, joint.peel_for_history(stage.BRIDGE, raw, view))\n",
+          "before_fragment_sha256": "97b4a00b203f724c26fc157babc4c7b44b14689ffcb8c3402e448df0c9e79fa6"
+        },
+        {
+          "after": "        self.assertEqual(old, tooling.current_source_before_tooling671(stage.BRIDGE, raw_current))\n",
+          "after_fragment_sha256": "360ed2e0968cca86d77f000e9b1b4e60eff036a047220f30d28c775539eb7cd4",
+          "before": "        self.assertEqual(old, tooling.current_source_before_tooling671(stage.BRIDGE, raw))\n",
+          "before_fragment_sha256": "bc6ef6d926f3102bc0bbd554f2736891129c240274644bdda4c72528b679a18d"
+        },
+        {
+          "after": "            original = stage.current_source_before_domain740(relative, current)\n            dated_context = recovery.current_source_before_recovery(relative, current, ROOT)\n            old_tree, new_tree = ast.parse(original), ast.parse(dated_context)\n",
+          "after_fragment_sha256": "31d30a27697598dd397f5f10c5f2489f61a77ea12cae69ace5783006e64d4dca",
+          "before": "            original = stage.current_source_before_domain740(relative, current)\n            old_tree, new_tree = ast.parse(original), ast.parse(current)\n",
+          "before_fragment_sha256": "66953f58e3f8692df9ef8a40e5ce1eb7cc9f175cbf6dee0afd9edea567e4b93b"
+        },
+        {
+          "after": "            current = (ROOT / path).read_bytes()\n            dated_current = recovery.current_source_before_recovery(path, current, ROOT)\n            original = __import__(\"camera_tooling562_source_projection\").source_before_tooling(path, dated_current)\n",
+          "after_fragment_sha256": "34f8f87c6f27a4b076aaa4d6d0941eb8f64a30843f353bfeb2728e99db269e32",
+          "before": "            current = (ROOT / path).read_bytes()\n            original = __import__(\"camera_tooling562_source_projection\").source_before_tooling(path, current)\n",
+          "before_fragment_sha256": "138e840a2ecb61463799428569bd8e83ef6ea6ea95bcd1e86a48ab2ffdb3afe8"
+        },
+        {
+          "after": "    def test_r3_three_copiers_hold_separate_dependency_manifests_without_raw303_enrollment(self):\n        from types import SimpleNamespace\n        registered = joint.fixture_inputs(ROOT)\n        document = joint._document(ROOT)\n        dependencies = stage.dependency_inputs() | recovery.dependency_inputs()\n        self.assertEqual(301, len(document[\"raw_inputs\"]))\n        self.assertEqual(303, len(registered))\n        self.assertEqual(set(document[\"raw_inputs\"]) | {joint.OWNER, joint.SPEC}, registered)\n        self.assertTrue({stage.SPEC, recovery.SPEC} <= dependencies)\n        for relative in (stage.OWNER, stage.SPEC, recovery.OWNER, recovery.SPEC):\n            self.assertNotIn(relative, registered)\n        seed = {next(relative for relative in sorted(registered) if relative not in dependencies)}\n        copiers = (\n            (\"scripts/ci/test_android_io_remote_routing.py\", \"copy_remote_fixture\", \"projection\"),\n            (\"scripts/ci/test_android_io_remote_routing_source_projection.py\", \"copy_fixture\", \"projection\"),\n            (\"scripts/ci/test_camera_ios_ownership_source_projection.py\", \"copy_fixture\", \"camera\"),\n        )\n        for relative, function_name, owner_name in copiers:\n            tree = ast.parse((ROOT / relative).read_bytes())\n            functions = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == function_name]\n            self.assertEqual(1, len(functions), relative)\n            namespace = {\"TREE\": ROOT, \"ROOT\": ROOT, \"source_domain\": stage, \"source_recovery\": recovery,\n                         owner_name: SimpleNamespace(fixture_inputs=lambda: set(seed))}\n            # Only the three literal copying functions run; owning plans/tests/native code do not.\n            exec(compile(ast.Module(body=functions, type_ignores=[]), \"<only-three-fixture-copiers>\", \"exec\"), namespace)\n            with tempfile.TemporaryDirectory() as name:\n                root = Path(name)\n                namespace[function_name](root)\n                physical = {path.relative_to(root).as_posix() for path in root.rglob(\"*\") if path.is_file()}\n                self.assertEqual(seed | dependencies, physical, relative)\n                for required in (stage.SPEC, recovery.SPEC):\n                    self.assertEqual((ROOT / required).read_bytes(), (root / required).read_bytes(), relative)\n            self.assertFalse(root.exists())\n            self.assertEqual(registered, joint.fixture_inputs(ROOT))\n        self.assertEqual(301, len(joint._document(ROOT)[\"raw_inputs\"]))\n\n    def test_r3_raw_dated_bridge_ci_and_fixture_sources_refuse_old_mixed_and_changed_root(self):\n        identities = (stage.BRIDGE, ci.SOURCE_RELATIVE,\n                      \"scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py\")\n        observed = {}\n        for relative in identities:\n            raw = (ROOT / relative).read_bytes()\n            dated = recovery.current_source_before_recovery(relative, raw, ROOT)\n            self.assertNotEqual(raw, dated, relative)\n            self.assertEqual(dated, recovery.peel_recovery_for_history(relative, raw, ROOT))\n            observed[relative] = (raw, dated)\n            mixed = (ROOT / next(name for name in identities if name != relative)).read_bytes()\n            for candidate in (dated, raw[:-1], raw + b\"\\n\", mixed, b\"\", None, bytearray(raw)):\n                with self.subTest(relative=relative, kind=type(candidate).__name__), self.assertRaises(ValueError):\n                    recovery.current_source_before_recovery(relative, candidate, ROOT)\n        bridge_raw, bridge_dated = observed[stage.BRIDGE]\n        with self.assertRaises(ValueError):\n            tooling.current_source_before_tooling671(stage.BRIDGE, bridge_dated)\n        with self.assertRaises(ValueError):\n            stage.bridge_after_qualified_current_ingress(stage.BRIDGE, bridge_raw)\n        self.assertEqual(stage.bridge_after_qualified_current_ingress(stage.BRIDGE, bridge_dated),\n                         tooling.current_source_before_tooling671(stage.BRIDGE, bridge_raw))\n        self.assertEqual(\"41979c2e9eb4b74b7da41da42408ac636d60102fea10269b1d181992df4bea5f\",\n                         sha(observed[ci.SOURCE_RELATIVE][1]))\n        dependencies = stage.dependency_inputs() | recovery.dependency_inputs()\n        with tempfile.TemporaryDirectory() as name:\n            root = Path(name)\n            for relative in dependencies:\n                target = root / relative\n                target.parent.mkdir(parents=True, exist_ok=True)\n                target.write_bytes((ROOT / relative).read_bytes())\n            target = root / recovery.SPEC\n            original = target.read_bytes()\n            try:\n                target.write_bytes(original + b\"\\n\")\n                with self.assertRaises(ValueError):\n                    recovery.current_source_before_recovery(stage.BRIDGE, bridge_raw, root)\n            finally:\n                target.write_bytes(original)\n        self.assertFalse(root.exists())\n\n    def test_r2_bridge_authority_fragments_aliases_and_tails_refuse_with_cleanup(self):\n",
+          "after_fragment_sha256": "e9f70bd3ccd2652386fadf3737970b6522c307848f9f79fa3fa7fc91f004bf38",
+          "before": "    def test_r2_bridge_authority_fragments_aliases_and_tails_refuse_with_cleanup(self):\n",
+          "before_fragment_sha256": "5775be156da0e4d3394d4197adc072f453d132c10bb4b8b16554da54125e8d86"
+        }
+      ]
+    },
+    "scripts/ci/test_ci_source_recovery740_742.py": {
+      "after_bytes": 29038,
+      "after_sha256": "c5e4dff465926a63dde36ee99d90c6f183e99846df936fa081b03c3324a6388b",
+      "before_bytes": 28844,
+      "before_sha256": "b995929d6e6538631ff0b176bba281940bc41e8924e29c114214c35e497465c6",
+      "fragments": [
+        {
+          "after": "import ci_source_recovery740_742 as recovery\nimport ci_fixture_successor730 as fixture_successor\n",
+          "after_fragment_sha256": "d4d8e63cc2efce57d32ad59688f5566e4ff0b127acd0d17d5def95f4a9011ae8",
+          "before": "import ci_source_recovery740_742 as recovery\n",
+          "before_fragment_sha256": "61c40f1d8ea17b93d850372b332cd612653278ce8844f54df63c32613cdb1f89"
+        },
+        {
+          "after": "            raw = (ROOT / relative).read_bytes()\n            predecessor = fixture_successor.current_source_before_fixture_successor(relative, raw, ROOT)\n            old = recovery.current_source_before_recovery(relative, raw, ROOT)\n",
+          "after_fragment_sha256": "b5e98e646a17b5074c78b4a1a432ef81eaa40f22fb77b9697574145c53b12f5a",
+          "before": "            raw = (ROOT / relative).read_bytes()\n            old = recovery.current_source_before_recovery(relative, raw, ROOT)\n",
+          "before_fragment_sha256": "1adc38480aef6e3d404cffce0a95172bfc64d6dade3e47ed587dc26e029817e0"
+        },
+        {
+          "after": "            self.assertEqual(predecessor, forward, relative)\n",
+          "after_fragment_sha256": "5c7ee0cf102a686f93101b782ebbe85392a3716bd54c64868a98a59e90e42704",
+          "before": "            self.assertEqual(raw, forward, relative)\n",
+          "before_fragment_sha256": "e001523e73539f8f4efc54ae338973963317b58c8753257954de3505b776be54"
+        },
+        {
+          "after": "        changed = (domain740.MODIFIED | recovery.MODIFIED | fixture_successor.MODIFIED) & set(original)\n",
+          "after_fragment_sha256": "37c94c4b097dfa68d2da55e39f5ff5c83c01c92da9389aa892f52b7f6da04be1",
+          "before": "        changed = (domain740.MODIFIED | recovery.MODIFIED) & set(original)\n",
+          "before_fragment_sha256": "aff938d968fb083e3c17674cf1c4dc55beef236def4a919f0d64795adf2fc37a"
+        }
+      ]
+    }
+  },
+  "capacity_binding": {
+    "after_bytes": 60321,
+    "after_sha256": "8ee12af6adacf12d2044a74deb5c6229eb17878659c8e27deb0c9aa7be1d5fba",
+    "before_bytes": 60138,
+    "before_sha256": "3f19d0f4e93a66b8ba4928e88819fb35ac469709f9c26bfef87ee57fbd4778ca",
+    "fragments": [
+      {
+        "after": "ENVIRONMENT_RECIPE = \"fresh-home-tmp;fixed-ci-locale;no-source-overrides-user-site-git-global;observed-path-cargo-rustup-v1;ci-whole-module-fork2-private-home-tmp-v1\"",
+        "after_fragment_sha256": "2b49a979094afb69f460b7dc909ded0b3a1877df3a13b2e3cedd950427ead0fb",
+        "before": "ENVIRONMENT_RECIPE = \"fresh-home-tmp;fixed-ci-locale;no-source-overrides-user-site-git-global;observed-path-cargo-rustup-v1\"",
+        "before_fragment_sha256": "479cd57037546ed1c7351df2cbc2a591e2af87ee045f0a8138cbdf861f202671"
+      },
+      {
+        "after": "    if (directory, pattern) == (\"scripts/ci\", \"test_*.py\"):\n        return [\"python3\", \"-B\", \"scripts/ci/offline_tooling_ci_parallel734.py\"]\n    return [\"python3\", \"-B\", \"-m\", \"unittest\", \"discover\", \"-s\", directory, \"-p\", pattern, \"-v\"]",
+        "after_fragment_sha256": "da31c4474402f7faba54aea59bef22b391b1ab2ed29a24c4ea08a094657e8b0b",
+        "before": "    return [\"python3\", \"-B\", \"-m\", \"unittest\", \"discover\", \"-s\", directory, \"-p\", pattern, \"-v\"]",
+        "before_fragment_sha256": "e71d96b850148bebcc3003a7d49a98c7ea9634c196123cff508c3bfe0f95fe51"
+      }
+    ]
+  },
+  "capacity_scope": "One exact existing raw301 producer-capacity734 row, two fixed copied NEW734 sources and one owning joint inventory tuple before the sealed r1 nine bindings; no raw301/current303 enrollment or generic layer search",
+  "control": {
+    "bytes": 17068,
+    "path": "scripts/ci/test_ci_fixture_successor730.py",
+    "sha256": "e2064214f6f1dfd54b8f04d39f028a2bbd67cd8135444ed0b65d32d1854a1ea9"
+  },
+  "originals": {
+    "scripts/ci/fixtures/ci-source-domain740-source-inverse.json": {
+      "bytes": 36274,
+      "sha256": "5b450daf9874a62a4b452b0d6502c3a77426e670ec6fd79a6b1ed3a3aecf6e52"
+    },
+    "scripts/ci/fixtures/ci-source-recovery740-742-source-inverse.json": {
+      "bytes": 209811,
+      "sha256": "2be8ac55c4253f303f0e93bd120b4277f9dc3b22c0b7ec209a452aebb3f59835"
+    },
+    "scripts/ci/fixtures/macos-share-ci668-composition.json": {
+      "bytes": 518906,
+      "sha256": "06d04d038b06c00e5aafb9b7defdf39ae069f3df305e4dbc84198bc8ed178a24"
+    }
+  },
+  "own_guard": {
+    "bytes": 11755,
+    "template_sha256": "916b2bb844176e4200704adf0fc8d6d137d5017fcfa9dfb89886506dc01ac1c0"
+  },
+  "remote_binding": {
+    "after_bytes": 16661,
+    "after_sha256": "95fe8ec1b01cd81e49f8475f781f0218c1344d275ca70115784cfe45d67446e1",
+    "before_bytes": 15979,
+    "before_sha256": "da51c70226edceedddbc6176c8244680f1fa6a3350e7adab56fe6faf982c0cc0",
+    "fragments": [
+      {
+        "after": "def validate_current_sources(root: Path):\n    \"\"\"Qualify raw671 first; compare only complete qualified680/IO ancestor views.\"\"\"\n    # Refusal-only743: fresh ordinary descriptors and the unchanged exact current\n    # raw predicates run BEFORE the expensive complete tooling/history operation.\n    # No schema/FS/admission result is cached; success still requires EVERY original\n    # validation below. This prefix cannot certify a source, native result or run.\n    import macos_share_ci668_composition as joint\n    latest = joint._document(root)\n    for relative in (*latest[\"raw_inputs\"], joint.OWNER, joint.SPEC):\n        maximum = joint.MAX_SPEC if relative == joint.SPEC else joint.MAX_SOURCE\n        raw = joint._ordinary(root, relative, maximum)[0]\n        joint._raw_payload(relative, raw, latest, root)\n    import tooling_recovery671_source_projection as tooling\n    tooling.validate_current_sources(root)\n",
+        "after_fragment_sha256": "2f290b79339855e9f34da4cca5fed2b7a2dbddb28c71d67dbadb8c110fb28f78",
+        "before": "def validate_current_sources(root: Path):\n    \"\"\"Qualify raw671 first; compare only complete qualified680/IO ancestor views.\"\"\"\n    import tooling_recovery671_source_projection as tooling\n    tooling.validate_current_sources(root)\n",
+        "before_fragment_sha256": "fdd6707f576a8388b90e2de6b37ebde39d53eabbb62469357e9356f618a15aab"
+      }
+    ]
+  },
+  "routing_binding": {
+    "after_bytes": 80582,
+    "after_sha256": "86bd1dc1b3685c5167e0ccd207a3048213e765e49c7a88dac73faa6c659d0ede",
+    "before_bytes": 80498,
+    "before_sha256": "1cf7d1faea1f053b9873ec175549745d0914c81f1246cb23754bd4357527f84a",
+    "fragments": [
+      {
+        "after": "                                      (\"bindings\",), (fixture_successor.OWNER, fixture_successor.CONTROL,\n                                                      *fixture_successor.COPIED734),",
+        "after_fragment_sha256": "1bd188d57e32184ef3b20896a75160528bc778efe6dba54f4e6609b17c021edd",
+        "before": "                                      (\"bindings\",), (fixture_successor.OWNER, fixture_successor.CONTROL),",
+        "before_fragment_sha256": "d7a806f97021ebfec59fb9544a0cac8c1e7a716339ac975244d151fcd01b4944"
+      }
+    ]
+  },
+  "schema_version": 1,
+  "scope": "Exact six failed-producer742 fixture successors and their two owning routing sources/control above unchanged740742/raw301/current303; copied dependencies are never raw enrollment; source-only"
+}

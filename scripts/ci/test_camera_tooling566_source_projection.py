@@ -13,6 +13,7 @@ import android_external328_source_projection as bridge
 import camera_tooling562_source_projection as older
 import camera_tooling566_source_projection as history
 import ios_geometry_simulator_source_projection as owned_history
+import ci_source_recovery740_742 as source_recovery
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULES = (
@@ -64,11 +65,12 @@ class CameraTooling566Controls(unittest.TestCase):
 
     def test_latest_raw_ingress_occurs_once_and_nested_stages_do_not_readmit_it(self):
         for name in MODULES:
-            current = (ROOT / name).read_bytes()
+            raw_current = (ROOT / name).read_bytes()
+            current = source_recovery.current_source_before_recovery(name, raw_current, ROOT)
             expected = older.source_before_tooling(name, current)
             with (patch.object(history, "current_source_before_tooling566", wraps=history.current_source_before_tooling566) as latest,
                   patch.object(older, "current_source_before_tooling", wraps=older.current_source_before_tooling) as prior):
-                self.assertEqual(expected, bridge.current_source_for_history(name, current))
+                self.assertEqual(expected, bridge.current_source_for_history(name, raw_current))
                 self.assertEqual(1, latest.call_count)
                 self.assertEqual(1, prior.call_count)
                 latest.assert_called_once_with(name, current)
@@ -83,7 +85,8 @@ class CameraTooling566Controls(unittest.TestCase):
                 with self.subTest(name=name, type=type(bad).__name__), self.assertRaises(ValueError):
                     bridge.current_source_for_history(name, bad)
         for name in MODULES:
-            current = (ROOT / name).read_bytes()
+            raw_current = (ROOT / name).read_bytes()
+            current = source_recovery.current_source_before_recovery(name, raw_current, ROOT)
             previous = older.source_before_tooling(name, current)
             with self.assertRaises(ValueError):
                 bridge.current_source_for_history(name, previous)

@@ -1,5 +1,139 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related CI patch integrated; changed producer ready — 2026-11-06
+
+[Related17 evidence](docs/development/evidence/current-platform-recovery-20261101/ci-related-fixture-capacity-20261106/README.md)
+adopts12existing+5NEW once/final17 exact/modes+inodes preserved; original740/742/
+current303/raw301/named175/190/40/36/caps/publicKotlin/native bytes unchanged.
+Onlyfailed2 passes2/2 once/0.800s/outer4.193623s/child0/full542B EOF; independent742
+source/results accepts. Separate1015/622 holds; original1015 and C161010/622 hold;
+tenowned runtime nodes removed/groupabsent. Accepted9/remote1/FF14/73411+2 reused,
+not replayed. Original failed18/sixobservednotaccepted/failed11/scratch remain.
+ActualROOT Camera5 plan0/0.249296s and AndroidWebView5 plan0/7.404297s pass; all17
+held/resolution164current. No new compiler/native/consumer/wholeissue acceptance.
+
+MacR5 42139704754 at00cf is terminalFAILED/PREPARE child1/174.628862s/53748Bcomplete/
+1546held/groupabsent/zero native. Observed completeGradletrace/noallowedfamily,
+primaryunknown/causefalse/tasksunobserved; privatebody unavailable. Originals once,
+one149856B artifact13467056622/fourJSON, runtimeafterabsent; no unchangedretry/#58
+closure. Source-only R6 bounded heading classifier remains separate; imageC12 is
+diagnostics-only/parked, not a material setup repair or third unchanged request.
+
+Next complete developmentfreeze/push→successfulchangedcompleteproducer→four-ID
+authenticatedsameHEAD Camera5/AndroidWebView5, no interveningdocumentationcommit.
+Fresh16upstream mapped/zero imports;103closed/69open/172/#102/#144/#171alreadyclosed.
+Lead integration/Git/dispatch/acceptance/closure; isolatedagents/max2combinedhosted
+INCLUDINGqueued/reserved; compiler6GiBmemory/8GiBdisk. ProtectedWindowstrace never
+read/stat/scan/stage; PythonintegeridentityJSON. Actions/all/no mandatorySHA/minimum
+permissions and every main/history/API–ABI/native/consumer/dependency/legal/security/
+readiness/publication/Pages gate remain. No package/release/deployment publication.
+
+## Related CI controls progressing; macOS R5 frozen — 2026-11-06
+
+[Current recovery evidence](docs/development/evidence/current-platform-recovery-20261101/tooling-failed-ee879e2c-macos-preparation-r3-20261105/README.md)
+records changed incomplete1 accepted1/1 once/31.075s and sole FF14 missing
+completion1/1/29.903s (phase59.7018s/outer61.2919s), same Q300/source270/cleanup30.
+Original grouped18 remainsFAILED/time guard/six observedok/seventhFF14incomplete/
+11unstarted/zerofooter;1015sources/622dirs and C16 hold, ownedgroupabsent but old
+nonemptytmpdir retained. Never call six observed methods accepted or retry18.
+Only unstarted11 executes11/6.951s: nine independently accepted, one bridge FAIL
+and one binding KeyError remain. Their original results stay FAILED. Fix only the
+related dated-history argument and valid nine-binding selection, retain every
+assertion/current303/raw301/historical pin, then execute only failed2. No accepted
+population replay or speculative cache/extra diagnostic acceptance gate.
+
+MacR5 source+saved4 reviewed:4/4 once/0.059s/1228B,35source/model947022B held and
+ownedcleanup. Three sources/11spans adopt once preserving modes/inodes; isolated
+source commit57bc1fc1 and docs-only correction00cf2d19 push normally. Actual
+registered PREPARE-only42139704754/attempt1 at00cf is pending terminal evidence,
+not compiler/native acceptance; #58open/original01b4causeUNKNOWN. Document-copy
+stat refusal and sparse-add refusal are preserved; recovery holds three existing
+copies, writes only missing documents and stages bounded paths with --sparse.
+Zero ROOT source adoption at this checkpoint; documentation remains uncommitted
+aboveee879e2c. Complete related correction before development freeze/push and fresh
+successfulcompleteproducer/four-ID authenticatedsameHEAD Camera5/AndroidWebView5;
+no intervening docs commit during that cohort.
+
+[Fresh upstream archive](docs/development/upstream-sync-20261106T002526Z/README.md)
+preserves17 exact artifacts/newPR552; all16open issues unchanged/mapped, no imports
+or duplicate/issue/comment mutations. Styling remains existing#167, unreviewedPR
+claims are not implementation proof.103closed/69open/172;#102/#144/#171closed.
+Lead Git/integration/dispatch/acceptance/closure; isolated agents authorized,
+max2combinedhosted INCLUDINGqueued/reserved (macR5 occupiesone until terminal);
+compiler6GiB memory/8GiBdisk. Protected Windows trace neverread/stat/scan/stage;
+identity JSON uses Python integers. Actions/all/no mandatorySHA/minimumpermissions
+and every history/main/native/consumer/API–ABI/dependency/legal/security/readiness/
+Pages/publication gate remains. No new closure/package/release/deployment.
+
+## Grouped CI recovery: focused controls accepted; macOS diagnostics changed — 2026-11-06
+
+[Current evidence](docs/development/evidence/current-platform-recovery-20261101/tooling-failed-ee879e2c-macos-preparation-r3-20261105/README.md)
+preserves the failed changed19 attempt: one observed `ok`, second incomplete,
+17 unstarted, no complete footer, child-15/time guard and nonempty runtime tmp.
+The1013/622 candidate and original1010/622 C16 maps hold. Do not call the first
+observation independently framed acceptance, replay unchanged19, increase its
+300total/270source guard, or infer the timeout cause. The743 fresh raw303 early
+refusal insertion retains the complete successful suffix; its exact successor
+overlay is required, and the preceding56 byte-variant paths remain unchanged.
+Source ordering is not a measured hosted timeout fix.
+
+734 R2 FIRST12 is **11ok/oneFAIL**, not the inner synthetic Ran1 result: a separate
+passive outer-footer correction preserves the original RESULT/log.731 accepts
+the R3 source and saved **failed1+NEW1:2/2 once**, suite0.313s/outer0.532696513s,
+complete468B capture/child0, three sources99914B held and owned cleanup. Accepted11
+are reused, not a replayed13.730 combines the exact copied-control pin, new owning
+missing-leaf FileNotFoundError assertion and743 remote overlay before owner2/
+changed incomplete1/17 unstarted qualification. ROOT source remains ee879e2c;
+no recovery source adoption, complete producer success or native acceptance yet.
+
+Isolated macOS01b4a3f2 adopts four R4 diagnostic sources/ten reversible spans,
+accepted NEW1+affected2 **3/3 once**. PREPARE-only stacktrace/fixed exception families
+retain private-output caps, ambiguity/cause-not-established and five-JSON allowlist;
+original native commands are unchanged. Changed run42134559340/attempt1 at01b4
+is terminal FAILED; original acquisition/diagnosis follows, no unchanged retry.
+Zero combined hosted reservations after terminal readback. #58 stays open.
+
+No new closure/publication: last103closed/69open/172;#102/#144/#171 already closed.
+Lead integration/Git/dispatch/acceptance/closure; isolated agents authorized,
+max2 combined hosted INCLUDING queued/reserved; local compiler6GiB memory/8GiBdisk.
+The protected Windows `scripts/ci/test_javafx_ordinary_success_trace.py` must not
+be read, statted, scanned, modified or staged in this recovery. Actions/all/no
+mandatory SHA pinning/minimum permissions and every history/main/native/consumer/
+API–ABI/dependency/legal/security/readiness/Pages/publication gate remain.
+No packages, releases or deployments until all required gates pass.
+
+## Shared failed12 recovery underway; macOS source fix verified — 2026-11-05
+
+[Current checkpoint](docs/development/evidence/current-platform-recovery-20261101/tooling-failed-ee879e2c-macos-preparation-r3-20261105/README.md)
+retains producer42123517799 at ee879e2c FAILED/time guard/211 earlier reported
+completed tests/incomplete CI prefix/zeroartifacts/nonreusable. Original logs once;
+no unchanged retry/native reuse. Only reported failing12 reproduced once locally:
+4FAIL/8ERROR,104.310s suite/132.22572290198877s outer, complete capture, owned
+HOME/tmp/group cleanup. Next changed failed-only plus important NEW controls.
+Seven fixture corrections require exact outer qualification of six pinned
+fixtures (five740/742 plus one raw301); copied dependency closure must NOT broaden
+raw671 fixture admission.
+Historical source guards/pins remain; CI capacity proposal is not speed proof.
+
+Isolated macOS7b53632a adopts three existing sources/five reversible spans after
+742 source/results acceptance: NEW1+affected2 **3/3 once**,35/924907B inputs held,
+complete947B log/child0/groupabsent/model+tmp cleanup. One owning standalone
+workflow is explicitly captured; original membership/runtime/native/tasks/budget/
+cleanup/workflows unchanged. First push rejected, remote9083 held; one normal
+fast-forward reattempt succeeded, no force. Changed PREPARE-only42129388447/attempt1
+at7b53632a FAILED after source/runtime:1546 inputsheld, PREPARE child1/149.587372s/
+complete14827B private capture/groupabsent; diagnosticunknown/tasksunobserved,
+privatebody unavailable. Zero native/inventory/JUnit requests, ZERO accepted
+compiler/native/consumer/closure. Originals once; no unchanged7b retry; zero
+hosted reservations after terminal readback. Minimum safe diagnosis is isolated.
+ROOT source remains ee879e2c; this documentation is for the next complete batch,
+not an intervening commit in a producer/reuse cohort. No new closure:103closed/
+69open/172, #102/#144/#171 alreadyclosed. Lead owns integration/Git/dispatch/
+acceptance/closures; isolated agents authorized; max2 combined hosted INCLUDING
+queued/reserved. Local compiler6GiB memory/8GiB disk. Actions/all/no mandatory SHA
+pinning/minimum permissions; every history/main/native/consumer/API–ABI/dependency/
+legal/security/readiness/Pages/publication gate remains. No packages/releases/deployments.
+
 ## Shared CI source recovery integrated; changed producer next — 2026-11-05
 
 [C16 and the missing producer-helper transfer](docs/development/evidence/current-platform-recovery-20261101/tooling-finite-owner-c16-20261105/README.md)

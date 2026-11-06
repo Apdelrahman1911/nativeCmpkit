@@ -62,7 +62,8 @@ class CiSourceDomain740R2Controls(unittest.TestCase):
             unknown = current + b"\n# unknown740 context\n"
             self.assertEqual(unknown, stage.peel_domain740_for_history(relative, unknown))
         self.assertEqual("41979c2e9eb4b74b7da41da42408ac636d60102fea10269b1d181992df4bea5f",
-                         sha((ROOT / ci.SOURCE_RELATIVE).read_bytes()))
+                         sha(recovery.current_source_before_recovery(ci.SOURCE_RELATIVE,
+                             (ROOT / ci.SOURCE_RELATIVE).read_bytes(), ROOT)))
         self.assertNotIn(ci.SOURCE_RELATIVE, stage.MODIFIED)
 
     def test_r2_broader671_unlisted_data_never_enters_strict_ci_or_joint_domain(self):
@@ -72,8 +73,9 @@ class CiSourceDomain740R2Controls(unittest.TestCase):
         for relative in UNLISTED + ("unlisted-source",):
             raw = (ROOT / relative).read_bytes() if relative in UNLISTED else b"unqualified-data"
             self.assertNotIn(relative, document["raw_inputs"])
-            self.assertEqual(raw, tooling.current_source_before_tooling671(relative, raw))
-            self.assertEqual(raw, stage.current_source_before_domain740(relative, raw))
+            dated = recovery.current_source_before_recovery(relative, raw, ROOT)
+            self.assertEqual(dated, tooling.current_source_before_tooling671(relative, raw))
+            self.assertEqual(dated, stage.current_source_before_domain740(relative, raw))
             with self.assertRaises(ValueError):
                 ci.current_source_before_ci668(relative, raw)
             with self.assertRaises(ValueError):
@@ -97,16 +99,19 @@ class CiSourceDomain740R2Controls(unittest.TestCase):
 
     def test_r2_exact718_bridge_precedes_geometry_but_never_changes_named_views(self):
         import ios_geometry_simulator_source_projection as geometry
-        raw = (ROOT / stage.BRIDGE).read_bytes()
+        raw_current = (ROOT / stage.BRIDGE).read_bytes()
+        raw = recovery.current_source_before_recovery(stage.BRIDGE, raw_current, ROOT)
         document = joint._document()
         self.assertEqual(stage.BRIDGE_AFTER, document["raw_inputs"][stage.BRIDGE])
         for view in joint.VIEWS:
             self.assertNotIn(stage.BRIDGE, document["predecessor_inputs"][view])
-            self.assertEqual(raw, joint.current_source_in_view(stage.BRIDGE, raw, view))
+            self.assertEqual(raw, joint.current_source_in_view(stage.BRIDGE, raw_current, view))
+            # Generic history excludes the bridge; dated718 and actual RAW stay distinct.
             self.assertEqual(raw, joint.peel_for_history(stage.BRIDGE, raw, view))
+            self.assertEqual(raw_current, joint.peel_for_history(stage.BRIDGE, raw_current, view))
         old = stage.bridge_after_qualified_current_ingress(stage.BRIDGE, raw)
         self.assertEqual((stage.BRIDGE_BEFORE["sha256"], stage.BRIDGE_BEFORE["bytes"]), (sha(old), len(old)))
-        self.assertEqual(old, tooling.current_source_before_tooling671(stage.BRIDGE, raw))
+        self.assertEqual(old, tooling.current_source_before_tooling671(stage.BRIDGE, raw_current))
         self.assertEqual(geometry._bindings()[stage.BRIDGE]["after_sha256"], sha(old))
         self.assertEqual(old, stage.peel_bridge740_for_history(stage.BRIDGE, raw))
         self.assertEqual(old, stage.peel_bridge740_for_history(stage.BRIDGE, old))
@@ -212,7 +217,8 @@ class CiSourceDomain740R2Controls(unittest.TestCase):
         for relative in CONTEXTS:
             current = (ROOT / relative).read_bytes()
             original = stage.current_source_before_domain740(relative, current)
-            old_tree, new_tree = ast.parse(original), ast.parse(current)
+            dated_context = recovery.current_source_before_recovery(relative, current, ROOT)
+            old_tree, new_tree = ast.parse(original), ast.parse(dated_context)
             def assertions(tree):
                 return [ast.dump(node, include_attributes=False) for node in ast.walk(tree)
                         if isinstance(node, ast.Assert) or isinstance(node, ast.Call)
@@ -227,9 +233,86 @@ class CiSourceDomain740R2Controls(unittest.TestCase):
         for path in ("scripts/ci/test_android_camera_scalar_control_refusal.py",
                      "scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py"):
             current = (ROOT / path).read_bytes()
-            original = __import__("camera_tooling562_source_projection").source_before_tooling(path, current)
+            dated_current = recovery.current_source_before_recovery(path, current, ROOT)
+            original = __import__("camera_tooling562_source_projection").source_before_tooling(path, dated_current)
             self.assertEqual(ast.dump(nodes(current)["digest"], include_attributes=False),
                              ast.dump(nodes(original)["digest"], include_attributes=False))
+
+    def test_r3_three_copiers_hold_separate_dependency_manifests_without_raw303_enrollment(self):
+        from types import SimpleNamespace
+        registered = joint.fixture_inputs(ROOT)
+        document = joint._document(ROOT)
+        dependencies = stage.dependency_inputs() | recovery.dependency_inputs()
+        self.assertEqual(301, len(document["raw_inputs"]))
+        self.assertEqual(303, len(registered))
+        self.assertEqual(set(document["raw_inputs"]) | {joint.OWNER, joint.SPEC}, registered)
+        self.assertTrue({stage.SPEC, recovery.SPEC} <= dependencies)
+        for relative in (stage.OWNER, stage.SPEC, recovery.OWNER, recovery.SPEC):
+            self.assertNotIn(relative, registered)
+        seed = {next(relative for relative in sorted(registered) if relative not in dependencies)}
+        copiers = (
+            ("scripts/ci/test_android_io_remote_routing.py", "copy_remote_fixture", "projection"),
+            ("scripts/ci/test_android_io_remote_routing_source_projection.py", "copy_fixture", "projection"),
+            ("scripts/ci/test_camera_ios_ownership_source_projection.py", "copy_fixture", "camera"),
+        )
+        for relative, function_name, owner_name in copiers:
+            tree = ast.parse((ROOT / relative).read_bytes())
+            functions = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == function_name]
+            self.assertEqual(1, len(functions), relative)
+            namespace = {"TREE": ROOT, "ROOT": ROOT, "source_domain": stage, "source_recovery": recovery,
+                         owner_name: SimpleNamespace(fixture_inputs=lambda: set(seed))}
+            # Only the three literal copying functions run; owning plans/tests/native code do not.
+            exec(compile(ast.Module(body=functions, type_ignores=[]), "<only-three-fixture-copiers>", "exec"), namespace)
+            with tempfile.TemporaryDirectory() as name:
+                root = Path(name)
+                namespace[function_name](root)
+                physical = {path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_file()}
+                self.assertEqual(seed | dependencies, physical, relative)
+                for required in (stage.SPEC, recovery.SPEC):
+                    self.assertEqual((ROOT / required).read_bytes(), (root / required).read_bytes(), relative)
+            self.assertFalse(root.exists())
+            self.assertEqual(registered, joint.fixture_inputs(ROOT))
+        self.assertEqual(301, len(joint._document(ROOT)["raw_inputs"]))
+
+    def test_r3_raw_dated_bridge_ci_and_fixture_sources_refuse_old_mixed_and_changed_root(self):
+        identities = (stage.BRIDGE, ci.SOURCE_RELATIVE,
+                      "scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py")
+        observed = {}
+        for relative in identities:
+            raw = (ROOT / relative).read_bytes()
+            dated = recovery.current_source_before_recovery(relative, raw, ROOT)
+            self.assertNotEqual(raw, dated, relative)
+            self.assertEqual(dated, recovery.peel_recovery_for_history(relative, raw, ROOT))
+            observed[relative] = (raw, dated)
+            mixed = (ROOT / next(name for name in identities if name != relative)).read_bytes()
+            for candidate in (dated, raw[:-1], raw + b"\n", mixed, b"", None, bytearray(raw)):
+                with self.subTest(relative=relative, kind=type(candidate).__name__), self.assertRaises(ValueError):
+                    recovery.current_source_before_recovery(relative, candidate, ROOT)
+        bridge_raw, bridge_dated = observed[stage.BRIDGE]
+        with self.assertRaises(ValueError):
+            tooling.current_source_before_tooling671(stage.BRIDGE, bridge_dated)
+        with self.assertRaises(ValueError):
+            stage.bridge_after_qualified_current_ingress(stage.BRIDGE, bridge_raw)
+        self.assertEqual(stage.bridge_after_qualified_current_ingress(stage.BRIDGE, bridge_dated),
+                         tooling.current_source_before_tooling671(stage.BRIDGE, bridge_raw))
+        self.assertEqual("41979c2e9eb4b74b7da41da42408ac636d60102fea10269b1d181992df4bea5f",
+                         sha(observed[ci.SOURCE_RELATIVE][1]))
+        dependencies = stage.dependency_inputs() | recovery.dependency_inputs()
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            for relative in dependencies:
+                target = root / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes((ROOT / relative).read_bytes())
+            target = root / recovery.SPEC
+            original = target.read_bytes()
+            try:
+                target.write_bytes(original + b"\n")
+                with self.assertRaises(ValueError):
+                    recovery.current_source_before_recovery(stage.BRIDGE, bridge_raw, root)
+            finally:
+                target.write_bytes(original)
+        self.assertFalse(root.exists())
 
     def test_r2_bridge_authority_fragments_aliases_and_tails_refuse_with_cleanup(self):
         raw = (ROOT / stage.SPEC).read_bytes()

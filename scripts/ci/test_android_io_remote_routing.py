@@ -32,6 +32,8 @@ import android_io_remote_documents as remote
 import android_io_remote_routing_source_projection as projection
 import library_tests as lt
 import workflow_matrix
+import ci_source_domain740 as source_domain
+import ci_source_recovery740_742 as source_recovery
 
 
 def function_source(relative, name):
@@ -43,7 +45,10 @@ def function_source(relative, name):
 
 
 def copy_remote_fixture(root):
-    for relative in projection.fixture_inputs():
+    # Copy code/manifest dependencies separately; never enlarge raw fixture admission.
+    inputs = (projection.fixture_inputs() | source_domain.dependency_inputs() |
+              source_recovery.dependency_inputs())
+    for relative in inputs:
         target = root / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((TREE / relative).read_bytes())

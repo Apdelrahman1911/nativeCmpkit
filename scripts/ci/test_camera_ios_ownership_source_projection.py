@@ -14,6 +14,8 @@ import camera_ios_ownership_native_focus as focus
 import camera_ios_ownership_source_projection as camera
 import platform_recovery659_source_projection as newest
 import webview_content_policy_source_projection as webview
+import ci_source_domain740 as source_domain
+import ci_source_recovery740_742 as source_recovery
 
 ROOT = Path(__file__).resolve().parents[2]
 WEBVIEW874_GUARD_SHA256 = "c8b75a6b06454135db4b6143987855e27588648d4eb3aefc0d72611fc35ac875"
@@ -28,8 +30,10 @@ def sha(payload):
 
 
 def copy_fixture(root):
-    """The owning46 inputs plus independent guard/control fixture files only."""
-    for name in camera.fixture_inputs():
+    """Owning46/controls plus separately copied dependencies, never enrollment."""
+    inputs = (camera.fixture_inputs() | source_domain.dependency_inputs() |
+              source_recovery.dependency_inputs())
+    for name in inputs:
         target = root / name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((ROOT / name).read_bytes())

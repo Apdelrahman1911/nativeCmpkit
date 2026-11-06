@@ -12,6 +12,7 @@ import camera_tooling562_source_projection as history
 import android_external328_source_projection as bridge
 import ios_geometry_simulator_source_projection as owned_history
 import webview_content_policy_source_projection as content_history
+import ci_source_recovery740_742 as source_recovery
 
 ROOT = Path(__file__).resolve().parents[2]
 HELPER = "scripts/ci/android_camera_developer_prerequisite.py"
@@ -60,7 +61,8 @@ class CameraTooling562Controls(unittest.TestCase):
     def test_ancestor_and_latest_admission_keep_the_preserved_stage_separate(self):
         for path in MODULES:
             current = (ROOT / path).read_bytes()
-            old = history.current_source_before_tooling(path, current)
+            dated_current = source_recovery.current_source_before_recovery(path, current, ROOT)
+            old = history.current_source_before_tooling(path, dated_current)
             self.assertEqual(old, bridge.current_source_for_history(path, current))
             self.assertEqual(old, history.peel_current_tooling_for_older_history(path, old))
             with self.assertRaises(ValueError):
@@ -74,7 +76,8 @@ class CameraTooling562Controls(unittest.TestCase):
         prior = home.source_before_home_baseline(HELPER,
             owned_history.current_source_before_owned_geometry(HELPER, payload))
         for path in MODULES:
-            source = (ROOT / path).read_text()
+            raw_current = (ROOT / path).read_bytes()
+            source = source_recovery.current_source_before_recovery(path, raw_current, ROOT).decode("utf-8")
             tree = ast.parse(source)
             functions = [n for n in tree.body if isinstance(n, ast.FunctionDef)
                          and n.name in {"digest", "source_binding_digest"}]

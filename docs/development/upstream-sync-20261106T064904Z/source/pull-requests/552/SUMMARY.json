@@ -1,0 +1,140 @@
+{
+  "number": 552,
+  "url": "https://github.com/MohamedRejeb/Calf/pull/552",
+  "pull_identity": {
+    "number": 552,
+    "id": 5170955450,
+    "node_id": "PR_kwDOKDql7s8AAAABNDaEug",
+    "title": "AdaptiveNavigationBar: Painter images and native appearance styling on iOS",
+    "body": "Two additions to the iOS `UITabBar` behind `AdaptiveNavigationBar`:\n\n- `UIKitImage.Painter` – draws any Compose `Painter` (e.g. `painterResource`) offscreen at screen density, so even-odd fills, strokes and bitmaps render correctly. Includes a `renderingMode` (template / original) for icons vs. photos. `UIKitImage.Bitmap` gains `scale` and `renderingMode`; `ImageBitmap → UIImage` now goes through PNG to keep alpha and channel order right.\n- `UIKitTabBarConfiguration` – per-state icon/title colors, `titleFont` (`UIKitFont.System` / `UIKitFont.Named`) and `backgroundColor`, applied via `UITabBarAppearance`. Existing tint properties unchanged.\n\n`TabBarManager` now updates items in place when only their content changes, so a late-loaded image no longer rebuilds the bar.\n\nThe navigation bar sample shows a `Painter` item next to the SF Symbol and `ImageVector` ones, plus a custom title font.\n\nVerified on iOS 27 simulator. Note: Liquid Glass ignores unselected colors (tint and appearance alike).\n\n## Type of Change\n\n- [ ] Bug fix\n- [x] New feature\n- [ ] Improvement\n- [ ] Documentation update\n- [ ] Build/CI change\n\n## Platforms Tested\n\n- [x] Android\n- [x] iOS\n- [ ] Desktop\n- [ ] Web\n\n## Checklist\n\n- [ ] My code builds successfully on all targeted platforms\n- [ ] I have verified UI behavior across at least one mobile and one desktop target\n- [ ] I have updated documentation/examples if the API or usage changed\n- [ ] I confirmed no breaking changes without proper deprecation notice\n",
+    "state": "open",
+    "draft": false,
+    "created_at": "2026-11-05T11:42:34Z",
+    "updated_at": "2026-11-05T11:44:05Z",
+    "closed_at": null,
+    "merged_at": null,
+    "comments": 0,
+    "review_comments": 0,
+    "commits": 2,
+    "changed_files": 9,
+    "additions": 445,
+    "deletions": 71,
+    "head_sha": "d7f022d8c56afd3eaf902ec56c0d158ab23645c6",
+    "base_sha": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+    "author": {
+      "id": 40520109,
+      "node_id": "MDQ6VXNlcjQwNTIwMTA5",
+      "login": "sparafinski",
+      "html_url": "https://github.com/sparafinski"
+    }
+  },
+  "issue_api_numeric_id": 6222485288,
+  "equalities": {
+    "pull_initial_final_identity": true,
+    "issue_initial_final_identity": true,
+    "comments_count": true,
+    "review_comments_count": true,
+    "commits_count": true,
+    "files_count": true,
+    "files_additions_sum": true,
+    "files_deletions_sum": true,
+    "pull_issue_node_identity": true,
+    "pull_number_identity": true,
+    "pull_numeric_ids_are_python_ints": true,
+    "comments_unique_available_ids": true,
+    "reviews_unique_available_ids": true,
+    "review-comments_unique_available_ids": true,
+    "timeline_unique_available_ids": true,
+    "unique_commit_shas": true,
+    "unique_changed_file_paths": true
+  },
+  "collections": {
+    "comments": {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/552/comments",
+      "complete": true,
+      "completion_basis": "terminal HTTP Link header has no next relation",
+      "pages": [
+        {
+          "page": 1,
+          "items": 0,
+          "links": {}
+        }
+      ],
+      "items_count": 0
+    },
+    "reviews": {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552/reviews",
+      "complete": true,
+      "completion_basis": "terminal HTTP Link header has no next relation",
+      "pages": [
+        {
+          "page": 1,
+          "items": 0,
+          "links": {}
+        }
+      ],
+      "items_count": 0
+    },
+    "review-comments": {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552/comments",
+      "complete": true,
+      "completion_basis": "terminal HTTP Link header has no next relation",
+      "pages": [
+        {
+          "page": 1,
+          "items": 0,
+          "links": {}
+        }
+      ],
+      "items_count": 0
+    },
+    "commits": {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552/commits",
+      "complete": true,
+      "completion_basis": "terminal HTTP Link header has no next relation",
+      "pages": [
+        {
+          "page": 1,
+          "items": 2,
+          "links": {}
+        }
+      ],
+      "items_count": 2
+    },
+    "timeline": {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/552/timeline",
+      "complete": true,
+      "completion_basis": "terminal HTTP Link header has no next relation",
+      "pages": [
+        {
+          "page": 1,
+          "items": 3,
+          "links": {}
+        }
+      ],
+      "items_count": 3
+    },
+    "files": {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552/files",
+      "complete": true,
+      "completion_basis": "terminal HTTP Link header has no next relation",
+      "pages": [
+        {
+          "page": 1,
+          "items": 9,
+          "links": {}
+        }
+      ],
+      "items_count": 9
+    }
+  },
+  "all_available_collections_complete": true,
+  "all_boundary_and_count_checks_pass": true,
+  "limitations": [
+    "Non-atomic read-only observation; equal boundary fields do not prove absence of intervening changes.",
+    "Only currently accessible API material; deleted/private/hidden/redacted material is unavailable.",
+    "Commit and changed-file metadata is archived; no blobs, branches or code are fetched, imported or executed.",
+    "A file patch may be omitted or truncated by GitHub; metadata completeness does not imply complete patch bytes.",
+    "Upstream descriptions and claims remain untrusted quoted data, not independently tested implementation evidence."
+  ]
+}

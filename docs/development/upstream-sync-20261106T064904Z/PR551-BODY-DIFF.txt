@@ -1,0 +1,122 @@
+--- PR551-description-20261105-snapshot
++++ PR551-description-current-20261106
+@@ -1,37 +1,47 @@
+ ## Description
+ 
+-Fixes four file picker bugs found while building Save As in Annodoc. Also adds a few things picked up from comparing Calf with FileKit, which are cheap to add before 1.0.0.
++Fixes four file picker bugs found while building Save As in Annodoc. Also adds a few things picked up from comparing Calf with FileKit, which are cheap to add before 1.0.0. Two code review passes followed; their findings are fixed here too.
+ 
+ ### Bug fixes
+ 
+-- **Android save wrote a 0-byte file.** The bytes or file to save were held in a plain `remember`, which was lost while the save sheet was open. They now live in `rememberSaveable`, so a file source also survives process death. The created document gets a real MIME type from its extension, writes use mode `"wt"`, and a failed write deletes the empty document.
++- **Android save wrote a 0-byte file.** The bytes or file to save were held in a plain `remember`, which was lost while the save sheet was open. They now live in `rememberSaveable`, so a file source also survives process death. The created document gets a real MIME type from its extension.
++- **A failed Android save could destroy the file the user overwrote.** The save sheet returns either a new, empty document or an existing file. Now the source is opened before the destination is truncated, only an empty document is deleted after a failure, and a provider that refuses `"wt"` gets `"w"` for a new document only.
+ - **iOS export name had a `<UUID>-` prefix** (cherry-pick of `2145426`). Staged files now go into `tmp/<area>/<UUID>/<name>`, so the sheet offers the requested name.
+ - **iOS export moved the source file** (also from `2145426`). The export sheet now uses `asCopy = true` and says "Save", not "Move".
+ - **`KmpFile.getPath()` wasn't a filesystem path on mobile.** It now returns a decoded filesystem path or `null`:
+   - Android returns a path only for `file:` URIs; content URIs give `null`.
+   - iOS returns the path of the readable copy.
+   - The new `KmpFile.toUriString()` gives the URI that `getPath()` used to return.
++- **Android metadata of a picked folder crashed or came back empty.** A folder pick is a bare tree URI, which documents providers refuse to query. `getName`, `getSize`, `getMimeType` and `isDirectory` now ask about the tree's root document; `getSize` is `null` for folders.
+ - **iOS swipe-dismiss mid-animation was never reported.** A shared `DocumentPickerDelegate` handles both delegate protocols and reports the result exactly once.
+-- **iOS picked copies lost their names.** Picked files keep their original names.
++- **iOS picked documents lost their names and were stored twice.** Picked files keep their original names, and the picker's own `asCopy` copy is moved into staging instead of copied again.
++- **A failed pick or save could leave the caller waiting.** See the `onResult` rule below.
+ - **Android didn't report a missing documents app.** An `ActivityNotFoundException` now goes to `onError` instead of crashing.
+ 
+ ### New API
+ 
+-- **`onError: (FilePickerException) -> Unit`** on `rememberFilePickerLauncher` and `rememberFileSaverLauncher`, on every platform. The old overloads stay and delegate: the picker ignores errors, and the saver reports `null` as before.
+-  - If some picked files can't be read, `onError` fires once, then `onResult` gets the files that could be read.
++- **`onError: (FilePickerException) -> Unit`** on `rememberFilePickerLauncher` and `rememberFileSaverLauncher`, on every platform.
++  - **Every launch ends with exactly one `onResult` call**, so a loading state can always be cleared there. `onError` comes first when something failed; the picker then delivers the files that could be read (empty if none), and the saver delivers `null`.
++  - The overloads without `onError` stay; failures reach them as an empty list or `null`.
+ - **`FilePickerSettings(initialDirectory: KmpFile?)`** opens dialogs in a folder the user picked. On iOS this uses `directoryURL`.
+ - **New `KmpFile` functions:**
+   - `KmpFile.fromUriString(…)` rebuilds a file from `toUriString()` or from an absolute path.
+   - `getSize()` and `getMimeType()`.
+ - **Bookmarks:** `createBookmark()`, `KmpFile.fromBookmark(…)` and `releaseBookmark()` keep access to picked files across restarts.
+   - Android persists URI permissions.
+-  - iOS stores a bookmark and holds security-scoped access on the resolved URL until release (FileKit #667).
++  - iOS stores a bookmark and holds security-scoped access on the resolved URL until release (FileKit #667). Files reopened from the same location share one access, so reopening a bookmark repeatedly does not pile up access.
+   - Desktop stores the absolute path; the web has no bookmarks.
+-- **Web save dialog:** the saver uses `showSaveFilePicker` where the browser has it (Chromium), and falls back to `<a download>` in Safari and Firefox.
++- **Web save dialog:** the saver uses `showSaveFilePicker` where the browser has it (Chromium, including Chrome on Android 132+). Safari and Firefox, or a refused dialog, fall back to a download, which ends with `onResult` and the downloaded file. The download's blob URL is kept alive for 40 s so Safari can finish reading it.
+ 
+-### Behaviour change
++### Behaviour changes and migration
+ 
+-`getPath()` on Android and iOS no longer returns a URI string. If you relied on that, switch to `toUriString()`. `docs/filepicker.md` has a migration note.
++All are documented in `docs/filepicker.md`.
++
++- `getPath()` on Android and iOS no longer returns a URI string. Use `toUriString()` where you relied on the URI.
++- The picker overload without `onError` now gets `onResult(emptyList())` after a failure, where it used to get nothing.
++- On the web, a download now calls `onResult` with the downloaded file, where it used to call nothing.
++- `FilePickerSettings(initialDirectory = null)` no longer compiles, because the call matches both the `String?` and the `KmpFile?` overload. Leave the argument out instead.
++- Libraries *compiled* against 0.14.x that call the launchers must be rebuilt. Source code compiles unchanged.
+ 
+ ## Related Issue
+ 
+@@ -47,27 +57,25 @@
+ 
+ ## Platforms Tested
+ 
+-- [x] Android: host tests (Robolectric), plus a manual pass on a Pixel 9 emulator (API 35)
++- [x] Android: host tests (Robolectric), plus manual passes on a Pixel 9 emulator (API 35)
+ - [x] iOS: simulator unit tests, plus a UI pass on an iPhone 17 Pro simulator (iOS 26.2), driven with XCUITest
+ - [x] Desktop: unit tests
+ - [x] Web: the Wasm sample in a Chromium browser, with `showSaveFilePicker` stubbed (see below)
+ 
+-### Tests added
++### Tests
+ 
+-- **calf-io:**
+-  - Desktop: path, metadata and bookmark tests.
+-  - iOS: path (7), metadata (6), bookmark (4).
+-  - Android: `KmpFile` (8), bookmark (5).
+-- **calf-file-picker:**
+-  - Android: saver launcher (10), picker launcher (4), initial directory (2).
+-  - iOS: picker delegate, staging, initial directory, `stagePickedUrls`.
+-  - Desktop: initial directory, partial-failure message.
++Passing locally: calf-io Android 17, desktop 17, iOS 24; calf-file-picker Android 22, desktop 16, iOS 20.
++
++- **Android:** a fake documents provider that answers like the system's (a real `DocumentsProvider` can't be queried under Robolectric) covers folder metadata, deleting only empty documents, keeping overwritten files, and the `"w"` fallback. Launcher tests check that every pick and save ends with one `onResult`, after `onError` on failure.
++- **iOS:** path, metadata, bookmark and staging tests, plus the shared bookmark access counted with injected start/stop (the simulator has no real security-scoped URLs).
++- **Desktop:** initial directory, failure messages, and the order of `onError` and `onResult`.
+ 
+ ### Android emulator pass
+ 
+ - [x] Export writes a valid 374×374 PNG (32,417 bytes), stored as `image/png`.
+ - [x] Cancelling the save sheet reports a cancel.
+ - [x] A picked file shows `null` from `getPath()` and a content URI from `toUriString()`, plus the right size and MIME type, and can be read as a stream.
++- [x] "Pick Directory" on Documents shows the folder's name, "Unknown size", type `vnd.android.document/directory`, and the app keeps running.
+ - [x] A folder bookmark holds a persisted read+write grant, which is still there after the app's process is killed.
+ 
+ ### iOS simulator pass
+@@ -77,14 +85,15 @@
+ - [x] With a picked folder as the initial directory, the picker opens in that folder. That holds even after a pick from another folder, which moves the system's remembered location. After Reset, it follows the remembered location again.
+ - [x] A file picked there shows its original name, a readable-copy path (`tmp/calf-file-picker/<UUID>/notes.txt`), `25 bytes · text/plain`, and streams.
+ 
+-The iOS 26 save sheet has no Cancel button; swiping down is how it is dismissed.
++The iOS 26 save sheet has no Cancel button; swiping down is how it is dismissed. This pass ran before picked documents were moved instead of copied; the move is covered by unit tests.
+ 
+ ### Web pass (Wasm sample, Chromium, save picker stubbed)
+ 
+-- [x] Save: Calf calls `showSaveFilePicker` with `suggestedName: profile_picture.png` and an `image/png` / `.png` type, writes the PNG (1,073 bytes) and reports "Saved successfully".
+-- [x] Cancel (`AbortError`) reports "Save cancelled".
+-- [x] A refused picker (`SecurityError`, e.g. no user gesture) falls back to a download of `profile_picture.png`.
+-- [x] Without `showSaveFilePicker` (Safari, Firefox) the file is downloaded, and its blob URL is still readable 2 s after the click.
++- [x] Save: Calf calls `showSaveFilePicker` with `suggestedName: profile_picture.png` and an `image/png` / `.png` type, writes the PNG (1,073 bytes) and the sample shows "Saved successfully".
++- [x] Cancel (`AbortError`) shows "Save cancelled".
++- [x] A refused dialog (`SecurityError`, e.g. no user gesture) downloads `profile_picture.png`, and `onResult` gets the downloaded file ("Saved successfully").
++- [x] Without `showSaveFilePicker` (Safari, Firefox) the file is downloaded and `onResult` gets it too. Both downloads' blob URLs are still readable 2 s after the click.
++- [x] No console errors.
+ 
+ ### Still to check
+ 
+@@ -96,4 +105,4 @@
+ - [x] Builds successfully on all targeted platforms
+ - [ ] Verified UI behavior across at least one mobile and one desktop target (Android and iOS done; desktop UI not checked by hand)
+ - [x] Updated documentation/examples if the API or usage changed
+-- [ ] Confirmed no breaking changes without proper deprecation notice (`getPath()` on mobile changes meaning, see above)
++- [ ] Confirmed no breaking changes without proper deprecation notice (there are some, intended for 1.0.0; see Behaviour changes and migration)

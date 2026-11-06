@@ -1,0 +1,3457 @@
+{
+  "started_at": "2026-11-06T06:50:39.297516+00:00",
+  "finished_at": "2026-11-06T06:50:57.875054+00:00",
+  "archive_root": "/root/nativecmpkit-source-proposals-20261105/upstream-pr551-pr552-20261106T064904Z",
+  "source": "MohamedRejeb/Calf",
+  "destination": "Apdelrahman1911/nativeCmpkit",
+  "request_count": 30,
+  "request_total_raw_http_bytes": 800400,
+  "request_methods": [
+    "GET"
+  ],
+  "pulls": {
+    "552": {
+      "number": 552,
+      "url": "https://github.com/MohamedRejeb/Calf/pull/552",
+      "pull_identity": {
+        "number": 552,
+        "id": 5170955450,
+        "node_id": "PR_kwDOKDql7s8AAAABNDaEug",
+        "title": "AdaptiveNavigationBar: Painter images and native appearance styling on iOS",
+        "body": "Two additions to the iOS `UITabBar` behind `AdaptiveNavigationBar`:\n\n- `UIKitImage.Painter` – draws any Compose `Painter` (e.g. `painterResource`) offscreen at screen density, so even-odd fills, strokes and bitmaps render correctly. Includes a `renderingMode` (template / original) for icons vs. photos. `UIKitImage.Bitmap` gains `scale` and `renderingMode`; `ImageBitmap → UIImage` now goes through PNG to keep alpha and channel order right.\n- `UIKitTabBarConfiguration` – per-state icon/title colors, `titleFont` (`UIKitFont.System` / `UIKitFont.Named`) and `backgroundColor`, applied via `UITabBarAppearance`. Existing tint properties unchanged.\n\n`TabBarManager` now updates items in place when only their content changes, so a late-loaded image no longer rebuilds the bar.\n\nThe navigation bar sample shows a `Painter` item next to the SF Symbol and `ImageVector` ones, plus a custom title font.\n\nVerified on iOS 27 simulator. Note: Liquid Glass ignores unselected colors (tint and appearance alike).\n\n## Type of Change\n\n- [ ] Bug fix\n- [x] New feature\n- [ ] Improvement\n- [ ] Documentation update\n- [ ] Build/CI change\n\n## Platforms Tested\n\n- [x] Android\n- [x] iOS\n- [ ] Desktop\n- [ ] Web\n\n## Checklist\n\n- [ ] My code builds successfully on all targeted platforms\n- [ ] I have verified UI behavior across at least one mobile and one desktop target\n- [ ] I have updated documentation/examples if the API or usage changed\n- [ ] I confirmed no breaking changes without proper deprecation notice\n",
+        "state": "open",
+        "draft": false,
+        "created_at": "2026-11-05T11:42:34Z",
+        "updated_at": "2026-11-05T11:44:05Z",
+        "closed_at": null,
+        "merged_at": null,
+        "comments": 0,
+        "review_comments": 0,
+        "commits": 2,
+        "changed_files": 9,
+        "additions": 445,
+        "deletions": 71,
+        "head_sha": "d7f022d8c56afd3eaf902ec56c0d158ab23645c6",
+        "base_sha": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+        "author": {
+          "id": 40520109,
+          "node_id": "MDQ6VXNlcjQwNTIwMTA5",
+          "login": "sparafinski",
+          "html_url": "https://github.com/sparafinski"
+        }
+      },
+      "issue_api_numeric_id": 6222485288,
+      "equalities": {
+        "pull_initial_final_identity": true,
+        "issue_initial_final_identity": true,
+        "comments_count": true,
+        "review_comments_count": true,
+        "commits_count": true,
+        "files_count": true,
+        "files_additions_sum": true,
+        "files_deletions_sum": true,
+        "pull_issue_node_identity": true,
+        "pull_number_identity": true,
+        "pull_numeric_ids_are_python_ints": true,
+        "comments_unique_available_ids": true,
+        "reviews_unique_available_ids": true,
+        "review-comments_unique_available_ids": true,
+        "timeline_unique_available_ids": true,
+        "unique_commit_shas": true,
+        "unique_changed_file_paths": true
+      },
+      "collections": {
+        "comments": {
+          "endpoint": "repos/MohamedRejeb/Calf/issues/552/comments",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 0,
+              "links": {}
+            }
+          ],
+          "items_count": 0
+        },
+        "reviews": {
+          "endpoint": "repos/MohamedRejeb/Calf/pulls/552/reviews",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 0,
+              "links": {}
+            }
+          ],
+          "items_count": 0
+        },
+        "review-comments": {
+          "endpoint": "repos/MohamedRejeb/Calf/pulls/552/comments",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 0,
+              "links": {}
+            }
+          ],
+          "items_count": 0
+        },
+        "commits": {
+          "endpoint": "repos/MohamedRejeb/Calf/pulls/552/commits",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 2,
+              "links": {}
+            }
+          ],
+          "items_count": 2
+        },
+        "timeline": {
+          "endpoint": "repos/MohamedRejeb/Calf/issues/552/timeline",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 3,
+              "links": {}
+            }
+          ],
+          "items_count": 3
+        },
+        "files": {
+          "endpoint": "repos/MohamedRejeb/Calf/pulls/552/files",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 9,
+              "links": {}
+            }
+          ],
+          "items_count": 9
+        }
+      },
+      "all_available_collections_complete": true,
+      "all_boundary_and_count_checks_pass": true,
+      "limitations": [
+        "Non-atomic read-only observation; equal boundary fields do not prove absence of intervening changes.",
+        "Only currently accessible API material; deleted/private/hidden/redacted material is unavailable.",
+        "Commit and changed-file metadata is archived; no blobs, branches or code are fetched, imported or executed.",
+        "A file patch may be omitted or truncated by GitHub; metadata completeness does not imply complete patch bytes.",
+        "Upstream descriptions and claims remain untrusted quoted data, not independently tested implementation evidence."
+      ]
+    },
+    "551": {
+      "number": 551,
+      "url": "https://github.com/MohamedRejeb/Calf/pull/551",
+      "pull_identity": {
+        "number": 551,
+        "id": 4884406787,
+        "node_id": "PR_kwDOKDql7s8AAAABIyIiAw",
+        "title": "Fix file picker export and getPath; add onError, bookmarks and web save dialog",
+        "body": "## Description\n\nFixes four file picker bugs found while building Save As in Annodoc. Also adds a few things picked up from comparing Calf with FileKit, which are cheap to add before 1.0.0. Two code review passes followed; their findings are fixed here too.\n\n### Bug fixes\n\n- **Android save wrote a 0-byte file.** The bytes or file to save were held in a plain `remember`, which was lost while the save sheet was open. They now live in `rememberSaveable`, so a file source also survives process death. The created document gets a real MIME type from its extension.\n- **A failed Android save could destroy the file the user overwrote.** The save sheet returns either a new, empty document or an existing file. Now the source is opened before the destination is truncated, only an empty document is deleted after a failure, and a provider that refuses `\"wt\"` gets `\"w\"` for a new document only.\n- **iOS export name had a `<UUID>-` prefix** (cherry-pick of `2145426`). Staged files now go into `tmp/<area>/<UUID>/<name>`, so the sheet offers the requested name.\n- **iOS export moved the source file** (also from `2145426`). The export sheet now uses `asCopy = true` and says \"Save\", not \"Move\".\n- **`KmpFile.getPath()` wasn't a filesystem path on mobile.** It now returns a decoded filesystem path or `null`:\n  - Android returns a path only for `file:` URIs; content URIs give `null`.\n  - iOS returns the path of the readable copy.\n  - The new `KmpFile.toUriString()` gives the URI that `getPath()` used to return.\n- **Android metadata of a picked folder crashed or came back empty.** A folder pick is a bare tree URI, which documents providers refuse to query. `getName`, `getSize`, `getMimeType` and `isDirectory` now ask about the tree's root document; `getSize` is `null` for folders.\n- **iOS swipe-dismiss mid-animation was never reported.** A shared `DocumentPickerDelegate` handles both delegate protocols and reports the result exactly once.\n- **iOS picked documents lost their names and were stored twice.** Picked files keep their original names, and the picker's own `asCopy` copy is moved into staging instead of copied again.\n- **A failed pick or save could leave the caller waiting.** See the `onResult` rule below.\n- **Android didn't report a missing documents app.** An `ActivityNotFoundException` now goes to `onError` instead of crashing.\n\n### New API\n\n- **`onError: (FilePickerException) -> Unit`** on `rememberFilePickerLauncher` and `rememberFileSaverLauncher`, on every platform.\n  - **Every launch ends with exactly one `onResult` call**, so a loading state can always be cleared there. `onError` comes first when something failed; the picker then delivers the files that could be read (empty if none), and the saver delivers `null`.\n  - The overloads without `onError` stay; failures reach them as an empty list or `null`.\n- **`FilePickerSettings(initialDirectory: KmpFile?)`** opens dialogs in a folder the user picked. On iOS this uses `directoryURL`.\n- **New `KmpFile` functions:**\n  - `KmpFile.fromUriString(…)` rebuilds a file from `toUriString()` or from an absolute path.\n  - `getSize()` and `getMimeType()`.\n- **Bookmarks:** `createBookmark()`, `KmpFile.fromBookmark(…)` and `releaseBookmark()` keep access to picked files across restarts.\n  - Android persists URI permissions.\n  - iOS stores a bookmark and holds security-scoped access on the resolved URL until release (FileKit #667). Files reopened from the same location share one access, so reopening a bookmark repeatedly does not pile up access.\n  - Desktop stores the absolute path; the web has no bookmarks.\n- **Web save dialog:** the saver uses `showSaveFilePicker` where the browser has it (Chromium, including Chrome on Android 132+). Safari and Firefox, or a refused dialog, fall back to a download, which ends with `onResult` and the downloaded file. The download's blob URL is kept alive for 40 s so Safari can finish reading it.\n\n### Behaviour changes and migration\n\nAll are documented in `docs/filepicker.md`.\n\n- `getPath()` on Android and iOS no longer returns a URI string. Use `toUriString()` where you relied on the URI.\n- The picker overload without `onError` now gets `onResult(emptyList())` after a failure, where it used to get nothing.\n- On the web, a download now calls `onResult` with the downloaded file, where it used to call nothing.\n- `FilePickerSettings(initialDirectory = null)` no longer compiles, because the call matches both the `String?` and the `KmpFile?` overload. Leave the argument out instead.\n- Libraries *compiled* against 0.14.x that call the launchers must be rebuilt. Source code compiles unchanged.\n\n## Related Issue\n\nNone on GitHub. These were reported from Annodoc's Save As work.\n\n## Type of Change\n\n- [x] Bug fix\n- [x] New feature\n- [x] Improvement\n- [x] Documentation update\n- [x] Build/CI change (Robolectric + Compose UI test deps for Android host tests)\n\n## Platforms Tested\n\n- [x] Android: host tests (Robolectric), plus manual passes on a Pixel 9 emulator (API 35)\n- [x] iOS: simulator unit tests, plus a UI pass on an iPhone 17 Pro simulator (iOS 26.2), driven with XCUITest\n- [x] Desktop: unit tests\n- [x] Web: the Wasm sample in a Chromium browser, with `showSaveFilePicker` stubbed (see below)\n\n### Tests\n\nPassing locally: calf-io Android 17, desktop 17, iOS 24; calf-file-picker Android 22, desktop 16, iOS 20.\n\n- **Android:** a fake documents provider that answers like the system's (a real `DocumentsProvider` can't be queried under Robolectric) covers folder metadata, deleting only empty documents, keeping overwritten files, and the `\"w\"` fallback. Launcher tests check that every pick and save ends with one `onResult`, after `onError` on failure.\n- **iOS:** path, metadata, bookmark and staging tests, plus the shared bookmark access counted with injected start/stop (the simulator has no real security-scoped URLs).\n- **Desktop:** initial directory, failure messages, and the order of `onError` and `onResult`.\n\n### Android emulator pass\n\n- [x] Export writes a valid 374×374 PNG (32,417 bytes), stored as `image/png`.\n- [x] Cancelling the save sheet reports a cancel.\n- [x] A picked file shows `null` from `getPath()` and a content URI from `toUriString()`, plus the right size and MIME type, and can be read as a stream.\n- [x] \"Pick Directory\" on Documents shows the folder's name, \"Unknown size\", type `vnd.android.document/directory`, and the app keeps running.\n- [x] A folder bookmark holds a persisted read+write grant, which is still there after the app's process is killed.\n\n### iOS simulator pass\n\n- [x] The save sheet offers `profile_picture` (extension hidden by the sheet) and says \"Save\", not \"Move\". The file lands as `profile_picture.png`, a valid 318×318 PNG, and the saver's staging folder is emptied.\n- [x] Swiping the save sheet down reports \"Save cancelled\", both after it settles and while it is still sliding in. Swipes 40–200 ms after the sheet starts appearing, in 20 ms steps, were all reported; none dismissed silently.\n- [x] With a picked folder as the initial directory, the picker opens in that folder. That holds even after a pick from another folder, which moves the system's remembered location. After Reset, it follows the remembered location again.\n- [x] A file picked there shows its original name, a readable-copy path (`tmp/calf-file-picker/<UUID>/notes.txt`), `25 bytes · text/plain`, and streams.\n\nThe iOS 26 save sheet has no Cancel button; swiping down is how it is dismissed. This pass ran before picked documents were moved instead of copied; the move is covered by unit tests.\n\n### Web pass (Wasm sample, Chromium, save picker stubbed)\n\n- [x] Save: Calf calls `showSaveFilePicker` with `suggestedName: profile_picture.png` and an `image/png` / `.png` type, writes the PNG (1,073 bytes) and the sample shows \"Saved successfully\".\n- [x] Cancel (`AbortError`) shows \"Save cancelled\".\n- [x] A refused dialog (`SecurityError`, e.g. no user gesture) downloads `profile_picture.png`, and `onResult` gets the downloaded file (\"Saved successfully\").\n- [x] Without `showSaveFilePicker` (Safari, Firefox) the file is downloaded and `onResult` gets it too. Both downloads' blob URLs are still readable 2 s after the click.\n- [x] No console errors.\n\n### Still to check\n\n- [ ] Chrome's own save dialog by hand (the stub covers Calf's side only).\n- [ ] Safari: Export Photo downloads the file.\n\n## Checklist\n\n- [x] Builds successfully on all targeted platforms\n- [ ] Verified UI behavior across at least one mobile and one desktop target (Android and iOS done; desktop UI not checked by hand)\n- [x] Updated documentation/examples if the API or usage changed\n- [ ] Confirmed no breaking changes without proper deprecation notice (there are some, intended for 1.0.0; see Behaviour changes and migration)\n",
+        "state": "open",
+        "draft": false,
+        "created_at": "2026-10-16T06:25:13Z",
+        "updated_at": "2026-11-06T06:32:22Z",
+        "closed_at": null,
+        "merged_at": null,
+        "comments": 0,
+        "review_comments": 0,
+        "commits": 17,
+        "changed_files": 70,
+        "additions": 3519,
+        "deletions": 321,
+        "head_sha": "e083b8ba3ed3511977d83d27dbbcab25c1394d2f",
+        "base_sha": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+        "author": {
+          "id": 41842296,
+          "node_id": "MDQ6VXNlcjQxODQyMjk2",
+          "login": "MohamedRejeb",
+          "html_url": "https://github.com/MohamedRejeb"
+        }
+      },
+      "issue_api_numeric_id": 5879446607,
+      "equalities": {
+        "pull_initial_final_identity": true,
+        "issue_initial_final_identity": true,
+        "comments_count": true,
+        "review_comments_count": true,
+        "commits_count": true,
+        "files_count": true,
+        "files_additions_sum": true,
+        "files_deletions_sum": true,
+        "pull_issue_node_identity": true,
+        "pull_number_identity": true,
+        "pull_numeric_ids_are_python_ints": true,
+        "comments_unique_available_ids": true,
+        "reviews_unique_available_ids": true,
+        "review-comments_unique_available_ids": true,
+        "timeline_unique_available_ids": true,
+        "unique_commit_shas": true,
+        "unique_changed_file_paths": true
+      },
+      "collections": {
+        "comments": {
+          "endpoint": "repos/MohamedRejeb/Calf/issues/551/comments",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 0,
+              "links": {}
+            }
+          ],
+          "items_count": 0
+        },
+        "reviews": {
+          "endpoint": "repos/MohamedRejeb/Calf/pulls/551/reviews",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 0,
+              "links": {}
+            }
+          ],
+          "items_count": 0
+        },
+        "review-comments": {
+          "endpoint": "repos/MohamedRejeb/Calf/pulls/551/comments",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 0,
+              "links": {}
+            }
+          ],
+          "items_count": 0
+        },
+        "commits": {
+          "endpoint": "repos/MohamedRejeb/Calf/pulls/551/commits",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 17,
+              "links": {}
+            }
+          ],
+          "items_count": 17
+        },
+        "timeline": {
+          "endpoint": "repos/MohamedRejeb/Calf/issues/551/timeline",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 27,
+              "links": {}
+            }
+          ],
+          "items_count": 27
+        },
+        "files": {
+          "endpoint": "repos/MohamedRejeb/Calf/pulls/551/files",
+          "complete": true,
+          "completion_basis": "terminal HTTP Link header has no next relation",
+          "pages": [
+            {
+              "page": 1,
+              "items": 70,
+              "links": {}
+            }
+          ],
+          "items_count": 70
+        }
+      },
+      "all_available_collections_complete": true,
+      "all_boundary_and_count_checks_pass": true,
+      "limitations": [
+        "Non-atomic read-only observation; equal boundary fields do not prove absence of intervening changes.",
+        "Only currently accessible API material; deleted/private/hidden/redacted material is unavailable.",
+        "Commit and changed-file metadata is archived; no blobs, branches or code are fetched, imported or executed.",
+        "A file patch may be omitted or truncated by GitHub; metadata completeness does not imply complete patch bytes.",
+        "Upstream descriptions and claims remain untrusted quoted data, not independently tested implementation evidence."
+      ]
+    }
+  },
+  "owner_context": {
+    "44": {
+      "number": 44,
+      "id": 6014979622,
+      "node_id": "I_kwDOVV8PH88AAAABZoVOJg",
+      "title": "[Medium][IO-007] iOS picker completion is not exactly once and document swipe dismissal is not observed",
+      "state": "open",
+      "updated_at": "2026-10-24T16:17:11Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/44"
+    },
+    "8": {
+      "number": 8,
+      "id": 6014957885,
+      "node_id": "I_kwDOVV8PH88AAAABZoT5PQ",
+      "title": "[High][IO-005] iOS saver exports the original source with move semantics and ignores requested file names",
+      "state": "open",
+      "updated_at": "2026-10-24T16:14:46Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/8"
+    },
+    "45": {
+      "number": 45,
+      "id": 6014980216,
+      "node_id": "I_kwDOVV8PH88AAAABZoVQeA",
+      "title": "[Medium][IO-008] Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs",
+      "state": "open",
+      "updated_at": "2026-10-31T22:47:34Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/45"
+    },
+    "48": {
+      "number": 48,
+      "id": 6014981993,
+      "node_id": "I_kwDOVV8PH88AAAABZoVXaQ",
+      "title": "[Medium][IO-011] Web saver accepts onResult but never calls it or exposes download-only capability",
+      "state": "open",
+      "updated_at": "2026-10-24T16:17:27Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/48"
+    },
+    "49": {
+      "number": 49,
+      "id": 6014982530,
+      "node_id": "I_kwDOVV8PH88AAAABZoVZgg",
+      "title": "[Medium][IO-012] Immediate web Blob URL revocation can race the browser download",
+      "state": "open",
+      "updated_at": "2026-10-24T16:17:31Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/49"
+    },
+    "52": {
+      "number": 52,
+      "id": 6014984181,
+      "node_id": "I_kwDOVV8PH88AAAABZoVf9Q",
+      "title": "[Medium][IO-015] Desktop MIME filtering omits modern image formats and silently disables unknown custom filters",
+      "state": "open",
+      "updated_at": "2026-10-24T16:17:42Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/52"
+    },
+    "55": {
+      "number": 55,
+      "id": 6014985794,
+      "node_id": "I_kwDOVV8PH88AAAABZoVmQg",
+      "title": "[Medium][IO-019] Android folder selections are wrapped using single-document metadata and stream-based existence",
+      "state": "open",
+      "updated_at": "2026-11-02T19:52:07Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/55"
+    },
+    "54": {
+      "number": 54,
+      "id": 6014985254,
+      "node_id": "I_kwDOVV8PH88AAAABZoVkJg",
+      "title": "[Medium][IO-018] Multiple selection accepts invalid limits and differs across platform fallback paths",
+      "state": "open",
+      "updated_at": "2026-10-24T16:17:50Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/54"
+    },
+    "57": {
+      "number": 57,
+      "id": 6014986913,
+      "node_id": "I_kwDOVV8PH88AAAABZoVqoQ",
+      "title": "[Medium][IO-021] Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance",
+      "state": "open",
+      "updated_at": "2026-10-31T22:47:46Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/57"
+    },
+    "167": {
+      "number": 167,
+      "id": 6015051658,
+      "node_id": "I_kwDOVV8PH88AAAABZoZnig",
+      "title": "[Low][Upstream #471] Feature request: iOS-native styling customization for AdaptiveNavigationBar and AdaptiveTopBar",
+      "state": "open",
+      "updated_at": "2026-10-24T18:43:18Z",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/167"
+    }
+  },
+  "requests": [
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/551",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:39.297955+00:00",
+      "finished_at": "2026-11-06T06:50:40.673941+00:00",
+      "duration_seconds": 1.3759653160814196,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "25495"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:45 GMT"
+        ],
+        "etag": [
+          "\"c8ae54ab95d28deda15173c7c120e2efc69e9a32e92a1be8b01e9bf280a15463\""
+        ],
+        "last-modified": [
+          "Fri, 06 Nov 2026 06:32:22 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "DF73:3C6C39:3251525:4B70E0E:6AED78C5"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a, 178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4996"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "4"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/pull-initial.http.txt",
+        "bytes": 26981,
+        "sha256": "6844db356f5ad04abf1ec86d686a9968aea68f39ffe37017d3e675b3dc0a4382"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/pull-initial.json",
+        "bytes": 25495,
+        "sha256": "f5466264f3f71d7556c44dbed71d5f47d4b19030e1ab76d7b6804877f59986f8"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:39.298892+00:00",
+      "finished_at": "2026-11-06T06:50:40.707525+00:00",
+      "duration_seconds": 1.4086204569321126,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "17824"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:45 GMT"
+        ],
+        "etag": [
+          "\"1e8bb183cae72384804b2bfa3935d861362d86b8220c27277c92168cd2a6ac1c\""
+        ],
+        "last-modified": [
+          "Thu, 05 Nov 2026 11:44:05 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "A0D1:24E748:32E2F86:4C4A802:6AED78C5"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a, 178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4997"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "3"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/pull-initial.http.txt",
+        "bytes": 19310,
+        "sha256": "6b7bb6f46da50817b7e676f5f45211df40356be5c136666e1a5cd8cb381307b9"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/pull-initial.json",
+        "bytes": 17824,
+        "sha256": "85586ae97d87a721205310582e27748d2432cade62f3ee37275b7a42a0f63a0f"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/551",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:40.674682+00:00",
+      "finished_at": "2026-11-06T06:50:41.834562+00:00",
+      "duration_seconds": 1.1598950929474086,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:46 GMT"
+        ],
+        "etag": [
+          "W/\"309fd0d3f23d7e9fb718e3af53808fc2d8a7221d823c4cc99285f2c9271224c4\""
+        ],
+        "last-modified": [
+          "Fri, 06 Nov 2026 06:32:22 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "8DC9:3C045C:30630FB:4891030:6AED78C6"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4995"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "5"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/issue-initial.http.txt",
+        "bytes": 12850,
+        "sha256": "70e3e4a0e557d1f77d39d09be8a19df85bfae1bace0ad0bd3b85bcbc35c6103b"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/issue-initial.json",
+        "bytes": 11408,
+        "sha256": "14a97cdd541fef66589a05636212362369482680dce80c9da9875343ce1ed103"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/552",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:40.708411+00:00",
+      "finished_at": "2026-11-06T06:50:41.835039+00:00",
+      "duration_seconds": 1.126645514043048,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:46 GMT"
+        ],
+        "etag": [
+          "W/\"c99ee8311cde3b638540d74a554c9262b5279d8f8eff1fbaa00bd3a304437bb8\""
+        ],
+        "last-modified": [
+          "Thu, 05 Nov 2026 11:44:05 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "B133:1AF018:3192030:4A5FB0F:6AED78C6"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4994"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "6"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/issue-initial.http.txt",
+        "bytes": 5443,
+        "sha256": "aee42c02314e1dfd19bf10c18702c0bd100fb2040935082429645565af5a3808"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/issue-initial.json",
+        "bytes": 4001,
+        "sha256": "dd076c5887c673698515319a0b9cbf0ff99b81bec799d05480efb5313442f30b"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/551/comments?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:41.835875+00:00",
+      "finished_at": "2026-11-06T06:50:42.938531+00:00",
+      "duration_seconds": 1.102658072952181,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "2"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:48 GMT"
+        ],
+        "etag": [
+          "\"ce2687a891f92958181b188808985e1c9feb7f93f8c28804dbd9ca01c8e8cb8a\""
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "DF9D:282796:31081FD:49761EF:6AED78C7"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4992"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "8"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/comments/page-0001.http.txt",
+        "bytes": 1411,
+        "sha256": "f8197644e813c667d3349c0565f2d2747e67933900d6da76768c42377e331dc7"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/comments/page-0001.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/552/comments?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:41.836007+00:00",
+      "finished_at": "2026-11-06T06:50:42.913862+00:00",
+      "duration_seconds": 1.07786495401524,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "2"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:48 GMT"
+        ],
+        "etag": [
+          "\"ce2687a891f92958181b188808985e1c9feb7f93f8c28804dbd9ca01c8e8cb8a\""
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "C5F1:1E4329:30EF34F:4939FDF:6AED78C7"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4993"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "7"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/comments/page-0001.http.txt",
+        "bytes": 1411,
+        "sha256": "906b2ec248af53b412f43fae79761f9ddab0dc8df73d83568f2a405c8c3f16fd"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/comments/page-0001.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552/reviews?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:42.914731+00:00",
+      "finished_at": "2026-11-06T06:50:44.065741+00:00",
+      "duration_seconds": 1.1510208880063146,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "2"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:49 GMT"
+        ],
+        "etag": [
+          "\"ce2687a891f92958181b188808985e1c9feb7f93f8c28804dbd9ca01c8e8cb8a\""
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "AD6B:343F80:3145264:4A05C09:6AED78C8"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4991"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "9"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/reviews/page-0001.http.txt",
+        "bytes": 1411,
+        "sha256": "49f98a9e57a93b85e4d537f5476ff910c3c5afcc7b3458fd7f07106df08c9b7d"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/reviews/page-0001.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/551/reviews?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:42.939286+00:00",
+      "finished_at": "2026-11-06T06:50:44.299033+00:00",
+      "duration_seconds": 1.3597589298151433,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "2"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:49 GMT"
+        ],
+        "etag": [
+          "\"ce2687a891f92958181b188808985e1c9feb7f93f8c28804dbd9ca01c8e8cb8a\""
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "9105:3DFCCB:32A3F1D:4BCEBC2:6AED78C8"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4990"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "10"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/reviews/page-0001.http.txt",
+        "bytes": 1412,
+        "sha256": "caa135ccf1fe6cbcaf4bad31db72a5434f5e4bfa76afdfc1b7a9110082a14a00"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/reviews/page-0001.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552/comments?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:44.066416+00:00",
+      "finished_at": "2026-11-06T06:50:45.200769+00:00",
+      "duration_seconds": 1.1343670429196209,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "2"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:50 GMT"
+        ],
+        "etag": [
+          "\"ce2687a891f92958181b188808985e1c9feb7f93f8c28804dbd9ca01c8e8cb8a\""
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "A14B:25C2F5:33E685F:4D9D405:6AED78C9"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4989"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "11"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/review-comments/page-0001.http.txt",
+        "bytes": 1412,
+        "sha256": "859ed9c19f53d315b03a398747896c1d2f40f7849efc6fb5cced43fed8786c0d"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/review-comments/page-0001.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/551/comments?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:44.299682+00:00",
+      "finished_at": "2026-11-06T06:50:45.369020+00:00",
+      "duration_seconds": 1.0693576240446419,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "2"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:50 GMT"
+        ],
+        "etag": [
+          "\"ce2687a891f92958181b188808985e1c9feb7f93f8c28804dbd9ca01c8e8cb8a\""
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "C923:1C2657:3150C2E:49C5185:6AED78CA"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4988"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "12"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/review-comments/page-0001.http.txt",
+        "bytes": 1412,
+        "sha256": "d4d808a2205745b51c4b6c146d3249310758dab74f085ceb51d9184d9d85ec37"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/review-comments/page-0001.json",
+        "bytes": 2,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552/commits?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:45.201456+00:00",
+      "finished_at": "2026-11-06T06:50:46.425758+00:00",
+      "duration_seconds": 1.2243109859991819,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:51 GMT"
+        ],
+        "etag": [
+          "W/\"9773f06e46f8d3d2fb34eabfa0919a6cf6f5795bf76ea8235deafc88f004e10c\""
+        ],
+        "last-modified": [
+          "Thu, 05 Nov 2026 11:44:05 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "C26B:3DFCCB:32A51B8:4BD06C7:6AED78CA"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4987"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "13"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/commits/page-0001.http.txt",
+        "bytes": 8983,
+        "sha256": "fa01d51e5c37cc55f45b1686a5d6ee565cddfee9efa17f2d384535a0ae2b2a4b"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/commits/page-0001.json",
+        "bytes": 7544,
+        "sha256": "812236988ec0e53b670379f2b63558045687e5b31767e42c59b5c86f8efd9935"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/551/commits?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:45.369831+00:00",
+      "finished_at": "2026-11-06T06:50:46.577594+00:00",
+      "duration_seconds": 1.2077763120178133,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:51 GMT"
+        ],
+        "etag": [
+          "W/\"73637b7f08577ad1c33d89fc2e21aad659ab47954d4f1f73235d6da49951846f\""
+        ],
+        "last-modified": [
+          "Fri, 06 Nov 2026 06:32:22 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "DF7B:29C468:31DAF1E:4AEB4F4:6AED78CB"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4986"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "14"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/commits/page-0001.http.txt",
+        "bytes": 68702,
+        "sha256": "36bfff25f416983cfdc66a3c9411c2dc49e5cf57de452d2bc34a3ebc9a49da49"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/commits/page-0001.json",
+        "bytes": 67263,
+        "sha256": "e167f0ad58a902755b36502dcd3a59aac7e1e64330fbf260e216e2c067c945a5"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/552/timeline?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:46.426731+00:00",
+      "finished_at": "2026-11-06T06:50:47.719227+00:00",
+      "duration_seconds": 1.2925009629689157,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:52 GMT"
+        ],
+        "etag": [
+          "W/\"01a7b5b22db0a312d31b460b3c5e7298b89c0a3fa55d286e496334919d1a18e5\""
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "E671:3DFCCB:32A5C41:4BD1691:6AED78CC"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4985"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "15"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/timeline/page-0001.http.txt",
+        "bytes": 5955,
+        "sha256": "846f8bf3aac2604f73d9f3e278c91a6747892e368987714de0bd1399544bc4e3"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/timeline/page-0001.json",
+        "bytes": 4558,
+        "sha256": "34c88715b138f12b66d31fe638daa9626be00b3a88b0f469c05d959a67ad220c"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/551/timeline?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:46.578437+00:00",
+      "finished_at": "2026-11-06T06:50:48.117108+00:00",
+      "duration_seconds": 1.5386812598444521,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:53 GMT"
+        ],
+        "etag": [
+          "W/\"c014a07000f1e9efd40eff55d96f75875fd48043dc2faad3ed7ec50cae10ca57\""
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "873B:233251:30F0E37:495AFCE:6AED78CC"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4984"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "16"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/timeline/page-0001.http.txt",
+        "bytes": 178047,
+        "sha256": "ecdb667f4e4759ce47c57b4f9f0cbfe0619cfa146e263d325c71474b8a997fe4"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/timeline/page-0001.json",
+        "bytes": 176650,
+        "sha256": "732ecdf817e0b255ae1e8d92507f13657947d1c81630df8e729c8e54b79cfd3f"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552/files?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:47.720354+00:00",
+      "finished_at": "2026-11-06T06:50:49.107490+00:00",
+      "duration_seconds": 1.3871618418488652,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:54 GMT"
+        ],
+        "etag": [
+          "W/\"3be47032f31dc4381801a618b523b9ebc1af67fe7bca3e1be096f80624a0e7ec\""
+        ],
+        "last-modified": [
+          "Thu, 05 Nov 2026 11:44:05 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "8C43:3C6C39:32557BE:4B7718E:6AED78CD"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4983"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "17"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/files/page-0001.http.txt",
+        "bytes": 41882,
+        "sha256": "79582f6e134014774e6315648dfef82a2706f70fd403d20d2c6ec722ec0cd523"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/files/page-0001.json",
+        "bytes": 40443,
+        "sha256": "950ff6612797bd05c8402e8682298f21077993cbdba1d14784c20d0406b33b76"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/551/files?per_page=100&page=1",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:48.117904+00:00",
+      "finished_at": "2026-11-06T06:50:49.667693+00:00",
+      "duration_seconds": 1.5498010420706123,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:54 GMT"
+        ],
+        "etag": [
+          "W/\"ad222efdf94902d24d0f847758b8c05307d184c4292aecaa5fd2422d892f724e\""
+        ],
+        "last-modified": [
+          "Fri, 06 Nov 2026 06:32:22 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          ""
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "CDA1:1F151E:31A3440:4A7BBF0:6AED78CD"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4982"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "18"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/files/page-0001.http.txt",
+        "bytes": 267827,
+        "sha256": "459a567fa3584fa721747afeb42478fe67b6fa28144647e3000b88ef652c94c3"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/files/page-0001.json",
+        "bytes": 266388,
+        "sha256": "8b60574a9c4803113fe6b44bf55e3bb09d3fccd20872d231c025936495b072e6"
+      },
+      "body_json_type": "array"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/552",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:49.108196+00:00",
+      "finished_at": "2026-11-06T06:50:50.567853+00:00",
+      "duration_seconds": 1.4596672169864178,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "17824"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:55 GMT"
+        ],
+        "etag": [
+          "\"1e8bb183cae72384804b2bfa3935d861362d86b8220c27277c92168cd2a6ac1c\""
+        ],
+        "last-modified": [
+          "Thu, 05 Nov 2026 11:44:05 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "85B7:271F7B:30E4F49:493D47B:6AED78CE"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a, 178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4981"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "19"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/pull-final.http.txt",
+        "bytes": 19311,
+        "sha256": "6700ef9760aa9310d0b1174fa8d220ce85e97862bc382e8df203f49b87e18f8a"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/pull-final.json",
+        "bytes": 17824,
+        "sha256": "85586ae97d87a721205310582e27748d2432cade62f3ee37275b7a42a0f63a0f"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/pulls/551",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:49.668479+00:00",
+      "finished_at": "2026-11-06T06:50:50.946886+00:00",
+      "duration_seconds": 1.2784162890166044,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-length": [
+          "25495"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:55 GMT"
+        ],
+        "etag": [
+          "\"c8ae54ab95d28deda15173c7c120e2efc69e9a32e92a1be8b01e9bf280a15463\""
+        ],
+        "last-modified": [
+          "Fri, 06 Nov 2026 06:32:22 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "DEF3:240AED:31CECC6:4A98939:6AED78CF"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a, 178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4980"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "20"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/pull-final.http.txt",
+        "bytes": 26982,
+        "sha256": "853268d258b3d2c0fdf11466654c615558af8f6252ba14c136f3e4d499712c37"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/pull-final.json",
+        "bytes": 25495,
+        "sha256": "f5466264f3f71d7556c44dbed71d5f47d4b19030e1ab76d7b6804877f59986f8"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/552",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:50.568541+00:00",
+      "finished_at": "2026-11-06T06:50:51.709495+00:00",
+      "duration_seconds": 1.1409776899963617,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:56 GMT"
+        ],
+        "etag": [
+          "W/\"c99ee8311cde3b638540d74a554c9262b5279d8f8eff1fbaa00bd3a304437bb8\""
+        ],
+        "last-modified": [
+          "Thu, 05 Nov 2026 11:44:05 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "8629:25C2F5:33E9EA8:4DA2500:6AED78D0"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4979"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "21"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/552/issue-final.http.txt",
+        "bytes": 5444,
+        "sha256": "e5aadf25f4afe1ecc205298e174d3ca41e3a05addc5f246a38b20bab347811cd"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/552/issue-final.json",
+        "bytes": 4001,
+        "sha256": "dd076c5887c673698515319a0b9cbf0ff99b81bec799d05480efb5313442f30b"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/MohamedRejeb/Calf/issues/551",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:50.947751+00:00",
+      "finished_at": "2026-11-06T06:50:52.041307+00:00",
+      "duration_seconds": 1.09356491221115,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:57 GMT"
+        ],
+        "etag": [
+          "W/\"309fd0d3f23d7e9fb718e3af53808fc2d8a7221d823c4cc99285f2c9271224c4\""
+        ],
+        "last-modified": [
+          "Fri, 06 Nov 2026 06:32:22 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "BCA7:1D0E23:322F6F9:4B3B96C:6AED78D0"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4978"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "22"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "source/pull-requests/551/issue-final.http.txt",
+        "bytes": 12851,
+        "sha256": "1113271a1757fc34bf98caffb436ca5166aa350cb88373dbd80781a9eceef7de"
+      },
+      "raw_body": {
+        "path": "source/pull-requests/551/issue-final.json",
+        "bytes": 11408,
+        "sha256": "14a97cdd541fef66589a05636212362369482680dce80c9da9875343ce1ed103"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/8",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:52.043869+00:00",
+      "finished_at": "2026-11-06T06:50:53.162156+00:00",
+      "duration_seconds": 1.1182591901160777,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:58 GMT"
+        ],
+        "etag": [
+          "W/\"bc8220d60ce978e9d79a67b9b13b95553002fbd765cbf2089552204bdaf13634\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 05:04:33 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "8481:343F80:3149AB9:4A0C85E:6AED78D1"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4977"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "23"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/8.http.txt",
+        "bytes": 9171,
+        "sha256": "df706e29ff070d8b9e18eb6c396f269d47c03ed95a0088a94218871b1e6337e3"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/8.json",
+        "bytes": 7728,
+        "sha256": "0cd733e4672f5341e40eb363d66534b87ca3a1b81f36450ff6e8fd2c18cfb176"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/44",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:52.044009+00:00",
+      "finished_at": "2026-11-06T06:50:53.159640+00:00",
+      "duration_seconds": 1.1156401638872921,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:58 GMT"
+        ],
+        "etag": [
+          "W/\"a55ea0ff8c0903eec68c1d8edf2d0eba8de9d0a43341de8b27da9b18932a9bf2\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 05:04:33 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "94B1:1C2657:3154B48:49CAF3C:6AED78D1"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4976"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "24"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/44.http.txt",
+        "bytes": 9603,
+        "sha256": "0b19ccc6fc85ca6337a773d610959dced64c1f24964eb4a3c612b8885761010b"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/44.json",
+        "bytes": 8160,
+        "sha256": "895e05fdb5bf45f2d0ee2ee5e4b27ad0e716f71c3134adc08052abcbcd0de0ef"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/45",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:53.160958+00:00",
+      "finished_at": "2026-11-06T06:50:54.243255+00:00",
+      "duration_seconds": 1.0822973239701241,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:59 GMT"
+        ],
+        "etag": [
+          "W/\"666fac0bd82558e1c2fb4fc1b59ac1e0725bb19991cdfcb5eeab54ace6172a03\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 22:47:34 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "B3E9:282796:310DB4B:497E6B2:6AED78D2"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4975"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "25"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/45.http.txt",
+        "bytes": 9704,
+        "sha256": "d1104ad35c27bb312bc53b402f9343f1da700f6fe25d13c46baeebe3707e50b5"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/45.json",
+        "bytes": 8261,
+        "sha256": "dfb75e2bd3e58e85457a89d60647e8622d8198d0fc0629c6d67bee1bfca8bffd"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/48",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:53.162803+00:00",
+      "finished_at": "2026-11-06T06:50:54.274483+00:00",
+      "duration_seconds": 1.1117009571753442,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:50:59 GMT"
+        ],
+        "etag": [
+          "W/\"6fa3114cc3cfa5aaac0e75c377dd3de88bbdcb18e504df50c7a86b4052ee1bd6\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 05:04:33 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "B33F:F44ED:1AD6613:286690A:6AED78D2"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4974"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "26"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/48.http.txt",
+        "bytes": 8647,
+        "sha256": "c84b4592b4914e3f69d57ec1ea5533bb8429dd3870298339d85cd1548733ac6d"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/48.json",
+        "bytes": 7205,
+        "sha256": "e14784b0bc9059964366a111a538c324c51de8a07c3a2ba1704d1fdd203081ce"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/49",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:54.243971+00:00",
+      "finished_at": "2026-11-06T06:50:55.386895+00:00",
+      "duration_seconds": 1.1429339391179383,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:51:00 GMT"
+        ],
+        "etag": [
+          "W/\"2661e7dc3269a6c6d7526b23e3b180b8238ba9f91da5e451f6d1423530ef27a8\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 05:04:33 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "DD73:3C6C39:3258EEF:4B7C405:6AED78D4"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4973"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "27"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/49.http.txt",
+        "bytes": 8107,
+        "sha256": "7d15fb5a3291855542fca4d4d45ca636c9e1adf991b9f1e26179cd4db5de9689"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/49.json",
+        "bytes": 6664,
+        "sha256": "6a535b071d674c88f5bbac16f11edd65e3f10a860b1528c449cf4a8287035e94"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/52",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:54.275206+00:00",
+      "finished_at": "2026-11-06T06:50:55.390581+00:00",
+      "duration_seconds": 1.1153812578413635,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:51:00 GMT"
+        ],
+        "etag": [
+          "W/\"00ef71c3f14a9416c352abdb491d7e3115db856f66d1e5afd23eb6b916dcb705\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 05:04:33 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "D343:240AED:31D1503:4A9C509:6AED78D4"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4972"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "28"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/52.http.txt",
+        "bytes": 8791,
+        "sha256": "a7b41669889c54671a7b2ab970e911dd7d31e9da8f18c045fc0a7c8d79b0b7f8"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/52.json",
+        "bytes": 7348,
+        "sha256": "5991d0442338d11602eb7e92747a85c88a605088fce8eab6167599d0b5d4dd93"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/54",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:55.387665+00:00",
+      "finished_at": "2026-11-06T06:50:56.659030+00:00",
+      "duration_seconds": 1.2713649100624025,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:51:01 GMT"
+        ],
+        "etag": [
+          "W/\"1ffa35d103da449904dad3c3c414b03c2feeb73e0802c75dd2547177e6968ebf\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 05:04:33 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "83D1:1AF018:3199892:4A6AF8B:6AED78D5"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4969"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "31"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/54.http.txt",
+        "bytes": 9989,
+        "sha256": "77199a2e78a457332c9015e3ebff720d87cfdc4525af69bc1f1152facf0a4048"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/54.json",
+        "bytes": 8546,
+        "sha256": "b40a440e4c36d86b283bc3c522aa4bf00bef3b2127851a933b031074cf65a342"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/55",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:55.391229+00:00",
+      "finished_at": "2026-11-06T06:50:56.553420+00:00",
+      "duration_seconds": 1.1622092770412564,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:51:01 GMT"
+        ],
+        "etag": [
+          "W/\"90a20f59dd3e2091c6af8d4ec790de9f35a211c0f4ed99e1b63f4aa8277d7fad\""
+        ],
+        "last-modified": [
+          "Mon, 02 Nov 2026 19:52:07 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "83C9:1F151E:31A70A7:4A8165E:6AED78D5"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4970"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "30"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/55.http.txt",
+        "bytes": 8558,
+        "sha256": "8ac4a8e8a45e6e5e9ee336668e6e2ed8ce3c9ad4bf7107091a2369b4c4d05177"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/55.json",
+        "bytes": 7115,
+        "sha256": "202f42f8b6e5f94008a559a32952f69d5389aba640f20e677480d813a610fcd0"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/57",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:56.554245+00:00",
+      "finished_at": "2026-11-06T06:50:57.687118+00:00",
+      "duration_seconds": 1.1328876030165702,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:51:02 GMT"
+        ],
+        "etag": [
+          "W/\"4c9170d389b7d59e69a2b6595c680fddc30e720bb45bb30b8ac98b387c797be0\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 22:47:46 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "E29F:28E2D1:31F60D8:4AFA970:6AED78D6"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4968"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "32"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/57.http.txt",
+        "bytes": 9864,
+        "sha256": "197fd0a1128d992367a8ef4a00578cf43258d2405153944befb282b92683fe0b"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/57.json",
+        "bytes": 8421,
+        "sha256": "c7b23d3d510c91aee4cf7a33426cdb8e505887b0503ba699dd79ec233021c344"
+      },
+      "body_json_type": "object"
+    },
+    {
+      "endpoint": "repos/Apdelrahman1911/nativeCmpkit/issues/167",
+      "method": "GET",
+      "started_at": "2026-11-06T06:50:56.659734+00:00",
+      "finished_at": "2026-11-06T06:50:57.874132+00:00",
+      "duration_seconds": 1.2144099429715425,
+      "http_status": 200,
+      "response_headers": {
+        "access-control-allow-origin": [
+          "*"
+        ],
+        "access-control-expose-headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning"
+        ],
+        "cache-control": [
+          "private, max-age=60, s-maxage=60"
+        ],
+        "content-security-policy": [
+          "default-src 'none'"
+        ],
+        "content-type": [
+          "application/json; charset=utf-8"
+        ],
+        "date": [
+          "Fri, 06 Nov 2026 06:51:02 GMT"
+        ],
+        "etag": [
+          "W/\"a8e3dca8e1000da1167bdf805900e0194525c7fd786cd5a10210b232566420c0\""
+        ],
+        "last-modified": [
+          "Sat, 31 Oct 2026 05:04:33 GMT"
+        ],
+        "referrer-policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "server": [
+          "github.com"
+        ],
+        "strict-transport-security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "vary": [
+          "Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "x-accepted-oauth-scopes": [
+          "repo"
+        ],
+        "x-content-type-options": [
+          "nosniff"
+        ],
+        "x-frame-options": [
+          "deny"
+        ],
+        "x-github-api-version-selected": [
+          "2022-11-28"
+        ],
+        "x-github-edge-region": [
+          "fra"
+        ],
+        "x-github-media-type": [
+          "github.v3; format=json"
+        ],
+        "x-github-request-id": [
+          "ACFF:1AF018:319A43B:4A6C0D9:6AED78D6"
+        ],
+        "x-oauth-client-id": [
+          "178c6fc778ccc68e1d6a"
+        ],
+        "x-oauth-scopes": [
+          "gist, read:org, repo, workflow"
+        ],
+        "x-ratelimit-limit": [
+          "5000"
+        ],
+        "x-ratelimit-remaining": [
+          "4967"
+        ],
+        "x-ratelimit-reset": [
+          "1793951338"
+        ],
+        "x-ratelimit-resource": [
+          "core"
+        ],
+        "x-ratelimit-used": [
+          "33"
+        ],
+        "x-xss-protection": [
+          "0"
+        ]
+      },
+      "raw_response": {
+        "path": "destination/owner-context/167.http.txt",
+        "bytes": 8929,
+        "sha256": "f575376c5d4f2e6761a7574fa984f083cff27b01cb5afd8c22c09fea8d8f86d1"
+      },
+      "raw_body": {
+        "path": "destination/owner-context/167.json",
+        "bytes": 7486,
+        "sha256": "cbe2bbd69cdc7038433e3f16cc756fae5cbf3cf7a8f7b70ff45e24859e6ea202"
+      },
+      "body_json_type": "object"
+    }
+  ],
+  "errors": [],
+  "status": "COMPLETE",
+  "prohibited_operations_performed": []
+}

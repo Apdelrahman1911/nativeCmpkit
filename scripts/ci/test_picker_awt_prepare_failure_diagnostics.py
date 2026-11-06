@@ -607,5 +607,101 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
             self.assert_public(value)
 
 
+    def test_one_complete_private_gradle_what_block_exports_only_fixed_heading_categories_and_preserves_existing_trace_and_primary_guards(self):
+        # SYNTHETIC only; no reconstruction or retrospective classification of
+        # original00cf. Every operand remains private and every enum is fixed.
+        private = PRIVATE_SENTINEL + " https://invalid.example/private Authorization=PRIVATE"
+        start = "FAILURE: Build failed with an exception.\n\n* What went wrong:\n"
+        tail = "\n* Exception is:\nprivate.UnknownException: " + private + "\n\nBUILD FAILED in 2s\n"
+        cases = (
+            ("SDK location not found. Define a valid SDK location " + private, "gradle_android_sdk_location_heading_observed"),
+            ("Failed to install the following Android SDK packages as some licences have not been accepted.", "gradle_android_licenses_heading_observed"),
+            ("Android Gradle plugin requires Java 21 to run. You are currently using Java 17.", "gradle_android_jdk_requirement_heading_observed"),
+            ("Minimum supported Gradle version is 9.0. Current version is 8.9. " + private, "gradle_version_requirement_heading_observed"),
+            ("Dependency verification failed for configuration '" + private + "':", "gradle_dependency_verification_heading_observed"),
+            ("Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)", "gradle_daemon_disappearance_heading_observed"),
+            ("Cannot find a Java installation on your machine matching: " + private, "gradle_java_toolchain_heading_observed"),
+            ("Could not GET '" + private + "'. Received status code 403 from server: " + private, "gradle_repository_auth_heading_observed"),
+            ("Could not HEAD '" + private + "'. Received status code 429 from server: " + private, "gradle_repository_rate_limit_heading_observed"),
+            ("An exception occurred applying plugin request [id: '" + private + "']", "gradle_plugin_application_heading_observed"),
+            ("Plugin [id: '" + private + "'] was not found in any of the following sources:", "gradle_plugin_resolution_heading_observed"),
+            ("Could not resolve all task dependencies for configuration '" + private + "'.", "gradle_dependency_resolution_heading_observed"),
+            ("Script compilation errors:", "gradle_script_compilation_heading_observed"),
+            ("A problem occurred configuring project '" + private + "'.", "gradle_configuration_heading_observed"),
+            ("Could not determine the dependencies of task ':foreign:" + PRIVATE_SENTINEL + "'.", "gradle_task_setup_heading_observed"),
+            ("Execution failed for task ':foreign:" + PRIVATE_SENTINEL + "'.", "gradle_task_failure_heading_observed"),
+        )
+        for heading, code in cases:
+            with self.subTest(heading_category=code):
+                # Only one official cause prefix is admitted, not arbitrary
+                # substring/private-message matching or exception printing.
+                body = start + "  > " + heading + tail
+                value = d.classify(ROOT, body)
+                self.assertEqual(("unclassified", "unknown", code), (value["status"], value["category"], value["diagnostic_code"]))
+                self.assertIn(code, d.HEADING_CODES)
+                self.assertNotIn(code, d.TRACE_CODES)
+                self.assertIsNone(value["location"])
+                self.assertIsNone(value["failed_task_id"])
+                self.assertEqual("none", value["unavailable_code"])
+                self.assertFalse(value["ambiguity"])
+                self.assert_public(value)
+                self.assertNotIn(heading, json.dumps(value))
+        sdk = cases[0][0]
+        broad = "A problem occurred configuring project '" + private + "'.\n"
+        value = d.classify(ROOT, start + broad + "  > " + sdk + tail)
+        self.assertEqual("gradle_android_sdk_location_heading_observed", value["diagnostic_code"])
+        self.assert_public(value)
+        repeated = start + ("  > " + sdk + "\n") * 2 + tail
+        self.assertEqual("gradle_android_sdk_location_heading_observed", d.classify(ROOT, repeated)["diagnostic_code"])
+        conflicting = start + "  > " + sdk + "\n  > " + cases[4][0] + tail
+        value = d.classify(ROOT, conflicting)
+        self.assertEqual(("unclassified", "unknown", True), (value["status"], value["diagnostic_code"], value["ambiguity"]))
+        self.assert_public(value)
+        # A heading outside What, in Try/help, in the exception MESSAGE, in an
+        # unqualified partial/multiple/wrapper frame or as a substring cannot
+        # activate this last-resort classifier.
+        negatives = (sdk + "\n" + start + private + tail,
+                     start + private + "\n* Try:\n> " + sdk + tail,
+                     start + private + "\n* Get more help at https://invalid.example\n> " + sdk + tail,
+                     start + private + tail.replace("private.UnknownException: " + private, "private.UnknownException: " + sdk),
+                     start + "Quoted private text: " + sdk + tail,
+                     start + "> > " + sdk + tail,
+                     start + sdk,
+                     start + sdk + tail + tail,
+                     'Exception in thread "main" private.UnknownException: ' + sdk + "\n\tat org.gradle.wrapper.Download.downloadInternal(Download.java:97)\n")
+        for body in negatives:
+            value = d.classify(ROOT, body)
+            self.assertEqual(("unclassified", "unknown"), (value["status"], value["category"]))
+            self.assertNotIn(value["diagnostic_code"], d.HEADING_CODES)
+            self.assert_public(value)
+        # Original allowlisted trace families and their ambiguity win; do not
+        # replace them with a plausible but independently printed heading.
+        known_trace = (start + sdk + tail.replace("private.UnknownException: " + private,
+                      "java.lang.NoSuchMethodError: " + private))
+        self.assertEqual("gradle_api_linkage_observed", d.classify(ROOT, known_trace)["diagnostic_code"])
+        conflicting_trace = known_trace.replace("\n\nBUILD FAILED", "\nCaused by: javax.net.ssl.SSLHandshakeException: " + private + "\n\nBUILD FAILED")
+        value = d.classify(ROOT, conflicting_trace)
+        self.assertEqual(("unknown", True), (value["diagnostic_code"], value["ambiguity"]))
+        self.assert_public(value)
+        known_primary = compiler_body() + start + sdk + tail
+        self.assertEqual(("classified", "kotlin_unresolved_reference"),
+                         (d.classify(ROOT, known_primary)["status"], d.classify(ROOT, known_primary)["diagnostic_code"]))
+        refused_primary = compiler_body().replace(ROOT.as_posix(), "/foreign/" + PRIVATE_SENTINEL) + start + sdk + tail
+        value = d.classify(ROOT, refused_primary)
+        self.assertEqual(("unclassified", "gradle_android_sdk_location_heading_observed"), (value["status"], value["diagnostic_code"]))
+        self.assertIsNone(value["location"])
+        self.assertIsNone(value["failed_task_id"])
+        self.assert_public(value)
+        prior_ambiguity = compiler_body() + compiler_body() + start + sdk + tail
+        value = d.classify(ROOT, prior_ambiguity)
+        self.assertEqual("unclassified", value["status"])
+        self.assertTrue(value["ambiguity"])
+        self.assert_public(value)
+        for body in ("x" * 65537, start + "x" * 4097 + tail, "\x1b[31m" + start + sdk + tail):
+            value = d.classify(ROOT, body)
+            self.assertEqual(("unavailable", "diagnostic_limit"), (value["status"], value["unavailable_code"]))
+            self.assert_public(value)
+
+
 if __name__ == "__main__":
     unittest.main()

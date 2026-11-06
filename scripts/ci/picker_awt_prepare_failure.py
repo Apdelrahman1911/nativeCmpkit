@@ -70,6 +70,30 @@ CONTEXT_CODES = frozenset(("gradle_failure_frame_absent_observed", "gradle_failu
                            "gradle_wrapper_context_refused_observed", "gradle_task_banners_without_trace_observed",
                            "gradle_build_trace_without_allowed_family_observed", "gradle_wrapper_trace_without_allowed_family_observed"))
 
+# A single last-resort heading classifier: only a qualified complete build,
+# only its What-went-wrong block, only fixed anchored categories/symptoms.
+# Operands are PRIVATE. An observed heading never establishes the root cause.
+HEADING_RULES = (
+    (0, r"SDK location not found\.(?: Define a valid SDK location [^\r\n]{1,4096})?", "gradle_android_sdk_location_heading_observed"),
+    (0, r"Failed to install the following Android SDK packages as some licen[cs]es have not been accepted\.", "gradle_android_licenses_heading_observed"),
+    (0, r"Android Gradle plugin requires Java [0-9]{1,3} to run\. You are currently using Java [0-9]{1,3}\.(?: [^\r\n]{1,4096})?", "gradle_android_jdk_requirement_heading_observed"),
+    (0, r"Minimum supported Gradle version is [0-9][0-9A-Za-z.+-]{0,31}\. Current version is [0-9][0-9A-Za-z.+-]{0,31}\.(?: [^\r\n]{1,4096})?", "gradle_version_requirement_heading_observed"),
+    (0, r"Dependency verification failed for configuration '[^'\r\n]{1,3072}'[.:]?", "gradle_dependency_verification_heading_observed"),
+    (0, r"Gradle build daemon disappeared unexpectedly \(it may have been killed or may have crashed\)\.?", "gradle_daemon_disappearance_heading_observed"),
+    (0, r"(?:Cannot find a Java installation on your machine|No matching toolchains found for requested specification:)[^\r\n]{1,4096}", "gradle_java_toolchain_heading_observed"),
+    (0, r"Could not (?:GET|HEAD) '[^'\r\n]{1,3072}'\. Received status code (?:401|403) from server: [^\r\n]{1,512}", "gradle_repository_auth_heading_observed"),
+    (0, r"Could not (?:GET|HEAD) '[^'\r\n]{1,3072}'\. Received status code 429 from server: [^\r\n]{1,512}", "gradle_repository_rate_limit_heading_observed"),
+    (1, r"(?:An exception occurred applying plugin request \[[^\]\r\n]{1,3072}\]|Failed to apply plugin '[^'\r\n]{1,3072}'\.)", "gradle_plugin_application_heading_observed"),
+    (1, r"Plugin \[[^\]\r\n]{1,3072}\] was not found in any of the following sources:", "gradle_plugin_resolution_heading_observed"),
+    (1, r"Could not resolve all (?:files|dependencies|artifacts|task dependencies) for configuration '[^'\r\n]{1,3072}'\.", "gradle_dependency_resolution_heading_observed"),
+    (1, r"Script compilation errors:", "gradle_script_compilation_heading_observed"),
+    (2, r"A problem occurred (?:configuring|evaluating) (?:root project|project|settings) '[^'\r\n]{1,3072}'\.", "gradle_configuration_heading_observed"),
+    (2, r"Could not (?:create task|determine the dependencies of task) '[^'\r\n]{1,3072}'\.", "gradle_task_setup_heading_observed"),
+    (2, r"Execution failed for task '[^'\r\n]{1,3072}'\.", "gradle_task_failure_heading_observed"),
+)
+HEADING_CODES = frozenset(row[2] for row in HEADING_RULES)
+
+
 UNAVAILABLE_CODES = frozenset(("none", "ineligible_phase", "capture_unavailable", "capture_identity_refused",
                                "UTF8_refused", "diagnostic_limit", "remaining_budget_refused", "classifier_error"))
 PUBLIC_CHOICES = {
@@ -78,7 +102,7 @@ PUBLIC_CHOICES = {
                  "dependency_resolution", "native_resource_task", "task_execution", "unknown"},
     "diagnostic_code": {"kotlin_unresolved_reference", "kotlin_type_mismatch", "kotlin_overload_ambiguity", "kotlin_type_inference",
                         "java_compiler_error", "rust_compiler_error", "gradle_plugin_resolution", "gradle_configuration_error",
-                        "dependency_resolution_error", "required_native_task_failed", "unknown"} | TRACE_CODES | CONTEXT_CODES,
+                        "dependency_resolution_error", "required_native_task_failed", "unknown"} | TRACE_CODES | CONTEXT_CODES | HEADING_CODES,
     "unavailable_code": UNAVAILABLE_CODES,
 }
 
@@ -210,6 +234,24 @@ def _gradle_trace_observation(lines: list[str]) -> tuple[str, bool]:
     for tier in (0, 1, 2, 3):
         if codes[tier]:
             return (next(iter(codes[tier])), False) if len(codes[tier]) == 1 else ("unknown", True)
+    if build:
+        # No allowlisted trace family was found. Never replace a known family,
+        # primary classification/refusal or a conflicting trace observation.
+        # Stop at the next section so Try/help/stacktrace/private noise cannot
+        # masquerade as a What-went-wrong heading. Strip at most one cause '> '.
+        headings = {0: set(), 1: set(), 2: set()}
+        for raw in lines[lines.index(what) + 1:lines.index(trace)]:
+            line = raw.strip()
+            if line.startswith("* "):
+                break
+            if line.startswith("> "):
+                line = line[2:]
+            for tier, grammar, code in HEADING_RULES:
+                if re.fullmatch(grammar, line):
+                    headings[tier].add(code)
+        for tier in (0, 1, 2):
+            if headings[tier]:
+                return (next(iter(headings[tier])), False) if len(headings[tier]) == 1 else ("unknown", True)
     return ("gradle_build_trace_without_allowed_family_observed" if build else
             "gradle_wrapper_trace_without_allowed_family_observed"), False
 

@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## macOS R6 source controls accepted; underlying preparation cause unknown — 2026-11-06
+
+[Preparation R6](docs/development/evidence/current-platform-recovery-20261101/picker-awt-preparation-r6-20261106/README.md)
+adopts three existing sources/five exact reversible spans once, preserving modes
+and inodes. NEW1 + affected registration1 passes **2/2 once**, suite0.019s /
+outer0.459s; complete712B EOF,35 inputs/958346B held, owned model/tmp/group absent.
+Independent742 source and saved-results reviews accept; accepted R5 controls are
+not replayed. Later passive KeyError refusal stays preserved without source/test
+reapplication. The fixed heading observer is diagnostics, **not a build fix**.
+
+Original42139704754/attempt1 at00cf stays FAILED/PREPARE child1/174.628862s /
+53748B complete/1546 inputs held, no native request and causeUNKNOWN; originals
+acquired once. #58 stays open. Next one changed PREPARE-only request with fresh
+max2 combined hosted reservations INCLUDING queued/reserved; no unchanged retry
+or further uninformative diagnostic loop. Fix the demonstrated cause once observed.
+ROOT0c7 producer and same-HEAD Camera5/AndroidWebView5 cohort remain disjoint and
+immutable; do not integrate this patch or commit ROOT documentation during it.
+Lead owns Git/integration/dispatch/acceptance/closures. Actions/all allowed, no
+mandatory SHA pinning, minimum permissions; compiler6GiB memory/8GiB disk.
+Protected Windows trace must never be read/statted/scanned/modified/staged.
+Python integers for identity-bearing JSON. All history/main/attribution/API–ABI/
+native/consumer/dependency/legal/security/readiness/Pages/publication gates remain.
+No new issue closure, package, release or deployment.
+
 ## macOS parent-generation native-only patch adopted — 2026-11-05
 
 [809–812](docs/development/evidence/current-platform-recovery-20261101/picker-awt809-812-native-only/README.md) coalesces6 sources (3 existing/3 additions) once. FIRST10 source controls pass10/10; only the changed no-hosted-replay workflow method subsequently passes1/1; unchanged9 reused.742 independently accepts source and saved results,33 inputs held/owned cleanup/child absence. Actionlint0; no compiler/native/consumer/closure result yet. Exact native-only profile picker-awt-generation prepares standard verified resources, requires javap one annotated instance method and one DirectJUnit AWT peer replacement with post-finally marker; five allowlisted JSON only. Accepted actual JNI2 is excluded. Actual wrapper812 gradlew/properties/wrapper-properties hashes are already sampled by the existing source snapshot chain. Owned Java home/tmp/cache/Gradle startup and daemon settings are configuration, not observed foreign-write/daemon or checker/panel certification. #58 stays open for its original remaining criteria; no blanket #64 dependency-trust issue reinterpretation. Lead owns immutable dispatch/results/closures; isolated parallel work, max2 combined hosted INCLUDING queued/reserved, local compiler6GiB memory/8GiB disk. Actions/all/no mandatory SHA pinning/minimum read permissions and every publication/Pages/main/history/API–ABI/dependency/legal/security/readiness gate remain. No packages, releases or deployments. ROOT4cc remains separate and unchanged at this source-adoption receipt.

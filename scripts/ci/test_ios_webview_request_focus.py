@@ -21,6 +21,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
+import cookie_common_jdk_plan as cookie_scope
 import ios_ui_application as app
 import ios_webview_request_fixture as requests
 import library_tests as lt
@@ -288,7 +289,8 @@ class IosWebViewRequestFocusTests(unittest.TestCase):
                 return {"process_exit": 0, **protocol.finish(0)}
             after = copy.deepcopy(helper.before)
             if runtime_failure: after["source_revision"] = "e" * 40
-            arguments = [*sorted(app.TEST_ARGUMENTS), "--ktest_gradle_filter=" + lt.ui_application_focus_filter(FOCUS)]
+            arguments = [*sorted(app.TEST_ARGUMENTS), cookie_scope.NATIVE_EXCLUSION,
+                         "--ktest_gradle_filter=" + lt.ui_application_focus_filter(FOCUS)]
             with patch.dict(os.environ, {"NATIVECMPKIT_UIKIT_RESULT_ROOT": "build/ci-verification/fixture/native-webview-application"}), \
                     patch.object(app.runtime, "capture", side_effect=[helper.before, after]), \
                     patch.object(app, "execute_control", side_effect=control), \

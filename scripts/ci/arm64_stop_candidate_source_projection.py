@@ -78,6 +78,12 @@ def source_before_arm64_stop_candidate(relative, payload):
 def current_source_before_arm64_stop_candidate(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current ARM64 Stop source identity and ordinary bytes are required")
+    if relative == "scripts/ci/test_android_camera_pre_reporter_fail_fast.py":
+        # This raw FF image is admitted once; nested readers get exact DATA.
+        # Strict730 rejects its old/partial image before historical composition.
+        from ci_fixture_successor730 import current_source_before_fixture_successor
+        payload = current_source_before_fixture_successor(relative, payload)
+        return source_before_arm64_stop_candidate(relative, payload)
     # The outer raw checkout reader already qualified the latest tooling image.
     # Exact stage peeling must remain idempotent inside this older composition.
     from camera_tooling566_source_projection import peel_current_tooling566_for_older_history

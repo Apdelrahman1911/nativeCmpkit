@@ -48,7 +48,9 @@ class DesktopMediaContextTests(unittest.TestCase):
             spawn.assert_not_called()
 
     def exercise(self, mutation=None, wrong_sink=False):
-        with tempfile.TemporaryDirectory() as directory:
+        # Keep the owned worker TMPDIR and eight random characters; only omit
+        # tempfile's cosmetic three-byte prefix, for a105-byte real socket.
+        with tempfile.TemporaryDirectory(prefix="") as directory:
             root = Path(directory).resolve(); output = root / "build/ci-verification/test"; output.mkdir(parents=True)
             process = FakeOwnedProcess(); unix = socket.socket(socket.AF_UNIX)
             def popen(command, **kwargs):
@@ -110,7 +112,7 @@ class DesktopMediaContextTests(unittest.TestCase):
     def test_failed_readiness_still_terminates_only_the_owned_process(self): self.exercise(wrong_sink=True)
 
     def test_launch_failure_closes_its_log_and_never_signals_an_uncreated_process(self):
-        with tempfile.TemporaryDirectory() as directory, patch.object(audio.platform, "system", return_value="Linux"):
+        with tempfile.TemporaryDirectory(prefix="") as directory, patch.object(audio.platform, "system", return_value="Linux"):
             root = Path(directory).resolve(); output = root / "build/ci-verification/test"; output.mkdir(parents=True)
             context = audio.OwnedAudio(root, output, self.plan())
             with patch.object(audio.subprocess, "run", return_value=SimpleNamespace(stdout="pulseaudio 16.1\n")), \
@@ -130,6 +132,34 @@ class DesktopMediaContextTests(unittest.TestCase):
             passed, receipt, _ = self.exercise()
         self.assertFalse(passed); self.assertFalse(receipt["alive_before_owned_shutdown"])
         self.assertEqual(0, receipt["shutdown"]["exit_code"]); self.assertFalse(receipt["shutdown"]["clean"])
+
+
+    def test_new_worker_tmpdir_boundary_retains_guard_and_real_socket_binding(self):
+        # One owned short fixture contains an exact48-byte lane TMPDIR.
+        # Tools/signals are mocked; socket.bind remains a real local Unix socket.
+        with tempfile.TemporaryDirectory(prefix="", dir="/tmp") as owned:
+            width = 48 - len(os.fsencode(owned)) - 1
+            self.assertGreater(width, 0)
+            lane = Path(owned) / ("x" * width)
+            lane.mkdir(mode=0o700)
+            self.assertEqual(48, len(os.fsencode(lane)))
+            with patch.dict(os.environ, {"TMPDIR": str(lane)}), patch.object(tempfile, "tempdir", None):
+                with tempfile.TemporaryDirectory() as old_folder:
+                    root = Path(old_folder).resolve()
+                    output = root / "build/ci-verification/test"
+                    output.mkdir(parents=True)
+                    self.assertEqual(108, len(os.fsencode(output / "desktop-audio/native")))
+                    with patch.object(audio.platform, "system", return_value="Linux"), \
+                         patch.object(audio.subprocess, "run") as run, \
+                         patch.object(audio.subprocess, "Popen") as spawn:
+                        with self.assertRaisesRegex(ValueError, "Unix-socket path limit"):
+                            audio.OwnedAudio(root, output, self.plan()).start()
+                        run.assert_not_called(); spawn.assert_not_called()
+                passed, receipt, signals = self.exercise()
+                self.assertTrue(passed); self.assertTrue(receipt["configuration_unchanged"])
+                self.assertEqual([(FakeOwnedProcess.pid, signal.SIGTERM)], signals)
+            self.assertFalse(any(lane.iterdir()))
+        self.assertFalse(lane.exists())
 
 
 if __name__ == "__main__": unittest.main()

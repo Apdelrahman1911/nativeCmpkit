@@ -258,7 +258,8 @@ def validate_current_sources(root: Path = ROOT) -> dict:
     for name, digest in expected.items():
         payload = ordinary_bytes(root, name)
         comparison = cookie_outer._content_owner_source(name, payload, root, current=True)
-        comparison = cookie_outer.cookie681_control_for_old_cookie_comparison(name, comparison, root)
+        comparison = cookie_outer.cookie681_control_for_old_cookie_comparison(
+            name, payload if name == cookie_outer.OWNING_CONTROL_RELATIVE else comparison, root)
         comparison = cookie_outer.callback672_init_for_old_cookie_comparison(name, comparison, root)
         if sha(comparison) != digest:
             raise ValueError("Exact current cookie source input changed: " + name)

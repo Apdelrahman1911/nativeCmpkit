@@ -134,6 +134,7 @@ class CiSourceDomain740R2Controls(unittest.TestCase):
 
     def test_r2_actual_same303_hashes_and_independent_cookie40_custody_hold(self):
         import cookie_ci668_outer_source_projection as cookie
+        import ci_fixture_successor730 as fixture_successor
         self.assertTrue(stage.validate_current_sources())
         document = joint._document()
         self.assertEqual((518906, stage.CURRENT303_SPEC_SHA256),
@@ -145,7 +146,7 @@ class CiSourceDomain740R2Controls(unittest.TestCase):
         self.assertEqual(set(original) | {joint.OWNER, joint.SPEC}, set(current))
         self.assertEqual(303, len(current))
         self.assertEqual({relative: sha((ROOT / relative).read_bytes()) for relative in current}, current)
-        for relative in set(original) - (stage.MODIFIED | recovery.MODIFIED):
+        for relative in set(original) - (stage.MODIFIED | recovery.MODIFIED | fixture_successor.MODIFIED):
             self.assertEqual(original[relative], current[relative])
         for relative in stage.MODIFIED & set(original):
             self.assertEqual(stage.BEFORE[relative]["sha256"], original[relative])

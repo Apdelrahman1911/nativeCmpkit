@@ -315,13 +315,19 @@ class AndroidCameraCallbackConfigureOnce793Controls(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "exact793-owned-historical43-archive-required"):
                 facade._document(ROOT)
         # These actualcurrent document/guard calls do not go through the archive.
+        current_base = (recovery.MODIFIED | set(recovery.ADDED_INPUTS) |
+                        {recovery.OWNER, recovery.CONTROL, recovery.SPEC,
+                         recovery.CURRENT303_SPEC, recovery.DOMAIN740_SPEC})
+        import ci_fixture_successor730 as fixture_successor
+        self.assertEqual(current_base | fixture_successor.dependency_inputs(),
+                         recovery.dependency_inputs())
         self.assertEqual((46, 8, 59), (len(document["bindings"]), len(document["added_inputs"]),
-                                      len(recovery.dependency_inputs())))
+                                      len(current_base)))
         self.assertTrue(all(set(fragment) == {"before", "after", "before_fragment_sha256",
                                               "after_fragment_sha256"}
                             for row in document["bindings"].values() for fragment in row["fragments"]))
         self.assertEqual((46, 8, 59), (len(document["bindings"]), len(document["added_inputs"]),
-                                     len(recovery.dependency_inputs())))
+                                     len(current_base)))
         self.assertTrue({ci668.SOURCE_RELATIVE, producer698.SOURCE_RELATIVE,
                          tooling671.SOURCE_RELATIVE} <= set(document["bindings"]))
         import ci_source_domain740 as domain740
@@ -543,7 +549,9 @@ class _Historical43RecoveryFor793:
         self._document(ROOT)  # Fresh exact archive admission, never held DATA.
         namespace = _historical793_namespace()
         # SPEC remains the ORIGINAL C13 identity here, NOT the archive path.
-        result = _clone_owned793_callable(recovery.dependency_inputs, namespace)()
+        result = (namespace["MODIFIED"] | set(namespace["ADDED_INPUTS"]) |
+                  {namespace["OWNER"], namespace["CONTROL"], namespace["SPEC"],
+                   namespace["CURRENT303_SPEC"], namespace["DOMAIN740_SPEC"]})
         if result != _HISTORICAL793_INPUTS:
             raise ValueError("exact793-owned-historical56-inventory-required")
         return result

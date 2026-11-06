@@ -394,8 +394,11 @@ class OfflineToolingReuseControls(unittest.TestCase):
             receipt = reuse.run_scopes(Path("/not-executed-model"), self.signature)
         self.assertIs(True, receipt["passed"]); self.assertEqual(2, capture.call_count); self.assertEqual(10, execute.call_count)
         self.assertEqual(list(reuse.SCOPES), [call.args[1] for call in execute.call_args_list])
-        for scope in reuse.SCOPES:
-            self.assertEqual(["python3", "-B", "-m", "unittest", "discover"], reuse.scope_command(*scope)[:5])
+        for directory, pattern in reuse.SCOPES:
+            expected = (["python3", "-B", "scripts/ci/offline_tooling_ci_parallel734.py"]
+                        if (directory, pattern) == ("scripts/ci", "test_*.py")
+                        else ["python3", "-B", "-m", "unittest", "discover", "-s", directory, "-p", pattern, "-v"])
+            self.assertEqual(expected, reuse.scope_command(directory, pattern))
         with self.assertRaises(ValueError): reuse.scope_command("calf-ui", "native*.py")
 
     def test_runner_retains_first_failure_stops_and_never_seals_drift_as_success(self):

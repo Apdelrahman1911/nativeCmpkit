@@ -58,6 +58,9 @@ _DIGEST = re.compile(r"[0-9a-f]{64}\Z")
 def sha(payload):
     return hashlib.sha256(payload).hexdigest()
 
+# Owning659 BOUND paths absent from named raw303; never a Remote requirement.
+PLATFORM_EXTRA_CURRENT_PATHS743 = frozenset(('scripts/ci/camera_ios_ownership_source_projection.py', 'scripts/ci/ios_camera_ownership_native.init.gradle.kts', 'scripts/ci/test_android_camera_boot_busy.py', 'scripts/ci/test_android_camera_live_task_refusal_observation.py', 'scripts/ci/test_android_external337_fixture_recovery.py', 'scripts/ci/test_android_permission_demo_call_denial_recovery.py', 'scripts/ci/test_android_permission_demo_selector.py', 'scripts/ci/test_camera_ios_ownership_source_projection.py', 'scripts/ci/test_camera_recents_observation.py', 'scripts/ci/test_camera_tooling562_source_projection.py'))
+
 
 def _unique(pairs):
     result = {}
@@ -196,7 +199,18 @@ def _validate_own_guard(root, document):
 
 def validate_current_sources(root: Path):
     """Independently qualify actual raw finite inputs, own guard and NEW controls."""
+    from macos_share_ci668_composition import _source_projection_metadata_refusal743
+    _source_projection_metadata_refusal743(root)
     import webview_current_contract667_source_projection as current
+    # Refusal-only743: these ten inputs belong to THIS owner, not Remote303.
+    # Every source/manifest predicate is fresh; a successful prefix is never
+    # admission and still executes the entire unchanged ancestor/owning tail.
+    early_document = _document()
+    from ios_popover_anchor_plan import _ordinary_bytes
+    for name in sorted(PLATFORM_EXTRA_CURRENT_PATHS743):
+        payload = current.source_before_contract667(name, _ordinary_bytes(root, name)[0])
+        if sha(payload) != early_document["bindings"][name]["after_sha256"]:
+            raise ValueError("Current platform-recovery659 input differs from its complete reviewed raw image: " + name)
     current.validate_current_sources(root)
     document = _document()
     _validate_own_guard(root, document)

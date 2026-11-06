@@ -34,6 +34,8 @@ def _bindings():
 def source_before_handoff_fixture(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact handoff-fixture source identity and ordinary bytes required")
+    from ci_fixture_successor730 import peel_fixture_successor_for_history
+    payload = peel_fixture_successor_for_history(relative, payload)
     from camera_recents_source_projection import source_before_recents_observation
     payload = source_before_recents_observation(relative, payload)
     binding = _bindings().get(relative)
@@ -70,6 +72,8 @@ def source_before_handoff_fixture(relative, payload):
 def current_source_before_handoff_fixture(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current handoff-fixture identity and ordinary bytes required")
+    from ci_fixture_successor730 import current_source_before_fixture_successor
+    payload = current_source_before_fixture_successor(relative, payload)
     from camera_recents_source_projection import current_source_before_recents_observation
     payload = current_source_before_recents_observation(relative, payload)
     binding = _bindings().get(relative)

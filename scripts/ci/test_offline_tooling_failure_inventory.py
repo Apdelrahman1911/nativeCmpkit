@@ -41,10 +41,12 @@ def _output(*records, failures=1, errors=0, decoration=""):
 
 
 def _owner_sources():
-    # Portable repository control: exact707 data peel, never external proposals.
+    # Two bounded repository manifests, no external proposal or history search.
+    from ci_fixture_successor730 import peel_fixture_successor_for_history
     from macos_share_ci668_composition import peel_budget707_for_history
-    after = peel_budget707_for_history(
-        "scripts/ci/offline_tooling_reuse.py", AFTER.read_bytes(), AFTER.parents[2])
+    relative, root = "scripts/ci/offline_tooling_reuse.py", AFTER.parents[2]
+    original658 = peel_fixture_successor_for_history(relative, AFTER.read_bytes(), root)
+    after = peel_budget707_for_history(relative, original658, root)
     if after.count(NEW_FAILED_PATH) != 1:
         raise AssertionError("One exact new failed-observation span is required")
     return after.replace(NEW_FAILED_PATH, OLD_FAILED_PATH), after
@@ -317,11 +319,11 @@ class NewFailureInventoryControls(unittest.TestCase):
 
 
     def test_repository_controls_need_only_sibling_source_not_external_proposal(self):
+        import ci_fixture_successor730 as successor
         import macos_share_ci668_composition as joint
-        # Preload repository path/custody helpers before observing source reads.
         import macos_share_appkit_only_source_projection  # noqa: F401
         original_read = Path.read_bytes
-        original_ordinary = joint._ordinary
+        joint_read, successor_read = joint._ordinary, successor._ordinary
         observed, manifest_reads = [], []
 
         def sibling_only(path):
@@ -329,20 +331,22 @@ class NewFailureInventoryControls(unittest.TestCase):
             observed.append(path)
             return original_read(path)
 
-        def one_repository_manifest(root, relative, maximum):
+        def two_repository_manifests(root, relative, maximum):
             self.assertEqual(AFTER.parents[2], root)
-            self.assertEqual(joint.SPEC, relative)
-            self.assertEqual(joint.MAX_SPEC, maximum)
+            self.assertIn(relative, {successor.SPEC, joint.SPEC})
+            self.assertEqual(512 * 1024, maximum)
             manifest_reads.append(relative)
-            return original_ordinary(root, relative, maximum)
+            reader = successor_read if relative == successor.SPEC else joint_read
+            return reader(root, relative, maximum)
 
         with mock.patch.object(Path, "read_bytes", sibling_only), \
-             mock.patch.object(joint, "_ordinary", new=one_repository_manifest), \
+             mock.patch.object(successor, "_ordinary", new=two_repository_manifests), \
+             mock.patch.object(joint, "_ordinary", new=two_repository_manifests), \
              mock.patch.object(joint, "_document", side_effect=AssertionError("No named predecessor traversal")), \
              mock.patch.object(joint, "_view", side_effect=AssertionError("No historical view search")):
             before, after = _owner_sources()
         self.assertEqual([AFTER], observed)
-        self.assertEqual([joint.SPEC], manifest_reads)
+        self.assertEqual([successor.SPEC, joint.SPEC], manifest_reads)
         self.assertEqual(OLD_OWNER_SHA256, hashlib.sha256(before).hexdigest())
         self.assertEqual(after, before.replace(OLD_FAILED_PATH, NEW_FAILED_PATH))
         self.assertEqual("offline_tooling_reuse.py", AFTER.name)

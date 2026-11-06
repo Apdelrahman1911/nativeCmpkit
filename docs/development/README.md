@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## CI source recovery and source plans accepted — 2026-11-06
+
+[The R10–R12 checkpoint](evidence/current-platform-recovery-20261101/ci659-r10-r12-20261106/README.md)
+records accepted2 source regressions, the already-completed26-source adoption,
+original failed plans, R11 Android source-plan acceptance and the R12 Camera-only
+map correction/pass. All original failures remain; no accepted subset was replayed.
+This is not native or whole-producer acceptance. Next changed complete producer
+and authenticated same-HEAD Camera5/AndroidWebView5; keep other patches isolated.
+The [read-only upstream differential](upstream-sync-20261106-pr551-differential/README.md)
+archives updated PR551 text and reconfirms16 mapped open upstream issues, zero
+imports/duplicates and103closed/69open. No new issue closure or publishing gate
+is established. Delegated agents use owner-requested Astra/max; lead continues
+when their saved proposals outlive a rate-limit failure.
+
 ## Related source batch verified and adopted — 2026-11-05
 
 [730/732–735](evidence/current-platform-recovery-20261101/ci-ingress730-controls732-adoption733/README.md)

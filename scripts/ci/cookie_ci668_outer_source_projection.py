@@ -238,7 +238,12 @@ def _document(root: Path = ROOT):
             control["before_sha256"] != OWNING_CONTROL_BEFORE_SHA256 or
             control["before_bytes"] != 14205):
         raise ValueError("Only the exact named original681 owning-control predecessor is declared")
-    source = ordinary_bytes(root, SOURCE_RELATIVE)
+    raw_source = ordinary_bytes(root, SOURCE_RELATIVE)
+    from ci_fixture_successor730 import current_source_before_fixture_successor
+    try:
+        source = current_source_before_fixture_successor(SOURCE_RELATIVE, raw_source, root)
+    except ValueError:
+        raise ValueError("Exact complete newest Cookie outer guard template is required") from None
     own = document["own_guard"]
     needle = ('SPEC_SHA256 = "' + SPEC_SHA256 + '"').encode()
     zero = b'SPEC_SHA256 = "' + b'0' * 64 + b'"'
@@ -247,9 +252,14 @@ def _document(root: Path = ROOT):
             type(own["template_sha256"]) is not str or _DIGEST.fullmatch(own["template_sha256"]) is None or
             source.count(needle) != 1 or sha(source.replace(needle, zero, 1)) != own["template_sha256"]):
         raise ValueError("Exact complete newest Cookie outer guard template is required")
-    if sha(ordinary_bytes(root, NEW_CONTROL_RELATIVE)) != document["new_inputs"][NEW_CONTROL_RELATIVE]:
+    raw_control = ordinary_bytes(root, NEW_CONTROL_RELATIVE)
+    try:
+        control_source = current_source_before_fixture_successor(NEW_CONTROL_RELATIVE, raw_control, root)
+    except ValueError:
+        raise ValueError("Exact complete NEW8 Cookie outer derivative control source is required") from None
+    if sha(control_source) != document["new_inputs"][NEW_CONTROL_RELATIVE]:
         raise ValueError("Exact complete NEW8 Cookie outer derivative control source is required")
-    return document, sha(source)
+    return document, sha(raw_source)
 
 
 def _identity(relative, payload):
@@ -308,6 +318,45 @@ def _content_owner_source(relative, payload, root, *, current):
     _identity(relative, payload)
     if type(current) is not bool:
         raise ValueError("An exact Cookie Content-owner source mode is required")
+    if relative in {SOURCE_RELATIVE, NEW_CONTROL_RELATIVE, OWNING_CONTROL_RELATIVE}:
+        import ci_fixture_successor730 as fixture_successor
+        if current:
+            original = fixture_successor.current_source_before_fixture_successor(relative, payload, root)
+            # The helper is compared/reported by its actual raw self digest.
+            return payload if relative == SOURCE_RELATIVE else original
+        if relative == SOURCE_RELATIVE:
+            return fixture_successor.peel_fixture_successor_for_history(relative, payload, root)
+        return payload  # Generic history never peels either owning control.
+    if relative == "calf-webview/build.gradle.kts":
+        # Only the two exact inherited TestFilter calls cross the original build
+        # pin. Current refuses old/partial data; history leaves it uncertified.
+        before_endpoint = (9474, "01801ef71db7b6b404a663eaf3a4585745b7e9fa8decad81dcb601f2b11d66c8")
+        after_endpoint = (9466, "8e369014dc60efb7a91d7fffe61e6d431bf573dc560ceda5d519fc32b2f19822")
+        if (len(payload), sha(payload)) != after_endpoint:
+            if current:
+                raise ValueError("Exact complete WebView Kotlin TestFilter successor is required")
+            return payload
+        fragments = (
+            (b'    filter { excludeTestsMatching("com.mohamedrejeb.calf.ui.web.IosCookieWireAcceptanceTest.*") }\n',
+             b'    filter.excludeTestsMatching("com.mohamedrejeb.calf.ui.web.IosCookieWireAcceptanceTest.*")\n'),
+            (b'    filter { excludeTestsMatching("com.mohamedrejeb.calf.ui.web.BrowserCookieWireAcceptanceTest.*") }\n',
+             b'    filter.excludeTestsMatching("com.mohamedrejeb.calf.ui.web.BrowserCookieWireAcceptanceTest.*")\n'),
+        )
+        restored = payload
+        for before, after in reversed(fragments):
+            if restored.count(after) != 1:
+                raise ValueError("Exact unique WebView Kotlin TestFilter inverse is required")
+            restored = restored.replace(after, before, 1)
+        if (len(restored), sha(restored)) != before_endpoint:
+            raise ValueError("WebView Kotlin TestFilter inverse must restore the complete original build")
+        forward = restored
+        for before, after in fragments:
+            if forward.count(before) != 1:
+                raise ValueError("Exact unique WebView Kotlin TestFilter forward span is required")
+            forward = forward.replace(before, after, 1)
+        if forward != payload:
+            raise ValueError("Whole WebView Kotlin TestFilter source roundtrip is required")
+        return restored
     if relative not in {"scripts/ci/webview_content_policy_source_projection.py", CI_GUARD}:
         return payload  # No foreign source layer is searched or certified.
     import ci_source_domain740 as domain740
@@ -344,8 +393,12 @@ def _expected(document, source_digest):
 def current_source_before_cookie_outer(relative, payload, root: Path = ROOT):
     """One strict newest raw ingress; old Cookie or pre-hook current refuses."""
     _identity(relative, payload)
-    payload = _common_jdk_guard_source(relative, payload, root, current=True)
-    payload = _content_owner_source(relative, payload, root, current=True)
+    raw_payload = payload
+    try:
+        payload = _common_jdk_guard_source(relative, payload, root, current=True)
+        payload = _content_owner_source(relative, payload, root, current=True)
+    except ValueError:
+        raise ValueError("Old or unknown bytes cannot substitute for exact current Cookie outer source") from None
     if relative == LIBRARY:
         from macos_share_ci668_composition import source_before_android_lifecycle
         payload = source_before_android_lifecycle(relative, payload, root)
@@ -356,6 +409,8 @@ def current_source_before_cookie_outer(relative, payload, root: Path = ROOT):
               else _expected(document, source_digest).get(relative))
     if digest is not None and (sha(payload) != digest or row is not None and len(payload) != row["after_bytes"]):
         raise ValueError("Old or unknown bytes cannot substitute for exact current Cookie outer source")
+    if row is None and relative in {NEW_CONTROL_RELATIVE, OWNING_CONTROL_RELATIVE}:
+        return raw_payload  # Compared predecessor DATA never replaces actual owning source.
     return payload if row is None else _restore(row, payload)
 
 
@@ -399,6 +454,11 @@ def cookie681_control_for_old_cookie_comparison(relative, payload, root: Path = 
     validate_current_sources(root)
     document, _ = _document(root)
     row = document["cookie681_control_binding"]
+    from ci_fixture_successor730 import current_source_before_fixture_successor
+    try:
+        payload = current_source_before_fixture_successor(relative, payload, root)
+    except ValueError:
+        raise ValueError("Only exact current Cookie681 owning control can serve its predecessor comparison") from None
     if sha(payload) != row["after_sha256"] or len(payload) != row["after_bytes"]:
         raise ValueError("Only exact current Cookie681 owning control can serve its predecessor comparison")
     return _restore(row, payload)
@@ -413,14 +473,20 @@ def validate_current_sources(root: Path = ROOT):
     current_pins = {}
     for relative, digest in expected.items():
         raw = ordinary_bytes(root, relative)
-        comparison = _common_jdk_guard_source(relative, raw, root, current=True)
-        if sha(_content_owner_source(relative, comparison, root, current=True)) != digest:
+        try:
+            comparison = _common_jdk_guard_source(relative, raw, root, current=True)
+            comparison = _content_owner_source(relative, comparison, root, current=True)
+        except ValueError:
+            raise ValueError("Exact current Cookie outer input changed: " + relative) from None
+        if sha(comparison) != digest:
             raise ValueError("Exact current Cookie outer input changed: " + relative)
         current_pins[relative] = sha(raw)
     for relative, row in document["bindings"].items():
         comparison = _common_jdk_guard_source(relative, ordinary_bytes(root, relative), root, current=True)
         _restore(row, _content_owner_source(relative, comparison, root, current=True))
-    _restore(document["cookie681_control_binding"], ordinary_bytes(root, OWNING_CONTROL_RELATIVE))
+    _restore(document["cookie681_control_binding"],
+             _content_owner_source(OWNING_CONTROL_RELATIVE, ordinary_bytes(root, OWNING_CONTROL_RELATIVE),
+                                   root, current=True))
     callback672_init_for_old_cookie_comparison(INIT, ordinary_bytes(root, INIT), root)
     return current_pins
 

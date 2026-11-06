@@ -33,12 +33,12 @@ PREFIX = "[offline-scope-progress] "
 
 
 def original711_source():
-    # Strict exact658 data inverse; original711 assertions stay unchanged.
-    # Import no scope owner, planner or restored executable.
+    # Existing exact734 data inverse, then original658->711; no owner execution.
+    from ci_fixture_successor730 import peel_fixture_successor_for_history
     from macos_share_ci668_composition import source_before_failure_parent658
-    return source_before_failure_parent658(
-        "scripts/ci/offline_tooling_reuse.py", SOURCE.read_bytes(),
-        SOURCE.resolve().parents[2])
+    relative, root = "scripts/ci/offline_tooling_reuse.py", SOURCE.resolve().parents[2]
+    original658 = peel_fixture_successor_for_history(relative, SOURCE.read_bytes(), root)
+    return source_before_failure_parent658(relative, original658, root)
 
 
 def parent(method="test_active", token="", newline=True, suffix=None):

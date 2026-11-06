@@ -289,7 +289,13 @@ def source_before_tooling671(relative, payload):
     payload = domain740.peel_domain740_for_history(relative, payload)
     payload = ci668.peel_ci668_for_history(relative, payload)
     payload = domain740.peel_bridge740_for_history(relative, payload)
-    binding = _document()["bindings"].get(relative)
+    return _source_before_tooling671_document(relative, payload, _document())
+
+
+def _source_before_tooling671_document(relative, payload, document):
+    """Exact inverse arithmetic from an already fresh owning document; never admission."""
+    _identity(relative, payload)
+    binding = document["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted source bytes are never certified, guessed or reconstructed.
     if not 0 < len(payload) <= MAX_SOURCE_BYTES:
@@ -426,6 +432,12 @@ def _complete_composition_view(relative, payload, view):
     if view not in ("callback_above_io", "callback_isolated"):
         raise ValueError("Only the two exact reviewed composed680 byte views are defined")
     row = _composition_document()[view].get(relative)
+    return _complete_composition_view_row680(payload, row)
+
+
+def _complete_composition_view_row680(payload, row):
+    """An already owner-qualified finite row; no schema/current/source certification."""
+    _identity("", payload)
     if row is None:
         return payload  # Unlisted bytes are not certified, inferred, searched or executed.
     if not 0 < len(payload) <= MAX_SOURCE_BYTES:
@@ -519,10 +531,15 @@ def _validate_current_sources_operation(root: Path, document, operation):
     for name, digest in expected.items():
         if sha(operation._ci_history(name, _ordinary_bytes(root, name)[0])) != digest:
             raise ValueError("Current tooling671 input differs from its complete reviewed raw image: " + name)
+    # The existing operation already holds every source and all composition origins.
+    # Schema/origin qualification remains fresh once in that exact custody scope;
+    # only private inverse arithmetic reuses the already qualified owning documents.
+    composition = _composition_document()
     for view in ("callback_above_io", "callback_isolated"):
-        for relative in _composition_document()[view]:
-            raw = source_before_tooling671(relative, _ordinary_bytes(root, relative)[0])
-            _complete_composition_view(relative, raw, view)
+        for relative, row in composition[view].items():
+            raw = operation._ci_history(relative, _ordinary_bytes(root, relative)[0])
+            raw = _source_before_tooling671_document(relative, raw, document)
+            _complete_composition_view_row680(raw, row)
     return True
 
 

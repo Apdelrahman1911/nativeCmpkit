@@ -50,7 +50,9 @@ def backing(name):
     if "_FROZEN_BACKING" in globals():
         return _FROZEN_BACKING[name]
     if name == "owner_after":
-        return SOURCE.read_bytes()
+        from ci_fixture_successor730 import peel_fixture_successor_for_history
+        return peel_fixture_successor_for_history(
+            "scripts/ci/offline_tooling_reuse.py", SOURCE.read_bytes(), SOURCE.resolve().parents[2])
     if name == "owner_before":
         after = backing("owner_after")
         if after.count(NEW_HOOK) != 1:
@@ -60,7 +62,13 @@ def backing(name):
              "progress711_control": "test_offline_tooling_failure_evidence711.py",
              "inventory": "offline_tooling_failure_inventory.py",
              "parent_ids": "offline_tooling_failure_parent_ids658.py"}
-    return SOURCE.with_name(paths[name]).read_bytes()
+    path = SOURCE.with_name(paths[name])
+    payload = path.read_bytes()
+    if name == "progress711_control":
+        from macos_share_ci668_composition import source_before_current_context620
+        return source_before_current_context620(
+            "scripts/ci/test_offline_tooling_failure_evidence711.py", payload, SOURCE.resolve().parents[2])
+    return payload
 
 
 def parent(method="test_case", token="FAIL", *, identifier=None, suffix=None, newline=True):

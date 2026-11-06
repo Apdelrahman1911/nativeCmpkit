@@ -1,5 +1,42 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## CI659 recovery adopted; both source plans qualified — 2026-11-06
+
+[Current R10–R12 evidence](docs/development/evidence/current-platform-recovery-20261101/ci659-r10-r12-20261106/README.md)
+retains accepted R10 NEW1+LAST659 **2/2 once** and completed ROOT26 adoption
+(25existing+NEW7771), neither replayed/reapplied. Original R10 plans both FAILED.
+R11-V2 admits only exact real native source-directory names: AndroidWebView5 plan
+passes; Camera refuses an omitted source-map entry. Passive finite inspection
+identifies exactly two existing Calendar common/ios test leaves. R12 extends the
+map1609→1611 without library edits, then only failed Camera5 plan passes once
+(1.025761s); accepted Android is reused. Full source identities, framed captures,
+source270/Q300/cleanup30 and owned cleanup hold. Original failures/static binding/
+pretty-manifest-cap refusals remain. ZERO compiler/native/consumer/wholeissue
+acceptance follows. Do not reapply26 or replay accepted source tests/plans.
+
+Next freeze/push development→successful CHANGED complete tooling producer→four-ID
+authenticated same-HEAD Camera5/AndroidWebView5, no intervening documentation commit.
+Failed42142584633 at0c7 is nonreusable. Mac cb148bf0/run42240118139 remains contract
+FAILED despite PREPARE child0; privatebody unavailable/zero native. P5 five-source
+NEW6+affected2 remains unexecuted/unadopted here; #58open. Rate-limited delegates'
+saved proposals remain; lead continues. Fresh archived16 upstream mapped/zero
+imports; updatedPR551 claims unverified.103closed/69open/172;#102/#144/#171closed.
+Max2combinedhosted INCLUDINGqueued/reserved; compiler6GiBmemory/8GiBdisk. Protected
+Windows trace neverread/stat/scan/stage, including copies; PythonintegeridentityJSON.
+Actions/all/no mandatorySHA/minimumpermissions and every main/history/native/
+consumer/API–ABI/dependency/legal/security/readiness/Pages/publication gate remain.
+No package/release/deployment publication.
+
+## Delegated-agent model decision — 2026-11-06
+
+The owner explicitly requests **Astra at max reasoning** for delegated agents.
+Any new or resumed delegation must use `gpt-6-astra` with `reasoning_effort=max`;
+do not silently substitute a different model. Use isolated, disjoint related
+patches, with lead-only integration, execution, Git/GitHub mutations, acceptance
+and closure. If delegates are unavailable/rate-limited, the lead may continue
+from their saved proposals without repeating completed work. This changes no
+Actions, permission, concurrency, test-evidence, security or publishing gate.
+
 ## Related CI patch integrated; changed producer ready — 2026-11-06
 
 [Related17 evidence](docs/development/evidence/current-platform-recovery-20261101/ci-related-fixture-capacity-20261106/README.md)

@@ -57,7 +57,8 @@ class CookieCommonJdkScope681Tests(unittest.TestCase):
             rebuilt = old
             for fragment in row["fragments"]:
                 rebuilt = rebuilt.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
-            self.assertEqual(current, rebuilt)
+            import cookie_ci668_outer_source_projection as cookie_outer
+            self.assertEqual(cookie_outer._content_owner_source(name, current, ROOT, current=True), rebuilt)
 
     def test_new_current_ingress_refuses_historical_and_partial_bound_images(self):
         for name in history.PREIMAGES:
@@ -100,9 +101,10 @@ class CookieCommonJdkScope681Tests(unittest.TestCase):
 
     def test_new_full_reader_tamper_outside_small_fixture_witness_refuses(self):
         import cookie_ci668_outer_source_projection as cookie_outer
+        import ci_fixture_successor730 as fixture_successor
         with tempfile.TemporaryDirectory(prefix="cookie-scope-model-") as directory:
             owned = Path(directory).resolve()
-            for name in cookie_outer.fixture_inputs():
+            for name in cookie_outer.fixture_inputs() | fixture_successor.dependency_inputs():
                 target = owned / name
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, target)
@@ -188,9 +190,10 @@ class CookieCommonJdkScope681Tests(unittest.TestCase):
         with self.assertRaises(ValueError):
             history._unique([("schema_version", 1), ("schema_version", 1)])
         import cookie_ci668_outer_source_projection as cookie_outer
+        import ci_fixture_successor730 as fixture_successor
         with tempfile.TemporaryDirectory(prefix="cookie-guard-model-") as directory:
             owned = Path(directory).resolve()
-            for name in cookie_outer.fixture_inputs():
+            for name in cookie_outer.fixture_inputs() | fixture_successor.dependency_inputs():
                 target = owned / name
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, target)
@@ -279,7 +282,9 @@ class CookieCopiedFixtureSuccessor609Tests(unittest.TestCase):
         for fragment in row["fragments"]:
             self.assertEqual(1, forward.count(fragment["before"].encode()))
             forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
-        self.assertEqual(current, forward)
+        import ci_fixture_successor730 as fixture_successor
+        comparison = fixture_successor.current_source_before_fixture_successor(cookie_outer.OWNING_CONTROL_RELATIVE, current, ROOT)
+        self.assertEqual(comparison, forward)
         self.assertEqual(current, cookie_outer.source_before_cookie_outer(cookie_outer.OWNING_CONTROL_RELATIVE, current, ROOT))
         self.assertEqual(current, cookie_outer.peel_cookie_outer_for_history(cookie_outer.OWNING_CONTROL_RELATIVE, current, ROOT))
         self.assertEqual(current, cookie_outer.current_source_before_cookie_outer(cookie_outer.OWNING_CONTROL_RELATIVE, current, ROOT))
@@ -304,9 +309,10 @@ class CookieCopiedFixtureSuccessor609Tests(unittest.TestCase):
         self.assertNotEqual(cookie_outer.OWNING_CONTROL_BEFORE_SHA256, actual)
         self.assertEqual(cookie_outer.INIT_CURRENT_SHA256, raw[cookie_outer.INIT])
         self.assertEqual(cookie_outer.INIT_CURRENT_SHA256, cookie[cookie_outer.INIT])
+        import ci_fixture_successor730 as fixture_successor
         with tempfile.TemporaryDirectory(prefix="cookie-current-control609-") as directory:
             owned = Path(directory).resolve()
-            for name in cookie_outer.fixture_inputs():
+            for name in cookie_outer.fixture_inputs() | fixture_successor.dependency_inputs():
                 target = owned / name
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, target)

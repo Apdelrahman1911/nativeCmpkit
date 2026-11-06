@@ -12,6 +12,7 @@ import time
 import unittest
 from unittest.mock import patch
 
+import macos_share_appkit_only_route as appkit_only
 import macos_share_appkit_lifecycle as runner
 import macos_share_missing_only as recovery
 import macos_share_key_wait_observation as key_wait
@@ -99,7 +100,10 @@ class NativeBatchControls(unittest.TestCase):
                 state["source"] = "c" * 64
             return result, stdout
 
-        with patch.object(runner, "build_environment", return_value={"NATIVECMPKIT_NATIVE_UI_TESTS": "true"}), \
+        with patch.object(appkit_only, "workflow_context",
+                          return_value={"source_mock_only": True, "authenticated": False,
+                                        "host": "source/mock-not-native"}), \
+                patch.object(runner, "build_environment", return_value={"NATIVECMPKIT_NATIVE_UI_TESTS": "true"}), \
                 patch.object(runner, "git_identity", return_value={"source_revision": "d" * 40, "source_tree_dirty": False}), \
                 patch.object(runner.library, "snapshot_inputs", side_effect=inputs), \
                 patch.object(runner.native, "expected_source_files", return_value={"native-model": "b" * 64}), \

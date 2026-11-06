@@ -300,9 +300,11 @@ def _freeze_json_content(value):
 def _thaw_json_content(tree):
     kind, value = tree
     if kind == "object":
-        return {key: _thaw_json_content(child) for key, child in value}
+        return {key: (child[1] if child[0] == "value" else _thaw_json_content(child))
+                for key, child in value}
     if kind == "array":
-        return [_thaw_json_content(child) for child in value]
+        return [child[1] if child[0] == "value" else _thaw_json_content(child)
+                for child in value]
     return value
 
 
@@ -1105,6 +1107,21 @@ def _operation_projection_document(document, relative, view):
     return selected
 
 
+
+def _operation_raw_binding743(document, section, relative=None):
+    """One once-qualified frozen row; all exact inverse guards still execute."""
+    need(type(document) is MappingProxyType,
+         "source-projection-operation-qualified-immutable-document-required")
+    row = document.get(section)
+    if relative is not None:
+        need(type(row) is MappingProxyType,
+             "source-projection-operation-qualified-immutable-section-required")
+        row = row.get(relative)
+    need(type(row) is MappingProxyType,
+         "source-projection-operation-exact-qualified-row-required")
+    return _operation_local(row)
+
+
 @dataclass(frozen=True, slots=True)
 class _SourceProjectionOperation:
     _target_root: Path
@@ -1113,6 +1130,116 @@ class _SourceProjectionOperation:
     _ci_document: MappingProxyType
     _tooling_document: MappingProxyType
     _spec_origins: tuple
+    _raw_documents743: MappingProxyType
+
+
+    def _qualified_raw_documents743(self, root):
+        need(type(self) is _SourceProjectionOperation and type(root) is type(Path()) and
+             type(self._target_root) is type(Path()) and root == self._target_root and
+             type(self._joint_documents) is MappingProxyType and
+             type(self._raw_documents743) is MappingProxyType and
+             type(self._spec_origins) is tuple and root in self._joint_documents and
+             root in self._raw_documents743,
+             "source-projection-operation-exact-private-owner-and-target-root-required")
+        joint_document = self._joint_documents[root]
+        documents = self._raw_documents743[root]
+        need(type(joint_document) is MappingProxyType and type(documents) is MappingProxyType and
+             (root, SPEC, SPEC_SHA256) in self._spec_origins,
+             "source-projection-operation-exact-qualified-joint-document-required")
+        import ci_fixture_successor730 as fixture_successor
+        import ci_source_recovery740_742 as recovery
+        import ci_source_domain740 as domain740
+        qualified = {}
+        for module in (fixture_successor, recovery, domain740):
+            entry = documents.get(module.SPEC)
+            need(type(entry) is tuple and len(entry) == 2 and type(entry[0]) is str and
+                 entry[0] == module.SPEC_SHA256 and
+                 type(entry[1]) is MappingProxyType and
+                 (root, module.SPEC, module.SPEC_SHA256) in self._spec_origins,
+                 "source-projection-operation-exact-immutable-owning-document-and-origin-required")
+            qualified[module.SPEC] = entry[1]
+        return joint_document, qualified
+
+    def _raw_inputs743(self, root):
+        need(type(self) is _SourceProjectionOperation,
+             "source-projection-operation-exact-private-owner-required")
+        document, qualified = self._qualified_raw_documents743(root)
+        need(type(document.get("raw_inputs")) is MappingProxyType,
+             "source-projection-operation-qualified-raw-inventory-required")
+        return tuple(document["raw_inputs"])
+
+    def _raw743(self, relative, payload, root):
+        """Exact RAW inverse only within ONE fresh existing owning custody scope."""
+        need(type(self) is _SourceProjectionOperation,
+             "source-projection-operation-exact-private-owner-required")
+        _identity(relative, payload)
+        document, qualified = self._qualified_raw_documents743(root)
+        import ci_fixture_successor730 as fixture_successor
+        import ci_source_recovery740_742 as recovery
+        import ci_source_domain740 as domain740
+        fixture = qualified[fixture_successor.SPEC]
+        # The public fixture730 branch ordering and strict inverse operands are
+        # retained verbatim in meaning; only already qualified rows are selected.
+        if relative in fixture_successor.MODIFIED:
+            if relative in fixture_successor.PLATFORM_CUSTODY_MODIFIED743:
+                payload = fixture_successor._inverse(payload, _operation_raw_binding743(
+                    fixture, "platform_custody_bindings743", relative))
+                if relative not in fixture_successor.PRE_PLATFORM_MODIFIED743:
+                    relative_done = True
+                else:
+                    relative_done = False
+            else:
+                relative_done = False
+            if not relative_done and relative in fixture_successor.FAILURE_MODIFIED:
+                payload = fixture_successor._inverse(payload, _operation_raw_binding743(
+                    fixture, "failure_bindings", relative))
+                relative_done = relative not in fixture_successor.V1_MODIFIED
+            if not relative_done and relative in fixture_successor.RELATED_MODIFIED:
+                payload = fixture_successor._inverse(payload, _operation_raw_binding743(
+                    fixture, "related_bindings", relative))
+                relative_done = relative not in fixture_successor.ORDINARY_MODIFIED
+            if not relative_done and relative in fixture_successor.ORDINARY_FIXTURES:
+                payload = fixture_successor._inverse(payload, _operation_raw_binding743(
+                    fixture, "ordinary_fixture_bindings", relative))
+                relative_done = relative not in fixture_successor.BASE_MODIFIED
+            if not relative_done:
+                if relative == fixture_successor.CAPACITY:
+                    payload = fixture_successor._inverse(payload, _operation_raw_binding743(fixture, "capacity_binding"))
+                elif relative == fixture_successor.REMOTE:
+                    payload = fixture_successor._inverse(payload, _operation_raw_binding743(fixture, "remote_binding"))
+                else:
+                    if relative == fixture_successor.ROUTING:
+                        payload = fixture_successor._inverse(payload, _operation_raw_binding743(fixture, "routing_binding"))
+                    payload = fixture_successor._inverse(payload, _operation_raw_binding743(fixture, "bindings", relative))
+        if relative in recovery.MODIFIED:
+            recovery_document = qualified[recovery.SPEC]
+            settings = {"added_inputs": {recovery.INSTALLED_JDK17: _operation_raw_binding743(
+                recovery_document, "added_inputs", recovery.INSTALLED_JDK17)}} if relative == recovery.SETTINGS else None
+            identity = recovery._settings_document(root, settings) if settings is not None else None
+            payload = recovery._inverse(payload, _operation_raw_binding743(recovery_document, "bindings", relative))
+            if identity is not None:
+                need(recovery._ordinary(root, recovery.INSTALLED_JDK17)[1] == identity,
+                     "installed-JDK17-prerequisite-custody-changed-during-settings-inverse")
+        if relative in domain740.MODIFIED:
+            payload = domain740._inverse(payload, _operation_raw_binding743(
+                qualified[domain740.SPEC], "bindings", relative))
+        if relative == OWNER:
+            own = document.get("own_guard")
+            need(type(own) is MappingProxyType,
+                 "source-projection-operation-exact-qualified-own-guard-required")
+            needle = ('SPEC_SHA256 = "' + SPEC_SHA256 + '"\n').encode()
+            template = ('SPEC_SHA256 = "' + '0' * 64 + '"\n').encode()
+            need(type(payload) is bytes and len(payload) == own.get("bytes") and
+                 payload.count(needle) == 1 and
+                 sha(payload.replace(needle, template, 1)) == own.get("template_sha256"),
+                 "complete-share-CI-latest-own-guard-required")
+        elif relative == SPEC:
+            need(sha(payload) == SPEC_SHA256, CURRENT_REFUSAL)
+        else:
+            row = document["raw_inputs"].get(relative)
+            need(type(row) is MappingProxyType and sha(payload) == row.get("sha256") and
+                 len(payload) == row.get("bytes"), CURRENT_REFUSAL)
+        return payload  # No current303/raw301 growth, pass-through admission or old-source search.
 
     def _current(self, relative, payload, view, root):
         need(root == self._target_root and root in self._joint_documents,
@@ -1120,7 +1247,8 @@ class _SourceProjectionOperation:
         _identity(relative, payload)
         need(type(view) is str and view in VIEWS, "only-four-explicit-joint-source-views-defined")
         document = _operation_projection_document(self._joint_documents[root], relative, view)
-        return _current_source_in_view_document(relative, payload, view, document, root)
+        payload = self._raw743(relative, payload, root)
+        return _view(view, relative, payload, document, root)
 
     def _history(self, relative, payload, view):
         _identity(relative, payload)
@@ -1158,6 +1286,33 @@ class _SourceProjectionOperation:
             root, _operation_local(self._tooling_document), self)
 
 
+def _operation_raw_endpoints743(joint_document, domain_document, recovery_document, fixture_document):
+    """Fresh SHA-authenticated inventory DATA for early refusal, never admission.
+
+    These expected endpoints are not source-read results. The caller still
+    captures every successful input and executes every original schema, inverse,
+    ancestor and finally check; no filesystem or validation result is cached.
+    """
+    import ci_fixture_successor730 as fixture_successor
+    endpoints = {name: (row["bytes"], row["sha256"])
+                 for name, row in joint_document["raw_inputs"].items()}
+    selected = set(endpoints) | {OWNER}
+    for bindings in (
+            domain_document["bindings"], recovery_document["bindings"], fixture_document["bindings"],
+            {fixture_successor.CAPACITY: fixture_document["capacity_binding"],
+             fixture_successor.ROUTING: fixture_document["routing_binding"],
+             fixture_successor.REMOTE: fixture_document["remote_binding"]},
+            fixture_document["ordinary_fixture_bindings"], fixture_document["related_bindings"],
+            {name: row for name, row in fixture_document["failure_bindings"].items()
+             if name in fixture_successor.FAILURE_MODIFIED},
+            {name: row for name, row in fixture_document["platform_custody_bindings743"].items()
+             if name in fixture_successor.PLATFORM_CUSTODY_MODIFIED743}):
+        for name, row in bindings.items():
+            if name in selected:
+                endpoints[name] = (row["after_bytes"], row["after_sha256"])
+    return endpoints
+
+
 def _build_source_projection_operation(root, capture):
     """Exact raw inventories bound BEFORE shaping; never retarget module fixtures."""
     import ci_source_domain740 as domain740
@@ -1167,7 +1322,7 @@ def _build_source_projection_operation(root, capture):
     import tooling_recovery671_source_projection as tooling671
     import ci_fixture_successor730 as fixture_successor
     joint_roots = tuple(dict.fromkeys((root, ROOT)))
-    inventories, origins = [], []
+    inventories, origins, current_raw_endpoints = [], [], {}
     def inventory(origin, relative, digest, sections, extras, refusal):
         raw = capture(origin, relative, MAX_SPEC)
         need(sha(raw) == digest, refusal)
@@ -1198,6 +1353,8 @@ def _build_source_projection_operation(root, capture):
         names.update(more)
         names.update((CI_SPEC, SHARE_SPEC, OBSERVATION_SPEC, COOKIE_SPEC,
                       COOKIE_COMMON_SPEC, CALLBACK_SPEC, PRODUCER_SPEC, ANDROID_SPEC))
+        current_raw_endpoints[origin] = _operation_raw_endpoints743(
+            raw_joint, raw_domain, raw_recovery, raw_fixture)
         inventories.append((origin, names, {SPEC, domain740.SPEC, recovery.SPEC, fixture_successor.SPEC}))
     for module, sections, refusal in (
             (ci668, ("bindings", "added_inputs", "unchanged_inputs"),
@@ -1218,14 +1375,81 @@ def _build_source_projection_operation(root, capture):
         capture(tooling671.ROOT, relative)
     for origin, names, spec_names in inventories:
         for relative in sorted(names):
-            capture(origin, relative, MAX_SPEC if relative in spec_names else MAX_SOURCE)
+            payload = capture(origin, relative, MAX_SPEC if relative in spec_names else MAX_SOURCE)
+            endpoint = current_raw_endpoints[origin].get(relative)
+            if endpoint is not None:
+                need((len(payload), sha(payload)) == endpoint,
+                     "source-projection-operation-current-raw-before-shape-required")
     # All original schema, dependency, sealed predecessor and refusal checks are
     # performed fresh AFTER the finite before-custody exists. No schema is cached.
     documents = {origin: _operation_freeze(_document(origin)) for origin in joint_roots}
+    raw_documents = MappingProxyType({origin: MappingProxyType({
+        module.SPEC: (module.SPEC_SHA256, _operation_freeze(module._document(origin)))
+        for module in (fixture_successor, recovery, domain740)}) for origin in joint_roots})
     return _SourceProjectionOperation(root, MappingProxyType(documents),
                                       _operation_freeze(producer698._document()),
                                       _operation_freeze(ci668._document()),
-                                      _operation_freeze(tooling671._document()), tuple(origins))
+                                      _operation_freeze(tooling671._document()), tuple(origins), raw_documents)
+
+
+def _operation_metadata_refusal743(root, endpoints):
+    """Fresh ordinary/link/size refusal only; never a byte or source admission.
+
+    Group only immutable path DATA, not metadata or validation results. Each
+    group owns and closes its directory descriptors; no source file is opened.
+    The original complete byte/acquisition/finally suffix remains mandatory.
+    """
+    if not (_descriptor_source_io_supported() and os.stat in os.supports_follow_symlinks):
+        return
+    import macos_share_appkit_only_source_projection as source
+    need(type(endpoints) is dict and 0 < len(endpoints) <= 1024,
+         "source-projection-operation-finite-metadata-endpoints-required")
+    groups = {}
+    for relative, endpoint in endpoints.items():
+        _identity(relative, b"finite-refusal-only-source-metadata")
+        need(type(endpoint) is tuple and len(endpoint) == 2 and
+             type(endpoint[0]) is int and 0 < endpoint[0] <= MAX_SOURCE and
+             type(endpoint[1]) is str and DIGEST.fullmatch(endpoint[1]) is not None,
+             "source-projection-operation-exact-metadata-endpoint-required")
+        parts = source._path(relative)
+        groups.setdefault("/".join(parts[:-1]), []).append((parts[-1], endpoint[0]))
+    for relative, leaves in sorted(groups.items()):
+        descriptors, primary = [], None
+        try:
+            parent, chain = source.open_directory(root, relative, descriptors)
+            for leaf, expected_size in sorted(leaves):
+                current = os.stat(leaf, dir_fd=parent, follow_symlinks=False)
+                need(stat.S_ISREG(current.st_mode) and current.st_nlink == 1 and
+                     current.st_size == expected_size,
+                     "source-projection-operation-ordinary-raw-size-before-capture-required")
+            source.verify_directories(root, chain)
+        except BaseException as error:
+            primary = error
+            raise
+        finally:
+            source.close_owned(descriptors, primary)
+
+
+def _source_projection_metadata_refusal743(root):
+    """Fresh DATA before owning history/acquisition; success is not admission."""
+    if not (_descriptor_source_io_supported() and os.stat in os.supports_follow_symlinks):
+        return
+    import ci_source_domain740 as domain740
+    import ci_source_recovery740_742 as recovery
+    import ci_fixture_successor730 as fixture_successor
+    documents = []
+    for relative, digest, refusal in (
+            (SPEC, SPEC_SHA256, "exact-share-CI-latest-manifest-required"),
+            (domain740.SPEC, domain740.SPEC_SHA256, "exact740-transition-manifest-required"),
+            (recovery.SPEC, recovery.SPEC_SHA256, "exact-finite-recovery-transition-manifest-required"),
+            (fixture_successor.SPEC, fixture_successor.SPEC_SHA256,
+             "exact-six-fixture-successor-manifest-required")):
+        raw = _ordinary(root, relative, MAX_SPEC)[0]
+        need(sha(raw) == digest, refusal)
+        document = _json(raw)
+        need(type(document) is dict, "source-projection-operation-ordinary-inventory-required")
+        documents.append(document)
+    _operation_metadata_refusal743(root, _operation_raw_endpoints743(*documents))
 
 
 @contextmanager

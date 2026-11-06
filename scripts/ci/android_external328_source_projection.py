@@ -81,6 +81,12 @@ def current_source_for_history(relative: str, payload: bytes) -> bytes:
     """Admit actual current bytes before constructing a historical fixture view."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current source identity and ordinary bytes are required")
+    if relative == "scripts/ci/test_android_camera_pre_reporter_fail_fast.py":
+        # This raw FF image is admitted once; nested readers get exact DATA.
+        # Strict730 rejects its old/partial image before historical composition.
+        from ci_fixture_successor730 import current_source_before_fixture_successor
+        payload = current_source_before_fixture_successor(relative, payload)
+        return source_before_android_external328(relative, payload)
     # Exact Android18 admission occurs only at this outer raw boundary.
     # Its literal before-view is not admitted as new current, and nested older
     # readers retain their original ancestor-idempotence/pins.
@@ -112,7 +118,6 @@ def current_source_for_history(relative: str, payload: bytes) -> bytes:
     if relative in bindings and hashlib.sha256(payload).hexdigest() != bindings[relative]["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current source")
     return source_before_android_external328(relative, payload)
-
 
 def text_before_android_external328(relative: str, text: str) -> str:
     if type(text) is not str:

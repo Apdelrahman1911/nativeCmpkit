@@ -1,0 +1,89 @@
+{
+  "ROOT_edits": 0,
+  "diff_reference": {
+    "bytes": 14587,
+    "full10": [
+      23,
+      5778372,
+      33152,
+      1,
+      0,
+      0,
+      14587,
+      1793980786637995077,
+      1793980786637995077,
+      1793980786637995077
+    ],
+    "path": "/root/nativecmpkit-source-proposals-20261105/agent-root-plan-listing-r11-20261106-astra/R10-TO-R11-V2-REVERSIBLE.diff",
+    "sha256": "c9135fbf562c180f473b991b7252f1ddea4f5eb9deb18765609185190dc71dbd"
+  },
+  "driver_edits": 0,
+  "executed": false,
+  "finite_root_guard_original_body_exact_suffix": true,
+  "inverse_exact": true,
+  "operation_count": 1,
+  "operations": [
+    {
+      "after_occurrences": 1,
+      "after_utf8": "# R11 transport only: the unchanged plan enumerates every declared module/src\n# before selecting its one requested module. Never list ROOT, scripts or a model.\n_plan_scope_bindings={\n    'settings.gradle.kts':(2472,'f46255ba97080b1b117e85cfc563d957e30d8f9ff2ff7c327fffd6c59d286bc9'),\n    'scripts/ci/library_tests.py':(413042,'3387f2bb32e8bb7db910284bc8306934cbf47e624bf872b1c050fbcfa416dcf3'),\n    'scripts/ci/secure_alert_input_plan.py':(10218,'23cdbe576bcdb105944ff18a03143b5cce806704a7a4d033223a6bc85bfdae86'),\n}\nfor _relative,(_size,_digest) in _plan_scope_bindings.items():\n    _pin=expected['model_pins'][_relative]\n    assert (_pin['bytes'],_pin['sha256'])==(_size,_digest)\n_plan_modules=(\n    'calf-camera-picker','calf-core','calf-cupertino-icons','calf-file-picker',\n    'calf-file-picker-coil','calf-geo','calf-io','calf-maps','calf-navigation',\n    'calf-permissions','calf-permissions/background-location',\n    'calf-permissions/bluetooth','calf-permissions/calendar',\n    'calf-permissions/camera','calf-permissions/contacts','calf-permissions/core',\n    'calf-permissions/gallery','calf-permissions/location',\n    'calf-permissions/microphone','calf-permissions/notifications',\n    'calf-permissions/wifi','calf-share','calf-ui','calf-webview',\n)\nassert len(_plan_modules)==24 and all(m+'/build.gradle.kts' in expected['model_pins'] for m in _plan_modules)\n_plan_inherited={\n    0:('commonTest','nonAndroidTest','nativeTest','appleTest','iosTest','iosSimulatorArm64Test'),\n    1:('commonTest','materialTest','androidDeviceTest'),\n}[index]\n_plan_source_roots=frozenset(m+'/src' for m in _plan_modules)\n_plan_test_roots=frozenset(m+'/src/'+s for m in _plan_modules for s in _plan_inherited)\n_plan_probe_directories=_plan_source_roots|_plan_test_roots\n_plan_listing_directories=_plan_probe_directories|frozenset(\n    d for d in _model_directories if any(d.startswith(p+'/') for p in _plan_test_roots))\nif index==0:\n    # Required by the owning secure-alert exact-single-helper assertion during\n    # ordinary iOS discovery; do not enumerate any other sample directory.\n    _plan_external='sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/alertinput'\n    assert _plan_external+'/SampleAlertDialogInputFields.kt' in expected['model_pins']\n    _plan_listing_directories|={_plan_external}\nassert '' not in _plan_listing_directories and not any(d.startswith('scripts/') for d in _plan_listing_directories)\n# These are legitimate named existence probes, NOT assumed absent directories.\n# Keep the existing stat wrappers and actual native ENOENT/shape results. Opening\n# an ordinary file still requires membership in the unchanged 1609-source map.\n_model_directories.update(_plan_probe_directories)\n_plan_entry_limit=len(expected['model_pins'])+len(_model_directories)\n_plan_native_listdir=os.listdir;_plan_native_scandir=os.scandir;_plan_native_stat=os.stat\n_plan_active_listing_fds={}\n\ndef _plan_listing_request(path):\n    check_deadline(source_deadline)\n    borrowed=None\n    if type(path) is int:\n        value=os.readlink('/proc/self/fd/'+str(path));guardpath(value)\n        before=identity(os.fstat(path))\n        if os.readlink('/proc/self/fd/'+str(path))!=value or identity(os.fstat(path))!=before:\n            raise RuntimeError('Source-plan listing descriptor changed before admission')\n        borrowed=(path,value,before);original=None\n    else:\n        original='.' if path is None else os.fspath(path)\n        value=os.path.abspath(os.fsdecode(original));guardpath(value)\n    if value==root or value.startswith(root+'/'):\n        raise PermissionError('Forbidden model directory enumeration refused')\n    if value!=str(model) and not value.startswith(_model_prefix):return None\n    relative='' if value==str(model) else value[len(_model_prefix):]\n    if relative not in _plan_listing_directories:\n        raise PermissionError('ROOT listing outside the exact source-plan directories refused')\n    return value,original,borrowed\n\nclass _PlanDirectory:\n    \"\"\"One fresh nofollow/noatime descriptor chain; no directory-result cache.\"\"\"\n    def __init__(self,value,borrowed=None):\n        guardpath(value)\n        relative=value[len(_model_prefix):] if value.startswith(_model_prefix) else None\n        if relative not in _plan_listing_directories:\n            raise PermissionError('Undeclared source-plan directory lease refused')\n        self.value=value;self.borrowed=borrowed;self.held=[];self.fd=None;self.closed=False\n    def __enter__(self):\n        flags=os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_NOATIME\n        try:\n            parent=None;absolute=''\n            for part in ('/',*self.value.strip('/').split('/')):\n                check_deadline(source_deadline)\n                opened=os.open(part,flags) if parent is None else os.open(part,flags,dir_fd=parent)\n                absolute='/' if parent is None else absolute.rstrip('/')+'/'+part\n                self.held.append((opened,absolute,part,None))\n                shape=os.fstat(opened)\n                self.held[-1]=(opened,absolute,part,identity(shape))\n                if not stat.S_ISDIR(shape.st_mode):raise RuntimeError('Source-plan parent is not an ordinary directory')\n                parent=opened\n            self.fd=parent;self.full10=self.held[-1][3]\n            self.check()\n            _plan_active_listing_fds[self.fd]=self\n            return self\n        except BaseException as primary:\n            self.close(primary);raise\n    def check(self):\n        try:\n            for position,(fd,absolute,part,before) in enumerate(self.held):\n                check_deadline(source_deadline);guardpath(absolute)\n                if identity(os.fstat(fd))!=before or os.readlink('/proc/self/fd/'+str(fd))!=absolute:\n                    raise RuntimeError('Source-plan directory descriptor custody changed')\n                if position:\n                    # Only the known single child of the held named parent; bypass\n                    # no source guard and never follow any parent/leaf symlink.\n                    named=_plan_native_stat(part,dir_fd=self.held[position-1][0],follow_symlinks=False)\n                    if identity(named)!=before:raise RuntimeError('Source-plan named parent custody changed')\n            if self.borrowed is not None and self.fd is not None:\n                fd,value,before=self.borrowed\n                if os.readlink('/proc/self/fd/'+str(fd))!=value or identity(os.fstat(fd))!=before or before!=self.full10:\n                    raise RuntimeError('Source-plan caller directory descriptor custody changed')\n        except OSError as refused:\n            raise RuntimeError('Source-plan held directory custody unavailable') from refused\n    def close(self,primary=None):\n        if self.closed:return\n        self.closed=True;errors=[]\n        try:self.check()\n        except BaseException as error:errors.append(error)\n        if self.fd is not None and _plan_active_listing_fds.get(self.fd) is self:\n            del _plan_active_listing_fds[self.fd]\n        for fd,_,_,_ in reversed(self.held):\n            try:os.close(fd)\n            except BaseException as error:errors.append(error)\n        self.held=[]\n        if errors:\n            if primary is not None:\n                for error in errors:primary.add_note('Transport directory cleanup/custody also refused: '+type(error).__name__)\n            else:\n                for error in errors[1:]:errors[0].add_note('Additional transport cleanup refusal: '+type(error).__name__)\n                raise RuntimeError('Source-plan owned directory custody/cleanup refused') from errors[0]\n    def __exit__(self,kind,primary,traceback):\n        self.close(primary);return False\n\ndef _plan_audit_listing_fd(fd):\n    value=os.readlink('/proc/self/fd/'+str(fd));guardpath(value)\n    if value==root or value.startswith(root+'/'):\n        raise PermissionError('Forbidden model descriptor enumeration refused')\n    if value==str(model) or value.startswith(_model_prefix):\n        lease=_plan_active_listing_fds.get(fd)\n        if lease is None or lease.closed or lease.value!=value:\n            raise PermissionError('Only active owned source-plan directory enumeration is allowed')\n        # Registry membership is authorization only; all identities are fresh.\n        lease.check()\n\nclass _PlanDirEntry:\n    \"\"\"Rebase only a real native name; every requested shape is a fresh lstat.\"\"\"\n    def __init__(self,name,original,parent,parent_full10):\n        guardpath(name)\n        self._raw_name=name;self._parent=parent;self._parent_full10=parent_full10\n        self._name=os.fsencode(name) if isinstance(original,bytes) else name\n        self._path=self._name if original is None else os.path.join(original,self._name)\n    @property\n    def name(self):return self._name\n    @property\n    def path(self):return self._path\n    def __fspath__(self):return self._path\n    def stat(self,*,follow_symlinks=True):\n        try:\n            full=self._parent+'/'+self._raw_name;guardpath(full)\n            relative=full[len(_model_prefix):]\n            _model_relative(full,directory=relative in _model_directories)\n            with _PlanDirectory(self._parent) as lease:\n                if lease.full10!=self._parent_full10:raise RuntimeError('Source-plan entry parent changed after enumeration')\n                shape=_plan_native_stat(self._raw_name,dir_fd=lease.fd,follow_symlinks=False)\n                if follow_symlinks and stat.S_ISLNK(shape.st_mode):\n                    raise RuntimeError('Source-plan symlink entry refused before following its target')\n                return shape\n        except OSError as refused:\n            if refused.errno is not None:raise\n            raise RuntimeError('Source-plan entry carrier admission refused; no skipped subtree') from refused\n    def inode(self):return self.stat(follow_symlinks=False).st_ino\n    def is_symlink(self):\n        try:return stat.S_ISLNK(self.stat(follow_symlinks=False).st_mode)\n        except FileNotFoundError:return False\n    def is_dir(self,*,follow_symlinks=True):\n        try:return stat.S_ISDIR(self.stat(follow_symlinks=follow_symlinks).st_mode)\n        except FileNotFoundError:return False\n    def is_file(self,*,follow_symlinks=True):\n        try:return stat.S_ISREG(self.stat(follow_symlinks=follow_symlinks).st_mode)\n        except FileNotFoundError:return False\n\nclass _PlanScandir:\n    def __init__(self,request):\n        value,self.original,borrowed=request\n        self.lease=_PlanDirectory(value,borrowed);self.lease.__enter__()\n        try:self.native=_plan_native_scandir(self.lease.fd)\n        except BaseException as primary:self.lease.close(primary);raise\n        self.count=0;self.closed=False\n    def __iter__(self):return self\n    def __enter__(self):return self\n    def __next__(self):\n        if self.closed:raise StopIteration\n        try:\n            check_deadline(source_deadline)\n            entry=next(self.native);guardpath(entry.name)\n            self.count+=1\n            if self.count>_plan_entry_limit:\n                # RuntimeError is intentional: os.walk must not swallow a\n                # carrier bound/custody refusal as an ordinary missing tree.\n                raise RuntimeError('Source-plan directory entry bound exceeded; no truncation')\n            return _PlanDirEntry(entry.name,self.original,self.lease.value,self.lease.full10)\n        except StopIteration:\n            self.close();raise\n        except BaseException as primary:\n            self.close(primary)\n            if isinstance(primary,OSError) and primary.errno is None:\n                raise RuntimeError('Source-plan iterator carrier refusal; no omitted tree') from primary\n            raise\n    def close(self,primary=None):\n        if self.closed:return\n        self.closed=True;cleanup_error=None\n        try:self.native.close()\n        except BaseException as error:\n            if primary is not None:primary.add_note('Native directory iterator cleanup also refused: '+type(error).__name__)\n            else:cleanup_error=error\n        self.lease.close(primary if primary is not None else cleanup_error)\n        if primary is None and cleanup_error is not None:\n            raise RuntimeError('Source-plan owned directory iterator cleanup refused') from cleanup_error\n    def __exit__(self,kind,primary,traceback):\n        self.close(primary);return False\n\ndef _plan_noatime_scandir(path=None):\n    try:\n        request=_plan_listing_request(path)\n        return _plan_native_scandir(path) if request is None else _PlanScandir(request)\n    except OSError as refused:\n        if refused.errno is not None:raise\n        raise RuntimeError('Source-plan scandir carrier admission refused; no omitted tree') from refused\n\ndef _plan_noatime_listdir(path=None):\n    request=_plan_listing_request(path)\n    if request is None:return _plan_native_listdir(path)\n    with _PlanScandir(request) as entries:\n        # Every actual native name, in native order; no manifest-made listing,\n        # filtering, hidden extras, or cached absence/membership acceptance.\n        return [entry.name for entry in entries]\n\nfor _original,_replacement in ((_plan_native_listdir,_plan_noatime_listdir),(_plan_native_scandir,_plan_noatime_scandir)):\n    for _capability in ('supports_dir_fd','supports_fd','supports_follow_symlinks','supports_effective_ids'):\n        _advertised=getattr(os,_capability)\n        if _original in _advertised:_advertised.add(_replacement)\nos.listdir=_plan_noatime_listdir;os.scandir=_plan_noatime_scandir\n\ndef finite_root_guard(event,args):\n    if event in ('os.scandir','os.listdir') and args and type(args[0]) is int:\n        _plan_audit_listing_fd(args[0])\n",
+      "before_occurrences": 1,
+      "before_utf8": "def finite_root_guard(event,args):\n",
+      "index": 1,
+      "preimage_offset_bytes": 13641
+    }
+  ],
+  "original_helper_bodies_exact": true,
+  "postimage": {
+    "bytes": 31412,
+    "full10": [
+      23,
+      5778370,
+      33152,
+      1,
+      0,
+      0,
+      31412,
+      1793980786633995077,
+      1793980786633995077,
+      1793980786633995077
+    ],
+    "path": "/root/nativecmpkit-source-proposals-20261105/agent-root-plan-listing-r11-20261106-astra/RUNNER-ROOT-CAMERA5-ANDROIDWEBVIEW5-R11-V2-INERT.py",
+    "sha256": "2df2269049addff203d04e6f59ffa11f6eafcd8d7c319f71387dc65aa1aec342"
+  },
+  "preimage": {
+    "bytes": 17800,
+    "full10": [
+      23,
+      64004527,
+      33152,
+      1,
+      0,
+      0,
+      17800,
+      1793979528585070063,
+      1793979528585070063,
+      1793979528585070063
+    ],
+    "path": "/root/nativecmpkit-source-proposals-20261105/lead-ci659-R10-root26-sourceplans-20261106-89r34fj7/source-plans/RUNNER-ROOT-CAMERA5-ANDROIDWEBVIEW5-R10.py",
+    "sha256": "f34ae78d6ef4b6916e3e1048075c30fdad64552d5678adb6c671e793fa2221a0"
+  },
+  "refusal_successor_operations": {
+    "bytes": 8677,
+    "full10": [
+      23,
+      5778373,
+      33152,
+      1,
+      0,
+      0,
+      8677,
+      1793980786638995077,
+      1793980786638995077,
+      1793980786638995077
+    ],
+    "path": "/root/nativecmpkit-source-proposals-20261105/agent-root-plan-listing-r11-20261106-astra/R11-V1-TO-V2-REFUSAL-OPERATIONS.json",
+    "sha256": "2a55563c50e6284209f248af764d1e8fc582438c9d3cc4bd65029594a76edbcc"
+  },
+  "schema": "nativecmpkit-source-plan-listing-R11-V2-inert-reversible-v1",
+  "source_only": true
+}

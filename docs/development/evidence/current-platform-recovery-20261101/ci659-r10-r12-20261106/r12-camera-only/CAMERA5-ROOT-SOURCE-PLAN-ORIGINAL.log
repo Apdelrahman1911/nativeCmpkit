@@ -1,0 +1,147 @@
+NCK_ROOT_SOURCE_PLAN_START 0 ios-camera-ownership-memory-callback
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "camera_ios_ownership_source_contract": {
+        "apple_links_attested": 0,
+        "common_sources": [],
+        "compiler_executions_attested": 0,
+        "compiler_task": ":calf-camera-picker:compileTestKotlinIosSimulatorArm64",
+        "effective_sources": [
+          "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt",
+          "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt",
+          "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt"
+        ],
+        "focus": "ios-camera-ownership-memory-callback",
+        "focus_property": "nativecmpkitCameraIosFocus",
+        "image_scope": "controlled-24x16-three-real-PNG-JPEG-PNG-writes-not-physical-or-profiling",
+        "init_script": "scripts/ci/ios_camera_ownership_native.init.gradle.kts",
+        "module": "calf-camera-picker",
+        "native_tests_executed": 0,
+        "other_source_sha256": {
+          "calf-camera-picker/build.gradle.kts": "e37eb7a4fab11a6af0ed0ff6af7dea57e081241d41efb9fa7f1dd06f7367192f",
+          "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt": "abeb590d3f9edacc9fd638d40125d20ccbe3c0814bce1586d398c09c5e0cb493",
+          "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt": "b7d906813c66604e76a4f64f55306dbea6e92889bf3e77a66cd3aaa13a9891ab",
+          "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt": "3956439ee461c54ad26f7b86eef6939379d2d0c8918948072119411c8802a729",
+          "scripts/ci/ios_camera_ownership_native.init.gradle.kts": "db2d468ec45a7552682469f588a56d3afcaa3e01c503e866c94505ab8d7018c1",
+          "scripts/ci/ios_camera_photo_fixture.py": "0cae6165e230445944dc59c2aabbcc7b8a1d3c16e156eae9bf8c074e3465d752"
+        },
+        "privacy_setup": "owned-photos-grant-reset-and-actual-main-authorized-readback",
+        "required_original_xml": 1,
+        "required_testcases": [
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+            "name": "publicOwnerSurvivesOrdinaryRecompositionAndNativeGcAndDeliversToLatestCallback[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+            "name": "doubleLaunchDuplicateTerminalInputAndReentrantReplacementKeepOneNativeOwner[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+            "name": "compositionDisposalDuringObservedPresentingAndPresentedPhasesFinishesOwnedTeardown[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+            "name": "actualSimulatorUnavailableAndCompetingModalOutcomesPreserveForeignPresenter[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+            "name": "controlledOriginalNativeImageWritesRealPngAndJpegAndSuccessOutlivesOwner[iosSimulatorArm64]"
+          }
+        ],
+        "schema_version": 1,
+        "selected_methods": [
+          "com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.publicOwnerSurvivesOrdinaryRecompositionAndNativeGcAndDeliversToLatestCallback",
+          "com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.doubleLaunchDuplicateTerminalInputAndReentrantReplacementKeepOneNativeOwner",
+          "com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.compositionDisposalDuringObservedPresentingAndPresentedPhasesFinishesOwnedTeardown",
+          "com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.actualSimulatorUnavailableAndCompetingModalOutcomesPreserveForeignPresenter",
+          "com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.controlledOriginalNativeImageWritesRealPngAndJpegAndSuccessOutlivesOwner"
+        ],
+        "source_sha256": {
+          "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt": "5e5a62825d8a47ad7a5880df2a75807aba01ffd79f4ffd601f04082a89797230",
+          "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt": "9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc",
+          "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt": "62cb9f661dea845a7b103b497b3d788cbe3b738a6449e9860855b94575f80f1b"
+        },
+        "task": ":calf-camera-picker:iosSimulatorArm64ApplicationTest"
+      },
+      "module": "calf-camera-picker",
+      "native_test_host": "genuine-uikit-application",
+      "project": ":calf-camera-picker",
+      "report_directory": "calf-camera-picker/build/test-results/iosSimulatorArm64ApplicationTest",
+      "required_original_xml": 1,
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+          "name": "publicOwnerSurvivesOrdinaryRecompositionAndNativeGcAndDeliversToLatestCallback[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+          "name": "doubleLaunchDuplicateTerminalInputAndReentrantReplacementKeepOneNativeOwner[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+          "name": "compositionDisposalDuringObservedPresentingAndPresentedPhasesFinishesOwnedTeardown[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+          "name": "actualSimulatorUnavailableAndCompetingModalOutcomesPreserveForeignPresenter[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest",
+          "name": "controlledOriginalNativeImageWritesRealPngAndJpegAndSuccessOutlivesOwner[iosSimulatorArm64]"
+        }
+      ],
+      "task": ":calf-camera-picker:iosSimulatorArm64ApplicationTest",
+      "test_filter": "com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.publicOwnerSurvivesOrdinaryRecompositionAndNativeGcAndDeliversToLatestCallback,com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.doubleLaunchDuplicateTerminalInputAndReentrantReplacementKeepOneNativeOwner,com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.compositionDisposalDuringObservedPresentingAndPresentedPhasesFinishesOwnedTeardown,com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.actualSimulatorUnavailableAndCompetingModalOutcomesPreserveForeignPresenter,com.mohamedrejeb.calf.camerapicker.IosCameraOwnershipAcceptanceTest.controlledOriginalNativeImageWritesRealPngAndJpegAndSuccessOutlivesOwner",
+      "test_source_files": [
+        "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt",
+        "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt",
+        "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt"
+      ],
+      "test_source_sets": [
+        "iosTest"
+      ]
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-camera-picker"
+  ],
+  "explicit_test_focus": "ios-camera-ownership-memory-callback",
+  "finite_only_device_modules_not_requested": [],
+  "inherited_test_source_sets": [
+    "commonTest",
+    "nonAndroidTest",
+    "nativeTest",
+    "appleTest",
+    "iosTest",
+    "iosSimulatorArm64Test"
+  ],
+  "schema_version": 1,
+  "scope": "Only NEW5 genuine Camera UIApplication/Worker/library methods. Controlled tiny 24x16 UIImage, actual source availability, GC and real Foundation PNG/JPEG/public file lifetime; terminal inputs are deliberately controlled, not physical capture/user gestures or recipient outcomes. One uniquely owned disposable app gets official photos grant/reset and an actual Main PHPhotoLibrary Authorized readback; this is controlled fallback setup, never denial, consent or security acceptance. No accepted Camera/picker/Share/WebView/UI/common/native replay, 12/48MP latency/RSS, native callback-throw, disk-full/cache eviction, observed worker-entry cancellation, other platform/OS, consumer/API-ABI/dependency/legal/security/readiness/publishing or issue closure claim.",
+  "suite": "ios",
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}
+NCK_ROOT_SOURCE_PLAN_END 0 0

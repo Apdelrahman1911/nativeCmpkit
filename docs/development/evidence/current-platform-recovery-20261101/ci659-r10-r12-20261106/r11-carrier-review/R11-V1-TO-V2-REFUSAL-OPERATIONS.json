@@ -1,0 +1,120 @@
+{
+  "executed": false,
+  "inverse_exact": true,
+  "native_errno_retained": true,
+  "operations": [
+    {
+      "after_utf8": "    def stat(self,*,follow_symlinks=True):\n        try:\n            full=self._parent+'/'+self._raw_name;guardpath(full)\n            relative=full[len(_model_prefix):]\n            _model_relative(full,directory=relative in _model_directories)\n            with _PlanDirectory(self._parent) as lease:\n                if lease.full10!=self._parent_full10:raise RuntimeError('Source-plan entry parent changed after enumeration')\n                shape=_plan_native_stat(self._raw_name,dir_fd=lease.fd,follow_symlinks=False)\n                if follow_symlinks and stat.S_ISLNK(shape.st_mode):\n                    raise RuntimeError('Source-plan symlink entry refused before following its target')\n                return shape\n        except OSError as refused:\n            if refused.errno is not None:raise\n            raise RuntimeError('Source-plan entry carrier admission refused; no skipped subtree') from refused\n",
+      "before_utf8": "    def stat(self,*,follow_symlinks=True):\n        full=self._parent+'/'+self._raw_name;guardpath(full)\n        relative=full[len(_model_prefix):]\n        _model_relative(full,directory=relative in _model_directories)\n        with _PlanDirectory(self._parent) as lease:\n            if lease.full10!=self._parent_full10:raise RuntimeError('Source-plan entry parent changed after enumeration')\n            shape=_plan_native_stat(self._raw_name,dir_fd=lease.fd,follow_symlinks=False)\n            if follow_symlinks and stat.S_ISLNK(shape.st_mode):\n                raise RuntimeError('Source-plan symlink entry refused before following its target')\n            return shape\n",
+      "index": 1,
+      "label": "_PlanDirEntry.stat non-swallowable carrier refusal",
+      "sequential_preimage_offset_bytes": 8591
+    },
+    {
+      "after_utf8": "def _plan_noatime_scandir(path=None):\n    try:\n        request=_plan_listing_request(path)\n        return _plan_native_scandir(path) if request is None else _PlanScandir(request)\n    except OSError as refused:\n        if refused.errno is not None:raise\n        raise RuntimeError('Source-plan scandir carrier admission refused; no omitted tree') from refused\n",
+      "before_utf8": "def _plan_noatime_scandir(path=None):\n    request=_plan_listing_request(path)\n    return _plan_native_scandir(path) if request is None else _PlanScandir(request)\n",
+      "index": 2,
+      "label": "_plan_noatime_scandir non-swallowable carrier refusal",
+      "sequential_preimage_offset_bytes": 11798
+    },
+    {
+      "after_utf8": "    def check(self):\n        try:\n            for position,(fd,absolute,part,before) in enumerate(self.held):\n                check_deadline(source_deadline);guardpath(absolute)\n                if identity(os.fstat(fd))!=before or os.readlink('/proc/self/fd/'+str(fd))!=absolute:\n                    raise RuntimeError('Source-plan directory descriptor custody changed')\n                if position:\n                    # Only the known single child of the held named parent; bypass\n                    # no source guard and never follow any parent/leaf symlink.\n                    named=_plan_native_stat(part,dir_fd=self.held[position-1][0],follow_symlinks=False)\n                    if identity(named)!=before:raise RuntimeError('Source-plan named parent custody changed')\n            if self.borrowed is not None and self.fd is not None:\n                fd,value,before=self.borrowed\n                if os.readlink('/proc/self/fd/'+str(fd))!=value or identity(os.fstat(fd))!=before or before!=self.full10:\n                    raise RuntimeError('Source-plan caller directory descriptor custody changed')\n        except OSError as refused:\n            raise RuntimeError('Source-plan held directory custody unavailable') from refused\n",
+      "before_utf8": "    def check(self):\n        for position,(fd,absolute,part,before) in enumerate(self.held):\n            check_deadline(source_deadline);guardpath(absolute)\n            if identity(os.fstat(fd))!=before or os.readlink('/proc/self/fd/'+str(fd))!=absolute:\n                raise RuntimeError('Source-plan directory descriptor custody changed')\n            if position:\n                # Only the known single child of the held named parent; bypass\n                # no source guard and never follow any parent/leaf symlink.\n                named=_plan_native_stat(part,dir_fd=self.held[position-1][0],follow_symlinks=False)\n                if identity(named)!=before:raise RuntimeError('Source-plan named parent custody changed')\n        if self.borrowed is not None and self.fd is not None:\n            fd,value,before=self.borrowed\n            if os.readlink('/proc/self/fd/'+str(fd))!=value or identity(os.fstat(fd))!=before or before!=self.full10:\n                raise RuntimeError('Source-plan caller directory descriptor custody changed')\n",
+      "index": 3,
+      "label": "_PlanDirectory.check non-swallowable carrier refusal",
+      "sequential_preimage_offset_bytes": 5450
+    },
+    {
+      "after_utf8": "        except BaseException as primary:\n            self.close(primary)\n            if isinstance(primary,OSError) and primary.errno is None:\n                raise RuntimeError('Source-plan iterator carrier refusal; no omitted tree') from primary\n            raise\n    def close(self,primary=None):\n",
+      "before_utf8": "        except BaseException as primary:\n            self.close(primary);raise\n    def close(self,primary=None):\n",
+      "index": 4,
+      "label": "_PlanScandir.__next__ preserves native errno and exposes carrier deadline/admission refusal",
+      "sequential_preimage_offset_bytes": 11330
+    },
+    {
+      "after_utf8": "                raise RuntimeError('Source-plan owned directory custody/cleanup refused') from errors[0]\n    def __exit__(self,kind,primary,traceback):\n",
+      "before_utf8": "                raise errors[0]\n    def __exit__(self,kind,primary,traceback):\n",
+      "index": 5,
+      "label": "_PlanDirectory.close owned cleanup is not a missing source tree",
+      "sequential_preimage_offset_bytes": 7484
+    },
+    {
+      "after_utf8": "        if primary is None and cleanup_error is not None:\n            raise RuntimeError('Source-plan owned directory iterator cleanup refused') from cleanup_error\n",
+      "before_utf8": "        if primary is None and cleanup_error is not None:raise cleanup_error\n",
+      "index": 6,
+      "label": "_PlanScandir.close owned cleanup is not a missing source tree",
+      "sequential_preimage_offset_bytes": 12086
+    }
+  ],
+  "original_R10_helpers_unchanged": true,
+  "postimage_insertion": {
+    "bytes": 13492,
+    "full10": [
+      23,
+      5778369,
+      33152,
+      1,
+      0,
+      0,
+      13492,
+      1793980786632995077,
+      1793980786632995077,
+      1793980786632995077
+    ],
+    "path": "/root/nativecmpkit-source-proposals-20261105/agent-root-plan-listing-r11-20261106-astra/R11-V2-LISTING-TRANSPORT-INSERTION.txt",
+    "sha256": "22f46a54628ddfcc29420724e916f4af7211f726977c31c400ec21f5a2ec7f43"
+  },
+  "postimage_runner": {
+    "bytes": 31412,
+    "full10": [
+      23,
+      5778370,
+      33152,
+      1,
+      0,
+      0,
+      31412,
+      1793980786633995077,
+      1793980786633995077,
+      1793980786633995077
+    ],
+    "path": "/root/nativecmpkit-source-proposals-20261105/agent-root-plan-listing-r11-20261106-astra/RUNNER-ROOT-CAMERA5-ANDROIDWEBVIEW5-R11-V2-INERT.py",
+    "sha256": "2df2269049addff203d04e6f59ffa11f6eafcd8d7c319f71387dc65aa1aec342"
+  },
+  "preimage_insertion": {
+    "bytes": 12512,
+    "full10": [
+      23,
+      5778266,
+      33152,
+      1,
+      0,
+      0,
+      12512,
+      1793980451193015071,
+      1793980451194015071,
+      1793980451194015071
+    ],
+    "path": "/root/nativecmpkit-source-proposals-20261105/agent-root-plan-listing-r11-20261106-astra/R11-LISTING-TRANSPORT-INSERTION.txt",
+    "sha256": "0ef96b7e58cea3a5f6d21762a214309dd0c8e904ab79f2e7b78637a9d1df67e2"
+  },
+  "preimage_runner": {
+    "bytes": 30432,
+    "full10": [
+      23,
+      5778341,
+      33152,
+      1,
+      0,
+      0,
+      30432,
+      1793980503074011979,
+      1793980503074011979,
+      1793980503074011979
+    ],
+    "path": "/root/nativecmpkit-source-proposals-20261105/agent-root-plan-listing-r11-20261106-astra/RUNNER-ROOT-CAMERA5-ANDROIDWEBVIEW5-R11-INERT.py",
+    "sha256": "7861b8a471dc3d1c812ca470aee849807d6fef21684d647be1251e6df7c884cc"
+  },
+  "schema": "nativecmpkit-source-plan-R11-refusal-only-successor-v1",
+  "source_only": true
+}

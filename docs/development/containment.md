@@ -1,5 +1,15 @@
 # Contained development with authorized verification CI
 
+## Delegated-agent model decision — 2026-11-06
+
+The owner explicitly requests **Astra at max reasoning** for delegated agents.
+Any new or resumed delegation must use `gpt-6-astra` with `reasoning_effort=max`;
+do not silently substitute a different model. Use isolated, disjoint related
+patches, with lead-only integration, execution, Git/GitHub mutations, acceptance
+and closure. If delegates are unavailable/rate-limited, the lead may continue
+from their saved proposals without repeating completed work. This changes no
+Actions, permission, concurrency, test-evidence, security or publishing gate.
+
 ## Current overlapping related-patch amendment — 2026-11-04
 
 The owner explicitly reauthorizes agents and asks for the next independent

@@ -14,8 +14,8 @@ observed_stat9/role fields are informational, not consumed admission pins; fresh
 no-follow hashes/modes/descriptor identities agree with new transports.
 
 [Adoption](adoption.json) writes the three reviewed endpoints once, retaining
-existing modes/inodes. A later document-copy stat comparison refused after two
-artifacts were copied; differing fields were not captured. Git add also refused
+existing modes/inodes. A later document-copy stat comparison refused after document copies
+were written (three exact copies were held at recovery); differing fields were not captured. Git add also refused
 out-of-sparse documentation before any commit. Recovery reuses both exact copies,
 completes only missing documents with fresh stat9 checks, and stages explicit
 paths with `--sparse`; source adoption/tests are not repeated.

@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated macOS material build repair ready — 2026-11-06
+
+[Mac material repair](docs/development/evidence/current-platform-recovery-20261101/macos-material-filter-recovery-20261106/README.md)
+adopts only WebView9474→9466 two KMP TestFilter receiver calls. Shared Android API
+proof/review reused;777 qualifies independent R6 raw source route. Five owning
+workflow/controller bytes+nine original JNI pins hold; no diagnostics/helper/test/
+workflow changes or historical repins. Original42144077879 at0ef FAILED/causeUNKNOWN
+remains, not a same-cause claim. Changed existing PREPARE is PENDING, zero requested
+native/JUnit/inventory, #58open. Original1546 map has zero protected trace entries;
+only build bytes change. ROOT/Cookie742 untouched. Lead Git/dispatch/acceptance/
+closure; max2combinedhosted INCLUDINGqueued/reserved. Actions/all/no mandatorySHA/
+minimumread and every main/history/API–ABI/native/consumer/dependency/legal/security/
+readiness/Pages/publication gate remains. No package/release/deployment publication.
+
 ## macOS R6 source controls accepted; underlying preparation cause unknown — 2026-11-06
 
 [Preparation R6](docs/development/evidence/current-platform-recovery-20261101/picker-awt-preparation-r6-20261106/README.md)

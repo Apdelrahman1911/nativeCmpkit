@@ -41,6 +41,8 @@ class CameraLifecycleTestActivity : ComponentActivity() {
     private val wrappedContext = ContextWrapper(this)
     var launcher: CameraPickerLauncher? = null
     val results = mutableListOf<CameraPickerResult>()
+    var resultCallback by mutableStateOf<(CameraPickerResult) -> Unit>({ results += it })
+    var appliedCallback: ((CameraPickerResult) -> Unit)? = null
     val disposals = mutableListOf<CameraDisposalObservation>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,8 +50,9 @@ class CameraLifecycleTestActivity : ComponentActivity() {
         setContent {
             CompositionLocalProvider(LocalContext provides if (useWrappedContext) wrappedContext else this) {
                 if (showPicker) {
-                    val current = rememberCameraPickerResultLauncher { results += it }
-                    SideEffect { launcher = current }
+                    val callback = resultCallback
+                    val current = rememberCameraPickerResultLauncher(onResult = callback)
+                    SideEffect { launcher = current; appliedCallback = callback }
                     DisposableEffect(Unit) {
                         onDispose {
                             disposals += CameraDisposalObservation(
@@ -215,6 +218,141 @@ class AndroidCameraLifecycleTest {
         assertEquals(2, activity.results.size)
     }
 
+    // NEW2: genuine host Activity/Compose/registry regressions, not device C1 acceptance.
+    @Test fun nonFinishingRestorationThenCallbackSwapDeliversOneReadableResultToCurrentOwner() {
+        val callbackAResults = mutableListOf<CameraPickerResult>()
+        val callbackBResults = mutableListOf<CameraPickerResult>()
+        val callbackA: (CameraPickerResult) -> Unit = { callbackAResults += it }
+        val callbackB: (CameraPickerResult) -> Unit = { callbackBResults += it }
+        val originalController = createActivity()
+        val original = originalController.get()
+        val originalOwner = assertNotNull(original.launcher)
+        compose.runOnIdle { original.resultCallback = callbackA }
+        awaitCallback(original, callbackA)
+        assertSame(originalOwner, original.launcher)
+        val launched = launch(original)
+        val uri = launchUri(launched)
+        val output = output(launched)
+        val expected = byteArrayOf(12, 34, 56, 78)
+        val saved = Bundle()
+        original.contentResolver.openOutputStream(uri)!!.use { externalWriter ->
+            compose.runOnUiThread {
+                originalController.pause().saveInstanceState(saved).stop().destroy()
+            }
+            compose.waitForIdle()
+            assertTrue(original.isDestroyed)
+            assertFalse(original.isFinishing)
+            assertFalse(original.isChangingConfigurations, "This must be non-finishing, not config-only recreation")
+            val disposal = original.disposals.single()
+            assertEquals(Lifecycle.State.DESTROYED, disposal.lifecycleState)
+            assertFalse(disposal.finishing)
+            assertFalse(disposal.changingConfigurations)
+            assertTrue(disposal.retainForRestoration)
+            assertTrue(output.isFile, "The external writer still owns an open output after destruction")
+            externalWriter.write(expected)
+        }
+
+        val restored = createActivity(saved).get()
+        assertNotSame(original, restored)
+        val restoredOwner = assertNotNull(restored.launcher)
+        assertNotSame(originalOwner, restoredOwner)
+        compose.runOnIdle { restored.resultCallback = callbackA }
+        awaitCallback(restored, callbackA)
+        compose.runOnIdle { restored.resultCallback = callbackB }
+        awaitCallback(restored, callbackB)
+        assertSame(restoredOwner, restored.launcher, "A callback update must not replace the saved request owner")
+        assertTrue(output.isFile)
+        assertTrue(callbackAResults.isEmpty())
+        assertTrue(callbackBResults.isEmpty())
+        compose.runOnIdle { originalOwner.launch() }
+        assertNull(shadowOf(original).nextStartedActivityForResult, "A disposed owner cannot launch another camera")
+        assertNull(shadowOf(restored).nextStartedActivityForResult, "Restoration/callback swap must not relaunch")
+
+        // The synthetic writer is closed before actual registry success delivery.
+        deliver(restored, launched, Activity.RESULT_OK)
+        val captured = assertIs<CameraPickerResult.Captured>(callbackBResults.single())
+        assertEquals(uri, captured.file.uri)
+        assertContentEquals(expected, output.readBytes())
+        restored.contentResolver.openInputStream(captured.file.uri)!!.use {
+            assertContentEquals(expected, it.readBytes())
+        }
+        deliver(restored, launched, Activity.RESULT_OK) // Duplicate host registry delivery; no device/native claim.
+        assertEquals(1, callbackBResults.size, "Exactly one terminal result goes to the current callback")
+        assertTrue(callbackAResults.isEmpty(), "Neither the destroyed nor replaced callback receives a result")
+        assertTrue(original.results.isEmpty(), "The old fixture's default callback remains silent")
+        assertTrue(restored.results.isEmpty(), "The restored fixture's replaced default callback remains silent")
+        assertNull(shadowOf(restored).nextStartedActivityForResult)
+    }
+
+    @Test fun nonFinishingRestorationThenCallbackSwapCancelsOnlyOwnedOutputAndSuppressesOldCallbacks() {
+        val callbackAResults = mutableListOf<CameraPickerResult>()
+        val callbackBResults = mutableListOf<CameraPickerResult>()
+        val callbackA: (CameraPickerResult) -> Unit = { callbackAResults += it }
+        val callbackB: (CameraPickerResult) -> Unit = { callbackBResults += it }
+        val originalController = createActivity()
+        val original = originalController.get()
+        val originalOwner = assertNotNull(original.launcher)
+        compose.runOnIdle { original.resultCallback = callbackA }
+        awaitCallback(original, callbackA)
+        assertSame(originalOwner, original.launcher)
+        val launched = launch(original)
+        val uri = launchUri(launched)
+        val output = output(launched)
+        val unrelatedBytes = byteArrayOf(9, 7, 5, 3)
+        val unrelated = File.createTempFile("capture-unrelated-", ".jpg", assertNotNull(output.parentFile)).also {
+            outputs += it // Register exact teardown ownership before the first write/assertion can fail.
+            it.writeBytes(unrelatedBytes)
+        }
+        assertNotEquals(output.canonicalFile, unrelated.canonicalFile)
+        val saved = Bundle()
+        original.contentResolver.openOutputStream(uri)!!.use { externalWriter ->
+            compose.runOnUiThread {
+                originalController.pause().saveInstanceState(saved).stop().destroy()
+            }
+            compose.waitForIdle()
+            assertTrue(original.isDestroyed)
+            assertFalse(original.isFinishing)
+            assertFalse(original.isChangingConfigurations, "This must be non-finishing, not config-only recreation")
+            val disposal = original.disposals.single()
+            assertEquals(Lifecycle.State.DESTROYED, disposal.lifecycleState)
+            assertFalse(disposal.finishing)
+            assertFalse(disposal.changingConfigurations)
+            assertTrue(disposal.retainForRestoration)
+            assertTrue(output.isFile, "Unregister cannot unlink an output with an external writer")
+            externalWriter.write(byteArrayOf(1, 2, 3, 4))
+        }
+
+        val restored = createActivity(saved).get()
+        assertNotSame(original, restored)
+        val restoredOwner = assertNotNull(restored.launcher)
+        assertNotSame(originalOwner, restoredOwner)
+        compose.runOnIdle { restored.resultCallback = callbackA }
+        awaitCallback(restored, callbackA)
+        compose.runOnIdle { restored.resultCallback = callbackB }
+        awaitCallback(restored, callbackB)
+        assertSame(restoredOwner, restored.launcher, "A callback update must not replace the saved request owner")
+        assertTrue(output.isFile, "The restored pending output remains until terminal cancellation")
+        assertTrue(callbackAResults.isEmpty())
+        assertTrue(callbackBResults.isEmpty())
+        compose.runOnIdle { originalOwner.launch() }
+        assertNull(shadowOf(original).nextStartedActivityForResult, "A disposed owner cannot launch another camera")
+        assertNull(shadowOf(restored).nextStartedActivityForResult, "Restoration/callback swap must not relaunch")
+
+        // The synthetic writer is closed before actual registry cancellation delivery.
+        deliver(restored, launched, Activity.RESULT_CANCELED)
+        assertEquals(CameraPickerResult.Cancelled, callbackBResults.single())
+        assertFalse(output.exists(), "A terminal cancellation deletes only the saved pending output")
+        assertContentEquals(unrelatedBytes, unrelated.readBytes(), "An unrelated owned-pattern sibling must survive")
+        deliver(restored, launched, Activity.RESULT_CANCELED) // Duplicate host registry delivery; no device/native claim.
+        assertEquals(1, callbackBResults.size, "A duplicate result cannot call the current callback twice")
+        assertTrue(callbackAResults.isEmpty(), "Neither the destroyed nor replaced callback receives cancellation")
+        assertTrue(original.results.isEmpty(), "The old fixture's default callback remains silent")
+        assertTrue(restored.results.isEmpty(), "The restored fixture's replaced default callback remains silent")
+        assertFalse(output.exists())
+        assertContentEquals(unrelatedBytes, unrelated.readBytes())
+        assertNull(shadowOf(restored).nextStartedActivityForResult)
+    }
+
     private fun createActivity(saved: Bundle? = null): ActivityController<CameraLifecycleTestActivity> {
         val app = RuntimeEnvironment.getApplication()
         shadowOf(app.packageManager)
@@ -232,6 +370,15 @@ class AndroidCameraLifecycleTest {
         // only the Compose test clock in waitUntil cannot replace this post-mutation idle.
         compose.waitForIdle()
         compose.waitUntil(timeoutMillis = 5_000) { compose.runOnUiThread { activity.launcher != null } }
+        compose.waitForIdle()
+    }
+
+    private fun awaitCallback(activity: CameraLifecycleTestActivity, callback: (CameraPickerResult) -> Unit) {
+        // As for composition readiness, drain Robolectric's paused looper after the state write.
+        compose.waitForIdle()
+        compose.waitUntil(timeoutMillis = 5_000) {
+            compose.runOnUiThread { activity.appliedCallback === callback }
+        }
         compose.waitForIdle()
     }
 

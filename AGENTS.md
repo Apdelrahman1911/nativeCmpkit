@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated Android lifecycle host batch prepared — 2026-11-06
+
+[Host NEW2](docs/development/evidence/current-platform-recovery-20261101/android-camera-lifecycle-host-20261106/README.md)
+adopts one existing/twoNEW sources plus a manual focused workflow. Three source
+controls pass3/3 once; independent742 accepts saved results/42originals/137runtime/
+14model held/ownedcleanup. First R1 Actionlint fails job.env runner context;
+changed four context edits pass Actionlint0 once. NEW2 actual Robolectric/API23
+is PENDING, external camera/writer/results simulated, no native C1/A→B or closure.
+Five old host bodies and production/API/native criteria unchanged; do not replay.
+ROOT0c7 producer42142584633 FAILED/zeroartifacts/nonreusable; macR6 PREPARE42144077879
+FAILED/zero native. Do not retry either unchanged or use failed certificates.
+Lead owns Git/dispatch/acceptance/closure; max2combinedhosted INCLUDINGqueued/reserved;
+compiler6GiBmemory/8GiBdisk. No protected Windows trace path or copies access.
+Actions/all/no mandatorySHA/minpermissions; all history/main/native/consumer/API–ABI/
+dependency/legal/security/readiness/Pages/publication gates remain. No publication.
+
 ## Related CI patch integrated; changed producer ready — 2026-11-06
 
 [Related17 evidence](docs/development/evidence/current-platform-recovery-20261101/ci-related-fixture-capacity-20261106/README.md)

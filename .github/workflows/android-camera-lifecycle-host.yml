@@ -1,0 +1,122 @@
+name: Android Camera lifecycle host NEW2
+
+# R3's two new Robolectric host regressions only; never device/native C1 acceptance.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-camera-lifecycle-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  host-new2:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Run only the two new AndroidCameraLifecycleTest host methods
+        id: regressions
+        env:
+          HOST_NEW2_ROOT: ${{ runner.temp }}/android-camera-lifecycle-host-new2
+        run: |
+          python3 -B - <<'PYTHON'
+          import os
+          import shutil
+          from pathlib import Path
+
+          disk = shutil.disk_usage(Path.cwd()).free
+          memory_fields = next((line.split() for line in Path('/proc/meminfo').read_text(encoding='ascii').splitlines()
+                                if line.startswith('MemAvailable:')), None)
+          if memory_fields is None or len(memory_fields) != 3 or memory_fields[2] != 'kB':
+              raise SystemExit('Host NEW2 not started: actual MemAvailable could not be qualified.')
+          memory = int(memory_fields[1]) * 1024
+          if disk < 8 * 1024**3 or memory < 6 * 1024**3:
+              raise SystemExit(f'Host NEW2 not started: requires 8 GiB disk / 6 GiB MemAvailable; observed bytes {disk} / {memory}.')
+          root = Path(os.environ['HOST_NEW2_ROOT'])
+          root.mkdir(mode=0o700)
+          (root / 'junit').mkdir(mode=0o700)
+          print(f'Actual capacity qualified: disk_free_bytes={disk}; MemAvailable_bytes={memory}.')
+          PYTHON
+          cat > "$HOST_NEW2_ROOT/fresh-test-only.init.gradle" <<'GRADLE'
+          import org.gradle.api.tasks.testing.Test
+
+          gradle.beforeProject { project ->
+              if (project.path == ':calf-camera-picker') {
+                  project.tasks.withType(Test).configureEach { task ->
+                      if (task.name == 'testAndroidHostTest') {
+                          task.outputs.upToDateWhen { false }
+                          task.outputs.doNotCacheIf('Fresh actual AndroidCameraLifecycle NEW2 execution') { true }
+                          task.reports.junitXml.required.set(true)
+                          task.reports.junitXml.outputLocation.set(new File(System.getenv('HOST_NEW2_ROOT'), 'junit'))
+                          task.filter.setFailOnNoMatchingTests(true)
+                          task.ignoreFailures = false
+                      }
+                  }
+              }
+          }
+          GRADLE
+          ./gradlew --no-daemon --console=plain --max-workers=2 --build-cache \
+            --init-script "$HOST_NEW2_ROOT/fresh-test-only.init.gradle" \
+            :calf-camera-picker:testAndroidHostTest \
+            --tests 'com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest.nonFinishingRestorationThenCallbackSwapDeliversOneReadableResultToCurrentOwner' \
+            --tests 'com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest.nonFinishingRestorationThenCallbackSwapCancelsOnlyOwnedOutputAndSuppressesOldCallbacks'
+      - name: Require exactly the two declared methods in fresh passing JUnit XML
+        if: ${{ !cancelled() && steps.regressions.outcome != 'skipped' }}
+        env:
+          HOST_NEW2_ROOT: ${{ runner.temp }}/android-camera-lifecycle-host-new2
+        run: |
+          python3 -B - <<'PYTHON'
+          import os
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+
+          class NoDtdBuilder(ET.TreeBuilder):
+              def doctype(self, name, public_id, system_id):
+                  raise ValueError('DTD/entity declarations are not JUnit evidence')
+
+          classname = 'com.mohamedrejeb.calf.camerapicker.AndroidCameraLifecycleTest'
+          expected = {(classname, name) for name in (
+              'nonFinishingRestorationThenCallbackSwapDeliversOneReadableResultToCurrentOwner',
+              'nonFinishingRestorationThenCallbackSwapCancelsOnlyOwnedOutputAndSuppressesOldCallbacks',
+          )}
+          reports = sorted((Path(os.environ['HOST_NEW2_ROOT']) / 'junit').glob('*.xml'))
+          if len(reports) != 1 or reports[0].name != f'TEST-{classname}.xml':
+              raise SystemExit('Expected exactly one fresh AndroidCameraLifecycleTest JUnit XML report.')
+          suite = ET.fromstring(reports[0].read_bytes(), parser=ET.XMLParser(target=NoDtdBuilder()))
+          cases = list(suite.iter('testcase'))
+          actual = {(case.get('classname'), case.get('name')) for case in cases}
+          if (suite.tag != 'testsuite' or suite.get('tests') != '2'
+                  or any(suite.get(key) != '0' for key in ('failures', 'errors', 'skipped'))
+                  or len(cases) != 2 or actual != expected
+                  or any(suite.find('.//' + tag) is not None for tag in ('failure', 'error', 'skipped'))):
+              raise SystemExit('JUnit XML must contain exactly the two declared methods once each, without failures/errors/skips.')
+          print('Verified exactly two fresh Robolectric host regressions; device/native C1 remains unverified.')
+          PYTHON
+      - name: Preserve fresh host JUnit XML only
+        if: ${{ !cancelled() && steps.regressions.outcome != 'skipped' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: android-camera-lifecycle-host-new2-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 7
+          if-no-files-found: error
+          path: ${{ runner.temp }}/android-camera-lifecycle-host-new2/junit/*.xml

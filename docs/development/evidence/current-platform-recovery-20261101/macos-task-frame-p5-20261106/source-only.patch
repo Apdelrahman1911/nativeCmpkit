@@ -1,0 +1,308 @@
+--- a/scripts/ci/picker_awt_prepare_failure.py
++++ b/scripts/ci/picker_awt_prepare_failure.py
+@@ -160,6 +160,31 @@
+     "": "executed_line", " UP-TO-DATE": "up_to_date_line", " FROM-CACHE": "from_cache_line",
+     " NO-SOURCE": "no_source_line", " SKIPPED": "skipped_line", " FAILED": "failed_line",
+ }
++# Input-only name allowlist, NOT evidence that any original capture had these
++# tasks or that a banner names an execution. Never export an unknown leaf/path.
++PREPARE_CONTRACT_LEAF_KINDS = {
++    "desktopTest": "test_task_name", "connectedAndroidDeviceTest": "test_task_name",
++    "convertXmlValueResourcesForCommonTest": "resource_preparation_name",
++    "copyNonXmlValueResourcesForCommonTest": "resource_preparation_name",
++    "prepareComposeResourcesTaskForCommonTest": "resource_preparation_name",
++    "generateResourceAccessorsForCommonTest": "resource_preparation_name",
++    "convertXmlValueResourcesForDesktopTest": "resource_preparation_name",
++    "copyNonXmlValueResourcesForDesktopTest": "resource_preparation_name",
++    "prepareComposeResourcesTaskForDesktopTest": "resource_preparation_name",
++    "generateResourceAccessorsForDesktopTest": "resource_preparation_name",
++    "unrecognized": "unrecognized_name",
++}
++PREPARE_CONTRACT_ORDER_LIMIT = 32
++PREPARE_CONTRACT_FRAME_MARKERS = {
++    "FAILURE: Build failed with an exception.": "failure_frame",
++    "* What went wrong:": "what_frame", "* Exception is:": "exception_frame",
++}
++PREPARE_CONTRACT_ORDER_EVENTS = frozenset((
++    *PREPARE_CONTRACT_TASK_IDS, *(key + ":nonbare" for key in PREPARE_CONTRACT_TASK_IDS),
++    *("refused:" + key for key in PREPARE_CONTRACT_LEAF_KINDS),
++    *PREPARE_CONTRACT_FRAME_MARKERS.values(), "other_task_banner",
++    "successful_footer", "failed_footer", "omitted_middle",
++))
+ 
+ 
+ def prepare_contract_unavailable(code: str) -> dict:
+@@ -168,6 +193,7 @@
+     return {"schema_version": 1, "status": "unavailable", "cause_established": False,
+             "task_exact_line_counts": {key: "unobserved" for key in PREPARE_CONTRACT_TASK_IDS},
+             "task_banner_states": {key: "unobserved" for key in PREPARE_CONTRACT_TASK_IDS},
++            "refused_task_names": [], "task_build_frame_order": [], "task_build_frame_order_status": "unobserved",
+             "successful_footer_count": "unobserved", "forbidden_test_task_banner_observed": None,
+             "build_failed_text_observed": None, "unavailable_code": code}
+ 
+@@ -189,12 +215,31 @@
+             type(states) is not dict or set(states) != set(PREPARE_CONTRACT_TASK_IDS) or
+             any(type(state) is not str or state not in PREPARE_CONTRACT_BANNER_STATES for state in states.values())):
+         return prepare_contract_unavailable("classifier_error")
++    names, order, order_status = (value[key] for key in
++                                 ("refused_task_names", "task_build_frame_order", "task_build_frame_order_status"))
++    if (type(names) is not list or len(names) > len(PREPARE_CONTRACT_LEAF_KINDS) or
++            any(type(row) is not dict or set(row) != {"leaf_id", "name_kind", "count"} or
++                type(row["leaf_id"]) is not str or row["leaf_id"] not in PREPARE_CONTRACT_LEAF_KINDS or
++                type(row["name_kind"]) is not str or row["name_kind"] != PREPARE_CONTRACT_LEAF_KINDS[row["leaf_id"]] or
++                type(row["count"]) is not str or row["count"] not in {"one", "multiple"} for row in names) or
++            len({row["leaf_id"] for row in names}) != len(names) or
++            type(order) is not list or len(order) > PREPARE_CONTRACT_ORDER_LIMIT or
++            any(type(event) is not str or event not in PREPARE_CONTRACT_ORDER_EVENTS for event in order) or
++            type(order_status) is not str or order_status not in {"unobserved", "complete_projection", "middle_omitted"}):
++        return prepare_contract_unavailable("classifier_error")
++    if ((order_status != "middle_omitted" and "omitted_middle" in order) or
++            (order_status == "middle_omitted" and (len(order) != PREPARE_CONTRACT_ORDER_LIMIT or
++             order.count("omitted_middle") != 1 or order[PREPARE_CONTRACT_ORDER_LIMIT // 2] != "omitted_middle"))):
++        return prepare_contract_unavailable("classifier_error")
+     flags = (value["forbidden_test_task_banner_observed"], value["build_failed_text_observed"])
+     if value["status"] == "observed":
+-        if (value["unavailable_code"] != "none" or value["successful_footer_count"] == "unobserved" or
+-                any(count == "unobserved" for count in counts.values()) or any(type(flag) is not bool for flag in flags)):
++        if (any(type(flag) is not bool for flag in flags) or
++                value["unavailable_code"] != "none" or value["successful_footer_count"] == "unobserved" or
++                order_status == "unobserved" or bool(names) != value["forbidden_test_task_banner_observed"] or
++                any(count == "unobserved" for count in counts.values())):
+             return prepare_contract_unavailable("classifier_error")
+     elif (value["unavailable_code"] == "none" or value["successful_footer_count"] != "unobserved" or
++            names or order or order_status != "unobserved" or
+             any(count != "unobserved" for count in counts.values()) or
+             any(state != "unobserved" for state in states.values()) or any(flag is not None for flag in flags)):
+         return prepare_contract_unavailable("classifier_error")
+@@ -205,6 +250,49 @@
+ 
+ def _prepare_contract_count(count: int) -> str:
+     return "absent" if count == 0 else "one" if count == 1 else "multiple"
++
++
++def _observe_prepare_contract_details(body: str, result: dict) -> None:
++    """Project already bounded raw text onto fixed names/markers, never executions.
++
++    LF-only splitting preserves the original multiline-regex boundaries, including
++    CR/control refusal operands. Do not strip ANSI, whitespace, or private lines.
++    Other text is omitted; consecutive other-task markers are one gap. Known
++    duplicates remain distinct. Overflow retains the first16/last15 with a gap.
++    """
++    counts = {key: 0 for key in PREPARE_CONTRACT_LEAF_KINDS}
++    events = []
++    for line in body.split("\n"):
++        event = PREPARE_CONTRACT_FRAME_MARKERS.get(line)
++        refused = re.match(r"^> Task (\S*(?:desktopTest|connectedAndroidDeviceTest|Test))(?:\s|$)", line)
++        if refused:
++            leaf = refused[1].rsplit(":", 1)[-1]
++            key = next((known for known in PREPARE_CONTRACT_LEAF_KINDS if known == leaf), "unrecognized")
++            counts[key] += 1
++            event = "refused:" + key
++        elif line.startswith("> Task "):
++            event = "other_task_banner"
++            for key in PREPARE_CONTRACT_TASK_IDS:
++                prefix = "> Task " + TASKS[key]
++                if line == prefix:
++                    event = key
++                    break
++                if line.startswith((prefix + " ", prefix + "\t")):
++                    event = key + ":nonbare"
++                    break
++        elif re.fullmatch(r"BUILD SUCCESSFUL in .+", line):
++            event = "successful_footer"
++        elif re.fullmatch(r"BUILD FAILED in .+", line):
++            event = "failed_footer"
++        if event is not None and not (event == "other_task_banner" and events and events[-1] == event):
++            events.append(event)
++    result["refused_task_names"] = [{"leaf_id": key, "name_kind": PREPARE_CONTRACT_LEAF_KINDS[key],
++                                     "count": _prepare_contract_count(count)} for key, count in counts.items() if count]
++    complete = len(events) <= PREPARE_CONTRACT_ORDER_LIMIT
++    head = PREPARE_CONTRACT_ORDER_LIMIT // 2
++    result["task_build_frame_order"] = (events if complete else
++        events[:head] + ["omitted_middle"] + events[-(PREPARE_CONTRACT_ORDER_LIMIT - head - 1):])
++    result["task_build_frame_order_status"] = "complete_projection" if complete else "middle_omitted"
+ 
+ 
+ def observe_prepare_contract(body: str) -> dict:
+@@ -242,6 +330,7 @@
+         r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)", body) is not None
+     # Preserve the unanchored literal alternative in the original regex.
+     result["build_failed_text_observed"] = "BUILD FAILED" in body
++    _observe_prepare_contract_details(body, result)
+     return bounded_prepare_contract_public(result)
+ 
+ 
+@@ -250,7 +339,8 @@
+ 
+     The independent original 64KiB UTF-8 bound remains. Incidental line/control
+     limits do not change these raw regex operands; no lines are normalized and
+-    no banner statuses or private strings are exported. This never accepts PREPARE.
++    no private strings are exported. The additive fixed-marker projection is not
++    an execution count/status or build-frame authentication. This never accepts PREPARE.
+     """
+     if type(body) is not str:
+         return prepare_contract_unavailable("classifier_error")
+@@ -269,13 +359,14 @@
+         task = TASKS[key]
+         result["task_exact_line_counts"][key] = _prepare_contract_count(
+             len(re.findall(r"(?m)^> Task " + re.escape(task) + r"$", body)))
+-    # Leave every banner state unobserved: this fallback observes only operands
+-    # of the original acceptance predicate, not native task execution/status.
++    # Existing banner-state fields stay unobserved. The fixed projection below
++    # adds rendered ordering, never native execution/status or frame identity.
+     result["successful_footer_count"] = _prepare_contract_count(
+         len(re.findall(r"(?m)^BUILD SUCCESSFUL in .+$", body)))
+     result["forbidden_test_task_banner_observed"] = re.search(
+         r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)", body) is not None
+     result["build_failed_text_observed"] = "BUILD FAILED" in body
++    _observe_prepare_contract_details(body, result)
+     return bounded_prepare_contract_public(result)
+ 
+ 
+--- a/scripts/ci/test_picker_awt_prepare_contract.py
++++ b/scripts/ci/test_picker_awt_prepare_contract.py
+@@ -30,8 +30,8 @@
+                                               'sha256': '1ac0d39cf07310d5ee9ef8c0b93777baccb9f914c6b6a893e5731b5c7b4190d6'},
+  'scripts/ci/picker_jni_actual_jvm2.py': {'bytes': 28352,
+                                           'sha256': 'dba05feb854eddc09babf1da6b2038094c330928e22f9752795ddeeca4ff4f8b'}}
+-# Accepted D1 pins are retained verbatim; current D2 uses the same six owning sources.
+-EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 1839,
++# Accepted D1/D2 pins remain literal; each uses the same six owning sources.
++D2_EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 1839,
+                                                   'sha256': '236205c4b61b1f36fd86f81eb5f11b037bc3187b714f3ef2806aed8e58e78344'},
+  'scripts/ci/library_tests.py': {'bytes': 412990,
+                                  'sha256': '6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127'},
+@@ -43,6 +43,10 @@
+                                               'sha256': '78ecc9f06f385c36210799e180f0b62a55e3e9dd48b76d0a99815076d02e0e80'},
+  'scripts/ci/picker_jni_actual_jvm2.py': {'bytes': 28352,
+                                           'sha256': 'dba05feb854eddc09babf1da6b2038094c330928e22f9752795ddeeca4ff4f8b'}}
++# D3 is only an additive diagnostic owner; no historical pin is rewritten.
++EXPECTED_SOURCES = {**D2_EXPECTED_SOURCES,
++    "scripts/ci/picker_awt_prepare_failure.py": {"bytes": 36874,
++        "sha256": "543af524c43acfb0f25ad3ed6236767dd14c869ba9b6eb5832180e889f429bae"}}
+ EXPECTED_PREDICATE_AST = "BoolOp(op=Or(), values=[Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=Compare(left=Call(func=Name(id='len', ctx=Load()), args=[Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='findall', ctx=Load()), args=[BinOp(left=BinOp(left=Constant(value='(?m)^> Task '), op=Add(), right=Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='escape', ctx=Load()), args=[Name(id='task', ctx=Load())], keywords=[])), op=Add(), right=Constant(value='$')), Name(id='body', ctx=Load())], keywords=[])], keywords=[]), ops=[NotEq()], comparators=[Constant(value=1)]), generators=[comprehension(target=Name(id='task', ctx=Store()), iter=Name(id='tasks', ctx=Load()), ifs=[], is_async=0)])], keywords=[]), Compare(left=Call(func=Name(id='len', ctx=Load()), args=[Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='findall', ctx=Load()), args=[Constant(value='(?m)^BUILD SUCCESSFUL in .+$'), Name(id='body', ctx=Load())], keywords=[])], keywords=[]), ops=[NotEq()], comparators=[Constant(value=1)]), Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='search', ctx=Load()), args=[Constant(value='(?m)^> Task \\\\S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\\\\s|$)|BUILD FAILED'), Name(id='body', ctx=Load())], keywords=[])])"
+ UNCHANGED_GENERATION_FUNCTION_SHA256 = {'_jvm_properties': 'd69f4d1def1412b6bc5b99bec407eab0aa894733ff381f768afabdb3073816d8',
+  'exact_command': 'e4b7a23fb536cdc8998d26086df9c1c697fe235127381aee6af060c98a6056a7',
+@@ -416,5 +420,122 @@
+         self.assertEqual(receipt.assignments, 2)
+ 
+ 
++    # NEW2 only: fixed name/marker observations, no accepted population replay.
++    def test_new13_fixed_leaf_names_and_task_frame_order_never_change_acceptance(self):
++        expected = {"desktopTest": "test_task_name", "connectedAndroidDeviceTest": "test_task_name"}
++        expected.update({prefix + source_set: "resource_preparation_name"
++                         for prefix in ("convertXmlValueResourcesFor", "copyNonXmlValueResourcesFor",
++                                        "prepareComposeResourcesTaskFor", "generateResourceAccessorsFor")
++                         for source_set in ("CommonTest", "DesktopTest")})
++        task_order = ["host_native_build", "desktop_resources", "runtime_classpath", "native_resources"]
++        reason = "^standard-fresh-host-preparation-task-or-zero-test-contract-refused$"
++        for leaf, kind in expected.items():
++            with self.subTest(leaf=leaf):
++                body = GOOD.replace("BUILD SUCCESSFUL", "> Task :private-" + PRIVATE_SENTINEL + ":" +
++                                             leaf + " SKIPPED\nBUILD SUCCESSFUL")
++                value = diagnostic.observe_prepare_contract(body)
++                self.assertEqual("observed", value["status"])
++                self.assertEqual([{"leaf_id": leaf, "name_kind": kind, "count": "one"}], value["refused_task_names"])
++                self.assertEqual(task_order + ["refused:" + leaf, "successful_footer"], value["task_build_frame_order"])
++                self.assertEqual("complete_projection", value["task_build_frame_order_status"])
++                raw = diagnostic._observe_refused_prepare_contract_raw(body)
++                for key in ("refused_task_names", "task_build_frame_order", "task_build_frame_order_status"):
++                    self.assertEqual(value[key], raw[key])
++                self.assertEqual({"unobserved"}, set(raw["task_banner_states"].values()))
++                receipt = {}
++                with self.assertRaisesRegex(target.Refusal, reason):
++                    target.review_prepare(body, receipt)
++                self.assertEqual(value, receipt["prepare_contract_diagnostic"])
++                self.assertIs(False, value["cause_established"])
++                self.assertNotIn(PRIVATE_SENTINEL, json.dumps(value))
++        nonbare = GOOD.replace("buildNativeLib\n", "buildNativeLib UP-TO-DATE\n")
++        value = diagnostic._observe_refused_prepare_contract_raw(nonbare)
++        self.assertEqual("host_native_build:nonbare", value["task_build_frame_order"][0])
++        self.assertEqual("absent", value["task_exact_line_counts"]["host_native_build"])
++        with self.assertRaisesRegex(target.Refusal, reason):
++            target.review_prepare(nonbare, {})
++        # Neither an ANSI prefix nor a Unicode line separator creates a raw LF
++        # task boundary. These diagnostics must not normalize original operands.
++        for noise in ("\x1b[31m> Task :private:desktopTest\x1b[0m", "private\u2028> Task :private:desktopTest"):
++            value = diagnostic._observe_refused_prepare_contract_raw(GOOD + noise + "\n")
++            self.assertEqual([], value["refused_task_names"])
++            self.assertIs(False, value["forbidden_test_task_banner_observed"])
++        # These mixed frames/control bytes are synthetic, not the missing capture.
++        body = ("\x1b[31m" + PRIVATE_SENTINEL + "\x1b[0m\n> Task :calf-file-picker:buildNativeLib\n"
++                "> Task :private:first\n> Task :private:second\n> Task :calf-file-picker:buildNativeLib\n" +
++                ("> Task :private:" + PRIVATE_SENTINEL + "Test\n") * 2 +
++                "\n".join("> Task " + task for task in target.PREPARE_TASKS) +
++                "\nFAILURE: Build failed with an exception.\n* What went wrong:\n* Exception is:\n"
++                "BUILD FAILED in 1s\nBUILD SUCCESSFUL in 1s\n")
++        self.assertEqual("diagnostic_limit", diagnostic.observe_prepare_contract(body)["unavailable_code"])
++        value = diagnostic._observe_refused_prepare_contract_raw(body)
++        self.assertEqual([{"leaf_id": "unrecognized", "name_kind": "unrecognized_name", "count": "multiple"}],
++                         value["refused_task_names"])
++        self.assertEqual(["host_native_build", "other_task_banner", "host_native_build", "refused:unrecognized",
++                          "refused:unrecognized", *task_order[1:], "failure_frame", "what_frame", "exception_frame",
++                          "failed_footer", "successful_footer"], value["task_build_frame_order"])
++        self.assertEqual("multiple", value["task_exact_line_counts"]["host_native_build"])
++        receipt = {}
++        with self.assertRaisesRegex(target.Refusal, reason):
++            target.review_prepare(body, receipt)
++        self.assertEqual(value, receipt["prepare_contract_diagnostic"])
++        self.assertNotIn(PRIVATE_SENTINEL, json.dumps(value))
++        self.assertIs(False, value["cause_established"])
++        # No diagnostics on the unchanged accepted synthetic preparation contract.
++        receipt = {}
++        self.assertEqual({"required_resource_tasks": list(target.PREPARE_TASKS), "host_native_build_task_returned": True,
++                          "executed_tests": 0}, target.review_prepare(GOOD, receipt))
++        self.assertEqual({}, receipt)
++
++    def test_new14_detail_caps_schema_and_secondary_errors_preserve_primary(self):
++        self.assertEqual((65536, 4096, 4096, 4096, 32),
++                         (diagnostic.MAX_PRIVATE_BYTES, diagnostic.MAX_PUBLIC_BYTES, diagnostic.MAX_LINES, diagnostic.MAX_LINE_BYTES,
++                          diagnostic.PREPARE_CONTRACT_ORDER_LIMIT))
++        tail = GOOD.replace("BUILD SUCCESSFUL", "> Task :private:" + PRIVATE_SENTINEL + "Test\nBUILD SUCCESSFUL")
++        body = "\x00\n" + ("> Task :calf-file-picker:buildNativeLib\n> Task :private:other\n") * 40 + tail
++        full_order = ["host_native_build", "other_task_banner"] * 40 + [
++            "host_native_build", "desktop_resources", "runtime_classpath", "native_resources",
++            "refused:unrecognized", "successful_footer"]
++        value = diagnostic._observe_refused_prepare_contract_raw(body)
++        self.assertEqual("observed", value["status"])
++        self.assertEqual(full_order[:16] + ["omitted_middle"] + full_order[-15:], value["task_build_frame_order"])
++        self.assertEqual("middle_omitted", value["task_build_frame_order_status"])
++        self.assertEqual("multiple", value["task_exact_line_counts"]["host_native_build"])
++        self.assertNotIn(PRIVATE_SENTINEL, json.dumps(value))
++        maximal = copy.deepcopy(value)
++        maximal["refused_task_names"] = [{"leaf_id": key, "name_kind": kind, "count": "multiple"}
++                                          for key, kind in diagnostic.PREPARE_CONTRACT_LEAF_KINDS.items()]
++        maximal["task_build_frame_order"] = [max(diagnostic.PREPARE_CONTRACT_ORDER_EVENTS, key=len)] * 32
++        maximal["task_build_frame_order_status"] = "complete_projection"
++        self.assertIs(maximal, diagnostic.bounded_prepare_contract_public(maximal))
++        self.assertLessEqual(len(json.dumps(maximal, ensure_ascii=True, separators=(",", ":")).encode("ascii")), 4096)
++        for change in (
++                {"refused_task_names": [{"leaf_id": PRIVATE_SENTINEL, "name_kind": "unrecognized_name", "count": "one"}]},
++                {"refused_task_names": [{"leaf_id": "desktopTest", "name_kind": "resource_preparation_name", "count": "one"}]},
++                {"refused_task_names": [{"leaf_id": "desktopTest", "name_kind": "test_task_name", "count": True}]},
++                {"refused_task_names": value["refused_task_names"] * 2},
++                {"task_build_frame_order": [PRIVATE_SENTINEL]},
++                {"task_build_frame_order": ["host_native_build"] * 33},
++                {"task_build_frame_order": ["omitted_middle"]},
++                {"task_build_frame_order_status": PRIVATE_SENTINEL},
++                {"forbidden_test_task_banner_observed": False}):
++            changed = copy.deepcopy(value)
++            changed.update(change)
++            refused = diagnostic.bounded_prepare_contract_public(changed)
++            self.assertEqual(("unavailable", "classifier_error"), (refused["status"], refused["unavailable_code"]))
++            self.assertEqual(([], [], "unobserved"), (refused["refused_task_names"], refused["task_build_frame_order"],
++                                                     refused["task_build_frame_order_status"]))
++            self.assertNotIn(PRIVATE_SENTINEL, json.dumps(refused))
++        for observer in (diagnostic.observe_prepare_contract, diagnostic._observe_refused_prepare_contract_raw):
++            for bad, code in ((None, "classifier_error"), ("\ud800", "UTF8_refused"), ("x" * 65537, "diagnostic_limit")):
++                self.assertEqual(code, observer(bad)["unavailable_code"])
++        # The caller's existing secondary-error catch must retain its refusal.
++        receipt = {"kept": True}
++        with mock.patch.object(diagnostic, "_observe_prepare_contract_details", side_effect=RuntimeError(PRIVATE_SENTINEL)):
++            with self.assertRaisesRegex(target.Refusal, "^standard-fresh-host-preparation-task-or-zero-test-contract-refused$"):
++                target.review_prepare(tail, receipt)
++        self.assertEqual({"kept": True}, receipt)
++
++
+ if __name__ == "__main__":
+     unittest.main(verbosity=2)

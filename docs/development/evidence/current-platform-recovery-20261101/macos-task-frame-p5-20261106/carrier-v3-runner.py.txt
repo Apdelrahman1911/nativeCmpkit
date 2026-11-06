@@ -1,0 +1,272 @@
+# SOURCE ONLY / UNEXECUTED: exactly NEW2 + affected4; never adopt sources.
+
+import hashlib
+import json
+import os
+import stat
+import time
+
+class Refusal(RuntimeError):
+    pass
+
+def full10(s):
+    return [s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_uid, s.st_gid,
+            s.st_size, s.st_atime_ns, s.st_mtime_ns, s.st_ctime_ns]
+
+def safe_path(path):
+    if type(path) is not str or not path.startswith('/') or '\x00' in path:
+        raise Refusal('absolute-path-required')
+    if 'test_javafx_ordinary_success_trace.py' in path:
+        raise Refusal('protected-path-refused-before-access')
+    if path == '/root/projects/nativeCmpKit' or path.startswith('/root/projects/nativeCmpKit/'):
+        raise Refusal('ROOT-path-refused-before-access')
+    if os.path.normpath(path) != path:
+        raise Refusal('noncanonical-path-refused')
+    return path
+
+def checked_read(ref):
+    path = safe_path(ref['path'])
+    pin = ref['full10']
+    if (type(pin) is not list or len(pin) != 10 or any(type(v) is not int for v in pin)
+            or type(ref['bytes']) is not int or ref['bytes'] < 0 or pin[6] != ref['bytes']):
+        raise Refusal('integer-full10-required')
+    before = os.stat(path, follow_symlinks=False)
+    if full10(before) != pin or not stat.S_ISREG(before.st_mode):
+        raise Refusal('path-identity-refused')
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NOATIME)
+    try:
+        if full10(os.fstat(fd)) != pin:
+            raise Refusal('descriptor-identity-refused')
+        parts, remaining, offset = [], ref['bytes'], 0
+        while remaining:
+            part = os.pread(fd, min(65536, remaining), offset)
+            if not part:
+                raise Refusal('early-EOF-refused')
+            parts.append(part)
+            remaining -= len(part)
+            offset += len(part)
+        if os.pread(fd, 1, offset):
+            raise Refusal('extra-EOF-refused')
+        body = b''.join(parts)
+        if hashlib.sha256(body).hexdigest() != ref['sha256']:
+            raise Refusal('SHA256-refused')
+        if full10(os.fstat(fd)) != pin or full10(os.stat(path, follow_symlinks=False)) != pin:
+            raise Refusal('postread-full10-refused')
+        return body
+    finally:
+        os.close(fd)
+
+import builtins
+import importlib.abc
+import importlib.machinery
+import importlib.util
+import io
+import linecache
+from pathlib import Path
+import signal
+import sys
+import traceback
+import unittest
+from unittest import mock
+
+RESULT_PREFIX = 'P5_SIX_RESULT '
+
+def main():
+    packet = _PACKET
+    deadline = float(sys.argv[4])
+    runtime = safe_path(sys.argv[3])
+    if runtime != packet['output_dir'] + '/runtime':
+        raise Refusal('owned-runtime-operand-refused')
+    manifest = json.loads(checked_read(packet['final_map']))
+    root = safe_path(packet['worktree'])
+    if manifest['worktree'] != root or len(manifest['source_pins']) != 1547:
+        raise Refusal('final-map-scope-refused')
+    sources = {}
+    for relative, pin in manifest['source_pins'].items():
+        if relative.startswith('/') or any(p in ('', '.', '..') for p in relative.split('/')):
+            raise Refusal('finite-relative-path-refused')
+        path = safe_path(root + '/' + relative)
+        sources[path] = {'path': path, **pin}
+    artifacts = {r['path']: r for r in
+                 (_PACKET_REF, packet['runner'], packet['envelope'], packet['final_map'])}
+    readable = {**sources, **artifacts}
+    directories = set()
+    for path in readable:
+        while path != '/':
+            path = os.path.dirname(path)
+            directories.add(path)
+    directories.update((runtime, runtime + '/home', runtime + '/tmp'))
+    # Capture only interpreter stdlib roots, before target modules alter sys.path.
+    stdlib_paths = tuple(p for p in sys.path if p and os.path.isabs(p)
+                         and 'site-packages' not in p and 'dist-packages' not in p)
+    native_stat, native_lstat, native_readlink = os.stat, os.lstat, os.readlink
+    native_listdir, native_scandir, native_access = os.listdir, os.scandir, os.access
+    native_open, builtin_open, io_open = os.open, builtins.open, io.open
+    refusals = []
+
+    def refuse(kind):
+        if len(refusals) < 32:
+            refusals.append(kind)
+        raise Refusal(kind)
+
+    def kind(value):
+        if isinstance(value, int):
+            return 'fd', value
+        path = os.fsdecode(os.fspath(value))
+        if 'test_javafx_ordinary_success_trace.py' in path:
+            refuse('protected-path-request')
+        if path == '/root/projects/nativeCmpKit' or path.startswith('/root/projects/nativeCmpKit/'):
+            refuse('ROOT-path-request')
+        absolute = os.path.abspath(path)
+        if os.path.isabs(path) and path != absolute:
+            refuse('noncanonical-absolute-request')
+        path = absolute
+        try:
+            safe_path(path)
+        except Refusal:
+            refuse('forbidden-filesystem-request')
+        if path in readable:
+            return 'pinned', path
+        if path in directories:
+            return 'directory', path
+        if any(path == p or path.startswith(p.rstrip('/') + '/') for p in stdlib_paths):
+            return 'stdlib', path
+        if path == runtime or path.startswith(runtime + '/'):
+            return 'runtime', path
+        refuse('undeclared-filesystem-request')
+
+    def metadata_guard(native):
+        def wrapped(path, *args, **kwargs):
+            if kwargs.get('dir_fd') is not None:
+                refuse('undeclared-dir-fd-request')
+            kind(path)
+            return native(path, *args, **kwargs)
+        return wrapped
+
+    def capability_preserving_replace(name, replacement):
+        native = getattr(os, name)
+        for set_name in ('supports_fd', 'supports_dir_fd', 'supports_follow_symlinks', 'supports_effective_ids'):
+            capability = getattr(os, set_name, ())
+            if native in capability:
+                capability.add(replacement)  # Retain native members as well.
+        setattr(os, name, replacement)
+
+    for name, native in (('stat', native_stat), ('lstat', native_lstat),
+                         ('readlink', native_readlink), ('access', native_access)):
+        capability_preserving_replace(name, metadata_guard(native))
+
+    def directory_guard(native):
+        def wrapped(path='.'):
+            label, _ = kind(path)
+            if label != 'stdlib':
+                refuse('source-or-runtime-directory-discovery-refused')
+            return native(path)
+        return wrapped
+    capability_preserving_replace('listdir', directory_guard(native_listdir))
+    capability_preserving_replace('scandir', directory_guard(native_scandir))
+
+    def read_open(original):
+        def wrapped(file, mode='r', buffering=-1, encoding=None, errors=None,
+                    newline=None, closefd=True, opener=None):
+            label, path = kind(file)
+            if any(character in mode for character in 'wax+'):
+                refuse('child-file-write-refused')
+            if label == 'pinned':
+                if opener is not None:
+                    refuse('custom-pinned-opener-refused')
+                def noatime_opener(name, flags):
+                    return native_open(name, flags | os.O_NOATIME | os.O_NOFOLLOW)
+                opener = noatime_opener
+            return original(file, mode, buffering, encoding, errors, newline, closefd, opener)
+        return wrapped
+    builtins.open, io.open = read_open(builtin_open), read_open(io_open)
+
+    denied_events = {'subprocess.Popen', 'os.system', 'os.fork', 'os.forkpty',
+                     'os.posix_spawn', 'os.exec', 'os.spawn', 'pty.spawn',
+                     'os.kill', 'os.killpg', 'ctypes.dlopen', 'ctypes.dlsym',
+                     'os.remove', 'os.rename', 'os.rmdir', 'os.mkdir', 'os.chmod',
+                     'os.chown', 'os.link', 'os.symlink', 'os.truncate', 'os.utime',
+                     'os.chdir', 'os.setxattr', 'os.removexattr'}
+    def audit(event, args):
+        if event in denied_events or event.startswith('socket.'):
+            refuse('child-native-process-network-or-mutation-request')
+        if event in ('os.listdir', 'os.scandir'):
+            if kind(args[0])[0] != 'stdlib':
+                refuse('directory-discovery-request')
+        if event == 'open':
+            label, _ = kind(args[0])
+            flags = args[2]
+            if flags & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND):
+                refuse('child-file-write-request')
+            if label == 'pinned' and flags & (os.O_NOATIME | os.O_NOFOLLOW) != (os.O_NOATIME | os.O_NOFOLLOW):
+                refuse('pinned-read-without-noatime-nofollow')
+    sys.addaudithook(audit)
+
+    # Resolve only map members: no PathFinder discovery of repository directories.
+    module_paths = {}
+    for relative in manifest['source_pins']:
+        pieces = relative.split('/')
+        if len(pieces) == 3 and pieces[:2] in (['scripts', 'ci'], ['scripts', 'native']) and pieces[2].endswith('.py'):
+            name = pieces[2][:-3]
+            if name.isidentifier() and (not name.startswith('test_') or name == 'test_picker_awt_prepare_contract'):
+                module_paths.setdefault(name, root + '/' + relative)
+    class FiniteLoader(importlib.abc.Loader):
+        def create_module(self, spec):
+            return None
+        def exec_module(self, module):
+            path = module_paths[module.__name__]
+            body = checked_read(sources[path])
+            text = body.decode('utf-8')
+            module.__file__ = path
+            linecache.cache[path] = (len(body), None, text.splitlines(True), path)
+            exec(compile(body, path, 'exec', dont_inherit=True), module.__dict__)
+    class FiniteFinder(importlib.abc.MetaPathFinder):
+        def find_spec(self, fullname, path=None, target=None):
+            if fullname in module_paths:
+                return importlib.util.spec_from_loader(fullname, FiniteLoader(), origin=module_paths[fullname])
+            if fullname.split('.')[0] in sys.stdlib_module_names:
+                locations = list(stdlib_paths) if path is None else list(path)
+                if any(kind(p)[0] != 'stdlib' for p in locations):
+                    refuse('non-stdlib-import-search-location')
+                return importlib.machinery.PathFinder.find_spec(fullname, locations)
+            # Normal negative import; no filesystem search or substitute module.
+            raise ModuleNotFoundError(f"No module named {fullname!r}", name=fullname)
+    sys.meta_path[:] = [importlib.machinery.BuiltinImporter,
+                        importlib.machinery.FrozenImporter, FiniteFinder()]
+    sys.dont_write_bytecode = True
+    def timed_out(signum, frame):
+        raise KeyboardInterrupt('source-time-guard')
+    signal.signal(signal.SIGALRM, timed_out)
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise Refusal('source-budget-exhausted-before-import')
+    signal.setitimer(signal.ITIMER_REAL, remaining)
+    started_ids, stopped_ids, successful_ids = [], [], []
+    class Result(unittest.TextTestResult):
+        def startTest(self, test):
+            started_ids.append(test.id())
+            super().startTest(test)
+        def stopTest(self, test):
+            stopped_ids.append(test.id())
+            super().stopTest(test)
+        def addSuccess(self, test):
+            successful_ids.append(test.id())
+            super().addSuccess(test)
+    module = importlib.import_module('test_picker_awt_prepare_contract')
+    cls = module.NativePreparationContractDiagnosticTests
+    selected = packet['selectors']
+    suite = unittest.TestSuite(cls(selector.rsplit('.', 1)[1]) for selector in selected)
+    result = unittest.TextTestRunner(stream=sys.stdout, verbosity=2, resultclass=Result).run(suite)
+    summary = {'testsRun': result.testsRun, 'failures': len(result.failures),
+               'errors': len(result.errors), 'skipped': len(result.skipped),
+               'expectedFailures': len(result.expectedFailures),
+               'unexpectedSuccesses': len(result.unexpectedSuccesses),
+               'started': started_ids, 'stopped': stopped_ids, 'successful': successful_ids,
+               'refused_requests': refusals, 'suite_successful': result.wasSuccessful()}
+    print(RESULT_PREFIX + json.dumps(summary, sort_keys=True), flush=True)
+    signal.setitimer(signal.ITIMER_REAL, 0)
+    return 0 if (result.wasSuccessful() and result.testsRun == 6 and started_ids == selected
+                 and stopped_ids == selected and successful_ids == selected and not refusals) else 1
+
+if __name__ == '__main__':
+    raise SystemExit(main())

@@ -160,6 +160,31 @@ PREPARE_CONTRACT_SUFFIX_STATES = {
     "": "executed_line", " UP-TO-DATE": "up_to_date_line", " FROM-CACHE": "from_cache_line",
     " NO-SOURCE": "no_source_line", " SKIPPED": "skipped_line", " FAILED": "failed_line",
 }
+# Input-only name allowlist, NOT evidence that any original capture had these
+# tasks or that a banner names an execution. Never export an unknown leaf/path.
+PREPARE_CONTRACT_LEAF_KINDS = {
+    "desktopTest": "test_task_name", "connectedAndroidDeviceTest": "test_task_name",
+    "convertXmlValueResourcesForCommonTest": "resource_preparation_name",
+    "copyNonXmlValueResourcesForCommonTest": "resource_preparation_name",
+    "prepareComposeResourcesTaskForCommonTest": "resource_preparation_name",
+    "generateResourceAccessorsForCommonTest": "resource_preparation_name",
+    "convertXmlValueResourcesForDesktopTest": "resource_preparation_name",
+    "copyNonXmlValueResourcesForDesktopTest": "resource_preparation_name",
+    "prepareComposeResourcesTaskForDesktopTest": "resource_preparation_name",
+    "generateResourceAccessorsForDesktopTest": "resource_preparation_name",
+    "unrecognized": "unrecognized_name",
+}
+PREPARE_CONTRACT_ORDER_LIMIT = 32
+PREPARE_CONTRACT_FRAME_MARKERS = {
+    "FAILURE: Build failed with an exception.": "failure_frame",
+    "* What went wrong:": "what_frame", "* Exception is:": "exception_frame",
+}
+PREPARE_CONTRACT_ORDER_EVENTS = frozenset((
+    *PREPARE_CONTRACT_TASK_IDS, *(key + ":nonbare" for key in PREPARE_CONTRACT_TASK_IDS),
+    *("refused:" + key for key in PREPARE_CONTRACT_LEAF_KINDS),
+    *PREPARE_CONTRACT_FRAME_MARKERS.values(), "other_task_banner",
+    "successful_footer", "failed_footer", "omitted_middle",
+))
 
 
 def prepare_contract_unavailable(code: str) -> dict:
@@ -168,6 +193,7 @@ def prepare_contract_unavailable(code: str) -> dict:
     return {"schema_version": 1, "status": "unavailable", "cause_established": False,
             "task_exact_line_counts": {key: "unobserved" for key in PREPARE_CONTRACT_TASK_IDS},
             "task_banner_states": {key: "unobserved" for key in PREPARE_CONTRACT_TASK_IDS},
+            "refused_task_names": [], "task_build_frame_order": [], "task_build_frame_order_status": "unobserved",
             "successful_footer_count": "unobserved", "forbidden_test_task_banner_observed": None,
             "build_failed_text_observed": None, "unavailable_code": code}
 
@@ -189,12 +215,31 @@ def bounded_prepare_contract_public(value: dict) -> dict:
             type(states) is not dict or set(states) != set(PREPARE_CONTRACT_TASK_IDS) or
             any(type(state) is not str or state not in PREPARE_CONTRACT_BANNER_STATES for state in states.values())):
         return prepare_contract_unavailable("classifier_error")
+    names, order, order_status = (value[key] for key in
+                                 ("refused_task_names", "task_build_frame_order", "task_build_frame_order_status"))
+    if (type(names) is not list or len(names) > len(PREPARE_CONTRACT_LEAF_KINDS) or
+            any(type(row) is not dict or set(row) != {"leaf_id", "name_kind", "count"} or
+                type(row["leaf_id"]) is not str or row["leaf_id"] not in PREPARE_CONTRACT_LEAF_KINDS or
+                type(row["name_kind"]) is not str or row["name_kind"] != PREPARE_CONTRACT_LEAF_KINDS[row["leaf_id"]] or
+                type(row["count"]) is not str or row["count"] not in {"one", "multiple"} for row in names) or
+            len({row["leaf_id"] for row in names}) != len(names) or
+            type(order) is not list or len(order) > PREPARE_CONTRACT_ORDER_LIMIT or
+            any(type(event) is not str or event not in PREPARE_CONTRACT_ORDER_EVENTS for event in order) or
+            type(order_status) is not str or order_status not in {"unobserved", "complete_projection", "middle_omitted"}):
+        return prepare_contract_unavailable("classifier_error")
+    if ((order_status != "middle_omitted" and "omitted_middle" in order) or
+            (order_status == "middle_omitted" and (len(order) != PREPARE_CONTRACT_ORDER_LIMIT or
+             order.count("omitted_middle") != 1 or order[PREPARE_CONTRACT_ORDER_LIMIT // 2] != "omitted_middle"))):
+        return prepare_contract_unavailable("classifier_error")
     flags = (value["forbidden_test_task_banner_observed"], value["build_failed_text_observed"])
     if value["status"] == "observed":
-        if (value["unavailable_code"] != "none" or value["successful_footer_count"] == "unobserved" or
-                any(count == "unobserved" for count in counts.values()) or any(type(flag) is not bool for flag in flags)):
+        if (any(type(flag) is not bool for flag in flags) or
+                value["unavailable_code"] != "none" or value["successful_footer_count"] == "unobserved" or
+                order_status == "unobserved" or bool(names) != value["forbidden_test_task_banner_observed"] or
+                any(count == "unobserved" for count in counts.values())):
             return prepare_contract_unavailable("classifier_error")
     elif (value["unavailable_code"] == "none" or value["successful_footer_count"] != "unobserved" or
+            names or order or order_status != "unobserved" or
             any(count != "unobserved" for count in counts.values()) or
             any(state != "unobserved" for state in states.values()) or any(flag is not None for flag in flags)):
         return prepare_contract_unavailable("classifier_error")
@@ -205,6 +250,49 @@ def bounded_prepare_contract_public(value: dict) -> dict:
 
 def _prepare_contract_count(count: int) -> str:
     return "absent" if count == 0 else "one" if count == 1 else "multiple"
+
+
+def _observe_prepare_contract_details(body: str, result: dict) -> None:
+    """Project already bounded raw text onto fixed names/markers, never executions.
+
+    LF-only splitting preserves the original multiline-regex boundaries, including
+    CR/control refusal operands. Do not strip ANSI, whitespace, or private lines.
+    Other text is omitted; consecutive other-task markers are one gap. Known
+    duplicates remain distinct. Overflow retains the first16/last15 with a gap.
+    """
+    counts = {key: 0 for key in PREPARE_CONTRACT_LEAF_KINDS}
+    events = []
+    for line in body.split("\n"):
+        event = PREPARE_CONTRACT_FRAME_MARKERS.get(line)
+        refused = re.match(r"^> Task (\S*(?:desktopTest|connectedAndroidDeviceTest|Test))(?:\s|$)", line)
+        if refused:
+            leaf = refused[1].rsplit(":", 1)[-1]
+            key = next((known for known in PREPARE_CONTRACT_LEAF_KINDS if known == leaf), "unrecognized")
+            counts[key] += 1
+            event = "refused:" + key
+        elif line.startswith("> Task "):
+            event = "other_task_banner"
+            for key in PREPARE_CONTRACT_TASK_IDS:
+                prefix = "> Task " + TASKS[key]
+                if line == prefix:
+                    event = key
+                    break
+                if line.startswith((prefix + " ", prefix + "\t")):
+                    event = key + ":nonbare"
+                    break
+        elif re.fullmatch(r"BUILD SUCCESSFUL in .+", line):
+            event = "successful_footer"
+        elif re.fullmatch(r"BUILD FAILED in .+", line):
+            event = "failed_footer"
+        if event is not None and not (event == "other_task_banner" and events and events[-1] == event):
+            events.append(event)
+    result["refused_task_names"] = [{"leaf_id": key, "name_kind": PREPARE_CONTRACT_LEAF_KINDS[key],
+                                     "count": _prepare_contract_count(count)} for key, count in counts.items() if count]
+    complete = len(events) <= PREPARE_CONTRACT_ORDER_LIMIT
+    head = PREPARE_CONTRACT_ORDER_LIMIT // 2
+    result["task_build_frame_order"] = (events if complete else
+        events[:head] + ["omitted_middle"] + events[-(PREPARE_CONTRACT_ORDER_LIMIT - head - 1):])
+    result["task_build_frame_order_status"] = "complete_projection" if complete else "middle_omitted"
 
 
 def observe_prepare_contract(body: str) -> dict:
@@ -242,6 +330,7 @@ def observe_prepare_contract(body: str) -> dict:
         r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)", body) is not None
     # Preserve the unanchored literal alternative in the original regex.
     result["build_failed_text_observed"] = "BUILD FAILED" in body
+    _observe_prepare_contract_details(body, result)
     return bounded_prepare_contract_public(result)
 
 
@@ -250,7 +339,8 @@ def _observe_refused_prepare_contract_raw(body: str) -> dict:
 
     The independent original 64KiB UTF-8 bound remains. Incidental line/control
     limits do not change these raw regex operands; no lines are normalized and
-    no banner statuses or private strings are exported. This never accepts PREPARE.
+    no private strings are exported. The additive fixed-marker projection is not
+    an execution count/status or build-frame authentication. This never accepts PREPARE.
     """
     if type(body) is not str:
         return prepare_contract_unavailable("classifier_error")
@@ -269,13 +359,14 @@ def _observe_refused_prepare_contract_raw(body: str) -> dict:
         task = TASKS[key]
         result["task_exact_line_counts"][key] = _prepare_contract_count(
             len(re.findall(r"(?m)^> Task " + re.escape(task) + r"$", body)))
-    # Leave every banner state unobserved: this fallback observes only operands
-    # of the original acceptance predicate, not native task execution/status.
+    # Existing banner-state fields stay unobserved. The fixed projection below
+    # adds rendered ordering, never native execution/status or frame identity.
     result["successful_footer_count"] = _prepare_contract_count(
         len(re.findall(r"(?m)^BUILD SUCCESSFUL in .+$", body)))
     result["forbidden_test_task_banner_observed"] = re.search(
         r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)", body) is not None
     result["build_failed_text_observed"] = "BUILD FAILED" in body
+    _observe_prepare_contract_details(body, result)
     return bounded_prepare_contract_public(result)
 
 

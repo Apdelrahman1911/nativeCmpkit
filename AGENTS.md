@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Delegated execution model — owner decision, 2026-11-06
+
+When delegating authorized related patches, explicitly use `gpt-6-astra` with
+`reasoning_effort="max"`. Keep isolated ownership; the lead alone integrates,
+commits/pushes, dispatches CI, accepts results and closes verified issue subsets.
+No new routine approval or mandatory SHA-pinning gate is introduced. Actions/all,
+minimum verification permissions, two combined hosted reservations including
+queued/reserved, and the existing local resource limits remain. Publishing,
+security/readiness, Pages, main/history and native/consumer requirements remain.
+
+## macOS diagnostic batch verified — 2026-11-06
+
+[Task-frame P5 evidence](docs/development/evidence/current-platform-recovery-20261101/macos-task-frame-p5-20261106/README.md)
+retains hosted42220442696 FAILED despite PREPARE0; task leaf/execution multiplicity
+and cause remain unknown. Two diagnostic sources adopted once; exact NEW2+affected4
+pass6/6 once, suite0.028s/outer0.504186469s, full4285B capture/child0,1547 source
+inputs held and owned cleanup. V2 optional `_wmi` import refusal precedes all tests
+and remains FAILED; V3 only fixes that transport exception/output path.
+No native/consumer/#58 closure. Next one changed existing PREPARE-only request,
+empty inputs, unchanged caps/predicates/commands. Never infer actual executions
+from bounded rendered task/frame order. ROOT and its failed R9 tooling cohort stay
+separate. No packages/releases/deployments; preserve every existing gate.
+
 ## Isolated macOS material build repair ready — 2026-11-06
 
 [Mac material repair](docs/development/evidence/current-platform-recovery-20261101/macos-material-filter-recovery-20261106/README.md)

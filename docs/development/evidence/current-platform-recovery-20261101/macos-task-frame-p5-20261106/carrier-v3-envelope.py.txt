@@ -1,0 +1,306 @@
+# SOURCE ONLY / UNEXECUTED: bounded parent, no adoption, no target imports here.
+
+import hashlib
+import json
+import os
+import stat
+import time
+
+class Refusal(RuntimeError):
+    pass
+
+def full10(s):
+    return [s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_uid, s.st_gid,
+            s.st_size, s.st_atime_ns, s.st_mtime_ns, s.st_ctime_ns]
+
+def safe_path(path):
+    if type(path) is not str or not path.startswith('/') or '\x00' in path:
+        raise Refusal('absolute-path-required')
+    if 'test_javafx_ordinary_success_trace.py' in path:
+        raise Refusal('protected-path-refused-before-access')
+    if path == '/root/projects/nativeCmpKit' or path.startswith('/root/projects/nativeCmpKit/'):
+        raise Refusal('ROOT-path-refused-before-access')
+    if os.path.normpath(path) != path:
+        raise Refusal('noncanonical-path-refused')
+    return path
+
+def checked_read(ref):
+    path = safe_path(ref['path'])
+    pin = ref['full10']
+    if (type(pin) is not list or len(pin) != 10 or any(type(v) is not int for v in pin)
+            or type(ref['bytes']) is not int or ref['bytes'] < 0 or pin[6] != ref['bytes']):
+        raise Refusal('integer-full10-required')
+    before = os.stat(path, follow_symlinks=False)
+    if full10(before) != pin or not stat.S_ISREG(before.st_mode):
+        raise Refusal('path-identity-refused')
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NOATIME)
+    try:
+        if full10(os.fstat(fd)) != pin:
+            raise Refusal('descriptor-identity-refused')
+        parts, remaining, offset = [], ref['bytes'], 0
+        while remaining:
+            part = os.pread(fd, min(65536, remaining), offset)
+            if not part:
+                raise Refusal('early-EOF-refused')
+            parts.append(part)
+            remaining -= len(part)
+            offset += len(part)
+        if os.pread(fd, 1, offset):
+            raise Refusal('extra-EOF-refused')
+        body = b''.join(parts)
+        if hashlib.sha256(body).hexdigest() != ref['sha256']:
+            raise Refusal('SHA256-refused')
+        if full10(os.fstat(fd)) != pin or full10(os.stat(path, follow_symlinks=False)) != pin:
+            raise Refusal('postread-full10-refused')
+        return body
+    finally:
+        os.close(fd)
+
+import selectors
+import signal
+import subprocess
+import sys
+
+SOURCE_SECONDS, TOTAL_SECONDS, CLEANUP_SECONDS = 270, 300, 30
+CAPTURE_CAP = 8 * 1024 * 1024
+RESULT_PREFIX = b'P5_SIX_RESULT '
+
+def write_new(path, body):
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+    try:
+        view = memoryview(body)
+        while view:
+            written = os.write(fd, view)
+            if written <= 0:
+                raise Refusal('output-short-write')
+            view = view[written:]
+    finally:
+        os.close(fd)
+
+def save_json(path, value):
+    write_new(path, (json.dumps(value, sort_keys=True, indent=2) + '\n').encode('utf-8'))
+
+def source_capture(root, pins, deadline):
+    observed = {}
+    for relative, pin in pins.items():
+        if time.monotonic() >= deadline:
+            raise Refusal('source-custody-deadline-refused')
+        checked_read({'path': root + '/' + relative, **pin})
+        observed[relative] = pin
+    return {'count': len(observed), 'source_pins': observed, 'all_descriptor_path_full10_and_SHA256_held': True}
+
+def validate_maps(packet, before, final):
+    if (before['schema'] != 'nativecmpkit-macos-D3-current1547-source-authority-v1'
+            or final['schema'] != 'nativecmpkit-macos-D3-final1547-source-map-v1'
+            or before['worktree'] != packet['worktree'] or final['worktree'] != packet['worktree']):
+        raise Refusal('map-authority-scope-refused')
+    old, new = before['source_pins'], final['source_pins']
+    if len(old) != 1547 or set(old) != set(new):
+        raise Refusal('map-membership-refused')
+    changes = packet['candidate2']
+    for relative, pin in old.items():
+        if relative.startswith('/') or any(p in ('', '.', '..') for p in relative.split('/')):
+            raise Refusal('finite-source-path-refused')
+        safe_path(packet['worktree'] + '/' + relative)
+        if relative not in changes:
+            if new[relative] != pin:
+                raise Refusal('unchanged1545-pin-refused')
+        else:
+            after = changes[relative]['after']
+            if (new[relative]['bytes'], new[relative]['sha256']) != (after['bytes'], after['sha256']):
+                raise Refusal('candidate2-endpoint-refused')
+            if any(pin['full10'][i] != new[relative]['full10'][i] for i in (0, 1, 2, 3, 4, 5, 7)):
+                raise Refusal('candidate2-mode-inode-owner-atime-refused')
+    for relative, pin in packet['original_six_inputs'].items():
+        if old[relative] != pin:
+            raise Refusal('original-six-custody-authority-refused')
+    if (len(changes) != 2 or len(packet['selectors']) != 6 or len(set(packet['selectors'])) != 6
+            or packet['budgets'] != {'source_seconds': 270, 'total_seconds': 300, 'cleanup_seconds': 30}):
+        raise Refusal('finite-packet-scope-refused')
+
+def main():
+    packet = _PACKET
+    started = _BOOT_STARTED
+    source_deadline, total_deadline = started + SOURCE_SECONDS, started + TOTAL_SECONDS
+    root, out = safe_path(packet['worktree']), safe_path(packet['output_dir'])
+    if out != os.path.dirname(_PACKET_REF['path']) + '/P5-SIX-CARRIER-V3-FIRST6':
+        raise Refusal('owned-output-path-refused')
+    # Persistent exclusive attempt directory: an existing original is never reused.
+    os.mkdir(out, 0o700)
+    runtime = out + '/runtime'
+    runtime_pins = {}
+    child = pipe = log_fd = poller = None
+    final = None
+    capture_bytes = 0
+    capture_hash = hashlib.sha256()
+    capture_eof = False
+    unit_summary = None
+    errors = []
+    result = {'schema': 'nativecmpkit-macos-P5-six-source-result-v1',
+              'status': 'FAILED', 'worktree': root, 'selectors': packet['selectors'],
+              'budgets': packet['budgets'], 'native_acceptance': False,
+              'consumer_acceptance': False, 'issue58_closure': False, 'source_writes': 0,
+              'before1547_held': False, 'after1547_held': False,
+              'runtime_removed': False, 'owned_group_absent': None,
+              'child_exit_code': None, 'capture_complete': False}
+    def group_present():
+        try:
+            os.killpg(child.pid, 0)
+            return True
+        except ProcessLookupError:
+            return False
+    def consume():
+        nonlocal capture_bytes, capture_eof
+        try:
+            data = os.read(pipe.fileno(), 65536)
+        except BlockingIOError:
+            return
+        if not data:
+            capture_eof = True
+            poller.unregister(pipe)
+            return
+        available = CAPTURE_CAP - capture_bytes
+        retained = data[:available]
+        if retained:
+            view = memoryview(retained)
+            while view:
+                count = os.write(log_fd, view)
+                if count <= 0:
+                    raise Refusal('capture-short-write')
+                view = view[count:]
+            capture_hash.update(retained)
+            capture_bytes += len(retained)
+        if len(data) > available:
+            raise Refusal('capture-cap-exceeded-original-prefix-retained')
+    def alarm(signum, frame):
+        if child is not None:
+            try:
+                os.killpg(child.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        raise TimeoutError('total-time-guard')
+    signal.signal(signal.SIGALRM, alarm)
+    signal.setitimer(signal.ITIMER_REAL, max(0.001, total_deadline - time.monotonic()))
+    try:
+        original = json.loads(checked_read(packet['original1547_map']))
+        final = json.loads(checked_read(packet['final_map']))
+        validate_maps(packet, original, final)
+        before = source_capture(root, final['source_pins'], source_deadline)
+        save_json(out + '/INPUTS-BEFORE1547.json', before)
+        result['before1547_held'] = True
+        for directory in (runtime, runtime + '/home', runtime + '/tmp'):
+            os.mkdir(directory, 0o700)
+            runtime_pins[directory] = full10(os.stat(directory, follow_symlinks=False))[:6]
+        log_path = out + '/ORIGINAL-UNITTEST.log'
+        log_fd = os.open(log_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        env = {'HOME': runtime + '/home', 'TMPDIR': runtime + '/tmp', 'TMP': runtime + '/tmp',
+               'TEMP': runtime + '/tmp', 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8'}
+        argv = [sys.executable, '-I', '-S', '-B', '-c', packet['bootstrap_source'],
+                json.dumps(_PACKET_REF, separators=(',', ':')), 'runner', runtime, str(source_deadline)]
+        child = subprocess.Popen(argv, cwd=runtime, env=env, stdin=subprocess.DEVNULL,
+                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                 start_new_session=True, close_fds=True)
+        result['owned_pgid'] = child.pid
+        pipe = child.stdout
+        os.set_blocking(pipe.fileno(), False)
+        poller = selectors.DefaultSelector()
+        poller.register(pipe, selectors.EVENT_READ)
+        while not capture_eof or child.poll() is None:
+            remaining = source_deadline - time.monotonic()
+            if remaining <= 0:
+                raise Refusal('source-time-guard')
+            if capture_eof:
+                time.sleep(min(0.02, remaining))
+            else:
+                for key, mask in poller.select(min(0.2, remaining)):
+                    consume()
+    except BaseException as error:
+        errors.append({'phase': 'source', 'type': type(error).__name__,
+                       'reason': str(error) if isinstance(error, (Refusal, TimeoutError)) else 'unhandled-parent-error'})
+    finally:
+        cleanup_deadline = min(total_deadline, time.monotonic() + CLEANUP_SECONDS)
+        if child is not None:
+            try:
+                if group_present():
+                    os.killpg(child.pid, signal.SIGTERM)
+                    term_deadline = min(cleanup_deadline, time.monotonic() + 2)
+                    while group_present() and time.monotonic() < term_deadline:
+                        child.poll()
+                        time.sleep(0.02)
+                    if group_present():
+                        os.killpg(child.pid, signal.SIGKILL)
+                child.wait(timeout=max(0.001, cleanup_deadline - time.monotonic()))
+                result['child_exit_code'] = child.returncode
+                while not capture_eof and time.monotonic() < cleanup_deadline:
+                    for key, mask in poller.select(min(0.1, max(0, cleanup_deadline-time.monotonic()))):
+                        consume()
+                result['owned_group_absent'] = not group_present()
+            except BaseException as error:
+                errors.append({'phase': 'owned-process-cleanup', 'type': type(error).__name__})
+        try:
+            if poller is not None:
+                poller.close()
+            if pipe is not None:
+                pipe.close()
+            if log_fd is not None:
+                os.close(log_fd)
+                log_fd = None
+            if final is not None:
+                after = source_capture(root, final['source_pins'], cleanup_deadline)
+                save_json(out + '/INPUTS-AFTER1547.json', after)
+                result['after1547_held'] = True
+        except BaseException as error:
+            errors.append({'phase': 'post-source-custody', 'type': type(error).__name__})
+        # Only the three directories created above; no tree walking or source removal.
+        try:
+            for directory in (runtime + '/tmp', runtime + '/home', runtime):
+                if directory in runtime_pins:
+                    if time.monotonic() >= cleanup_deadline:
+                        raise Refusal('owned-runtime-cleanup-deadline')
+                    value = os.stat(directory, follow_symlinks=False)
+                    if not stat.S_ISDIR(value.st_mode) or full10(value)[:6] != runtime_pins[directory]:
+                        raise Refusal('owned-runtime-identity-refused')
+                    os.rmdir(directory)
+            result['runtime_removed'] = bool(runtime_pins)
+        except BaseException as error:
+            errors.append({'phase': 'owned-runtime-cleanup', 'type': type(error).__name__})
+        # The total timer remains armed through original-log readback and result output.
+    result.update(capture_bytes=capture_bytes, capture_sha256=capture_hash.hexdigest(),
+                  capture_complete=capture_eof and not any(e.get('reason', '').startswith('capture-cap') for e in errors),
+                  elapsed_seconds=time.monotonic() - started)
+    if capture_eof and capture_bytes <= CAPTURE_CAP:
+        try:
+            log_path = out + '/ORIGINAL-UNITTEST.log'
+            pin = full10(os.stat(log_path, follow_symlinks=False))
+            data = checked_read({'path': log_path, 'bytes': capture_bytes,
+                                 'sha256': capture_hash.hexdigest(), 'full10': pin})
+            summary_lines = [line[len(RESULT_PREFIX):] for line in data.splitlines() if line.startswith(RESULT_PREFIX)]
+            if len(summary_lines) == 1:
+                unit_summary = json.loads(summary_lines[0])
+        except BaseException as error:
+            errors.append({'phase': 'original-summary-readback', 'type': type(error).__name__})
+    result['unit_summary'] = unit_summary
+    result['errors'] = errors
+    result['elapsed_seconds'] = time.monotonic() - started
+    if (not errors and result['before1547_held'] and result['after1547_held']
+            and result['child_exit_code'] == 0 and result['capture_complete']
+            and result['owned_group_absent'] and result['runtime_removed']
+            and result['elapsed_seconds'] <= TOTAL_SECONDS
+            and unit_summary is not None and unit_summary['testsRun'] == 6
+            and unit_summary['started'] == packet['selectors']
+            and unit_summary['stopped'] == packet['selectors']
+            and unit_summary['successful'] == packet['selectors']
+            and unit_summary['suite_successful'] and not unit_summary['refused_requests']):
+        result['status'] = 'PASS'
+    save_json(out + '/RESULT.json', result)
+    print(json.dumps({'result': out + '/RESULT.json', 'status': result['status'],
+                      'child_exit_code': result['child_exit_code'], 'capture_bytes': capture_bytes,
+                      'capture_complete': result['capture_complete'],
+                      'elapsed_seconds': result['elapsed_seconds']}, sort_keys=True), flush=True)
+    return 0 if result['status'] == 'PASS' else 1
+
+if __name__ == '__main__':
+    try:
+        raise SystemExit(main())
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)

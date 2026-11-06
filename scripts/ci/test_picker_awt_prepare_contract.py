@@ -30,8 +30,8 @@ D1_EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes':
                                               'sha256': '1ac0d39cf07310d5ee9ef8c0b93777baccb9f914c6b6a893e5731b5c7b4190d6'},
  'scripts/ci/picker_jni_actual_jvm2.py': {'bytes': 28352,
                                           'sha256': 'dba05feb854eddc09babf1da6b2038094c330928e22f9752795ddeeca4ff4f8b'}}
-# Accepted D1 pins are retained verbatim; current D2 uses the same six owning sources.
-EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 1839,
+# Accepted D1/D2 pins remain literal; each uses the same six owning sources.
+D2_EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 1839,
                                                   'sha256': '236205c4b61b1f36fd86f81eb5f11b037bc3187b714f3ef2806aed8e58e78344'},
  'scripts/ci/library_tests.py': {'bytes': 412990,
                                  'sha256': '6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127'},
@@ -43,6 +43,10 @@ EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 18
                                               'sha256': '78ecc9f06f385c36210799e180f0b62a55e3e9dd48b76d0a99815076d02e0e80'},
  'scripts/ci/picker_jni_actual_jvm2.py': {'bytes': 28352,
                                           'sha256': 'dba05feb854eddc09babf1da6b2038094c330928e22f9752795ddeeca4ff4f8b'}}
+# D3 is only an additive diagnostic owner; no historical pin is rewritten.
+EXPECTED_SOURCES = {**D2_EXPECTED_SOURCES,
+    "scripts/ci/picker_awt_prepare_failure.py": {"bytes": 36874,
+        "sha256": "543af524c43acfb0f25ad3ed6236767dd14c869ba9b6eb5832180e889f429bae"}}
 EXPECTED_PREDICATE_AST = "BoolOp(op=Or(), values=[Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=Compare(left=Call(func=Name(id='len', ctx=Load()), args=[Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='findall', ctx=Load()), args=[BinOp(left=BinOp(left=Constant(value='(?m)^> Task '), op=Add(), right=Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='escape', ctx=Load()), args=[Name(id='task', ctx=Load())], keywords=[])), op=Add(), right=Constant(value='$')), Name(id='body', ctx=Load())], keywords=[])], keywords=[]), ops=[NotEq()], comparators=[Constant(value=1)]), generators=[comprehension(target=Name(id='task', ctx=Store()), iter=Name(id='tasks', ctx=Load()), ifs=[], is_async=0)])], keywords=[]), Compare(left=Call(func=Name(id='len', ctx=Load()), args=[Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='findall', ctx=Load()), args=[Constant(value='(?m)^BUILD SUCCESSFUL in .+$'), Name(id='body', ctx=Load())], keywords=[])], keywords=[]), ops=[NotEq()], comparators=[Constant(value=1)]), Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='search', ctx=Load()), args=[Constant(value='(?m)^> Task \\\\S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\\\\s|$)|BUILD FAILED'), Name(id='body', ctx=Load())], keywords=[])])"
 UNCHANGED_GENERATION_FUNCTION_SHA256 = {'_jvm_properties': 'd69f4d1def1412b6bc5b99bec407eab0aa894733ff381f768afabdb3073816d8',
  'exact_command': 'e4b7a23fb536cdc8998d26086df9c1c697fe235127381aee6af060c98a6056a7',
@@ -414,6 +418,123 @@ class NativePreparationContractDiagnosticTests(unittest.TestCase):
         with mock.patch.object(diagnostic, "observe_prepare_contract", return_value=limit):
             self.unavailable(self.refused(body, receipt), "diagnostic_limit")
         self.assertEqual(receipt.assignments, 2)
+
+
+    # NEW2 only: fixed name/marker observations, no accepted population replay.
+    def test_new13_fixed_leaf_names_and_task_frame_order_never_change_acceptance(self):
+        expected = {"desktopTest": "test_task_name", "connectedAndroidDeviceTest": "test_task_name"}
+        expected.update({prefix + source_set: "resource_preparation_name"
+                         for prefix in ("convertXmlValueResourcesFor", "copyNonXmlValueResourcesFor",
+                                        "prepareComposeResourcesTaskFor", "generateResourceAccessorsFor")
+                         for source_set in ("CommonTest", "DesktopTest")})
+        task_order = ["host_native_build", "desktop_resources", "runtime_classpath", "native_resources"]
+        reason = "^standard-fresh-host-preparation-task-or-zero-test-contract-refused$"
+        for leaf, kind in expected.items():
+            with self.subTest(leaf=leaf):
+                body = GOOD.replace("BUILD SUCCESSFUL", "> Task :private-" + PRIVATE_SENTINEL + ":" +
+                                             leaf + " SKIPPED\nBUILD SUCCESSFUL")
+                value = diagnostic.observe_prepare_contract(body)
+                self.assertEqual("observed", value["status"])
+                self.assertEqual([{"leaf_id": leaf, "name_kind": kind, "count": "one"}], value["refused_task_names"])
+                self.assertEqual(task_order + ["refused:" + leaf, "successful_footer"], value["task_build_frame_order"])
+                self.assertEqual("complete_projection", value["task_build_frame_order_status"])
+                raw = diagnostic._observe_refused_prepare_contract_raw(body)
+                for key in ("refused_task_names", "task_build_frame_order", "task_build_frame_order_status"):
+                    self.assertEqual(value[key], raw[key])
+                self.assertEqual({"unobserved"}, set(raw["task_banner_states"].values()))
+                receipt = {}
+                with self.assertRaisesRegex(target.Refusal, reason):
+                    target.review_prepare(body, receipt)
+                self.assertEqual(value, receipt["prepare_contract_diagnostic"])
+                self.assertIs(False, value["cause_established"])
+                self.assertNotIn(PRIVATE_SENTINEL, json.dumps(value))
+        nonbare = GOOD.replace("buildNativeLib\n", "buildNativeLib UP-TO-DATE\n")
+        value = diagnostic._observe_refused_prepare_contract_raw(nonbare)
+        self.assertEqual("host_native_build:nonbare", value["task_build_frame_order"][0])
+        self.assertEqual("absent", value["task_exact_line_counts"]["host_native_build"])
+        with self.assertRaisesRegex(target.Refusal, reason):
+            target.review_prepare(nonbare, {})
+        # Neither an ANSI prefix nor a Unicode line separator creates a raw LF
+        # task boundary. These diagnostics must not normalize original operands.
+        for noise in ("\x1b[31m> Task :private:desktopTest\x1b[0m", "private\u2028> Task :private:desktopTest"):
+            value = diagnostic._observe_refused_prepare_contract_raw(GOOD + noise + "\n")
+            self.assertEqual([], value["refused_task_names"])
+            self.assertIs(False, value["forbidden_test_task_banner_observed"])
+        # These mixed frames/control bytes are synthetic, not the missing capture.
+        body = ("\x1b[31m" + PRIVATE_SENTINEL + "\x1b[0m\n> Task :calf-file-picker:buildNativeLib\n"
+                "> Task :private:first\n> Task :private:second\n> Task :calf-file-picker:buildNativeLib\n" +
+                ("> Task :private:" + PRIVATE_SENTINEL + "Test\n") * 2 +
+                "\n".join("> Task " + task for task in target.PREPARE_TASKS) +
+                "\nFAILURE: Build failed with an exception.\n* What went wrong:\n* Exception is:\n"
+                "BUILD FAILED in 1s\nBUILD SUCCESSFUL in 1s\n")
+        self.assertEqual("diagnostic_limit", diagnostic.observe_prepare_contract(body)["unavailable_code"])
+        value = diagnostic._observe_refused_prepare_contract_raw(body)
+        self.assertEqual([{"leaf_id": "unrecognized", "name_kind": "unrecognized_name", "count": "multiple"}],
+                         value["refused_task_names"])
+        self.assertEqual(["host_native_build", "other_task_banner", "host_native_build", "refused:unrecognized",
+                          "refused:unrecognized", *task_order[1:], "failure_frame", "what_frame", "exception_frame",
+                          "failed_footer", "successful_footer"], value["task_build_frame_order"])
+        self.assertEqual("multiple", value["task_exact_line_counts"]["host_native_build"])
+        receipt = {}
+        with self.assertRaisesRegex(target.Refusal, reason):
+            target.review_prepare(body, receipt)
+        self.assertEqual(value, receipt["prepare_contract_diagnostic"])
+        self.assertNotIn(PRIVATE_SENTINEL, json.dumps(value))
+        self.assertIs(False, value["cause_established"])
+        # No diagnostics on the unchanged accepted synthetic preparation contract.
+        receipt = {}
+        self.assertEqual({"required_resource_tasks": list(target.PREPARE_TASKS), "host_native_build_task_returned": True,
+                          "executed_tests": 0}, target.review_prepare(GOOD, receipt))
+        self.assertEqual({}, receipt)
+
+    def test_new14_detail_caps_schema_and_secondary_errors_preserve_primary(self):
+        self.assertEqual((65536, 4096, 4096, 4096, 32),
+                         (diagnostic.MAX_PRIVATE_BYTES, diagnostic.MAX_PUBLIC_BYTES, diagnostic.MAX_LINES, diagnostic.MAX_LINE_BYTES,
+                          diagnostic.PREPARE_CONTRACT_ORDER_LIMIT))
+        tail = GOOD.replace("BUILD SUCCESSFUL", "> Task :private:" + PRIVATE_SENTINEL + "Test\nBUILD SUCCESSFUL")
+        body = "\x00\n" + ("> Task :calf-file-picker:buildNativeLib\n> Task :private:other\n") * 40 + tail
+        full_order = ["host_native_build", "other_task_banner"] * 40 + [
+            "host_native_build", "desktop_resources", "runtime_classpath", "native_resources",
+            "refused:unrecognized", "successful_footer"]
+        value = diagnostic._observe_refused_prepare_contract_raw(body)
+        self.assertEqual("observed", value["status"])
+        self.assertEqual(full_order[:16] + ["omitted_middle"] + full_order[-15:], value["task_build_frame_order"])
+        self.assertEqual("middle_omitted", value["task_build_frame_order_status"])
+        self.assertEqual("multiple", value["task_exact_line_counts"]["host_native_build"])
+        self.assertNotIn(PRIVATE_SENTINEL, json.dumps(value))
+        maximal = copy.deepcopy(value)
+        maximal["refused_task_names"] = [{"leaf_id": key, "name_kind": kind, "count": "multiple"}
+                                          for key, kind in diagnostic.PREPARE_CONTRACT_LEAF_KINDS.items()]
+        maximal["task_build_frame_order"] = [max(diagnostic.PREPARE_CONTRACT_ORDER_EVENTS, key=len)] * 32
+        maximal["task_build_frame_order_status"] = "complete_projection"
+        self.assertIs(maximal, diagnostic.bounded_prepare_contract_public(maximal))
+        self.assertLessEqual(len(json.dumps(maximal, ensure_ascii=True, separators=(",", ":")).encode("ascii")), 4096)
+        for change in (
+                {"refused_task_names": [{"leaf_id": PRIVATE_SENTINEL, "name_kind": "unrecognized_name", "count": "one"}]},
+                {"refused_task_names": [{"leaf_id": "desktopTest", "name_kind": "resource_preparation_name", "count": "one"}]},
+                {"refused_task_names": [{"leaf_id": "desktopTest", "name_kind": "test_task_name", "count": True}]},
+                {"refused_task_names": value["refused_task_names"] * 2},
+                {"task_build_frame_order": [PRIVATE_SENTINEL]},
+                {"task_build_frame_order": ["host_native_build"] * 33},
+                {"task_build_frame_order": ["omitted_middle"]},
+                {"task_build_frame_order_status": PRIVATE_SENTINEL},
+                {"forbidden_test_task_banner_observed": False}):
+            changed = copy.deepcopy(value)
+            changed.update(change)
+            refused = diagnostic.bounded_prepare_contract_public(changed)
+            self.assertEqual(("unavailable", "classifier_error"), (refused["status"], refused["unavailable_code"]))
+            self.assertEqual(([], [], "unobserved"), (refused["refused_task_names"], refused["task_build_frame_order"],
+                                                     refused["task_build_frame_order_status"]))
+            self.assertNotIn(PRIVATE_SENTINEL, json.dumps(refused))
+        for observer in (diagnostic.observe_prepare_contract, diagnostic._observe_refused_prepare_contract_raw):
+            for bad, code in ((None, "classifier_error"), ("\ud800", "UTF8_refused"), ("x" * 65537, "diagnostic_limit")):
+                self.assertEqual(code, observer(bad)["unavailable_code"])
+        # The caller's existing secondary-error catch must retain its refusal.
+        receipt = {"kept": True}
+        with mock.patch.object(diagnostic, "_observe_prepare_contract_details", side_effect=RuntimeError(PRIVATE_SENTINEL)):
+            with self.assertRaisesRegex(target.Refusal, "^standard-fresh-host-preparation-task-or-zero-test-contract-refused$"):
+                target.review_prepare(tail, receipt)
+        self.assertEqual({"kept": True}, receipt)
 
 
 if __name__ == "__main__":

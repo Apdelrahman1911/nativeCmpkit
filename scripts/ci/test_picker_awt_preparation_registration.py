@@ -45,7 +45,7 @@ class PickerAwtPreparationRegistration(unittest.TestCase):
         pinned = {
             "scripts/ci/picker_awt_generation.py": "de9267e000a83a32c8a2c4cd69e231d8d2dd7d625b8f4b77e173852cd5e410a5",
             "scripts/ci/picker_awt_preparation.py": "9ed281918cebfd0d855307cc8adc53fb3d457b9d75b5f38e361263a16ca53dee",
-            "scripts/ci/picker_awt_prepare_failure.py": "deec2374cde248d525976f4a360fde60aee5cab436ef6284438241a239d91041",
+            "scripts/ci/picker_awt_prepare_failure.py": "9443dc2fee3948f429fa6cc2aa78cfeab4020a8f8e048274b838ac34175c46fa",
             ".github/workflows/picker-awt-preparation.yml": "236205c4b61b1f36fd86f81eb5f11b037bc3187b714f3ef2806aed8e58e78344",
         }
         for relative, expected in pinned.items():

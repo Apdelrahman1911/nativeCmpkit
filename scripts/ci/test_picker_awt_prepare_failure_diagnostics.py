@@ -481,15 +481,22 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
         for body in mixed:
             with self.subTest(refused_bootstrap_context=body[:32]):
                 value = d.classify(ROOT, body)
-                self.assertEqual(("unclassified", "unknown"), (value["status"], value["diagnostic_code"]))
+                self.assertEqual(("unclassified", "unknown"), (value["status"], value["category"]))
+                self.assertIn(value["diagnostic_code"], d.CONTEXT_CODES)
+                self.assertNotIn(value["diagnostic_code"], d.TRACE_CODES)
                 self.assertIs(value["cause_established"], False)
                 self.assert_public(value)
-        for body in (header + "Caused by: private.UnknownException: " + private + footer,
-                     header.replace("* Exception is:", "* Unknown:") + "Caused by: java.lang.NoSuchMethodError: " + private + footer,
-                     'Exception in thread "main" java.io.FileNotFoundException: ' + private,
-                     header + "Caused by: java.lang.NoSuchMethodError: " + private,
-                     header + "Caused by: java.lang.NoSuchMethodError: " + private + footer + footer):
-            self.assertEqual("unknown", d.classify(ROOT, body)["diagnostic_code"])
+        for body, code in ((header + "Caused by: private.UnknownException: " + private + footer,
+                            "gradle_project_configuration_observed"),
+                           (header.replace("* Exception is:", "* Unknown:") + "Caused by: java.lang.NoSuchMethodError: " + private + footer,
+                            "gradle_failure_frame_partial_observed"),
+                           ('Exception in thread "main" java.io.FileNotFoundException: ' + private,
+                            "gradle_wrapper_context_refused_observed"),
+                           (header + "Caused by: java.lang.NoSuchMethodError: " + private,
+                            "gradle_failure_frame_partial_observed"),
+                           (header + "Caused by: java.lang.NoSuchMethodError: " + private + footer + footer,
+                            "gradle_failure_frame_multiple_observed")):
+            self.assertEqual(code, d.classify(ROOT, body)["diagnostic_code"])
             self.assert_public(d.classify(ROOT, body))
         # Never replace original supported source classification or its refusal
         # of conflicting supported compiler locations/candidates.
@@ -503,6 +510,98 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
         self.assertIsNone(value["location"])
         self.assert_public(value)
         for body in (header + ("x" * 65537), header + "\x1b[31m" + footer):
+            value = d.classify(ROOT, body)
+            self.assertEqual(("unavailable", "diagnostic_limit"), (value["status"], value["unavailable_code"]))
+            self.assert_public(value)
+
+
+    def test_safe_trace_context_presence_and_configuration_family_observations_do_not_establish_prepare_cause(self):
+        # All bodies below are SYNTHETIC controls, never reconstructions of the
+        # unavailable 01b4 capture. Class/context enums observe strings only.
+        private = PRIVATE_SENTINEL + " https://invalid.example/private Authorization=PRIVATE"
+        header = ("FAILURE: Build failed with an exception.\n\n* What went wrong:\n"
+                  "Unrecognized synthetic failure " + private + "\n\n* Exception is:\n")
+        footer = "\nBUILD FAILED in 2s\n"
+        trace = header + "private.UnknownException: " + private + footer
+        wrapper = 'Exception in thread "main" private.UnknownException: ' + private + "\n"
+        wrapper += "\tat org.gradle.wrapper.Download.downloadInternal(Download.java:97)\n"
+        cases = ((private, "gradle_failure_frame_absent_observed"),
+                 ("> Task :unrelated:bootstrap\n" + private, "gradle_task_banners_without_trace_observed"),
+                 (header + private, "gradle_failure_frame_partial_observed"),
+                 (trace + footer, "gradle_failure_frame_multiple_observed"),
+                 (header.replace("* What went wrong:\n", "").replace("* Exception is:\n", "* Exception is:\n* What went wrong:\n") + footer,
+                  "gradle_failure_frame_order_refused_observed"),
+                 (trace, "gradle_build_trace_without_allowed_family_observed"),
+                 (wrapper, "gradle_wrapper_trace_without_allowed_family_observed"),
+                 (wrapper + "> Task :unrelated:bootstrap\n", "gradle_wrapper_context_refused_observed"))
+        for body, code in cases:
+            with self.subTest(context=code):
+                value = d.classify(ROOT, body)
+                self.assertEqual(("unclassified", "unknown", code), (value["status"], value["category"], value["diagnostic_code"]))
+                self.assertIn(code, d.CONTEXT_CODES)
+                self.assertIsNone(value["location"])
+                self.assertIsNone(value["failed_task_id"])
+                self.assertFalse(value["ambiguity"])
+                self.assertEqual("none", value["unavailable_code"])
+                self.assert_public(value)
+        families = (("org.gradle.api.ProjectConfigurationException", "gradle_project_configuration_observed"),
+                    ("com.android.builder.errors.EvalIssueException", "gradle_android_configuration_observed"),
+                    ("org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException", "gradle_dependency_verification_observed"),
+                    ("org.gradle.launcher.daemon.client.DaemonDisappearedException", "gradle_daemon_disappearance_observed"))
+        for klass, code in families:
+            with self.subTest(exception_family=code):
+                # Direct exception and caused-by syntax both require the same
+                # complete frame; class names/messages never leave the body.
+                for prefix in ("", "Caused by: "):
+                    value = d.classify(ROOT, header + prefix + klass + ": " + private + footer)
+                    self.assertEqual(("unclassified", "unknown", code), (value["status"], value["category"], value["diagnostic_code"]))
+                    self.assertIn(code, d.TRACE_CODES)
+                    self.assertNotIn(klass, json.dumps(value))
+                    self.assert_public(value)
+        # Broad ProjectConfigurationException stays below EVERY original tier.
+        broad = header + "org.gradle.api.ProjectConfigurationException: " + private + "\n"
+        for klass, code in (("javax.net.ssl.SSLHandshakeException", "gradle_tls_observed"),
+                            ("org.gradle.kotlin.dsl.support.ScriptCompilationException", "gradle_script_compilation_observed"),
+                            ("org.gradle.internal.resolve.ModuleVersionResolveException", "gradle_dependency_resolution_observed")):
+            value = d.classify(ROOT, broad + "Caused by: " + klass + ": " + private + footer)
+            self.assertEqual(code, value["diagnostic_code"])
+            self.assertFalse(value["ambiguity"])
+            self.assert_public(value)
+        # Exact allowlist: message/class lookalikes and rejected mixed contexts
+        # do not promote a family or establish a cause.
+        value = d.classify(ROOT, header + "private.UnknownException: org.gradle.api.ProjectConfigurationException " + private + footer)
+        self.assertEqual("gradle_build_trace_without_allowed_family_observed", value["diagnostic_code"])
+        self.assert_public(value)
+        for klass, _ in families:
+            value = d.classify(ROOT, "* Exception is:\n" + klass + ": " + private)
+            self.assertEqual("gradle_failure_frame_partial_observed", value["diagnostic_code"])
+            self.assertNotIn(value["diagnostic_code"], d.TRACE_CODES)
+            self.assert_public(value)
+        # An unsupported original source line remains unclassified/unselected;
+        # a secondary complete-frame observation does not repair that refusal.
+        refused = compiler_body().replace(ROOT.as_posix(), "/foreign/" + PRIVATE_SENTINEL)
+        value = d.classify(ROOT, refused + trace)
+        self.assertEqual(("unclassified", "gradle_build_trace_without_allowed_family_observed"), (value["status"], value["diagnostic_code"]))
+        self.assertIsNone(value["location"])
+        self.assertIsNone(value["failed_task_id"])
+        self.assert_public(value)
+        ambiguous = compiler_body() + compiler_body() + trace
+        value = d.classify(ROOT, ambiguous)
+        self.assertTrue(value["ambiguity"])
+        self.assertEqual("unclassified", value["status"])
+        self.assert_public(value)
+        # Synthetic boundary sizes exercise diagnostics only, not missing logs.
+        # Every padding line stays within the unchanged 4096-byte line cap.
+        for size in (53748, 65536):
+            needed = size - len((header + footer).encode("utf-8"))
+            chunks, remainder = divmod(needed, 4001)
+            padded = header + ("x" * 4000 + "\n") * chunks + "x" * remainder + footer
+            self.assertEqual(size, len(padded.encode("utf-8")))
+            value = d.classify(ROOT, padded)
+            self.assertEqual(("unclassified", "gradle_build_trace_without_allowed_family_observed", "none"),
+                             (value["status"], value["diagnostic_code"], value["unavailable_code"]))
+            self.assert_public(value)
+        for body in ("x" * 65537, "x" * 4097, "\x1b[31m" + trace):
             value = d.classify(ROOT, body)
             self.assertEqual(("unavailable", "diagnostic_limit"), (value["status"], value["unavailable_code"]))
             self.assert_public(value)

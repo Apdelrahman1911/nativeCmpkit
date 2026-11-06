@@ -56,8 +56,19 @@ TRACE_CLASSES = {
     "org.gradle.internal.resolve.ModuleVersionResolveException": (2, "gradle_dependency_resolution_observed", None),
     "org.gradle.process.internal.ExecException": (2, "gradle_subprocess_observed", None),
     "java.io.IOException": (2, "gradle_io_observed", "gradle_wrapper_download_io_observed"),
+    # Fixed input-only family names; none is evidence about the original
+    # unavailable capture. Project configuration is a broad stage wrapper
+    # below all preexisting tiers, never a diagnosis of SDK/configuration.
+    "com.android.builder.errors.EvalIssueException": (1, "gradle_android_configuration_observed", None),
+    "org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException": (1, "gradle_dependency_verification_observed", None),
+    "org.gradle.launcher.daemon.client.DaemonDisappearedException": (1, "gradle_daemon_disappearance_observed", None),
+    "org.gradle.api.ProjectConfigurationException": (3, "gradle_project_configuration_observed", None),
 }
 TRACE_CODES = frozenset(code for row in TRACE_CLASSES.values() for code in row[1:] if code is not None)
+CONTEXT_CODES = frozenset(("gradle_failure_frame_absent_observed", "gradle_failure_frame_partial_observed",
+                           "gradle_failure_frame_multiple_observed", "gradle_failure_frame_order_refused_observed",
+                           "gradle_wrapper_context_refused_observed", "gradle_task_banners_without_trace_observed",
+                           "gradle_build_trace_without_allowed_family_observed", "gradle_wrapper_trace_without_allowed_family_observed"))
 
 UNAVAILABLE_CODES = frozenset(("none", "ineligible_phase", "capture_unavailable", "capture_identity_refused",
                                "UTF8_refused", "diagnostic_limit", "remaining_budget_refused", "classifier_error"))
@@ -67,7 +78,7 @@ PUBLIC_CHOICES = {
                  "dependency_resolution", "native_resource_task", "task_execution", "unknown"},
     "diagnostic_code": {"kotlin_unresolved_reference", "kotlin_type_mismatch", "kotlin_overload_ambiguity", "kotlin_type_inference",
                         "java_compiler_error", "rust_compiler_error", "gradle_plugin_resolution", "gradle_configuration_error",
-                        "dependency_resolution_error", "required_native_task_failed", "unknown"} | TRACE_CODES,
+                        "dependency_resolution_error", "required_native_task_failed", "unknown"} | TRACE_CODES | CONTEXT_CODES,
     "unavailable_code": UNAVAILABLE_CODES,
 }
 
@@ -167,12 +178,27 @@ def _gradle_trace_observation(lines: list[str]) -> tuple[str, bool]:
     wrapper = (not build_markers and not task_markers and len(mains) == 1 and
                any(index > mains[0] for index in wrapper_frames))
     if not build and not wrapper:
-        return "unknown", bool(wrapper_frames and len(mains) > 1)
+        # Presence/layout observations only. Never promote a rejected
+        # partial/mixed frame into an exception-family or primary result.
+        counts = (lines.count(failure), lines.count(what), lines.count(trace), len(footer))
+        if any(count > 1 for count in counts):
+            code = "gradle_failure_frame_multiple_observed"
+        elif counts == (1, 1, 1, 1):
+            code = "gradle_failure_frame_order_refused_observed"
+        elif build_markers:
+            code = "gradle_failure_frame_partial_observed"
+        elif mains or wrapper_frames:
+            code = "gradle_wrapper_context_refused_observed"
+        elif task_markers:
+            code = "gradle_task_banners_without_trace_observed"
+        else:
+            code = "gradle_failure_frame_absent_observed"
+        return code, bool(wrapper_frames and len(mains) > 1)
     selected = lines[lines.index(trace) + 1:footer[0]] if build else lines[mains[0]:]
-    codes = {0: set(), 1: set(), 2: set()}
+    codes = {0: set(), 1: set(), 2: set(), 3: set()}
     for raw in selected:
         line = raw.strip()
-        if not line.startswith(("Caused by: ", 'Exception in thread "main" ', "java.", "javax.", "sun.", "org.gradle.", "org.jetbrains.kotlin.")):
+        if not line.startswith(("Caused by: ", 'Exception in thread "main" ', "java.", "javax.", "sun.", "org.gradle.", "org.jetbrains.kotlin.", "com.android.builder.errors.")):
             continue
         match = re.fullmatch(r"(?:Caused by: )?([A-Za-z_$][A-Za-z0-9_.$]{0,255})(?::[^\r\n]*)?", line)
         if match is None and wrapper:
@@ -181,10 +207,11 @@ def _gradle_trace_observation(lines: list[str]) -> tuple[str, bool]:
         if observed is not None:
             tier, code, wrapper_code = observed
             codes[tier].add(wrapper_code if wrapper and wrapper_code is not None else code)
-    for tier in (0, 1, 2):
+    for tier in (0, 1, 2, 3):
         if codes[tier]:
             return (next(iter(codes[tier])), False) if len(codes[tier]) == 1 else ("unknown", True)
-    return "unknown", False
+    return ("gradle_build_trace_without_allowed_family_observed" if build else
+            "gradle_wrapper_trace_without_allowed_family_observed"), False
 
 
 def classify(root: Path, body: str) -> dict:

@@ -1,0 +1,489 @@
+{
+  "MAX_LINES": 4096,
+  "MAX_LINE_BYTES": 4096,
+  "MAX_PRIVATE_BYTES": 65536,
+  "MAX_PUBLIC_BYTES": 4096,
+  "NEW_controls": [
+    "test_picker_awt_prepare_failure_diagnostics.PickerAwtPreparationDiagnostics.test_safe_trace_context_presence_and_configuration_family_observations_do_not_establish_prepare_cause"
+  ],
+  "NEW_target_files": 0,
+  "accepted_unchanged_controls_replays_requested": 0,
+  "adoption": [
+    {
+      "existing_reversible_fragments": [
+        {
+          "new": "    \"java.io.IOException\": (2, \"gradle_io_observed\", \"gradle_wrapper_download_io_observed\"),\n    # Fixed input-only family names; none is evidence about the original\n    # unavailable capture. Project configuration is a broad stage wrapper\n    # below all preexisting tiers, never a diagnosis of SDK/configuration.\n    \"com.android.builder.errors.EvalIssueException\": (1, \"gradle_android_configuration_observed\", None),\n    \"org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException\": (1, \"gradle_dependency_verification_observed\", None),\n    \"org.gradle.launcher.daemon.client.DaemonDisappearedException\": (1, \"gradle_daemon_disappearance_observed\", None),\n    \"org.gradle.api.ProjectConfigurationException\": (3, \"gradle_project_configuration_observed\", None),\n",
+          "old": "    \"java.io.IOException\": (2, \"gradle_io_observed\", \"gradle_wrapper_download_io_observed\"),\n"
+        },
+        {
+          "new": "TRACE_CODES = frozenset(code for row in TRACE_CLASSES.values() for code in row[1:] if code is not None)\nCONTEXT_CODES = frozenset((\"gradle_failure_frame_absent_observed\", \"gradle_failure_frame_partial_observed\",\n                           \"gradle_failure_frame_multiple_observed\", \"gradle_failure_frame_order_refused_observed\",\n                           \"gradle_wrapper_context_refused_observed\", \"gradle_task_banners_without_trace_observed\",\n                           \"gradle_build_trace_without_allowed_family_observed\", \"gradle_wrapper_trace_without_allowed_family_observed\"))\n",
+          "old": "TRACE_CODES = frozenset(code for row in TRACE_CLASSES.values() for code in row[1:] if code is not None)\n"
+        },
+        {
+          "new": "\"dependency_resolution_error\", \"required_native_task_failed\", \"unknown\"} | TRACE_CODES | CONTEXT_CODES,",
+          "old": "\"dependency_resolution_error\", \"required_native_task_failed\", \"unknown\"} | TRACE_CODES,"
+        },
+        {
+          "new": "    if not build and not wrapper:\n        # Presence/layout observations only. Never promote a rejected\n        # partial/mixed frame into an exception-family or primary result.\n        counts = (lines.count(failure), lines.count(what), lines.count(trace), len(footer))\n        if any(count > 1 for count in counts):\n            code = \"gradle_failure_frame_multiple_observed\"\n        elif counts == (1, 1, 1, 1):\n            code = \"gradle_failure_frame_order_refused_observed\"\n        elif build_markers:\n            code = \"gradle_failure_frame_partial_observed\"\n        elif mains or wrapper_frames:\n            code = \"gradle_wrapper_context_refused_observed\"\n        elif task_markers:\n            code = \"gradle_task_banners_without_trace_observed\"\n        else:\n            code = \"gradle_failure_frame_absent_observed\"\n        return code, bool(wrapper_frames and len(mains) > 1)\n",
+          "old": "    if not build and not wrapper:\n        return \"unknown\", bool(wrapper_frames and len(mains) > 1)\n"
+        },
+        {
+          "new": "    codes = {0: set(), 1: set(), 2: set(), 3: set()}\n",
+          "old": "    codes = {0: set(), 1: set(), 2: set()}\n"
+        },
+        {
+          "new": "\"java.\", \"javax.\", \"sun.\", \"org.gradle.\", \"org.jetbrains.kotlin.\", \"com.android.builder.errors.\")):",
+          "old": "\"java.\", \"javax.\", \"sun.\", \"org.gradle.\", \"org.jetbrains.kotlin.\")):"
+        },
+        {
+          "new": "    for tier in (0, 1, 2, 3):\n        if codes[tier]:\n            return (next(iter(codes[tier])), False) if len(codes[tier]) == 1 else (\"unknown\", True)\n    return (\"gradle_build_trace_without_allowed_family_observed\" if build else\n            \"gradle_wrapper_trace_without_allowed_family_observed\"), False\n",
+          "old": "    for tier in (0, 1, 2):\n        if codes[tier]:\n            return (next(iter(codes[tier])), False) if len(codes[tier]) == 1 else (\"unknown\", True)\n    return \"unknown\", False\n"
+        }
+      ],
+      "operation": "replace-final-once-preserve-existing-mode",
+      "preimage": {
+        "O_NOATIME": true,
+        "O_NOFOLLOW": true,
+        "after_stat10": [
+          23,
+          60311956,
+          33188,
+          1,
+          0,
+          0,
+          17377,
+          1793923222524426166,
+          1793923222431426171,
+          1793923222431426171
+        ],
+        "before_stat10": [
+          23,
+          60311956,
+          33188,
+          1,
+          0,
+          0,
+          17377,
+          1793923222524426166,
+          1793923222431426171,
+          1793923222431426171
+        ],
+        "bytes": 17377,
+        "closed_stat10": [
+          23,
+          60311956,
+          33188,
+          1,
+          0,
+          0,
+          17377,
+          1793923222524426166,
+          1793923222431426171,
+          1793923222431426171
+        ],
+        "mode": "0644",
+        "opened_stat10": [
+          23,
+          60311956,
+          33188,
+          1,
+          0,
+          0,
+          17377,
+          1793923222524426166,
+          1793923222431426171,
+          1793923222431426171
+        ],
+        "path": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/picker_awt_prepare_failure.py",
+        "sha256": "deec2374cde248d525976f4a360fde60aee5cab436ef6284438241a239d91041"
+      },
+      "repository_relative_path": "scripts/ci/picker_awt_prepare_failure.py",
+      "source": {
+        "bytes": 19531,
+        "mode": "0644",
+        "path": "/root/nativecmpkit-source-proposals-20261105/picker-awt809-diagnostic-layout777-r5/proposed/scripts/ci/picker_awt_prepare_failure.py",
+        "sha256": "9443dc2fee3948f429fa6cc2aa78cfeab4020a8f8e048274b838ac34175c46fa"
+      },
+      "target": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/picker_awt_prepare_failure.py"
+    },
+    {
+      "existing_reversible_fragments": [
+        {
+          "new": "        for body in mixed:\n            with self.subTest(refused_bootstrap_context=body[:32]):\n                value = d.classify(ROOT, body)\n                self.assertEqual((\"unclassified\", \"unknown\"), (value[\"status\"], value[\"category\"]))\n                self.assertIn(value[\"diagnostic_code\"], d.CONTEXT_CODES)\n                self.assertNotIn(value[\"diagnostic_code\"], d.TRACE_CODES)\n                self.assertIs(value[\"cause_established\"], False)\n                self.assert_public(value)\n",
+          "old": "        for body in mixed:\n            with self.subTest(refused_bootstrap_context=body[:32]):\n                value = d.classify(ROOT, body)\n                self.assertEqual((\"unclassified\", \"unknown\"), (value[\"status\"], value[\"diagnostic_code\"]))\n                self.assertIs(value[\"cause_established\"], False)\n                self.assert_public(value)\n"
+        },
+        {
+          "new": "        for body, code in ((header + \"Caused by: private.UnknownException: \" + private + footer,\n                            \"gradle_project_configuration_observed\"),\n                           (header.replace(\"* Exception is:\", \"* Unknown:\") + \"Caused by: java.lang.NoSuchMethodError: \" + private + footer,\n                            \"gradle_failure_frame_partial_observed\"),\n                           ('Exception in thread \"main\" java.io.FileNotFoundException: ' + private,\n                            \"gradle_wrapper_context_refused_observed\"),\n                           (header + \"Caused by: java.lang.NoSuchMethodError: \" + private,\n                            \"gradle_failure_frame_partial_observed\"),\n                           (header + \"Caused by: java.lang.NoSuchMethodError: \" + private + footer + footer,\n                            \"gradle_failure_frame_multiple_observed\")):\n            self.assertEqual(code, d.classify(ROOT, body)[\"diagnostic_code\"])\n            self.assert_public(d.classify(ROOT, body))\n",
+          "old": "        for body in (header + \"Caused by: private.UnknownException: \" + private + footer,\n                     header.replace(\"* Exception is:\", \"* Unknown:\") + \"Caused by: java.lang.NoSuchMethodError: \" + private + footer,\n                     'Exception in thread \"main\" java.io.FileNotFoundException: ' + private,\n                     header + \"Caused by: java.lang.NoSuchMethodError: \" + private,\n                     header + \"Caused by: java.lang.NoSuchMethodError: \" + private + footer + footer):\n            self.assertEqual(\"unknown\", d.classify(ROOT, body)[\"diagnostic_code\"])\n            self.assert_public(d.classify(ROOT, body))\n"
+        },
+        {
+          "new": "\n\n    def test_safe_trace_context_presence_and_configuration_family_observations_do_not_establish_prepare_cause(self):\n        # All bodies below are SYNTHETIC controls, never reconstructions of the\n        # unavailable 01b4 capture. Class/context enums observe strings only.\n        private = PRIVATE_SENTINEL + \" https://invalid.example/private Authorization=PRIVATE\"\n        header = (\"FAILURE: Build failed with an exception.\\n\\n* What went wrong:\\n\"\n                  \"Unrecognized synthetic failure \" + private + \"\\n\\n* Exception is:\\n\")\n        footer = \"\\nBUILD FAILED in 2s\\n\"\n        trace = header + \"private.UnknownException: \" + private + footer\n        wrapper = 'Exception in thread \"main\" private.UnknownException: ' + private + \"\\n\"\n        wrapper += \"\\tat org.gradle.wrapper.Download.downloadInternal(Download.java:97)\\n\"\n        cases = ((private, \"gradle_failure_frame_absent_observed\"),\n                 (\"> Task :unrelated:bootstrap\\n\" + private, \"gradle_task_banners_without_trace_observed\"),\n                 (header + private, \"gradle_failure_frame_partial_observed\"),\n                 (trace + footer, \"gradle_failure_frame_multiple_observed\"),\n                 (header.replace(\"* What went wrong:\\n\", \"\").replace(\"* Exception is:\\n\", \"* Exception is:\\n* What went wrong:\\n\") + footer,\n                  \"gradle_failure_frame_order_refused_observed\"),\n                 (trace, \"gradle_build_trace_without_allowed_family_observed\"),\n                 (wrapper, \"gradle_wrapper_trace_without_allowed_family_observed\"),\n                 (wrapper + \"> Task :unrelated:bootstrap\\n\", \"gradle_wrapper_context_refused_observed\"))\n        for body, code in cases:\n            with self.subTest(context=code):\n                value = d.classify(ROOT, body)\n                self.assertEqual((\"unclassified\", \"unknown\", code), (value[\"status\"], value[\"category\"], value[\"diagnostic_code\"]))\n                self.assertIn(code, d.CONTEXT_CODES)\n                self.assertIsNone(value[\"location\"])\n                self.assertIsNone(value[\"failed_task_id\"])\n                self.assertFalse(value[\"ambiguity\"])\n                self.assertEqual(\"none\", value[\"unavailable_code\"])\n                self.assert_public(value)\n        families = ((\"org.gradle.api.ProjectConfigurationException\", \"gradle_project_configuration_observed\"),\n                    (\"com.android.builder.errors.EvalIssueException\", \"gradle_android_configuration_observed\"),\n                    (\"org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException\", \"gradle_dependency_verification_observed\"),\n                    (\"org.gradle.launcher.daemon.client.DaemonDisappearedException\", \"gradle_daemon_disappearance_observed\"))\n        for klass, code in families:\n            with self.subTest(exception_family=code):\n                # Direct exception and caused-by syntax both require the same\n                # complete frame; class names/messages never leave the body.\n                for prefix in (\"\", \"Caused by: \"):\n                    value = d.classify(ROOT, header + prefix + klass + \": \" + private + footer)\n                    self.assertEqual((\"unclassified\", \"unknown\", code), (value[\"status\"], value[\"category\"], value[\"diagnostic_code\"]))\n                    self.assertIn(code, d.TRACE_CODES)\n                    self.assertNotIn(klass, json.dumps(value))\n                    self.assert_public(value)\n        # Broad ProjectConfigurationException stays below EVERY original tier.\n        broad = header + \"org.gradle.api.ProjectConfigurationException: \" + private + \"\\n\"\n        for klass, code in ((\"javax.net.ssl.SSLHandshakeException\", \"gradle_tls_observed\"),\n                            (\"org.gradle.kotlin.dsl.support.ScriptCompilationException\", \"gradle_script_compilation_observed\"),\n                            (\"org.gradle.internal.resolve.ModuleVersionResolveException\", \"gradle_dependency_resolution_observed\")):\n            value = d.classify(ROOT, broad + \"Caused by: \" + klass + \": \" + private + footer)\n            self.assertEqual(code, value[\"diagnostic_code\"])\n            self.assertFalse(value[\"ambiguity\"])\n            self.assert_public(value)\n        # Exact allowlist: message/class lookalikes and rejected mixed contexts\n        # do not promote a family or establish a cause.\n        value = d.classify(ROOT, header + \"private.UnknownException: org.gradle.api.ProjectConfigurationException \" + private + footer)\n        self.assertEqual(\"gradle_build_trace_without_allowed_family_observed\", value[\"diagnostic_code\"])\n        self.assert_public(value)\n        for klass, _ in families:\n            value = d.classify(ROOT, \"* Exception is:\\n\" + klass + \": \" + private)\n            self.assertEqual(\"gradle_failure_frame_partial_observed\", value[\"diagnostic_code\"])\n            self.assertNotIn(value[\"diagnostic_code\"], d.TRACE_CODES)\n            self.assert_public(value)\n        # An unsupported original source line remains unclassified/unselected;\n        # a secondary complete-frame observation does not repair that refusal.\n        refused = compiler_body().replace(ROOT.as_posix(), \"/foreign/\" + PRIVATE_SENTINEL)\n        value = d.classify(ROOT, refused + trace)\n        self.assertEqual((\"unclassified\", \"gradle_build_trace_without_allowed_family_observed\"), (value[\"status\"], value[\"diagnostic_code\"]))\n        self.assertIsNone(value[\"location\"])\n        self.assertIsNone(value[\"failed_task_id\"])\n        self.assert_public(value)\n        ambiguous = compiler_body() + compiler_body() + trace\n        value = d.classify(ROOT, ambiguous)\n        self.assertTrue(value[\"ambiguity\"])\n        self.assertEqual(\"unclassified\", value[\"status\"])\n        self.assert_public(value)\n        # Synthetic boundary sizes exercise diagnostics only, not missing logs.\n        # Every padding line stays within the unchanged 4096-byte line cap.\n        for size in (53748, 65536):\n            needed = size - len((header + footer).encode(\"utf-8\"))\n            chunks, remainder = divmod(needed, 4001)\n            padded = header + (\"x\" * 4000 + \"\\n\") * chunks + \"x\" * remainder + footer\n            self.assertEqual(size, len(padded.encode(\"utf-8\")))\n            value = d.classify(ROOT, padded)\n            self.assertEqual((\"unclassified\", \"gradle_build_trace_without_allowed_family_observed\", \"none\"),\n                             (value[\"status\"], value[\"diagnostic_code\"], value[\"unavailable_code\"]))\n            self.assert_public(value)\n        for body in (\"x\" * 65537, \"x\" * 4097, \"\\x1b[31m\" + trace):\n            value = d.classify(ROOT, body)\n            self.assertEqual((\"unavailable\", \"diagnostic_limit\"), (value[\"status\"], value[\"unavailable_code\"]))\n            self.assert_public(value)\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n",
+          "old": "\n\nif __name__ == \"__main__\":\n    unittest.main()\n"
+        }
+      ],
+      "operation": "replace-final-once-preserve-existing-mode",
+      "preimage": {
+        "O_NOATIME": true,
+        "O_NOFOLLOW": true,
+        "after_stat10": [
+          23,
+          60311958,
+          33188,
+          1,
+          0,
+          0,
+          37910,
+          1793923222525426166,
+          1793923222432426171,
+          1793923222432426171
+        ],
+        "before_stat10": [
+          23,
+          60311958,
+          33188,
+          1,
+          0,
+          0,
+          37910,
+          1793923222525426166,
+          1793923222432426171,
+          1793923222432426171
+        ],
+        "bytes": 37910,
+        "closed_stat10": [
+          23,
+          60311958,
+          33188,
+          1,
+          0,
+          0,
+          37910,
+          1793923222525426166,
+          1793923222432426171,
+          1793923222432426171
+        ],
+        "mode": "0644",
+        "opened_stat10": [
+          23,
+          60311958,
+          33188,
+          1,
+          0,
+          0,
+          37910,
+          1793923222525426166,
+          1793923222432426171,
+          1793923222432426171
+        ],
+        "path": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/test_picker_awt_prepare_failure_diagnostics.py",
+        "sha256": "50a7a3d60fa15a9c38063c9f9f242d0bb18df2db0c2dbbeda10c9778cc4ba623"
+      },
+      "repository_relative_path": "scripts/ci/test_picker_awt_prepare_failure_diagnostics.py",
+      "source": {
+        "bytes": 45192,
+        "mode": "0644",
+        "path": "/root/nativecmpkit-source-proposals-20261105/picker-awt809-diagnostic-layout777-r5/proposed/scripts/ci/test_picker_awt_prepare_failure_diagnostics.py",
+        "sha256": "5e804a940639f786f651a685c8825b6282a30c020058e1947acdb0496ad7c522"
+      },
+      "target": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/test_picker_awt_prepare_failure_diagnostics.py"
+    },
+    {
+      "existing_reversible_fragments": [
+        {
+          "new": "9443dc2fee3948f429fa6cc2aa78cfeab4020a8f8e048274b838ac34175c46fa",
+          "old": "deec2374cde248d525976f4a360fde60aee5cab436ef6284438241a239d91041"
+        }
+      ],
+      "operation": "replace-final-once-preserve-existing-mode",
+      "preimage": {
+        "O_NOATIME": true,
+        "O_NOFOLLOW": true,
+        "after_stat10": [
+          23,
+          60311957,
+          33188,
+          1,
+          0,
+          0,
+          6014,
+          1793923222523426166,
+          1793923222432426171,
+          1793923222432426171
+        ],
+        "before_stat10": [
+          23,
+          60311957,
+          33188,
+          1,
+          0,
+          0,
+          6014,
+          1793923222523426166,
+          1793923222432426171,
+          1793923222432426171
+        ],
+        "bytes": 6014,
+        "closed_stat10": [
+          23,
+          60311957,
+          33188,
+          1,
+          0,
+          0,
+          6014,
+          1793923222523426166,
+          1793923222432426171,
+          1793923222432426171
+        ],
+        "mode": "0644",
+        "opened_stat10": [
+          23,
+          60311957,
+          33188,
+          1,
+          0,
+          0,
+          6014,
+          1793923222523426166,
+          1793923222432426171,
+          1793923222432426171
+        ],
+        "path": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/test_picker_awt_preparation_registration.py",
+        "sha256": "3907c4ded7555dc07277234b043a597158dc9c9742fd79dc9d8d7717fae96952"
+      },
+      "repository_relative_path": "scripts/ci/test_picker_awt_preparation_registration.py",
+      "source": {
+        "bytes": 6014,
+        "mode": "0644",
+        "path": "/root/nativecmpkit-source-proposals-20261105/picker-awt809-diagnostic-layout777-r5/proposed/scripts/ci/test_picker_awt_preparation_registration.py",
+        "sha256": "0b4fa1a10a67dda7867d0c432341c91781e78bd18815c5719cefa88220e85639"
+      },
+      "target": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/test_picker_awt_preparation_registration.py"
+    }
+  ],
+  "affected_controls": [
+    "test_picker_awt_prepare_failure_diagnostics.PickerAwtPreparationDiagnostics.test_private_gradle_stacktrace_exports_only_fixed_exception_family_and_preserves_primary_ambiguity_caps_and_secrets",
+    "test_picker_awt_prepare_failure_diagnostics.PickerAwtPreparationDiagnostics.test_unknown_ambiguous_and_oversize_private_text_never_exports_paths_urls_or_secrets",
+    "test_picker_awt_preparation_registration.PickerAwtPreparationRegistration.test_registered_manual_profile_is_additive_readonly_native0_with_original_jobs_and_five_JSON"
+  ],
+  "cause_established_always_false": true,
+  "existing_specificity_tiers_preserved": "ProjectConfigurationException gets NEW lower-priority tier3; oldtiers0/1/2 retained; conflicting top-tier families still unknown/ambiguitytrue.",
+  "existing_targets": 3,
+  "input_read_custody": [
+    {
+      "O_NOATIME": true,
+      "O_NOFOLLOW": true,
+      "after_stat10": [
+        23,
+        60311956,
+        33188,
+        1,
+        0,
+        0,
+        17377,
+        1793923222524426166,
+        1793923222431426171,
+        1793923222431426171
+      ],
+      "before_stat10": [
+        23,
+        60311956,
+        33188,
+        1,
+        0,
+        0,
+        17377,
+        1793923222524426166,
+        1793923222431426171,
+        1793923222431426171
+      ],
+      "bytes": 17377,
+      "closed_stat10": [
+        23,
+        60311956,
+        33188,
+        1,
+        0,
+        0,
+        17377,
+        1793923222524426166,
+        1793923222431426171,
+        1793923222431426171
+      ],
+      "mode": "0644",
+      "opened_stat10": [
+        23,
+        60311956,
+        33188,
+        1,
+        0,
+        0,
+        17377,
+        1793923222524426166,
+        1793923222431426171,
+        1793923222431426171
+      ],
+      "path": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/picker_awt_prepare_failure.py",
+      "sha256": "deec2374cde248d525976f4a360fde60aee5cab436ef6284438241a239d91041"
+    },
+    {
+      "O_NOATIME": true,
+      "O_NOFOLLOW": true,
+      "after_stat10": [
+        23,
+        60311958,
+        33188,
+        1,
+        0,
+        0,
+        37910,
+        1793923222525426166,
+        1793923222432426171,
+        1793923222432426171
+      ],
+      "before_stat10": [
+        23,
+        60311958,
+        33188,
+        1,
+        0,
+        0,
+        37910,
+        1793923222525426166,
+        1793923222432426171,
+        1793923222432426171
+      ],
+      "bytes": 37910,
+      "closed_stat10": [
+        23,
+        60311958,
+        33188,
+        1,
+        0,
+        0,
+        37910,
+        1793923222525426166,
+        1793923222432426171,
+        1793923222432426171
+      ],
+      "mode": "0644",
+      "opened_stat10": [
+        23,
+        60311958,
+        33188,
+        1,
+        0,
+        0,
+        37910,
+        1793923222525426166,
+        1793923222432426171,
+        1793923222432426171
+      ],
+      "path": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/test_picker_awt_prepare_failure_diagnostics.py",
+      "sha256": "50a7a3d60fa15a9c38063c9f9f242d0bb18df2db0c2dbbeda10c9778cc4ba623"
+    },
+    {
+      "O_NOATIME": true,
+      "O_NOFOLLOW": true,
+      "after_stat10": [
+        23,
+        60311957,
+        33188,
+        1,
+        0,
+        0,
+        6014,
+        1793923222523426166,
+        1793923222432426171,
+        1793923222432426171
+      ],
+      "before_stat10": [
+        23,
+        60311957,
+        33188,
+        1,
+        0,
+        0,
+        6014,
+        1793923222523426166,
+        1793923222432426171,
+        1793923222432426171
+      ],
+      "bytes": 6014,
+      "closed_stat10": [
+        23,
+        60311957,
+        33188,
+        1,
+        0,
+        0,
+        6014,
+        1793923222523426166,
+        1793923222432426171,
+        1793923222432426171
+      ],
+      "mode": "0644",
+      "opened_stat10": [
+        23,
+        60311957,
+        33188,
+        1,
+        0,
+        0,
+        6014,
+        1793923222523426166,
+        1793923222432426171,
+        1793923222432426171
+      ],
+      "path": "/root/nativecmpkit-worktrees/macos-parent-lease777/scripts/ci/test_picker_awt_preparation_registration.py",
+      "sha256": "3907c4ded7555dc07277234b043a597158dc9c9742fd79dc9d8d7717fae96952"
+    }
+  ],
+  "issue58": "OPEN",
+  "issue_closures_packages_releases_Pages_deployments": 0,
+  "new_contexts": "Fixed absence/partial/multiplicity/order/rejected-wrapper/task-without-trace/complete-frame-no-allowlisted-family observations. Invalid contexts remain unclassified and never produce a family enum.",
+  "new_family_literals_are_input_only_and_not_evidence_of_actual_01b4_presence": [
+    "org.gradle.api.ProjectConfigurationException",
+    "com.android.builder.errors.EvalIssueException",
+    "org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException",
+    "org.gradle.launcher.daemon.client.DaemonDisappearedException"
+  ],
+  "no_new_receipt_runner_generic_framework": true,
+  "no_recorded_classifier_limit_identity_UTF8_budget_or_public_schema_refusal": true,
+  "observed_byte_cap_headroom": 11788,
+  "original_failed_prepare": {
+    "HEAD": "01b4a3f2a03a2667cdbcaf5c429f02f83d9d60d7",
+    "actual_compiler_build_counts": "UNKNOWN",
+    "actual_underlying_cause": "UNKNOWN",
+    "ambiguity": false,
+    "attempt": 1,
+    "capture_complete": true,
+    "captured_bytes": 53748,
+    "diagnostic_code": "unknown",
+    "elapsed_seconds": 154.34671,
+    "exit_code": 1,
+    "inputs_held": 1546,
+    "job": 127619295209,
+    "native_inventory_JUnit_requested": 0,
+    "owned_java_descriptors_closed": true,
+    "post_exit_group_state": "absent",
+    "private_body_available": false,
+    "private_capture_sha256": "090ea6e0e0a9d8aec00e08b5ac3839f97b9e0f8d4d106abb4b2f249073623aa4",
+    "run": 42134559340,
+    "runtime_after_available": false,
+    "status": "unclassified",
+    "unavailable_code": "none",
+    "unchanged_retry_allowed": false
+  },
+  "original_native_AWT_helper_command_flags_workflows_tasks_custody_cleanup_unmodified": true,
+  "primary_status_category_location_task_and_ambiguity_refusal_unchanged": true,
+  "raw_body_messages_classes_paths_URLs_secrets_or_commands_exported": 0,
+  "release_readiness_or_native_acceptance": false,
+  "same_diagnostic_schema_keys_version1": true,
+  "same_five_public_JSON_names": true,
+  "schema": "nativecmpkit-picker809-bounded-context-observation777-r5-source-transfer-v1",
+  "scope": "Minimum private-to-fixed-enum diagnostic refinement only. No confirmed actual build cause, SDK repair, missing-field bug or cap/layout refusal. New observation cannot retrospectively classify original capture.",
+  "source_author_target_functions_models_tests_build_native_Git_network_hosted_ROOT_worktree_executions_or_writes": 0,
+  "source_only_unexecuted": true,
+  "total_reversible_spans": 11
+}

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from itertools import islice
 import datetime as dt
 import hashlib
 import json
@@ -271,7 +272,8 @@ def producer_cache_state(root: Path) -> dict:
     groups = ['files-2.1/' + GROUP]
     if cache.exists():
         need(cache.is_dir(), "Expected a directory for the producer dependency cache")
-        entries = list(cache.iterdir())
+        with os.scandir(cache) as inventory:
+            entries = list(islice(inventory, 257))
         need(len(entries) <= 256, "Unbounded producer module-cache root inventory")
         for entry in entries:
             if re.fullmatch(r'metadata-[0-9]+(?:\.[0-9]+)+', entry.name):

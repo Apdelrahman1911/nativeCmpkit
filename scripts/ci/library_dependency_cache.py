@@ -50,7 +50,8 @@ def observe_library_cache(home: Path) -> dict:
     if cache.exists():
         if not cache.is_dir():
             raise ValueError("Expected a directory for the fixed library dependency cache")
-        entries = list(islice(cache.iterdir(), MAX_CACHE_ROOT_ENTRIES + 1))
+        with os.scandir(cache) as inventory:
+            entries = list(islice(inventory, MAX_CACHE_ROOT_ENTRIES + 1))
         if len(entries) > MAX_CACHE_ROOT_ENTRIES:
             raise ValueError("Unbounded dependency cache root inventory")
         for entry in entries:

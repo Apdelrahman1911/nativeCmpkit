@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from itertools import islice
 import hashlib
 import json
 import os
@@ -122,7 +123,8 @@ def cache_state(root: Path):
     cache = lt.safe_path(root, CACHE + "/caches/modules-2")
     candidates = ["files-2.1/" + GROUP]
     if cache.exists():
-        entries = list(cache.iterdir())
+        with os.scandir(cache) as inventory:
+            entries = list(islice(inventory, 257))
         need(cache.is_dir() and len(entries) <= 256, "Unexpected producer cache inventory")
         candidates += [p.name + "/descriptors/" + GROUP for p in entries if re.fullmatch(r"metadata-[0-9]+(?:\.[0-9]+)+", p.name)]
     presence = {name: lt.safe_path(cache, name).exists() for name in candidates}

@@ -276,5 +276,123 @@ class WebViewConsumerControllerTests(unittest.TestCase):
                 c.diagnostics(root, output)
 
 
+
+class CacheScandirBoundTests(unittest.TestCase):
+    """Tooling-only bounded cache observations; no dependency/native acceptance."""
+
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix="nativecmpkit-cache-scandir-tooling-")
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.cache = self.root / (c.CACHE + '/caches/modules-2')
+        self.cache.mkdir(parents=True)
+
+    def observe(self):
+        return c.cache_state(self.root)
+
+    def held_file(self, path):
+        fields = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+        before = path.stat()
+        payload = path.read_bytes()
+        after = path.stat()
+        identity = lambda info: tuple(getattr(info, field) for field in fields)
+        self.assertEqual(identity(before), identity(after))
+        return payload, identity(after)
+
+    def test_cache_inventory_consumes_at_most_257_entries_and_closes_each_context(self):
+        for total in (0, 256, 257, 1000000):
+            with self.subTest(total=total):
+                consumed = []
+
+                def entries():
+                    for number in range(total):
+                        self.assertLess(len(consumed), 257, "Enumeration exceeded the refusal sentinel")
+                        consumed.append(number)
+                        yield Path("ordinary-" + str(number))
+
+                with patch.object(c.os, "scandir") as scan, \
+                        patch.object(Path, "iterdir", side_effect=AssertionError("Eager Path.iterdir is forbidden")), \
+                        patch.object(c.os, "listdir", side_effect=AssertionError("Eager os.listdir is forbidden")):
+                    context = scan.return_value
+                    context.__enter__.return_value = entries()
+                    context.__exit__.return_value = False
+                    if total > 256:
+                        with self.assertRaises(ValueError):
+                            self.observe()
+                    else:
+                        self.assertTrue(self.observe()['candidate_group_absent'])
+                    scan.assert_called_once_with(self.cache)
+                    context.__enter__.assert_called_once_with()
+                    self.assertEqual(1, context.__exit__.call_count)
+                self.assertEqual(min(total, 257), len(consumed))
+
+    def test_cache_scan_error_closes_context_without_mutating_foreign_data(self):
+        foreign = self.cache / "ordinary" / "foreign.bin"
+        foreign.parent.mkdir()
+        foreign.write_bytes(b"synthetic-foreign-cache-data-not-trusted")
+        held = self.held_file(foreign)
+        fault = OSError("synthetic-scandir-interruption")
+
+        def interrupted_entries():
+            yield Path("ordinary")
+            raise fault
+
+        with patch.object(c.os, "scandir") as scan, \
+                patch.object(Path, "iterdir", side_effect=AssertionError("Eager Path.iterdir is forbidden")), \
+                patch.object(c.os, "listdir", side_effect=AssertionError("Eager os.listdir is forbidden")):
+            context = scan.return_value
+            context.__enter__.return_value = interrupted_entries()
+            context.__exit__.return_value = False
+            with self.assertRaises(OSError) as caught:
+                self.observe()
+            self.assertIs(fault, caught.exception)
+            scan.assert_called_once_with(self.cache)
+            context.__enter__.assert_called_once_with()
+            self.assertEqual(1, context.__exit__.call_count)
+            self.assertEqual((OSError, fault), context.__exit__.call_args.args[:2])
+        self.assertEqual(held, self.held_file(foreign))
+
+    def test_real_scandir_preserves_candidate_predicates_and_foreign_data_at_refusal(self):
+        foreign = self.cache / "files-2.1" / "org.example" / "inert" / "foreign.bin"
+        foreign.parent.mkdir(parents=True)
+        foreign.write_bytes(b"synthetic-registry-cache-data-not-an-admission")
+        held = self.held_file(foreign)
+        original_scandir = c.os.scandir
+        handles = []
+
+        def recorded_scandir(path):
+            self.assertEqual(self.cache, Path(path))
+            handle = original_scandir(path)
+            handles.append(handle)
+            return handle
+
+        candidates = []
+        with patch.object(c.os, "scandir", side_effect=recorded_scandir), \
+                patch.object(Path, "iterdir", side_effect=AssertionError("Eager Path.iterdir is forbidden")), \
+                patch.object(c.os, "listdir", side_effect=AssertionError("Eager os.listdir is forbidden")):
+            self.assertTrue(self.observe()['candidate_group_absent'])
+            for layout in ("files-2.1", "metadata-2.108/descriptors", "metadata-2.999/descriptors"):
+                candidate = self.cache / layout / c.GROUP / "candidate" / "module.bin"
+                candidate.parent.mkdir(parents=True, exist_ok=True)
+                candidate.write_bytes(b"synthetic-candidate-cache-data")
+                candidates.append((candidate, self.held_file(candidate)))
+                self.assertFalse(self.observe()['candidate_group_absent'])
+            # Three real layout directories plus 255 ordinary entries leaves one
+            # unconsumed entry at the 257 sentinel, so post-refusal next() proves
+            # the real scandir handle was closed, not merely exhausted.
+            for number in range(255):
+                (self.cache / ("ordinary-" + str(number))).mkdir()
+            with self.assertRaises(ValueError) as refused:
+                self.observe()
+            self.assertIn("inventory", str(refused.exception).lower())
+        self.assertEqual(5, len(handles))
+        for handle in handles:
+            with self.assertRaises(StopIteration):
+                next(handle)
+        self.assertEqual(held, self.held_file(foreign))
+        for candidate, expected in candidates:
+            self.assertEqual(expected, self.held_file(candidate))
+
+
 if __name__ == '__main__':
     unittest.main()

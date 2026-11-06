@@ -245,6 +245,40 @@ def observe_prepare_contract(body: str) -> dict:
     return bounded_prepare_contract_public(result)
 
 
+def _observe_refused_prepare_contract_raw(body: str) -> dict:
+    """Private raw-operand fallback, only after primary/strict diagnostic refusal.
+
+    The independent original 64KiB UTF-8 bound remains. Incidental line/control
+    limits do not change these raw regex operands; no lines are normalized and
+    no banner statuses or private strings are exported. This never accepts PREPARE.
+    """
+    if type(body) is not str:
+        return prepare_contract_unavailable("classifier_error")
+    # Bound encoding work as well as the encoded input, without a larger budget.
+    if len(body) > MAX_PRIVATE_BYTES:
+        return prepare_contract_unavailable("diagnostic_limit")
+    try:
+        encoded = body.encode("utf-8", errors="strict")
+    except UnicodeError:
+        return prepare_contract_unavailable("UTF8_refused")
+    if len(encoded) > MAX_PRIVATE_BYTES:
+        return prepare_contract_unavailable("diagnostic_limit")
+    result = prepare_contract_unavailable("classifier_error")
+    result.update(status="observed", unavailable_code="none")
+    for key in PREPARE_CONTRACT_TASK_IDS:
+        task = TASKS[key]
+        result["task_exact_line_counts"][key] = _prepare_contract_count(
+            len(re.findall(r"(?m)^> Task " + re.escape(task) + r"$", body)))
+    # Leave every banner state unobserved: this fallback observes only operands
+    # of the original acceptance predicate, not native task execution/status.
+    result["successful_footer_count"] = _prepare_contract_count(
+        len(re.findall(r"(?m)^BUILD SUCCESSFUL in .+$", body)))
+    result["forbidden_test_task_banner_observed"] = re.search(
+        r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)", body) is not None
+    result["build_failed_text_observed"] = "BUILD FAILED" in body
+    return bounded_prepare_contract_public(result)
+
+
 def _locations(root: Path) -> dict[str, str]:
     # root comes from the controller's already qualified checkout, never log text.
     # These are lexical guards, NOT a substitute for its filesystem custody.

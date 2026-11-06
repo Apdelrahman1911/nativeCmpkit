@@ -18,7 +18,7 @@ from unittest import mock
 import picker_awt_generation as target
 import picker_awt_prepare_failure as diagnostic
 
-EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 1839,
+D1_EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 1839,
                                                   'sha256': '236205c4b61b1f36fd86f81eb5f11b037bc3187b714f3ef2806aed8e58e78344'},
  'scripts/ci/library_tests.py': {'bytes': 412990,
                                  'sha256': '6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127'},
@@ -28,6 +28,19 @@ EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 18
                                           'sha256': 'ef1da77624d63437041e93cc2e57f52bc2a3dc96ca3e17a73eb634f7828b1818'},
  'scripts/ci/picker_awt_prepare_failure.py': {'bytes': 29263,
                                               'sha256': '1ac0d39cf07310d5ee9ef8c0b93777baccb9f914c6b6a893e5731b5c7b4190d6'},
+ 'scripts/ci/picker_jni_actual_jvm2.py': {'bytes': 28352,
+                                          'sha256': 'dba05feb854eddc09babf1da6b2038094c330928e22f9752795ddeeca4ff4f8b'}}
+# Accepted D1 pins are retained verbatim; current D2 uses the same six owning sources.
+EXPECTED_SOURCES = {'.github/workflows/picker-awt-preparation.yml': {'bytes': 1839,
+                                                  'sha256': '236205c4b61b1f36fd86f81eb5f11b037bc3187b714f3ef2806aed8e58e78344'},
+ 'scripts/ci/library_tests.py': {'bytes': 412990,
+                                 'sha256': '6fdc0947617c41b199f13e63b13056de6c76bb215698e259109c324f219c2127'},
+ 'scripts/ci/picker_awt_generation.py': {'bytes': 42398,
+                                         'sha256': 'ca3e8bfd82ef4a2ba021a70c3949209c80bab0cffdb44855dd8438247145c797'},
+ 'scripts/ci/picker_awt_preparation.py': {'bytes': 9612,
+                                          'sha256': 'ef1da77624d63437041e93cc2e57f52bc2a3dc96ca3e17a73eb634f7828b1818'},
+ 'scripts/ci/picker_awt_prepare_failure.py': {'bytes': 31104,
+                                              'sha256': '78ecc9f06f385c36210799e180f0b62a55e3e9dd48b76d0a99815076d02e0e80'},
  'scripts/ci/picker_jni_actual_jvm2.py': {'bytes': 28352,
                                           'sha256': 'dba05feb854eddc09babf1da6b2038094c330928e22f9752795ddeeca4ff4f8b'}}
 EXPECTED_PREDICATE_AST = "BoolOp(op=Or(), values=[Call(func=Name(id='any', ctx=Load()), args=[GeneratorExp(elt=Compare(left=Call(func=Name(id='len', ctx=Load()), args=[Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='findall', ctx=Load()), args=[BinOp(left=BinOp(left=Constant(value='(?m)^> Task '), op=Add(), right=Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='escape', ctx=Load()), args=[Name(id='task', ctx=Load())], keywords=[])), op=Add(), right=Constant(value='$')), Name(id='body', ctx=Load())], keywords=[])], keywords=[]), ops=[NotEq()], comparators=[Constant(value=1)]), generators=[comprehension(target=Name(id='task', ctx=Store()), iter=Name(id='tasks', ctx=Load()), ifs=[], is_async=0)])], keywords=[]), Compare(left=Call(func=Name(id='len', ctx=Load()), args=[Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='findall', ctx=Load()), args=[Constant(value='(?m)^BUILD SUCCESSFUL in .+$'), Name(id='body', ctx=Load())], keywords=[])], keywords=[]), ops=[NotEq()], comparators=[Constant(value=1)]), Call(func=Attribute(value=Name(id='re', ctx=Load()), attr='search', ctx=Load()), args=[Constant(value='(?m)^> Task \\\\S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\\\\s|$)|BUILD FAILED'), Name(id='body', ctx=Load())], keywords=[])])"
@@ -255,6 +268,152 @@ class NativePreparationContractDiagnosticTests(unittest.TestCase):
             self.assertFalse(value["cause_established"])
             phase.assert_not_called()
             nonzero.assert_not_called()
+
+
+    # NEW4 only: incidental-limit raw operands, not a replay of accepted NEW8.
+    def test_new09_incidental_limits_preserve_strict_API_and_raw_operands(self):
+        missing = GOOD.replace("> Task " + TASKS["desktop_resources"] + "\n", "")
+        payloads = (PRIVATE_SENTINEL + "p" * 4097 + "\n",
+                    PRIVATE_SENTINEL + "\n" * 4097,
+                    PRIVATE_SENTINEL + "\x01\n")
+        for payload in payloads:
+            with self.subTest(incidental_bytes=len(payload.encode("utf-8"))):
+                body = missing + payload
+                self.assertLessEqual(len(body.encode("utf-8")), diagnostic.MAX_PRIVATE_BYTES)
+                self.unavailable(diagnostic.observe_prepare_contract(body), "diagnostic_limit")
+                value = diagnostic._observe_refused_prepare_contract_raw(body)
+                self.assertEqual(value["status"], "observed")
+                self.assertEqual(value["task_exact_line_counts"],
+                                 {key: "absent" if key == "desktop_resources" else "one" for key in TASKS})
+                self.assertEqual(value["successful_footer_count"], "one")
+                self.assertFalse(value["forbidden_test_task_banner_observed"])
+                self.assertFalse(value["build_failed_text_observed"])
+                self.assertEqual(value["task_banner_states"], {key: "unobserved" for key in TASKS})
+                self.assertFalse(value["cause_established"])
+                encoded = json.dumps(value, ensure_ascii=True, separators=(",", ":")).encode("ascii")
+                self.assertNotIn(PRIVATE_SENTINEL.encode(), encoded)
+                self.assertLessEqual(len(encoded), 4096)
+
+    def test_new10_raw_original_regex_equality_without_normalization(self):
+        host_line = "> Task " + TASKS["host_native_build"] + "\n"
+        cases = {
+            "raw_ANSI": GOOD.replace("> Task ", "\x1b[32m> Task ") + "\x01",
+            "raw_CRLF": GOOD.replace("\n", "\r\n") + "\x01",
+            "annotation": GOOD.replace(host_line, host_line.rstrip("\n") + " UP-TO-DATE\n") + "\x01",
+            "duplicate_task": GOOD + host_line + "\x01",
+            "missing_footer": GOOD.replace("BUILD SUCCESSFUL in 1s\n", "") + "\x01",
+            "duplicate_footer": GOOD + "BUILD SUCCESSFUL in 2s\n\x01",
+            "test_banner": GOOD + "> Task :calf-file-picker:customTest NO-SOURCE\n\x01",
+            "unanchored_failed": GOOD + PRIVATE_SENTINEL + " wrapper BUILD FAILED suffix\n\x01",
+        }
+        for case, body in cases.items():
+            with self.subTest(raw_case=case):
+                value = diagnostic._observe_refused_prepare_contract_raw(body)
+                counts = {}
+                for key, task in TASKS.items():
+                    count = len(target.re.findall(r"(?m)^> Task " + target.re.escape(task) + r"$", body))
+                    counts[key] = "absent" if count == 0 else "one" if count == 1 else "multiple"
+                footer_count = len(target.re.findall(r"(?m)^BUILD SUCCESSFUL in .+$", body))
+                footer = "absent" if footer_count == 0 else "one" if footer_count == 1 else "multiple"
+                test_flag = target.re.search(
+                    r"(?m)^> Task \S*(?:desktopTest|connectedAndroidDeviceTest|Test)(?:\s|$)", body) is not None
+                failed_flag = "BUILD FAILED" in body
+                self.assertEqual(value["task_exact_line_counts"], counts)
+                self.assertEqual(value["successful_footer_count"], footer)
+                self.assertEqual(value["forbidden_test_task_banner_observed"], test_flag)
+                self.assertEqual(value["build_failed_text_observed"], failed_flag)
+                self.assertTrue(any(count != "one" for count in counts.values()) or footer != "one" or test_flag or failed_flag)
+                self.assertEqual(value["task_banner_states"], {key: "unobserved" for key in TASKS})
+                self.assertFalse(value["cause_established"])
+                self.assertNotIn(PRIVATE_SENTINEL, json.dumps(value))
+                if case in ("raw_ANSI", "raw_CRLF"):
+                    self.assertEqual(counts, {key: "absent" for key in TASKS})
+
+    def test_new11_private_raw_fallback_independent_UTF8_byte_schema_and_public_caps(self):
+        class UntrustedStr(str):
+            def encode(self, *args, **kwargs):
+                raise AssertionError("subclass-encoding-must-not-run")
+        bad = ((None, "classifier_error"), (b"trace", "classifier_error"), (True, "classifier_error"),
+               (UntrustedStr("trace"), "classifier_error"), ("\ud800", "UTF8_refused"),
+               ("p" * 65537, "diagnostic_limit"), ("\u00e9" * 32769, "diagnostic_limit"))
+        for body, code in bad:
+            with self.subTest(unavailable_code=code):
+                self.unavailable(diagnostic._observe_refused_prepare_contract_raw(body), code)
+        prefix = PRIVATE_SENTINEL + "\x01\n"
+        for body in (prefix + "p" * (65536 - len(prefix.encode("utf-8"))), "\U0001f642" * 16384):
+            with self.subTest(boundary_codepoints=len(body)):
+                self.assertEqual(len(body.encode("utf-8")), 65536)
+                value = diagnostic._observe_refused_prepare_contract_raw(body)
+                self.assertEqual(value["status"], "observed")
+                self.assertEqual(set(value), set(diagnostic.prepare_contract_unavailable("classifier_error")))
+                self.assertEqual(value["task_exact_line_counts"], {key: "absent" for key in TASKS})
+                self.assertEqual(value["task_banner_states"], {key: "unobserved" for key in TASKS})
+                self.assertEqual(value["successful_footer_count"], "absent")
+                self.assertFalse(value["forbidden_test_task_banner_observed"])
+                self.assertFalse(value["build_failed_text_observed"])
+                self.assertFalse(value["cause_established"])
+                encoded = json.dumps(value, ensure_ascii=True, separators=(",", ":")).encode("ascii")
+                self.assertNotIn(PRIVATE_SENTINEL.encode(), encoded)
+                self.assertLessEqual(len(encoded), 4096)
+        with mock.patch.object(diagnostic, "MAX_PUBLIC_BYTES", 1):
+            self.unavailable(diagnostic._observe_refused_prepare_contract_raw(GOOD), "diagnostic_limit")
+
+    def test_new12_fallback_route_scope_secondary_failures_and_native_guards(self):
+        body = GOOD.replace("> Task " + TASKS["desktop_resources"] + "\n", "")
+        limit = diagnostic.prepare_contract_unavailable("diagnostic_limit")
+        with mock.patch.object(diagnostic, "observe_prepare_contract", return_value=limit) as strict, \
+                mock.patch.object(diagnostic, "_observe_refused_prepare_contract_raw",
+                                  wraps=diagnostic._observe_refused_prepare_contract_raw) as fallback:
+            value = self.refused(body)
+            strict.assert_called_once_with(body)
+            fallback.assert_called_once_with(body)
+            self.assertEqual(value["task_exact_line_counts"]["desktop_resources"], "absent")
+            self.assertEqual(value["task_banner_states"], {key: "unobserved" for key in TASKS})
+            self.assertFalse(value["cause_established"])
+        with mock.patch.object(diagnostic, "observe_prepare_contract") as strict, \
+                mock.patch.object(diagnostic, "_observe_refused_prepare_contract_raw") as fallback:
+            receipt = {"held": True}
+            self.assertEqual(target.review_prepare(GOOD, receipt),
+                             {"required_resource_tasks": list(TASKS.values())[1:],
+                              "host_native_build_task_returned": True, "executed_tests": 0})
+            self.assertEqual(receipt, {"held": True})
+            with self.assertRaises(target.Refusal) as caught:
+                target.review_prepare(body)
+            self.assertEqual(str(caught.exception), REASON)
+            strict.assert_not_called()
+            fallback.assert_not_called()
+        for code in ("UTF8_refused", "remaining_budget_refused", "classifier_error"):
+            with self.subTest(nonfallback_code=code), \
+                    mock.patch.object(diagnostic, "observe_prepare_contract",
+                                      return_value=diagnostic.prepare_contract_unavailable(code)), \
+                    mock.patch.object(diagnostic, "_observe_refused_prepare_contract_raw") as fallback:
+                self.unavailable(self.refused(body), code)
+                fallback.assert_not_called()
+        with mock.patch.object(diagnostic, "observe_prepare_contract", return_value={"private": PRIVATE_SENTINEL}), \
+                mock.patch.object(diagnostic, "_observe_refused_prepare_contract_raw") as fallback:
+            self.unavailable(self.refused(body), "classifier_error")
+            fallback.assert_not_called()
+        with mock.patch.object(diagnostic, "observe_prepare_contract", return_value=limit), \
+                mock.patch.object(diagnostic, "_observe_refused_prepare_contract_raw", side_effect=RuntimeError(PRIVATE_SENTINEL)):
+            value = self.refused(body)
+            self.unavailable(value, "diagnostic_limit")
+            self.assertNotIn(PRIVATE_SENTINEL, json.dumps(value))
+        with mock.patch.object(diagnostic, "observe_prepare_contract", return_value=limit), \
+                mock.patch.object(diagnostic, "_observe_refused_prepare_contract_raw", return_value={"private": PRIVATE_SENTINEL}):
+            self.unavailable(self.refused(body), "classifier_error")
+        class SecondAssignmentFails(dict):
+            def __init__(self):
+                super().__init__()
+                self.assignments = 0
+            def __setitem__(self, key, value):
+                self.assignments += 1
+                if self.assignments == 2:
+                    raise RuntimeError(PRIVATE_SENTINEL)
+                return super().__setitem__(key, value)
+        receipt = SecondAssignmentFails()
+        with mock.patch.object(diagnostic, "observe_prepare_contract", return_value=limit):
+            self.unavailable(self.refused(body, receipt), "diagnostic_limit")
+        self.assertEqual(receipt.assignments, 2)
 
 
 if __name__ == "__main__":

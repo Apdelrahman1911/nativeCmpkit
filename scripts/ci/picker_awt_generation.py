@@ -469,8 +469,12 @@ def review_prepare(body: str, failure_receipt: dict | None = None) -> dict:
             # Passive, bounded observations of an already refused contract.
             # Secondary classifier/assignment failures never replace its reason.
             try:
-                failure_receipt["prepare_contract_diagnostic"] = prepare_diagnostics.bounded_prepare_contract_public(
+                strict = prepare_diagnostics.bounded_prepare_contract_public(
                     prepare_diagnostics.observe_prepare_contract(body))
+                failure_receipt["prepare_contract_diagnostic"] = strict
+                if strict["status"] == "unavailable" and strict["unavailable_code"] == "diagnostic_limit":
+                    failure_receipt["prepare_contract_diagnostic"] = prepare_diagnostics.bounded_prepare_contract_public(
+                        prepare_diagnostics._observe_refused_prepare_contract_raw(body))
             except Exception:
                 pass
         raise Refusal("standard-fresh-host-preparation-task-or-zero-test-contract-refused")

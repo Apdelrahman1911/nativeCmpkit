@@ -82,7 +82,8 @@ def run(output_argument: Path) -> int:
                 raise r.Refusal("fresh-standard-host-output-required-no-delete-or-cache-fallback")
         stage = "prepare"
         owned_directories.require()
-        prepared = r.phase(root, private, stage, r.prepare_command(root, private), budget, receipt)
+        # Standard failure diagnostics only; the bounded capture stays PRIVATE.
+        prepared = r.phase(root, private, stage, [*r.prepare_command(root, private), "--stacktrace"], budget, receipt)
         owned_directories.require()
         receipt["preparation"] = r.review_prepare(prepared)
         if source_snapshot(root) != before or r.qualify_jdk(context, budget)[1] != jdk:

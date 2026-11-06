@@ -32,6 +32,33 @@ TASKS = {
 }
 REQUIRED_TASK_IDS = ("desktop_resources", "runtime_classpath", "native_resources")
 NATIVE_TASK_IDS = (*REQUIRED_TASK_IDS, "host_native_build")
+# Tier0 is a concrete runtime/transport exception family, tier1 a compiler/
+# plugin stage family, tier2 a broad execution wrapper. This selects an observed
+# enum, NOT a root cause. Classes/messages/paths are never exported.
+TRACE_CLASSES = {
+    "java.lang.NoSuchMethodError": (0, "gradle_api_linkage_observed", "gradle_wrapper_api_linkage_observed"),
+    "java.lang.NoSuchFieldError": (0, "gradle_api_linkage_observed", "gradle_wrapper_api_linkage_observed"),
+    "java.lang.AbstractMethodError": (0, "gradle_api_linkage_observed", "gradle_wrapper_api_linkage_observed"),
+    "java.lang.NoClassDefFoundError": (0, "gradle_class_loading_observed", "gradle_wrapper_class_loading_observed"),
+    "java.lang.ClassNotFoundException": (0, "gradle_class_loading_observed", "gradle_wrapper_class_loading_observed"),
+    "java.lang.UnsupportedClassVersionError": (0, "gradle_bytecode_runtime_observed", "gradle_wrapper_bytecode_runtime_observed"),
+    "java.lang.OutOfMemoryError": (0, "gradle_jvm_memory_observed", "gradle_wrapper_jvm_memory_observed"),
+    "javax.net.ssl.SSLHandshakeException": (0, "gradle_tls_observed", "gradle_wrapper_tls_observed"),
+    "sun.security.provider.certpath.SunCertPathBuilderException": (0, "gradle_tls_observed", "gradle_wrapper_tls_observed"),
+    "java.net.UnknownHostException": (0, "gradle_dns_observed", "gradle_wrapper_dns_observed"),
+    "java.net.SocketTimeoutException": (0, "gradle_timeout_observed", "gradle_wrapper_timeout_observed"),
+    "java.io.FileNotFoundException": (0, "gradle_missing_file_observed", "gradle_wrapper_download_missing_observed"),
+    "org.gradle.kotlin.dsl.support.ScriptCompilationException": (1, "gradle_script_compilation_observed", None),
+    "org.jetbrains.kotlin.gradle.tasks.CompilationErrorException": (1, "gradle_kotlin_compiler_observed", None),
+    "org.gradle.api.plugins.UnknownPluginException": (1, "gradle_plugin_resolution_observed", None),
+    "org.gradle.api.UnknownTaskException": (1, "gradle_task_lookup_observed", None),
+    "org.gradle.internal.resolve.ModuleVersionNotFoundException": (2, "gradle_dependency_resolution_observed", None),
+    "org.gradle.internal.resolve.ModuleVersionResolveException": (2, "gradle_dependency_resolution_observed", None),
+    "org.gradle.process.internal.ExecException": (2, "gradle_subprocess_observed", None),
+    "java.io.IOException": (2, "gradle_io_observed", "gradle_wrapper_download_io_observed"),
+}
+TRACE_CODES = frozenset(code for row in TRACE_CLASSES.values() for code in row[1:] if code is not None)
+
 UNAVAILABLE_CODES = frozenset(("none", "ineligible_phase", "capture_unavailable", "capture_identity_refused",
                                "UTF8_refused", "diagnostic_limit", "remaining_budget_refused", "classifier_error"))
 PUBLIC_CHOICES = {
@@ -40,7 +67,7 @@ PUBLIC_CHOICES = {
                  "dependency_resolution", "native_resource_task", "task_execution", "unknown"},
     "diagnostic_code": {"kotlin_unresolved_reference", "kotlin_type_mismatch", "kotlin_overload_ambiguity", "kotlin_type_inference",
                         "java_compiler_error", "rust_compiler_error", "gradle_plugin_resolution", "gradle_configuration_error",
-                        "dependency_resolution_error", "required_native_task_failed", "unknown"},
+                        "dependency_resolution_error", "required_native_task_failed", "unknown"} | TRACE_CODES,
     "unavailable_code": UNAVAILABLE_CODES,
 }
 
@@ -118,6 +145,46 @@ def _compiler(line: str, locations: dict[str, str]) -> tuple | None:
             if re.fullmatch(grammar, message):
                 return ("kotlin_compilation", code, {"source_id": key, "line": row, "column": column})
     return None
+
+
+def _gradle_trace_observation(lines: list[str]) -> tuple[str, bool]:
+    """One fixed exception-family observation; never resolve old ambiguity."""
+    failure, what, trace = ("FAILURE: Build failed with an exception.", "* What went wrong:", "* Exception is:")
+    footer = [index for index, line in enumerate(lines) if re.fullmatch(r"BUILD FAILED in [^\r\n]+", line)]
+    build = (lines.count(failure) == lines.count(what) == lines.count(trace) == len(footer) == 1 and
+             lines.index(failure) < lines.index(what) < lines.index(trace) < footer[0])
+    main_grammar = r'Exception in thread "main" ([A-Za-z_$][A-Za-z0-9_.$]{0,255})(?::[^\r\n]*)?'
+    mains = [index for index, line in enumerate(lines) if re.fullmatch(main_grammar, line.strip())]
+    wrapper_frames = [index for index, line in enumerate(lines) if re.fullmatch(
+        r"at org\.gradle\.wrapper\.(?:Download|Install)\.[A-Za-z_$][A-Za-z0-9_$]{0,127}"
+        r"\((?:[A-Za-z0-9_.-]{1,128}:[0-9]{1,7}|Unknown Source|Native Method)\)", line.strip())]
+    # Bootstrap is a distinct context, not merely an incomplete Gradle build.
+    # A fixed wrapper frame must belong to the selected AFTER-main trace, and
+    # official/partial Gradle frame or task markers must be entirely absent.
+    build_markers = any(line.strip().startswith(("FAILURE:", "* What went wrong:", "* Exception is:", "BUILD FAILED"))
+                        for line in lines)
+    task_markers = any(line.strip().startswith("> Task ") for line in lines)
+    wrapper = (not build_markers and not task_markers and len(mains) == 1 and
+               any(index > mains[0] for index in wrapper_frames))
+    if not build and not wrapper:
+        return "unknown", bool(wrapper_frames and len(mains) > 1)
+    selected = lines[lines.index(trace) + 1:footer[0]] if build else lines[mains[0]:]
+    codes = {0: set(), 1: set(), 2: set()}
+    for raw in selected:
+        line = raw.strip()
+        if not line.startswith(("Caused by: ", 'Exception in thread "main" ', "java.", "javax.", "sun.", "org.gradle.", "org.jetbrains.kotlin.")):
+            continue
+        match = re.fullmatch(r"(?:Caused by: )?([A-Za-z_$][A-Za-z0-9_.$]{0,255})(?::[^\r\n]*)?", line)
+        if match is None and wrapper:
+            match = re.fullmatch(main_grammar, line)
+        observed = TRACE_CLASSES.get(match[1]) if match else None
+        if observed is not None:
+            tier, code, wrapper_code = observed
+            codes[tier].add(wrapper_code if wrapper and wrapper_code is not None else code)
+    for tier in (0, 1, 2):
+        if codes[tier]:
+            return (next(iter(codes[tier])), False) if len(codes[tier]) == 1 else ("unknown", True)
+    return "unknown", False
 
 
 def classify(root: Path, body: str) -> dict:
@@ -214,4 +281,10 @@ def classify(root: Path, body: str) -> dict:
         elif key is not None:
             result.update(status="classified", category="native_resource_task" if key in NATIVE_TASK_IDS else "task_execution",
                           diagnostic_code="required_native_task_failed" if key in NATIVE_TASK_IDS else "unknown")
+    if result["status"] == "unclassified":
+        # Fallback is explicitly an OBSERVATION. Original status/category/task/
+        # source selection and ambiguity refusals remain, with cause=false.
+        code, trace_ambiguity = _gradle_trace_observation(lines)
+        result["diagnostic_code"] = code
+        result["ambiguity"] = result["ambiguity"] or trace_ambiguity
     return bounded_public(result)

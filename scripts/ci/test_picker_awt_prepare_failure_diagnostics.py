@@ -284,7 +284,8 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
         source = (r.library.ROOT / "scripts/ci/picker_awt_preparation.py").read_text()
         self.assertEqual(1, source.count("budget = r.shared.NativeBudget()"))
         self.assertEqual(1, source.count("r.phase("))
-        self.assertIn('r.phase(root, private, stage, r.prepare_command(root, private), budget, receipt)', source)
+        self.assertIn('r.phase(root, private, stage, [*r.prepare_command(root, private), "--stacktrace"], budget, receipt)', source)
+        self.assertEqual(1, source.count('"--stacktrace"'))
         for forbidden in ("r.exact_command(", "r.review_inventory(", "r.review_junit(", "subprocess", "--rerun-tasks", "r.run("):
             self.assertNotIn(forbidden, source)
         calls = [node for node in ast.walk(ast.parse(source)) if isinstance(node, ast.Call)]
@@ -303,7 +304,7 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
                     self.assertEqual(root, actual_root)
                     self.assertIs(selected_budget, actual_budget)
                     self.assertEqual("prepare", stage)
-                    self.assertEqual(r.prepare_command(root, private), command)
+                    self.assertEqual([*r.prepare_command(root, private), "--stacktrace"], command)
                     phases.append(stage)
                     receipt["phases"][stage] = {key: value for key, value in failed_phase(preparation()).items()
                                                 if key not in {"command", "private_capture_fd_stat9"}}
@@ -413,6 +414,98 @@ class PickerAwtPreparationDiagnostics(unittest.TestCase):
             with mock.patch.object(r, "source_snapshot", return_value=missing_script):
                 with self.assertRaisesRegex(r.Refusal, "^preparation-only-owning-source-input-missing$"):
                     p.source_snapshot(root)
+
+
+    def test_private_gradle_stacktrace_exports_only_fixed_exception_family_and_preserves_primary_ambiguity_caps_and_secrets(self):
+        # Message operands are intentionally private; ONLY constant observation
+        # enums may appear in the existing public diagnostic_code field.
+        private = PRIVATE_SENTINEL + " https://invalid.example/private Authorization=PRIVATE"
+        header = ("FAILURE: Build failed with an exception.\n\n* What went wrong:\n"
+                  "A problem occurred configuring project '" + private + "'.\n\n* Exception is:\n"
+                  "org.gradle.api.ProjectConfigurationException: " + private + "\n")
+        footer = "\nBUILD FAILED in 2s\n"
+        cases = (("java.lang.NoSuchMethodError", "gradle_api_linkage_observed"),
+                 ("javax.net.ssl.SSLHandshakeException", "gradle_tls_observed"),
+                 ("org.gradle.kotlin.dsl.support.ScriptCompilationException", "gradle_script_compilation_observed"),
+                 ("org.gradle.internal.resolve.ModuleVersionResolveException", "gradle_dependency_resolution_observed"))
+        expected_keys = {"schema_version", "status", "category", "diagnostic_code", "failed_task_id", "location",
+                         "ambiguity", "cause_established", "required_task_states", "unavailable_code"}
+        for klass, code in cases:
+            with self.subTest(exception_family=code):
+                body = header + "Caused by: " + klass + ": " + private + footer
+                value = d.classify(ROOT, body)
+                self.assertEqual(("unclassified", "unknown", code), (value["status"], value["category"], value["diagnostic_code"]))
+                self.assertEqual(expected_keys, set(value))
+                self.assertEqual(1, value["schema_version"])
+                self.assertFalse(value["ambiguity"])
+                self.assertIs(value["cause_established"], False)
+                self.assertIsNone(value["failed_task_id"])
+                self.assertIsNone(value["location"])
+                self.assertEqual({key: "unobserved" for key in d.REQUIRED_TASK_IDS}, value["required_task_states"])
+                self.assert_public(value)
+                encoded = json.dumps(value, ensure_ascii=True, separators=(",", ":"))
+                self.assertNotIn(klass, encoded)
+                self.assertNotIn(private, encoded)
+                self.assertLessEqual(len(encoded.encode("ascii")), 4096)
+        specific = header + "Caused by: org.gradle.internal.resolve.ModuleVersionResolveException: " + private + "\n"
+        specific += "Caused by: javax.net.ssl.SSLHandshakeException: " + private + footer
+        self.assertEqual("gradle_tls_observed", d.classify(ROOT, specific)["diagnostic_code"])
+        repeated = header + ("Caused by: java.lang.NoSuchMethodError: " + private + "\n") * 2 + footer
+        self.assertEqual("gradle_api_linkage_observed", d.classify(ROOT, repeated)["diagnostic_code"])
+        conflicting = header + "Caused by: java.lang.NoSuchMethodError: " + private + "\n"
+        conflicting += "Caused by: javax.net.ssl.SSLHandshakeException: " + private + footer
+        value = d.classify(ROOT, conflicting)
+        self.assertEqual(("unclassified", "unknown", True), (value["status"], value["diagnostic_code"], value["ambiguity"]))
+        self.assert_public(value)
+        # A real wrapper-download stack can fail before any Gradle banner/task;
+        # fixed Download/Install frames qualify only the observed wrapper type.
+        wrapper = 'Exception in thread "main" java.io.FileNotFoundException: ' + private + "\n"
+        wrapper += "\tat org.gradle.wrapper.Download.downloadInternal(Download.java:97)\n"
+        wrapper += "\tat org.gradle.wrapper.Install.forceFetch(Install.java:167)\n"
+        value = d.classify(ROOT, wrapper)
+        self.assertEqual(("unclassified", "gradle_wrapper_download_missing_observed"), (value["status"], value["diagnostic_code"]))
+        self.assert_public(value)
+        # A frame preceding the main exception is outside its selected trace.
+        # Partial/duplicate Gradle frames and task banners are not bootstrap.
+        preceding = "\tat org.gradle.wrapper.Download.downloadInternal(Download.java:97)\n"
+        preceding += 'Exception in thread "main" java.io.FileNotFoundException: ' + private + "\n"
+        mixed = (preceding,
+                 "FAILURE: Build failed with an exception.\n" + wrapper,
+                 "* What went wrong:\n" + wrapper,
+                 "* Exception is:\n" + wrapper,
+                 "BUILD FAILED\n" + wrapper,
+                 "BUILD FAILED in 2s\n" + wrapper,
+                 "FAILURE: Build failed with an exception.\n" * 2 + wrapper,
+                 "> Task :unrelated:bootstrap\n" + wrapper,
+                 wrapper + "> Task :unrelated:bootstrap\n")
+        for body in mixed:
+            with self.subTest(refused_bootstrap_context=body[:32]):
+                value = d.classify(ROOT, body)
+                self.assertEqual(("unclassified", "unknown"), (value["status"], value["diagnostic_code"]))
+                self.assertIs(value["cause_established"], False)
+                self.assert_public(value)
+        for body in (header + "Caused by: private.UnknownException: " + private + footer,
+                     header.replace("* Exception is:", "* Unknown:") + "Caused by: java.lang.NoSuchMethodError: " + private + footer,
+                     'Exception in thread "main" java.io.FileNotFoundException: ' + private,
+                     header + "Caused by: java.lang.NoSuchMethodError: " + private,
+                     header + "Caused by: java.lang.NoSuchMethodError: " + private + footer + footer):
+            self.assertEqual("unknown", d.classify(ROOT, body)["diagnostic_code"])
+            self.assert_public(d.classify(ROOT, body))
+        # Never replace original supported source classification or its refusal
+        # of conflicting supported compiler locations/candidates.
+        known = compiler_body() + header + "Caused by: java.lang.NoSuchMethodError: " + private + footer
+        self.assertEqual(("classified", "kotlin_unresolved_reference"),
+                         (d.classify(ROOT, known)["status"], d.classify(ROOT, known)["diagnostic_code"]))
+        prior_ambiguity = compiler_body() + compiler_body() + header + "Caused by: java.lang.NoSuchMethodError: " + private + footer
+        value = d.classify(ROOT, prior_ambiguity)
+        self.assertEqual("unclassified", value["status"])
+        self.assertTrue(value["ambiguity"])
+        self.assertIsNone(value["location"])
+        self.assert_public(value)
+        for body in (header + ("x" * 65537), header + "\x1b[31m" + footer):
+            value = d.classify(ROOT, body)
+            self.assertEqual(("unavailable", "diagnostic_limit"), (value["status"], value["unavailable_code"]))
+            self.assert_public(value)
 
 
 if __name__ == "__main__":

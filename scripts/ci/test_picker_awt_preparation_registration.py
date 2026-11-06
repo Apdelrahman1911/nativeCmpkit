@@ -44,8 +44,8 @@ class PickerAwtPreparationRegistration(unittest.TestCase):
                           ":calf-file-picker:verifyNativeResources"), r.PREPARE_TASKS)
         pinned = {
             "scripts/ci/picker_awt_generation.py": "de9267e000a83a32c8a2c4cd69e231d8d2dd7d625b8f4b77e173852cd5e410a5",
-            "scripts/ci/picker_awt_preparation.py": "d6bc54ae49fede07719ab39f1a85cec09db6cc65a751f8f2ec834b565af01968",
-            "scripts/ci/picker_awt_prepare_failure.py": "86cab04a4d41d6c3be8b39e2bb26547e372d1b031bf5d0c8dbb64a4b119d0e7f",
+            "scripts/ci/picker_awt_preparation.py": "9ed281918cebfd0d855307cc8adc53fb3d457b9d75b5f38e361263a16ca53dee",
+            "scripts/ci/picker_awt_prepare_failure.py": "deec2374cde248d525976f4a360fde60aee5cab436ef6284438241a239d91041",
             ".github/workflows/picker-awt-preparation.yml": "236205c4b61b1f36fd86f81eb5f11b037bc3187b714f3ef2806aed8e58e78344",
         }
         for relative, expected in pinned.items():

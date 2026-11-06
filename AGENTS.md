@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated Android host material build fix ready — 2026-11-06
+
+[Host R4](docs/development/evidence/current-platform-recovery-20261101/android-host-filter-api-recovery-20261106/README.md)
+repairs two confirmed WebView KotlinNativeTest/KotlinJsTest filter receiver errors
+from42148274370 at61df. Only two build calls and fourth exact workflow push path;
+API/production/test bodies/exclusions unchanged. Independent730 ACCEPT; changed
+Actionlint0 once reused. Workflow inode0644 held; sparse build materialized0644.
+NEW2 actual host PENDING; external camera/results simulated, not device C1/A→B or
+#13/#76 closure. Original FAILED/log/artifact0 retained; ROOT/jointCookie intact.
+Fresh max2combinedhosted INCLUDINGqueued/reserved before push. Actions/all/no
+mandatorySHA/minimumread;8GiBdisk/6GiBcompiler memory and every main/history/native/
+consumer/API–ABI/dependency/legal/security/readiness/Pages/publication gate remains.
+No package/release/deployment. Lead integration/Git/dispatch/acceptance/closure.
+
 ## Isolated Android lifecycle host batch prepared — 2026-11-06
 
 [Host NEW2](docs/development/evidence/current-platform-recovery-20261101/android-camera-lifecycle-host-20261106/README.md)

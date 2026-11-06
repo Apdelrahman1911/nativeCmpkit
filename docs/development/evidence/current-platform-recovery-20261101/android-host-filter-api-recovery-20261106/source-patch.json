@@ -1,0 +1,62 @@
+{
+  "API_changed": false,
+  "ROOT_adoption": false,
+  "branch": "development/android-camera-lifecycle-20261106",
+  "cause": "KotlinNativeTest/KotlinJsTest inherit AbstractTestTask.getFilter, not JVM Test.filter(Action); use inherited TestFilter property",
+  "evidence": "actual run42148274370/a1/job127664938581 script errors173/176",
+  "helper_continuation": "separately prepared for joint730 source qualification; not adopted here",
+  "host_test_bodies_changed": 0,
+  "parent": "61dfca95e2601a3419b52722f0967008746733cb",
+  "production_kotlin_sources_changed": 0,
+  "published": false,
+  "rows": {
+    ".github/workflows/android-camera-lifecycle-host.yml": {
+      "after_bytes": 6987,
+      "after_sha256": "39984d3fea615fbc264c03aaf5bf14a5b4fc3e996ec1a7377749ad934c480b4d",
+      "before_bytes": 6947,
+      "before_sha256": "4cae72c41f6674e41037aec064da4bcf5339f9054287265736c8b9985651638f",
+      "before_stat": {
+        "st_atime_ns": 1793930805906974161,
+        "st_ctime_ns": 1793930805901974161,
+        "st_dev": 23,
+        "st_gid": 0,
+        "st_ino": 60312601,
+        "st_mode": 33188,
+        "st_mtime_ns": 1793930805901974161,
+        "st_nlink": 1,
+        "st_size": 6947,
+        "st_uid": 0
+      },
+      "fragments": [
+        {
+          "after": "      - 'calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt'\n      - 'calf-webview/build.gradle.kts'\n",
+          "before": "      - 'calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt'\n"
+        }
+      ],
+      "mode": "0o644"
+    },
+    "calf-webview/build.gradle.kts": {
+      "after_bytes": 9466,
+      "after_sha256": "8e369014dc60efb7a91d7fffe61e6d431bf573dc560ceda5d519fc32b2f19822",
+      "before_bytes": 9474,
+      "before_sha256": "01801ef71db7b6b404a663eaf3a4585745b7e9fa8decad81dcb601f2b11d66c8",
+      "fragments": [
+        {
+          "after": "    filter.excludeTestsMatching(\"com.mohamedrejeb.calf.ui.web.IosCookieWireAcceptanceTest.*\")",
+          "before": "    filter { excludeTestsMatching(\"com.mohamedrejeb.calf.ui.web.IosCookieWireAcceptanceTest.*\") }"
+        },
+        {
+          "after": "    filter.excludeTestsMatching(\"com.mohamedrejeb.calf.ui.web.BrowserCookieWireAcceptanceTest.*\")",
+          "before": "    filter { excludeTestsMatching(\"com.mohamedrejeb.calf.ui.web.BrowserCookieWireAcceptanceTest.*\") }"
+        }
+      ],
+      "mode": "0644",
+      "source": "immutable same61df Git blob; sparse file unmaterialized"
+    }
+  },
+  "same_two_exact_host_selectors": true,
+  "schema": "nativecmpkit-android-host-material-api-recovery-v1",
+  "tests_executed": 0,
+  "utc": "2026-11-06T02:32:55.025074+00:00",
+  "workflow_only_semantic_change": "one exact owning WebView build dependency path; repository/ref/event/permissions/commands/assertions unchanged"
+}

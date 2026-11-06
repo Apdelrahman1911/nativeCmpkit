@@ -170,8 +170,8 @@ tasks.withType<Test>().matching { it.name == "desktopTest" }.configureEach {
 // Exact classes only: retain normal source-set inheritance and every other
 // native/browser test. No Ignore, forced skip or process/trust activation.
 tasks.withType<KotlinNativeTest>().configureEach {
-    filter { excludeTestsMatching("com.mohamedrejeb.calf.ui.web.IosCookieWireAcceptanceTest.*") }
+    filter.excludeTestsMatching("com.mohamedrejeb.calf.ui.web.IosCookieWireAcceptanceTest.*")
 }
 tasks.withType<KotlinJsTest>().configureEach {
-    filter { excludeTestsMatching("com.mohamedrejeb.calf.ui.web.BrowserCookieWireAcceptanceTest.*") }
+    filter.excludeTestsMatching("com.mohamedrejeb.calf.ui.web.BrowserCookieWireAcceptanceTest.*")
 }

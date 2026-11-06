@@ -1,0 +1,76 @@
+{
+  "kind": "Private retained five-file passive source review",
+  "reviewer": "/root/final_ingress_freeze730",
+  "review_verbatim": "**ACCEPT — isolated Android host source-material recovery only.**\n\n- Build: exactly two `filter(Action)` → inherited `filter.excludeTestsMatching(...)` substitutions. Exclusion patterns and all other bytes unchanged; inverse reconstructs the before image.\n- Verified **9466 B**, SHA256 `8e369014dc60efb7a91d7fffe61e6d431bf573dc560ceda5d519fc32b2f19822`, matching the supplied sealed777 identity. Usage is consistent with its stated API proof.\n- Workflow: only adds `calf-webview/build.gradle.kts` as the fourth owning path. Inverse reconstructs independently reviewed R3 exactly; routing, commands, cache, XML2 and permissions unchanged.\n- R4: **6987 B**, SHA256 `39984d3fea615fbc264c03aaf5bf14a5b4fc3e996ec1a7377749ad934c480b4d`.\n\nOnly five authorized files read. No writes, additional Actionlint, tests, Git, network, builds, native execution or protected-trace access. ROOT/joint730 untouched; original Android failure remains. Lead retains changed lint/freeze/push ownership.",
+  "verdict": {
+    "verdict": "ACCEPT — isolated Android host source-material recovery only",
+    "authorized_named_files_read": 5,
+    "build": {
+      "before_bytes": 9474,
+      "before_sha256": "01801ef71db7b6b404a663eaf3a4585745b7e9fa8decad81dcb601f2b11d66c8",
+      "after_bytes": 9466,
+      "after_sha256": "8e369014dc60efb7a91d7fffe61e6d431bf573dc560ceda5d519fc32b2f19822",
+      "exact_api_usage_edits": 2,
+      "inverse_reconstructs_before": true,
+      "imported_test_task_types": [
+        "import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest",
+        "import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest"
+      ],
+      "exact_exclusion_patterns_preserved": true,
+      "matches_supplied_sealed777_material_identity": true,
+      "qualification": "Direct inherited TestFilter property use is consistent with the cached AbstractTestTask.getFilter/TestFilter.excludeTestsMatching API proof supplied by777; this review does not add compilation/runtime acceptance."
+    },
+    "workflow": {
+      "after_bytes": 6987,
+      "after_sha256": "39984d3fea615fbc264c03aaf5bf14a5b4fc3e996ec1a7377749ad934c480b4d",
+      "only_added_path": "calf-webview/build.gradle.kts",
+      "inverse_reconstructs_independently_reviewed_r3": true,
+      "branch_ref_repository_manual_guard_and_all_other_bytes_identical": true,
+      "run_bodies_selectors_task_cache_fresh_xml_permissions_identical": true
+    },
+    "reviewer_execution_counts": {
+      "writes": 0,
+      "additional_filesystem_reads": 0,
+      "actionlint": 0,
+      "tests": 0,
+      "git": 0,
+      "network": 0,
+      "compiler": 0,
+      "native": 0
+    },
+    "scope": "No ROOT/joint730/worktree adoption or protected-trace access. Original Android42148274370 failure remains; lead owns changed Actionlint and branch freeze/push."
+  },
+  "named_source_identities": [
+    {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-android-host-api-recovery-20261106/PATCH.json",
+      "bytes": 2898,
+      "sha256": "3823185c97ab801ddfd06442723527fecd47b3609f308905da3d348780ac4472",
+      "mode": "0600"
+    },
+    {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-android-host-api-recovery-20261106/build-before.kts",
+      "bytes": 9474,
+      "sha256": "01801ef71db7b6b404a663eaf3a4585745b7e9fa8decad81dcb601f2b11d66c8",
+      "mode": "0600"
+    },
+    {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-android-host-api-recovery-20261106/build-after.kts",
+      "bytes": 9466,
+      "sha256": "8e369014dc60efb7a91d7fffe61e6d431bf573dc560ceda5d519fc32b2f19822",
+      "mode": "0600"
+    },
+    {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-android-host-api-recovery-20261106/workflow-R3-before.yml",
+      "bytes": 6947,
+      "sha256": "4cae72c41f6674e41037aec064da4bcf5339f9054287265736c8b9985651638f",
+      "mode": "0600"
+    },
+    {
+      "path": "/root/nativecmpkit-source-proposals-20261105/lead-android-host-api-recovery-20261106/workflow-R4-after.yml",
+      "bytes": 6987,
+      "sha256": "39984d3fea615fbc264c03aaf5bf14a5b4fc3e996ec1a7377749ad934c480b4d",
+      "mode": "0600"
+    }
+  ],
+  "persistence_basis": "Completed retained review and identities reused exactly. No source rereads or execution replay. This receipt is the only new write."
+}

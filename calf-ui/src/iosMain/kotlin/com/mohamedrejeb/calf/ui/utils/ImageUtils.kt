@@ -86,8 +86,8 @@ internal fun ImageBitmap.toUIImage(scale: Double = 1.0): UIImage? = toUIImage(sc
  * borrows Kotlin storage: the bitmap context allocates its own data (`data = null`), and the
  * snapshot is created before the context is released.
  *
- * Every successfully acquired color space, context and image is released exactly once on success
- * and on every later null/throw path, in reverse acquisition order. [bridge] exists so native
+ * Every successfully acquired color space, context and CGImage snapshot is released exactly once on
+ * success and on every later null/throw path, in reverse acquisition order. [bridge] exists so native
  * tests can inject a failure at one owning step while all other steps use actual CoreGraphics.
  */
 @OptIn(ExperimentalForeignApi::class)
@@ -124,8 +124,15 @@ internal fun ImageBitmap.toUIImage(scale: Double, bridge: BitmapImageBridge): UI
 private val systemBitmapImageBridge = BitmapImageBridge()
 
 /**
- * The owning CoreGraphics/UIImage boundary. Each `create*` function returns a +1 object that the
- * caller owns; each matching `release*` gives that ownership back exactly once.
+ * The owning CoreGraphics/UIImage boundary.
+ *
+ * [createColorSpace], [createContext] and [createSnapshot] wrap CoreGraphics `Create` functions and
+ * return +1 objects that the caller owns; each successful acquisition is handed back exactly once
+ * through its matching `release*` function.
+ *
+ * [createImage] is different: it returns a Kotlin/Objective-C managed [UIImage]. Kotlin/Native owns
+ * that UIImage through the Objective-C interop, so this bridge never releases the UIImage manually,
+ * and [releaseImage] only releases the intermediate CoreGraphics snapshot passed to it.
  */
 @OptIn(ExperimentalForeignApi::class)
 internal open class BitmapImageBridge {

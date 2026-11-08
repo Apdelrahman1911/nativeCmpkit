@@ -101,30 +101,55 @@ class ImageBitmapConversionOwnershipTest {
 
     @Test
     fun eachAllocationFailureReleasesAllAndOnlyEarlierObjects() {
-        val expectedEvents = mapOf(
-            Failure.ColorSpace to listOf("createColorSpace"),
-            Failure.Context to listOf("createColorSpace", "createContext", "releaseColorSpace"),
-            Failure.Data to listOf(
-                "createColorSpace", "createContext", "contextData", "releaseContext", "releaseColorSpace",
+        val expectedOutcomes = mapOf(
+            Failure.ColorSpace to FailureExpectation(
+                events = listOf("createColorSpace"),
+                colorSpacesCreated = 0,
+                contextsCreated = 0,
+                imagesCreated = 0,
             ),
-            Failure.Snapshot to listOf(
-                "createColorSpace", "createContext", "contextData", "createSnapshot",
-                "releaseContext", "releaseColorSpace",
+            Failure.Context to FailureExpectation(
+                events = listOf("createColorSpace", "createContext", "releaseColorSpace"),
+                colorSpacesCreated = 1,
+                contextsCreated = 0,
+                imagesCreated = 0,
             ),
-            Failure.Image to listOf(
-                "createColorSpace", "createContext", "contextData", "createSnapshot", "createImage",
-                "releaseImage", "releaseContext", "releaseColorSpace",
+            Failure.Data to FailureExpectation(
+                events = listOf(
+                    "createColorSpace", "createContext", "contextData", "releaseContext", "releaseColorSpace",
+                ),
+                colorSpacesCreated = 1,
+                contextsCreated = 1,
+                imagesCreated = 0,
+            ),
+            Failure.Snapshot to FailureExpectation(
+                events = listOf(
+                    "createColorSpace", "createContext", "contextData", "createSnapshot",
+                    "releaseContext", "releaseColorSpace",
+                ),
+                colorSpacesCreated = 1,
+                contextsCreated = 1,
+                imagesCreated = 0,
+            ),
+            Failure.Image to FailureExpectation(
+                events = listOf(
+                    "createColorSpace", "createContext", "contextData", "createSnapshot", "createImage",
+                    "releaseImage", "releaseContext", "releaseColorSpace",
+                ),
+                colorSpacesCreated = 1,
+                contextsCreated = 1,
+                imagesCreated = 1,
             ),
         )
-        for ((failure, events) in expectedEvents) {
+        for ((failure, expected) in expectedOutcomes) {
             val bridge = CountingBridge(failure)
             assertNull(solidBitmap(Color.Cyan, width = 17, height = 9).toUIImage(1.0, bridge), "failure=$failure")
             bridge.assertBalanced()
-            assertEquals(events, bridge.events, "failure=$failure")
-            assertEquals(1, bridge.colorSpaceAttempts)
-            assertEquals(if (failure == Failure.ColorSpace) 0 else 1, bridge.colorSpacesCreated)
-            assertEquals(if (failure.ordinal >= Failure.Data.ordinal) 1 else 0, bridge.contextsCreated)
-            assertEquals(if (failure.ordinal >= Failure.Snapshot.ordinal) 1 else 0, bridge.imagesCreated)
+            assertEquals(expected.events, bridge.events, "failure=$failure")
+            assertEquals(1, bridge.colorSpaceAttempts, "failure=$failure")
+            assertEquals(expected.colorSpacesCreated, bridge.colorSpacesCreated, "failure=$failure")
+            assertEquals(expected.contextsCreated, bridge.contextsCreated, "failure=$failure")
+            assertEquals(expected.imagesCreated, bridge.imagesCreated, "failure=$failure")
         }
     }
 
@@ -250,6 +275,19 @@ class ImageBitmapConversionOwnershipTest {
         SnapshotException,
         ImageException,
     }
+
+    /**
+     * Exact calls and owning-object counts for one injected null allocation failure.
+     *
+     * The counts are written per case instead of being derived from the [Failure] ordinal, so adding,
+     * removing or reordering enum values cannot silently change an expectation.
+     */
+    private data class FailureExpectation(
+        val events: List<String>,
+        val colorSpacesCreated: Int,
+        val contextsCreated: Int,
+        val imagesCreated: Int,
+    )
 
     /**
      * Every successful allocation delegates to the actual production bridge. Exactly one owning

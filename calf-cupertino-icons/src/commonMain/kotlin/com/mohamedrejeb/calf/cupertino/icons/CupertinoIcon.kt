@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -37,7 +38,9 @@ import org.jetbrains.compose.resources.Font
  * @param modifier Modifier to be applied to the icon.
  * @param size The size of the icon. Default is 24.dp.
  * @param tint The color to tint the icon. Default is [LocalContentColor].
- * @param contentDescription Accessibility description for the icon.
+ * @param contentDescription Accessibility description for the icon; `null` makes it decorative.
+ * The font glyph is excluded from text semantics. A non-null description labels the icon as an
+ * image while caller semantics and enclosing button actions remain on their own nodes.
  */
 @Composable
 fun CupertinoIcon(
@@ -69,6 +72,9 @@ fun CupertinoIcon(
     ) {
         Text(
             text = iconChar,
+            // Clear only the drawing Text: the outer icon/caller and parent button keep
+            // their own semantics. A private-use font character is never a spoken label.
+            modifier = Modifier.clearAndSetSemantics { },
             style = TextStyle(
                 fontFamily = fontFamily,
                 fontSize = fontSize,

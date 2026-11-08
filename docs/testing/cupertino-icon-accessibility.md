@@ -6,7 +6,9 @@ The font-backed glyph is visual content. `CupertinoIcon` clears semantics only o
 
 `CupertinoIconSemanticsTest` has four Compose UI tests at font scales 0.85, 1.0 and 2.0. They query merged and unmerged trees for private-use glyph text; check decorative and labeled icons; verify exactly one icon description; and click text-plus-icon and icon-only buttons while checking their actions and roles. The icon’s caller-supplied test tag must remain available in the unmerged tree.
 
-Intended resource-admitted task:
+The scale loop repeats semantics assertions; the icon converts its fixed dp size to sp, so this does not establish enlarged-glyph layout or clipping. There are four JUnit methods, each with three internal scale passes. The glyph-text matcher covers both the private-use range and this catalogue’s additional U+F900–U+F921 glyphs.
+
+Intended resource-admitted task (8 GiB available disk and 6 GiB MemAvailable, serial compiler execution). On a headless Linux host, prefix the Gradle command with `xvfb-run -a` when required:
 
 ```sh
 ./gradlew :calf-cupertino-icons:desktopTest --tests '*CupertinoIconSemanticsTest'

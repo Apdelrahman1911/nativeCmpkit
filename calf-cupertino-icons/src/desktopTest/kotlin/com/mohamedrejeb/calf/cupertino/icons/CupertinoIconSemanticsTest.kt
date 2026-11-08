@@ -75,6 +75,7 @@ class CupertinoIconSemanticsTest {
                 }
             },
         ) {
+            onNodeWithTag("button", useUnmergedTree = true).assertHasClickAction()
             onNodeWithTag("button")
                 .assertHasClickAction()
                 .assertTextEquals("Favorite")
@@ -102,6 +103,7 @@ class CupertinoIconSemanticsTest {
                 }
             },
         ) {
+            onNodeWithTag("button", useUnmergedTree = true).assertHasClickAction()
             onNodeWithTag("button")
                 .assertHasClickAction()
                 .assertContentDescriptionEquals("Favorite")
@@ -141,7 +143,7 @@ private fun ComposeUiTest.assertNoPrivateUseText() {
     val privateUseText = SemanticsMatcher("private-use font glyph text") { node ->
         node.config.contains(SemanticsProperties.Text) &&
             node.config[SemanticsProperties.Text].any { text ->
-                text.text.any { it in '\uE000'..'\uF8FF' }
+                text.text.any { it in '\uE000'..'\uF8FF' || it in '\uF900'..'\uF921' }
             }
     }
     for (unmerged in listOf(false, true)) {

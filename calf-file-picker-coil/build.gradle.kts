@@ -9,4 +9,9 @@ kotlin {
         api(projects.calfIo)
         implementation(libs.coil)
     }
+
+    sourceSets.desktopTest.dependencies {
+        implementation(libs.kotlin.test)
+        implementation(libs.kotlinx.coroutines.core)
+    }
 }

@@ -6,7 +6,12 @@ import coil3.fetch.SourceFetchResult
 import coil3.request.Options
 import com.mohamedrejeb.calf.io.KmpFile
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import kotlinx.io.Buffer as KioBuffer
 import kotlinx.io.IOException
 import kotlinx.io.RawSource
@@ -122,15 +127,74 @@ class KmpFileFetcherStreamingTest {
     }
 
     @Test
-    fun `cancellation after opening closes the source`() = runBlocking {
+    fun `wrap factory cancellation closes the source and preserves the cancellation`() = runBlocking {
         val rawSource = ByteArrayRawSource(content)
-        val cancellation = CancellationException("cancelled")
+        val cancellation = CancellationException("wrap cancelled")
 
         val actual = assertFailsWith<CancellationException> {
             fetcher(rawSource, wrap = { throw cancellation }).fetch()
         }
 
         assertSame(cancellation, actual)
+        assertEquals(1, rawSource.closeCalls)
+    }
+
+    @Test
+    fun `job cancellation before open does not open or close a source`() = runBlocking {
+        val rawSource = ByteArrayRawSource(content)
+        var opens = 0
+        var failure: Throwable? = null
+        val cancelledParent = Job(coroutineContext[Job]).apply { cancel() }
+
+        launch(cancelledParent, start = CoroutineStart.UNDISPATCHED) {
+            try {
+                fetcher(rawSource, onOpen = { opens++ }).fetch()
+            } catch (throwable: Throwable) {
+                failure = throwable
+            }
+        }
+
+        assertTrue(failure is CancellationException, "expected cancellation, got $failure")
+        assertEquals(0, opens)
+        assertEquals(0, rawSource.readCalls)
+        assertEquals(0, rawSource.closeCalls)
+    }
+
+    @Test
+    fun `job cancellation after open closes the raw source once without wrapping or reading`() = runBlocking {
+        val rawSource = ByteArrayRawSource(content)
+        val outcome = CompletableDeferred<Throwable?>()
+        var opens = 0
+        var wraps = 0
+        var fetchJob: Job? = null
+
+        fetchJob = launch(start = CoroutineStart.LAZY) {
+            try {
+                fetcher(
+                    rawSource,
+                    onOpen = {
+                        opens++
+                        checkNotNull(fetchJob).cancel()
+                    },
+                    wrap = {
+                        wraps++
+                        ImageSource(it, FileSystem.SYSTEM)
+                    },
+                ).fetch()
+                outcome.complete(null)
+            } catch (failure: Throwable) {
+                outcome.complete(failure)
+            }
+        }
+        val startedJob = checkNotNull(fetchJob)
+        startedJob.start()
+
+        val failure = withTimeout(5_000L) { outcome.await() }
+        assertTrue(failure is CancellationException, "expected cancellation, got $failure")
+        assertTrue(startedJob.isCancelled)
+        assertEquals(1, opens)
+        assertEquals(0, wraps)
+        assertEquals(0, rawSource.readCalls)
         assertEquals(1, rawSource.closeCalls)
     }
 
@@ -211,7 +275,7 @@ class KmpFileFetcherStreamingTest {
     }
 
     @Test
-    fun `mid read failure propagates and leaves closing to the caller`() {
+    fun `read failure before any byte propagates and leaves closing to the caller`() {
         val rawSource = ByteArrayRawSource(content, failAfter = 0)
         val source = KmpFileOkioSource(rawSource)
 
@@ -220,6 +284,48 @@ class KmpFileFetcherStreamingTest {
         assertEquals(0, rawSource.closeCalls)
 
         source.close()
+        assertEquals(1, rawSource.closeCalls)
+    }
+
+    @Test
+    fun `initial partial read is delivered before a mid read failure propagates`() {
+        val partialSize = 4 * 1024
+        val rawSource = ByteArrayRawSource(content, failAfter = partialSize)
+        val source = KmpFileOkioSource(rawSource)
+        val sink = OkioBuffer()
+        try {
+            assertEquals(partialSize.toLong(), source.read(sink, partialSize.toLong()))
+            assertContentEquals(content.copyOfRange(0, partialSize), sink.readByteArray())
+
+            val failure = assertFailsWith<IOException> {
+                source.read(OkioBuffer(), 100_000L)
+            }
+            assertEquals("synthetic read failure", failure.message)
+            assertEquals(0, rawSource.closeCalls)
+        } finally {
+            source.close()
+        }
+        assertEquals(1, rawSource.closeCalls)
+    }
+
+    @Test
+    fun `raw read failure after appending bytes preserves them for the next read`() {
+        val rawSource = PartialAppendThenThrowRawSource()
+        val source = KmpFileOkioSource(rawSource)
+        val sink = OkioBuffer()
+        try {
+            assertEquals(3L, source.read(sink, 100_000L))
+
+            val failure = assertFailsWith<IOException> { source.read(sink, 100_000L) }
+            assertEquals("synthetic append failure", failure.message)
+
+            assertEquals(2L, source.read(sink, 100_000L))
+            assertEquals(-1L, source.read(sink, 100_000L))
+            assertContentEquals(byteArrayOf(1, 2, 3, 4, 5), sink.readByteArray())
+            assertEquals(3, rawSource.readCalls)
+        } finally {
+            source.close()
+        }
         assertEquals(1, rawSource.closeCalls)
     }
 
@@ -289,5 +395,35 @@ private class ThrowingCloseRawSource : RawSource {
     override fun close() {
         closeCalls++
         throw IOException("close failed")
+    }
+}
+
+private class PartialAppendThenThrowRawSource : RawSource {
+
+    var readCalls: Int = 0
+        private set
+
+    var closeCalls: Int = 0
+        private set
+
+    private var step = 0
+
+    override fun readAtMostTo(sink: KioBuffer, byteCount: Long): Long {
+        readCalls++
+        return when (step++) {
+            0 -> {
+                sink.write(byteArrayOf(1, 2, 3), 0, 3)
+                3L
+            }
+            1 -> {
+                sink.write(byteArrayOf(4, 5), 0, 2)
+                throw IOException("synthetic append failure")
+            }
+            else -> -1L
+        }
+    }
+
+    override fun close() {
+        closeCalls++
     }
 }

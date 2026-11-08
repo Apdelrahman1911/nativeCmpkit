@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 /**
  * A date range picker that adapts to the platform it is running on.
  *
- * On Material platforms it is the Material3 `DateRangePicker`. On iOS 16+ it is a native
+ * On Material platforms it is the Material3 `DateRangePicker`. On iOS 16.2+ it is a native
  * `UICalendarView`: the first tap picks the start, a tap on or after it picks the end, a tap
- * before it moves the start, and any tap on a completed range starts a new one. Below iOS 16
+ * before it moves the start, and any tap on a completed range starts a new one. Below iOS 16.2
  * the Material3 picker is shown.
  *
  * @param state the state that holds the selected range and the selectable dates.

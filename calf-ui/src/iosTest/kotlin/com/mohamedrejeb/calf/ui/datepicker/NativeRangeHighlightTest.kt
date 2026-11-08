@@ -57,7 +57,8 @@ class NativeRangeHighlightTest {
             )
             fixture.drain()
             assertEquals(listOf(day), fixture.selectedDays())
-            assertEquals(listOf(DateRangeSelection(day, day)), fixture.ownerSelections)
+            // A tap on a completed range starts a new range, even when UIKit reports deselection.
+            assertEquals(listOf(DateRangeSelection(day, null)), fixture.ownerSelections)
         }
     }
 

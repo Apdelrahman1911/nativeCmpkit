@@ -1,8 +1,9 @@
 # Bounded iOS range highlighting
 
-Issue #122 / UI-007, source preparation dated 2026-11-08. No compiler, link,
-common-test, UIKit-test, simulator, device, allocation or timing result exists
-for this patch. The original issue remains open.
+Issue #122 / UI-007, source preparation dated 2026-11-08. The first hosted
+macOS run compiled and executed the tests, with one controlled UIKit assertion
+failure described below. The correction has not been executed. Physical-device,
+real scrolling, allocation and timing acceptance remain absent; the issue stays open.
 
 ## Runtime changes prepared
 
@@ -72,7 +73,19 @@ They also coalesce endpoint/rule/bounds replacement before one drain and assert
 the complete selection values delivered to the owner for selection/deselection.
 They do not present a calendar,
 produce a real swipe, exercise Compose replacement or establish callback timing
-on any real operating system. All twenty-two methods remain unexecuted.
+for real presentation. The first macOS run executed all sixteen common methods
+on desktop and iOS, plus all six controlled UIKit methods. Five UIKit methods
+passed; the deselection owner-value assertion failed. The original range policy
+starts a new unfinished range on any tap of a completed range; the assertion now
+expects `DateRangeSelection(day, null)` while retaining the restored native day
+and exactly-one owner callback checks. This correction remains unexecuted.
+
+Run `42487150063`, attempt 1, head `b5e7307304dce273425fbe80b838408a6bd3b3c6`,
+macOS job `128751398095` failed. Artifact `13620796472` has SHA-256
+`02d0ff699998fec4435ca024000b0da4b40cd03b8d9657a54dc4cfdcc4167a79`:
+26 XML files, 200 testcase executions, 199 passed and one failed, none skipped
+or errored. These counts overlap common methods across targets. The original
+failure and artifact are retained; no real presentation acceptance follows.
 
 ## Native qualification: twelve scenario groups
 
@@ -102,7 +115,7 @@ The helper's operation bound cannot substitute for measured UIKit performance.
 
 ## Remaining acceptance
 
-Compile/link the production and test source sets, execute and retain the exact
+Verify the corrected assertion in a changed hosted run and retain the exact
 16 common / 6 UIKit testcase identities, then complete the native matrix. Local
 compiler admission requires 8 GiB available disk and 6 GiB available memory; no
 local compiler/test execution was admitted during this source preparation.

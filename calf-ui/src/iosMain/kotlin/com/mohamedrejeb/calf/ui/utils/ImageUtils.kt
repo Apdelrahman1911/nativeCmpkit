@@ -1,31 +1,39 @@
 package com.mohamedrejeb.calf.ui.utils
 
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.toPixelMap
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asSkiaPath
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.VectorGroup
 import androidx.compose.ui.graphics.vector.VectorNode
 import androidx.compose.ui.graphics.vector.VectorPath
 import androidx.compose.ui.graphics.vector.toPath
+import androidx.compose.ui.unit.Dp
 import com.mohamedrejeb.calf.ui.uikit.UIKitImage
-import platform.UIKit.UIImage
+import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.convert
-import kotlinx.cinterop.refTo
+import kotlinx.cinterop.usePinned
 import org.jetbrains.skia.Color
 import org.jetbrains.skia.Surface
 import platform.CoreGraphics.CGBitmapContextCreate
 import platform.CoreGraphics.CGBitmapContextCreateImage
-import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
+import platform.CoreGraphics.CGBitmapContextGetData
+import platform.CoreGraphics.CGColorSpaceCreateWithName
+import platform.CoreGraphics.CGColorSpaceRef
 import platform.CoreGraphics.CGColorSpaceRelease
+import platform.CoreGraphics.CGContextRef
 import platform.CoreGraphics.CGContextRelease
 import platform.CoreGraphics.CGImageAlphaInfo
+import platform.CoreGraphics.CGImageRef
 import platform.CoreGraphics.CGImageRelease
+import platform.CoreGraphics.kCGBitmapByteOrder32Big
+import platform.CoreGraphics.kCGColorSpaceSRGB
+import platform.UIKit.UIImage
 import platform.UIKit.UIImageOrientation
+import platform.posix.memcpy
 
 /**
  * Converts a [UIKitImage] to a native iOS [UIImage].
@@ -68,36 +76,83 @@ private fun ImageVector.toImageBitmap(width: Int, height: Int): ImageBitmap {
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun ImageBitmap.toUIImage(scale: Double = 1.0): UIImage? {
-    val pixelMap = toPixelMap()
-    val width = pixelMap.width
-    val height = pixelMap.height
+internal fun ImageBitmap.toUIImage(scale: Double = 1.0): UIImage? = toUIImage(scale, systemBitmapImageBridge)
 
-    val colorSpace = CGColorSpaceCreateDeviceRGB()
-    val data = pixelMap.buffer.toUIntArray()
+/**
+ * Converts the bitmap into a [UIImage] with a new CoreGraphics-owned pixel buffer.
+ *
+ * [ImageBitmap.readPixels] exposes non-premultiplied sRGB ARGB integers; CoreGraphics receives
+ * explicit premultiplied RGBA bytes copied while that Kotlin array is pinned. No native object
+ * borrows Kotlin storage: the bitmap context allocates its own data (`data = null`), and the
+ * snapshot is created before the context is released.
+ *
+ * Every successfully acquired color space, context and image is released exactly once on success
+ * and on every later null/throw path, in reverse acquisition order. [bridge] exists so native
+ * tests can inject a failure at one owning step while all other steps use actual CoreGraphics.
+ */
+@OptIn(ExperimentalForeignApi::class)
+internal fun ImageBitmap.toUIImage(scale: Double, bridge: BitmapImageBridge): UIImage? {
+    if (!scale.isFinite() || scale <= 0.0 || !validBitmapRasterSize(width, height)) return null
 
-    val rowBytes = 4 * width
+    val argb = IntArray(width * height)
+    readPixels(argb)
+    val rgba = premultipliedRgbaBytes(argb)
 
-    val context = CGBitmapContextCreate(
-        data = data.refTo(0),
-        width = width.convert(),
-        height = height.convert(),
-        bitsPerComponent = 8.convert(),
-        bytesPerRow = rowBytes.convert(),
-        space = colorSpace,
-        bitmapInfo = CGImageAlphaInfo.kCGImageAlphaPremultipliedLast.value
-    )
+    val colorSpace = bridge.createColorSpace() ?: return null
+    try {
+        val context = bridge.createContext(width, height, colorSpace) ?: return null
+        try {
+            val destination = bridge.contextData(context) ?: return null
+            rgba.usePinned { pinned ->
+                memcpy(destination, pinned.addressOf(0), rgba.size.convert())
+            }
+            val cgImage = bridge.createSnapshot(context) ?: return null
+            try {
+                return bridge.createImage(cgImage, scale)
+            } finally {
+                bridge.releaseImage(cgImage)
+            }
+        } finally {
+            bridge.releaseContext(context)
+        }
+    } finally {
+        bridge.releaseColorSpace(colorSpace)
+    }
+}
 
-    val cgImage = CGBitmapContextCreateImage(context) ?: return null
+@OptIn(ExperimentalForeignApi::class)
+private val systemBitmapImageBridge = BitmapImageBridge()
+
+/**
+ * The owning CoreGraphics/UIImage boundary. Each `create*` function returns a +1 object that the
+ * caller owns; each matching `release*` gives that ownership back exactly once.
+ */
+@OptIn(ExperimentalForeignApi::class)
+internal open class BitmapImageBridge {
+    open fun createColorSpace(): CGColorSpaceRef? = CGColorSpaceCreateWithName(kCGColorSpaceSRGB)
+
+    open fun createContext(width: Int, height: Int, space: CGColorSpaceRef): CGContextRef? =
+        CGBitmapContextCreate(
+            data = null,
+            width = width.convert(),
+            height = height.convert(),
+            bitsPerComponent = 8.convert(),
+            bytesPerRow = (width * 4).convert(),
+            space = space,
+            bitmapInfo = CGImageAlphaInfo.kCGImageAlphaPremultipliedLast.value or kCGBitmapByteOrder32Big,
+        )
+
+    open fun contextData(context: CGContextRef): COpaquePointer? = CGBitmapContextGetData(context)
+
+    open fun createSnapshot(context: CGContextRef): CGImageRef? = CGBitmapContextCreateImage(context)
+
     @Suppress("DEPRECATION")
-    val orientation = UIImageOrientation.UIImageOrientationUp
-    val image = UIImage(cGImage = cgImage, scale = scale, orientation = orientation)
+    open fun createImage(image: CGImageRef, scale: Double): UIImage? =
+        UIImage(cGImage = image, scale = scale, orientation = UIImageOrientation.UIImageOrientationUp)
 
-    CGContextRelease(context)
-    CGColorSpaceRelease(colorSpace)
-    CGImageRelease(cgImage)
-
-    return image
+    open fun releaseImage(image: CGImageRef) = CGImageRelease(image)
+    open fun releaseContext(context: CGContextRef) = CGContextRelease(context)
+    open fun releaseColorSpace(colorSpace: CGColorSpaceRef) = CGColorSpaceRelease(colorSpace)
 }
 
 private fun ImageVector.toPath(): Path = Path().apply {

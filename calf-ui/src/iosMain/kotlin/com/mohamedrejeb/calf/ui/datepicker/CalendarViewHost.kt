@@ -30,7 +30,9 @@ private const val MAX_SUPPORTED_YEAR = 9999L
 private const val MAX_MONTH = 12L
 
 /** A `UICalendarView` (iOS 16+) configured for the device calendar, shared by the calendar backends. */
-internal class CalendarViewHost {
+internal class CalendarViewHost(
+    private val onVisibleMonthChanged: (() -> Unit)? = null,
+) {
 
     val calendarView: UICalendarView = UICalendarView().apply {
         calendar = NSCalendar.currentCalendar
@@ -45,6 +47,14 @@ internal class CalendarViewHost {
             calendarView: UICalendarView,
             decorationForDateComponents: NSDateComponents,
         ): UICalendarViewDecoration? = null
+
+        @ObjCSignatureOverride
+        override fun calendarView(
+            calendarView: UICalendarView,
+            didChangeVisibleDateComponentsFrom: NSDateComponents,
+        ) {
+            onVisibleMonthChanged?.invoke()
+        }
     }
 
     init {
@@ -74,6 +84,10 @@ internal class CalendarViewHost {
         calendarView.layoutIfNeeded()
     }
 
+    fun dispose() {
+        calendarView.delegate = null
+    }
+
     fun applyColors(containerColor: Color, dayContentColor: Color, selectedDayContainerColor: Color) {
         calendarView.applyTheme(dark = !isDark(dayContentColor))
         calendarView.tintColor = selectedDayContainerColor.toUIColor()
@@ -85,7 +99,7 @@ internal class CalendarViewHost {
     }
 
     /** Every day of the visible month and its two neighbours, which may be partly on screen. */
-    private fun daysAroundVisibleMonth(): List<NSDateComponents> {
+    fun daysAroundVisibleMonth(): List<NSDateComponents> {
         val visible = calendarView.visibleDateComponents
         val year = visible.year
         val month = visible.month
@@ -96,6 +110,7 @@ internal class CalendarViewHost {
         val end = firstOfMonth.plus(2, DateTimeUnit.MONTH)
         return generateSequence(start) { it.plus(1, DateTimeUnit.DAY) }
             .takeWhile { it < end }
+            .filter { it.year in 1..MAX_SUPPORTED_YEAR.toInt() }
             .map { date ->
                 NSDateComponents().apply {
                     this.year = date.year.toLong()

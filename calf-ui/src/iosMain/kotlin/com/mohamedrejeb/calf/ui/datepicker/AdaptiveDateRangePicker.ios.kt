@@ -9,6 +9,7 @@ import androidx.compose.material3.DatePickerFormatter
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
@@ -19,8 +20,8 @@ import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode
 import androidx.compose.ui.viewinterop.UIKitInteropProperties
 import androidx.compose.ui.viewinterop.UIKitView
 import com.mohamedrejeb.calf.ui.utils.applyLayoutDirection
-import com.mohamedrejeb.calf.ui.utils.isIOSVersionAtLeast
 import com.mohamedrejeb.calf.ui.utils.surfaceColorAtElevation
+import platform.UIKit.UIDevice
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -33,7 +34,7 @@ actual fun AdaptiveDateRangePicker(
     showModeToggle: Boolean,
     colors: DatePickerColors,
 ) {
-    if (!isIOSVersionAtLeast(FIRST_IOS_WITH_CALENDAR_VIEW)) {
+    if (!supportsNativeRangeHighlighting(UIDevice.currentDevice.systemVersion)) {
         MaterialDateRangePicker(
             state = state,
             modifier = modifier,
@@ -61,6 +62,9 @@ actual fun AdaptiveDateRangePicker(
             },
         )
     }
+    DisposableEffect(backend) {
+        onDispose { backend.dispose() }
+    }
     val aspectRatio = remember(backend) {
         backend.aspectRatio.takeIf { it > 0f } ?: inlineDatePickerAspectRatio()
     }
@@ -72,16 +76,16 @@ actual fun AdaptiveDateRangePicker(
         elevation = absoluteElevation,
     )
 
-    LaunchedEffect(layoutDirection) {
+    LaunchedEffect(backend, layoutDirection) {
         backend.view.applyLayoutDirection(layoutDirection)
     }
 
-    LaunchedEffect(state.selectableDates) {
+    LaunchedEffect(backend, state.selectableDates) {
         val bounds = state.dateBounds
         backend.applyDateBounds(bounds.minDateMillis, bounds.maxDateMillis)
     }
 
-    LaunchedEffect(state.selectedStartDateMillis, state.selectedEndDateMillis) {
+    LaunchedEffect(backend, state.selectedStartDateMillis, state.selectedEndDateMillis) {
         backend.setSelectedRange(
             DateRangeSelection(
                 start = state.selectedStartDateMillis,
@@ -90,7 +94,7 @@ actual fun AdaptiveDateRangePicker(
         )
     }
 
-    LaunchedEffect(colors, containerColorAtElevation) {
+    LaunchedEffect(backend, colors, containerColorAtElevation) {
         backend.applyColors(
             containerColor = containerColorAtElevation,
             dayContentColor = colors.dayContentColor,
@@ -102,6 +106,7 @@ actual fun AdaptiveDateRangePicker(
         key(backend) {
             UIKitView(
                 factory = { backend.view },
+                onRelease = { backend.dispose() },
                 properties = UIKitInteropProperties(
                     interactionMode = UIKitInteropInteractionMode.NonCooperative,
                 ),

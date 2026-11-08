@@ -28,6 +28,11 @@ jobs:
         run: python3 scripts/migration/verify_migration.py
       - name: Verify audit inventory and finding integrity
         run: python3 scripts/audit/validate_audit.py
+      - name: Native artifact tooling tests (synthetic; no native build)
+        run: >-
+          python3 scripts/audit/run_bounded_build.py
+          --cwd . --log build/native-tooling-tests.log --timeout 120 --reserve-mib 1024 --
+          python3 -m unittest discover -s scripts/native -p 'test_artifacts.py'
 
   build-and-test:
     strategy:

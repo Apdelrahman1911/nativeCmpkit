@@ -1,3 +1,4 @@
+// Modified for NativeCmpKit (2026-11-08): document the desktop custom MIME filter contract.
 package com.mohamedrejeb.calf.picker
 
 import androidx.compose.runtime.Composable
@@ -41,7 +42,12 @@ sealed class FilePickerFileType(vararg val value: String) {
     data object All: FilePickerFileType(AllContentType)
 
     /**
-     * Custom file type
+     * Custom MIME types used as file-dialog filter hints.
+     *
+     * On Desktop, every requested MIME type or wildcard must map to a registered extension.
+     * An unsupported type, including one in a mixed list, throws [IllegalArgumentException]
+     * before opening the dialog. Use [Extension] for formats absent from the MIME table.
+     * Filters do not validate file content or guarantee that a decoder supports the format.
      *
      * @param contentType List of content types
      */

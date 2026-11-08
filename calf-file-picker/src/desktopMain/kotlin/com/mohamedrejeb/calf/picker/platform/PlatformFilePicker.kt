@@ -1,3 +1,4 @@
+// Modified for NativeCmpKit (2026-11-08): reject unsupported desktop MIME filters explicitly.
 package com.mohamedrejeb.calf.picker.platform
 
 import androidx.compose.ui.awt.ComposeWindow
@@ -125,9 +126,18 @@ internal object PlatformFilePicker {
 
 /**
  * Resolves [FilePickerFileType] to a list of file extensions for the native dialog filter.
- * Returns null when no filter should be applied (All, Folder).
+ *
+ * Returns null only for [FilePickerFileType.All] and [FilePickerFileType.Folder], where no
+ * filter should be applied. MIME-based filters throw [IllegalArgumentException] when any
+ * requested MIME type or wildcard pattern has no registered extension, so an unsupported
+ * filter never silently becomes an unfiltered dialog. A mixed list of known and unknown MIME
+ * types fails as a whole instead of dropping the unknown entry.
+ *
+ * [FilePickerFileType.Extension] bypasses the MIME table and is returned unchanged.
+ *
+ * These extensions are native-dialog UI hints only; callers must still validate file content.
  */
-private fun resolveExtensions(type: FilePickerFileType): List<String>? {
+internal fun resolveExtensions(type: FilePickerFileType): List<String>? {
     return when (type) {
         is FilePickerFileType.All,
         is FilePickerFileType.Folder -> null
@@ -136,11 +146,22 @@ private fun resolveExtensions(type: FilePickerFileType): List<String>? {
 
         else -> {
             type.value
+                .flatMap { it.split(',') }
+                .map(String::trim)
                 .flatMap { mimeType ->
                     MimeTypes.findExtensionsByMimeTypes(mimeType, mimeType.contains('*'))
+                        .ifEmpty {
+                            throw IllegalArgumentException(
+                                "Unknown MIME type '$mimeType'; use FilePickerFileType.Extension for explicit extensions",
+                            )
+                        }
                 }
                 .distinct()
-                .ifEmpty { null }
+                .ifEmpty {
+                    throw IllegalArgumentException(
+                        "No extensions registered for ${type.value.toList()}; use FilePickerFileType.Extension",
+                    )
+                }
         }
     }
 }

@@ -142,12 +142,13 @@ not required to maintain the repository.
    and [identifier probe](evidence/github-actions/sdk-identifier-probe-40110188721.json).
    Set SDK discovery through documented SDK environment/local.properties; never
    commit `local.properties` or licenses/credentials from the machine.
-3. Install Rust and ensure `cargo`/`rustc` are on PATH. Future release workflows must
-   use a pinned toolchain and committed locks; the baseline manifests are not locked.
+3. Install Rust and ensure `cargo`/`rustc` are on PATH. `rust-toolchain.toml` pins
+   Rust1.98.0. Release workflows must use the pinned toolchain and committed locks;
+   the baseline lockfiles are not yet committed.
 4. Linux browser/desktop tests need Chrome and may need Xvfb/system UI libraries.
    Picker compilation requires `wayland-client.pc` (provided by `libwayland-dev`);
    the CI `libgtk-3-dev` installation brings it transitively on the reviewed Ubuntu
-   runner. A working Cargo PATH is also required by Gradle's native resource tasks.
+   runner. A working rustup (with its Cargo) PATH is also required by Gradle's native resource tasks.
    rfd's default Linux backend is XDG portal; actual dialog tests require an
    appropriate desktop/session bus, not merely a successful compiler invocation.
 5. Apple work needs a supported macOS/Xcode/SDK/simulator combination. Windows JNI
@@ -253,12 +254,53 @@ prove the library's older API paths are safe. Intel simulator support is not dec
 (cd calf-share/native && cargo test)
 ```
 
-Run on Linux, macOS and Windows. Add `--locked` only after reviewed lockfiles are
-committed; otherwise failure is expected. `cargo check`/`cargo test` on Linux does
-not compile macOS-only `cfg` blocks. Create separate JNI load, filter/selection,
-owner-window, concurrent request, cancellation, malformed-string and repeated
-load/unload smoke tests. Preserve ABI/symbol/resource manifests for all supported
-OS/architecture combinations, including any intended Linux/Windows ARM support.
+Run on Linux, macOS and Windows. Gradle `buildNativeLib` builds only the actual
+host using rustup, the pinned `rust-toolchain.toml` and `cargo build --locked`.
+`prepareNativeResources` depends on that build in host mode and validates/stages a per-module,
+per-platform manifest (container/CPU header, checksum, source inventory, exact
+revision, version, ABI and toolchain) before the desktop resource/JAR assembly.
+`prepareNativeResources` deliberately revalidates on every run instead of trusting
+a stale Gradle UP-TO-DATE receipt.
+
+`Cargo.lock` is not committed at this baseline. A host build generates it with the
+pinned toolchain and records the source tree as dirty. Release assembly
+(`-PnativecmpkitNativeMode=release -PnativecmpkitNativePrebuiltDir=...`) requires a
+clean native input scope with every inventoried source (including Cargo.lock) tracked,
+and all five verified module/platform manifests.
+`src/desktopMain/resources/native` is rejected; pass an explicit manifest-verified
+prebuilt bundle instead. Validator dirty-state checks are scoped to the finite
+declared native inputs, not the whole checkout. The legacy
+`calf-file-picker/native/build-all-targets.sh` helper refuses execution and points
+to the manifest-producing host task. The manual
+`build-native-libs.yml` workflow remains Rust compile/test-only and does not
+produce or upload verified native manifests.
+
+Python 3.11 or later is required by the manifest tooling (`tomllib`). Container
+screening checks ELF ET_DYN, Mach-O MH_DYLIB and the PE DLL characteristic, plus
+CPU and checksum. ELF ET_DYN also includes PIE executables; screening does not
+replace the required intended-host JNI load/symbol checks.
+
+Host builds trust the builder's global Cargo configuration. `rustFlags: []` records
+that the command supplies no extra flags and the checked environment has no flag
+overrides; it does not attest to an empty global Cargo config or a hermetic build.
+Release review must separately establish trusted builder configuration. Validation
+rejects observed symlinks and opens regular leaves without following symlinks where
+supported; input parent directories must remain owner-controlled and stable. This
+is not a sandbox against concurrent directory replacement.
+
+Run the synthetic validator oracle with the resource-aware runner used by CI:
+
+```sh
+python3 scripts/audit/run_bounded_build.py \
+  --cwd . --log build/native-tooling-tests.log --timeout 120 --reserve-mib 1024 -- \
+  python3 -m unittest discover -s scripts/native -p 'test_artifacts.py'
+```
+
+`cargo check`/`cargo test` on Linux does not compile macOS-only `cfg` blocks.
+Create separate JNI load, filter/selection, owner-window, concurrent request,
+cancellation, malformed-string and repeated load/unload smoke tests. Preserve
+ABI/symbol/resource manifests for all supported OS/architecture combinations,
+including any intended Linux/Windows ARM support.
 
 ### Metadata and distribution checks without publication
 

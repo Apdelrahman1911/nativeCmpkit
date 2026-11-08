@@ -51,7 +51,7 @@ public complete visible-month transition stream was established on 16.0–16.1.
 Decoration demand, undocumented KVO, private descendant scroll views and window
 attachment are insufficient substitutes for that stream and its lifecycle.
 
-## Prepared tests: sixteen common and four controlled UIKit methods
+## Prepared tests: sixteen common and six controlled UIKit methods
 
 `DateRangeHighlightsTest` contains sixteen methods. Fifteen cover the projection:
 missing/unfinished/completed selections; one-day/year/1900–2100 ranges with equal
@@ -61,15 +61,16 @@ rule replacement; moving/revisiting windows; bounds; pre-epoch partial days; the
 clipping happens before enumeration. The sixteenth checks the 16.2 availability
 boundary, later major versions and an invalid version string.
 
-`NativeRangeHighlightTest` prepares four controlled UIKit methods: a full range
+`NativeRangeHighlightTest` prepares six controlled UIKit methods: a full range
 produces exactly the 89 days of February–April 2026 after a manually delivered
 month callback; rules and bounds remove/restore native highlights with unchanged
 endpoints; deselecting the only highlighted day restores it and emits one owner
 callback; and disposal invalidates a queued refresh and clears native delegates.
-The tests inject a queue and explicitly dispatch to main when needed. They inject a
-Gregorian calendar before backend initialization to isolate this issue from #27.
+The tests inject a queue and explicitly dispatch to main when needed. They inject
+a Gregorian calendar before backend initialization to isolate this issue from #27.
 They also coalesce endpoint/rule/bounds replacement before one drain and assert
-the complete selection values delivered to the owner for selection/deselection. They do not present a calendar,
+the complete selection values delivered to the owner for selection/deselection.
+They do not present a calendar,
 produce a real swipe, exercise Compose replacement or establish callback timing
 on any real operating system. All twenty-two methods remain unexecuted.
 

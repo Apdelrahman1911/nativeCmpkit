@@ -9,6 +9,12 @@ compose.resources {
 }
 
 kotlin {
+    sourceSets.desktopTest.dependencies {
+        implementation(libs.kotlin.test)
+        implementation(libs.compose.ui.test)
+        implementation(compose.desktop.currentOs)
+    }
+
     sourceSets.commonMain.dependencies {
         implementation(libs.compose.foundation)
         implementation(libs.compose.material3)

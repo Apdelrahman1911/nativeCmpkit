@@ -84,7 +84,7 @@ class AdaptiveDateRangePickerState(
     /**
      * The [SelectableDates] rule deciding which days can be picked. Use [DateBounds] for a
      * minimum and maximum day, and [and] to combine rules. Honoured by the Material picker and
-     * by the iOS 16+ calendar, where rejected days are greyed out; bounds coming from a
+     * by the iOS 16.2+ calendar, where rejected days are greyed out; bounds coming from a
      * [DateBounds] are also applied natively. [SelectableDates.isSelectableYear] only affects
      * Material. Observable.
      */

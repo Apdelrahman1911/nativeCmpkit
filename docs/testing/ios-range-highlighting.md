@@ -66,10 +66,12 @@ produces exactly the 89 days of February–April 2026 after a manually delivered
 month callback; rules and bounds remove/restore native highlights with unchanged
 endpoints; deselecting the only highlighted day restores it and emits one owner
 callback; and disposal invalidates a queued refresh and clears native delegates.
-The tests inject a queue and explicitly dispatch to main when needed. They set a
-Gregorian calendar to isolate this issue from #27. They do not present a calendar,
+The tests inject a queue and explicitly dispatch to main when needed. They inject a
+Gregorian calendar before backend initialization to isolate this issue from #27.
+They also coalesce endpoint/rule/bounds replacement before one drain and assert
+the complete selection values delivered to the owner for selection/deselection. They do not present a calendar,
 produce a real swipe, exercise Compose replacement or establish callback timing
-on any real operating system. All twenty methods remain unexecuted.
+on any real operating system. All twenty-two methods remain unexecuted.
 
 ## Native qualification: twelve scenario groups
 
@@ -100,7 +102,7 @@ The helper's operation bound cannot substitute for measured UIKit performance.
 ## Remaining acceptance
 
 Compile/link the production and test source sets, execute and retain the exact
-16 common / 4 UIKit testcase identities, then complete the native matrix. Local
+16 common / 6 UIKit testcase identities, then complete the native matrix. Local
 compiler admission requires 8 GiB available disk and 6 GiB available memory; no
 local compiler/test execution was admitted during this source preparation.
 

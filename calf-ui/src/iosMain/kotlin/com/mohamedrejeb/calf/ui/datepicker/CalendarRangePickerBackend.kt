@@ -8,6 +8,7 @@ import kotlinx.cinterop.ObjCSignatureOverride
 import platform.Foundation.NSDateComponents
 import platform.UIKit.UICalendarSelectionMultiDate
 import platform.UIKit.UICalendarSelectionMultiDateDelegateProtocol
+import platform.UIKit.UICalendarView
 import platform.UIKit.UIView
 import platform.darwin.NSObject
 import platform.darwin.dispatch_async
@@ -26,13 +27,17 @@ internal class CalendarRangePickerBackend(
     private val enqueueRefresh: (() -> Unit) -> Unit = { work ->
         dispatch_async(dispatch_get_main_queue()) { work() }
     },
+    configureCalendar: (UICalendarView) -> Unit = {},
 ) {
     private var disposed = false
     private var rendering = false
     private var refreshQueued = false
     private var renderedDays: List<Long>? = null
     private var selection = initialSelection
-    private val host = CalendarViewHost(onVisibleMonthChanged = ::requestRender)
+    private val host = CalendarViewHost(onVisibleMonthChanged = ::requestRender).also {
+        // Apply controlled calendar configuration before initial navigation or selection writes.
+        configureCalendar(it.calendarView)
+    }
 
     private var minDateMillis: Long? = null
     private var maxDateMillis: Long? = null

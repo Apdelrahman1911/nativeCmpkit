@@ -57,7 +57,7 @@ class NativeRangeHighlightTest {
             )
             fixture.drain()
             assertEquals(listOf(day), fixture.selectedDays())
-            assertEquals(1, fixture.ownerCalls)
+            assertEquals(listOf(DateRangeSelection(day, day)), fixture.ownerSelections)
         }
     }
 
@@ -78,28 +78,63 @@ class NativeRangeHighlightTest {
         }
     }
 
+    @Test
+    fun queuedRefreshUsesTheLatestEndpointsRulesAndBounds() = onMain {
+        Fixture().use { fixture ->
+            fixture.showMarch()
+            fixture.backend.updateSelectableDates()
+            fixture.backend.setSelectedRange(DateRangeSelection(utcDay(20523), utcDay(20532)))
+            fixture.rejectedDay = utcDay(20526)
+            fixture.backend.updateSelectableDates()
+            fixture.backend.applyDateBounds(utcDay(20525), utcDay(20528))
+            assertEquals(1, fixture.queued.size)
+            fixture.drain()
+            assertEquals(listOf(20525L, 20527L, 20528L).map(::utcDay), fixture.selectedDays())
+            assertTrue(fixture.ownerSelections.isEmpty())
+        }
+    }
+
+    @Test
+    fun nativeSelectionDeliversTheCompleteEndpointsToTheOwner() = onMain {
+        val start = utcDay(20526)
+        val end = utcDay(20529)
+        Fixture(DateRangeSelection(start, null)).use { fixture ->
+            fixture.showMarch()
+            fixture.multiSelection.delegate!!.multiDateSelection(
+                fixture.multiSelection,
+                didSelectDate = utcDayToDateComponents(end),
+            )
+            fixture.drain()
+            assertEquals(listOf(DateRangeSelection(start, end)), fixture.ownerSelections)
+            assertEquals((20526L..20529L).map(::utcDay), fixture.selectedDays())
+        }
+    }
+
     private class Fixture(
         selection: DateRangeSelection = DateRangeSelection(utcDay(0), utcDay(84005)),
     ) : AutoCloseable {
         val queued = mutableListOf<() -> Unit>()
         var rejectedDay: Long? = null
         var totalRuleCalls = 0
-        var ownerCalls = 0
+        val ownerSelections = mutableListOf<DateRangeSelection>()
+        val ownerCalls: Int get() = ownerSelections.size
         val backend = CalendarRangePickerBackend(
             initialSelection = selection,
-            onSelectionChanged = { ownerCalls++ },
+            onSelectionChanged = { ownerSelections.add(it) },
             isDaySelectable = {
                 totalRuleCalls++
                 it != rejectedDay
             },
             enqueueRefresh = { queued.add(it) },
+            configureCalendar = { calendar ->
+                // Runs before backend init navigates or submits selected dates.
+                calendar.calendar = NSCalendar(NSCalendarIdentifierGregorian)
+            },
         )
         val calendar = backend.view as UICalendarView
         val multiSelection = calendar.selectionBehavior as UICalendarSelectionMultiDate
 
         fun showMarch() {
-            // Isolate range refresh from the separately reviewed user-calendar conversion issue.
-            calendar.calendar = NSCalendar(NSCalendarIdentifierGregorian)
             val previous = calendar.visibleDateComponents
             calendar.setVisibleDateComponents(NSDateComponents().apply {
                 year = 2026

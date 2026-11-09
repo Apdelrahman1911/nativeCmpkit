@@ -12,7 +12,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertSame
 
 class ShareActivityItemsTest {
     @Test
@@ -59,7 +58,7 @@ class ShareActivityItemsTest {
     private fun assertUrl(subject: String?) {
         val url = "https://example.invalid/path?q=one%20two#fragment"
         val content = ShareContent.Url(url, subject)
-        assertItems(content, subject, listOf(assertNotNull(NSURL.URLWithString(url))), compareUrlIdentity = false)
+        assertItems(content, subject, listOf(assertNotNull(NSURL.URLWithString(url))), compareNativeUrlEquality = false)
     }
 
     private fun assertFile(subject: String?) {
@@ -83,14 +82,14 @@ class ShareActivityItemsTest {
         content: ShareContent,
         subject: String?,
         expectedItems: List<Any>,
-        compareUrlIdentity: Boolean = true,
+        compareNativeUrlEquality: Boolean = true,
     ) {
         val items = content.toActivityItems()
         assertEquals(expectedItems.size, items.size)
         if (subject == null) {
             items.forEachIndexed { index, item ->
                 assertFalse(item is UIActivityItemSourceProtocol)
-                assertPayload(expectedItems[index], item, compareUrlIdentity)
+                assertPayload(expectedItems[index], item, compareNativeUrlEquality)
             }
             return
         }
@@ -99,7 +98,7 @@ class ShareActivityItemsTest {
         items.forEachIndexed { index, item ->
             val source = assertIs<UIActivityItemSourceProtocol>(item)
             val placeholder = source.activityViewControllerPlaceholderItem(controller)
-            assertPayload(expectedItems[index], placeholder, compareUrlIdentity)
+            assertPayload(expectedItems[index], placeholder, compareNativeUrlEquality)
             listOf(null, UIActivityTypeMail).forEach { activityType ->
                 val actualItem = assertNotNull(
                     source.activityViewController(
@@ -107,7 +106,7 @@ class ShareActivityItemsTest {
                         itemForActivityType = activityType,
                     ),
                 )
-                assertPayload(placeholder, actualItem, compareUrlIdentity = true)
+                assertPayload(placeholder, actualItem, compareNativeUrlEquality = true)
                 assertEquals(
                     subject,
                     source.activityViewController(
@@ -119,13 +118,15 @@ class ShareActivityItemsTest {
         }
     }
 
-    private fun assertPayload(expected: Any, actual: Any, compareUrlIdentity: Boolean) {
+    private fun assertPayload(expected: Any, actual: Any, compareNativeUrlEquality: Boolean) {
         when (expected) {
             is String -> assertEquals(expected, assertIs<String>(actual))
             is NSURL -> {
                 val actualUrl = assertIs<NSURL>(actual)
                 assertEquals(expected.absoluteString, actualUrl.absoluteString)
-                if (compareUrlIdentity) assertSame(expected, actualUrl)
+                // Objective-C interop can return a different Kotlin wrapper for the same URL.
+                // Check Foundation URL equality as well as its serialized payload.
+                if (compareNativeUrlEquality) assertEquals(expected, actualUrl)
             }
             else -> error("Unexpected activity-item fixture")
         }

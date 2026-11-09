@@ -12,8 +12,12 @@ was added only to the subsequent child process environment. Both attempts remain
 in the external execution records.
 
 The normal Linux CI browser phase now requests both calf-share browser tasks in
-addition to calf-ui. No iOS compile/link, browser runtime, real Mail, native desktop,
-fallback runtime or issue acceptance is established. Issue #150's original criteria
+addition to calf-ui. The first macOS job compiled and linked the iOS suite, then
+executed 12 methods: six passed and six failed at Kotlin wrapper-identity assertions
+for equal NSURL payloads. The retained XML is authoritative. The fixture correction
+uses Foundation URL equality; its six failed methods require focused execution on
+an Apple host. Browser runtime, real Mail, native desktop, fallback runtime and
+issue acceptance remain unproven. Issue #150's original criteria
 remain authoritative and open.
 
 The isolated branch is `fix/native034-share-subject`, prepared at
@@ -46,11 +50,11 @@ objects, not `ShareContent.File.mimeType` / `ShareContent.Files.mimeType`; these
 parameters do not rewrite browser file metadata. Desktop success does not mean
 subject delivery or establish that an open/clipboard fallback is a native share.
 
-## Test inventory (desktop executed; UIKit and browser pending)
+## Test inventory (desktop executed; UIKit first run retained; browser pending)
 
 | Source suite | `@Test` methods | Production boundary and assertions |
 | --- | ---: | --- |
-| `iosTest/.../ShareActivityItemsTest.kt` | 12 | Four variants × ordinary/null/empty subject. Calls production `toActivityItems`; invokes placeholder, item and subject selectors for Mail and unspecified activity types. Asserts text/URL content, actual file URL identity, multiple-item order and null-subject raw items. Creates an unpresented controller; never opens Mail. |
+| `iosTest/.../ShareActivityItemsTest.kt` | 12 | Four variants × ordinary/null/empty subject. Calls production `toActivityItems`; invokes placeholder, item and subject selectors for Mail and unspecified activity types. Asserts text/URL content, Foundation file URL equality, multiple-item order and null-subject raw items. Creates an unpresented controller; never opens Mail. |
 | `webTest/.../WebShareSubjectTest.kt` | 14 shared | Twelve payload cases (four variants × ordinary/null/empty) and two descriptor-restoration cases. Calls the production web launcher's `handleShare`, which reaches the JS/Wasm `navigator.share` call. Inspects exact own field names, text/URL/title, absence vs empty title, real file metadata and object identity/order. |
 | `desktopTest/.../DesktopShareSubjectTest.kt` | 12 | Four variants × ordinary/null/empty subject. Calls production `showNativeShare` with an injected operation, checks exact arguments, ordered absolute paths, parent handle and one invocation. The operation returns the existing success code. No native library is initialized and no fallback or OS operation is invoked. |
 
@@ -110,7 +114,9 @@ metadata under
 The implementation keeps the non-null underlying item as the covariant `Any`
 return, annotates the two conflicting Kotlin overloads with
 `ObjCSignatureOverride`, and explicitly opts into `ExperimentalForeignApi`.
-Signature inspection is not compilation, linking or selector-dispatch evidence.
+The first macOS run subsequently compiled/linked this implementation and executed
+the selector suite; its six wrapper-identity failures remain retained. No genuine
+activity presentation or Mail dispatch follows from controlled selector calls.
 
 ## Remaining original criterion gates
 
@@ -133,3 +139,17 @@ The implementation sub-agent was not authorized to run any of these gates. The
 lead reports that local heavy compiler admission does not meet the 8 GiB disk
 floor. All integration, execution, Git/GitHub actions, acceptance and closure stay
 with the lead; no resource-admission bypass or publication is authorized here.
+
+## First hosted iOS result and focused recovery
+
+Run 42693431968, attempt 1, macOS job 129418913651 at 587f00e7 executed all twelve
+methods: six passed and six failed. All six failures are assertSame comparisons
+between Kotlin wrappers whose NSURL payload strings match. The original XML and
+job log are preserved externally. The fixture now checks Foundation URL equality
+and the exact serialized payload, without requiring Kotlin wrapper identity.
+Production subject/item selectors are unchanged.
+
+Execute only the failed URL/file/files ordinary-subject and empty-subject methods
+for recovery; retain the six earlier passes without replaying them. This correction
+has not been compiled or executed on Apple. Existing real Mail and other platform
+acceptance requirements remain open.

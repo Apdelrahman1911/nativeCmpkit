@@ -33,7 +33,7 @@ actual class ShareLauncher actual constructor(
     }
 }
 
-private fun handleShare(content: ShareContent, onResult: (ShareResult) -> Unit) {
+internal fun handleShare(content: ShareContent, onResult: (ShareResult) -> Unit) {
     when (content) {
         is ShareContent.Text -> shareText(content.text, content.subject, onResult)
         is ShareContent.Url -> shareUrl(content.url, content.subject, onResult)
@@ -95,7 +95,7 @@ private fun shareUrl(url: String, subject: String?, onResult: (ShareResult) -> U
 
 private fun shareFile(content: ShareContent.File, onResult: (ShareResult) -> Unit) {
     if (isWebShareSupported()) {
-        webShareFile(content.file.file) { result ->
+        webShareFile(content.file.file, content.subject) { result ->
             onResult(mapWebShareResult(result))
         }
         return
@@ -105,7 +105,7 @@ private fun shareFile(content: ShareContent.File, onResult: (ShareResult) -> Uni
 
 private fun shareFiles(content: ShareContent.Files, onResult: (ShareResult) -> Unit) {
     if (isWebShareSupported()) {
-        webShareFiles(content.files.map { it.file }) { result ->
+        webShareFiles(content.files.map { it.file }, content.subject) { result ->
             onResult(mapWebShareResult(result))
         }
         return

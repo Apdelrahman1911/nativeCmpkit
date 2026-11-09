@@ -4,6 +4,8 @@ plugins {
 }
 
 kotlin {
+    withBrowserTestBundling()
+
     sourceSets.commonMain.dependencies {
         api(projects.calfIo)
 
@@ -12,6 +14,10 @@ kotlin {
 
     sourceSets.androidMain.dependencies {
         implementation(libs.activity.compose)
+    }
+
+    sourceSets.commonTest.dependencies {
+        implementation(libs.kotlin.test)
     }
 
     sourceSets.webMain.dependencies {

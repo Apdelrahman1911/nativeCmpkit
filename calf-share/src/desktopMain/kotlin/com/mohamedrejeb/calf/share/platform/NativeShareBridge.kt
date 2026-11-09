@@ -5,7 +5,12 @@ package com.mohamedrejeb.calf.share.platform
  *
  * On macOS, this provides a native share sheet via NSSharingServicePicker.
  * On other platforms, [isNativeShareSupported] returns false and
- * the Kotlin desktop launcher falls back to clipboard/Desktop.browse().
+ * the Kotlin desktop launcher falls back to clipboard/Desktop.browse()/Desktop.open().
+ *
+ * Subject metadata is unsupported for every content variant: this JNI ABI has no
+ * subject argument. The launcher forwards only the original text, URL or file paths,
+ * without prepending subjects to payloads. The clipboard/browse/open fallbacks also
+ * have no subject channel. A successful operation does not imply subject delivery.
  */
 internal object NativeShareBridge {
 
@@ -32,6 +37,7 @@ internal object NativeShareBridge {
 
     /**
      * Show the native share sheet.
+     * Subject metadata cannot be supplied through this ABI.
      *
      * @param text Optional text to share.
      * @param url Optional URL to share.

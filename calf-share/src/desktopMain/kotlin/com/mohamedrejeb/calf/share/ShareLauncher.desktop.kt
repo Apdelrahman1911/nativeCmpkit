@@ -63,7 +63,12 @@ private fun handleShare(content: ShareContent): ShareResult {
     return handleFallbackShare(content)
 }
 
-private fun showNativeShare(content: ShareContent): ShareResult? {
+internal fun showNativeShare(
+    content: ShareContent,
+    showShareSheet: (String?, String?, Array<String>?, Long) -> Int = { text, url, filePaths, parentWindow ->
+        NativeShareBridge.showShareSheet(text, url, filePaths, parentWindow)
+    },
+): ShareResult? {
     val (text, url, filePaths) = when (content) {
         is ShareContent.Text -> Triple(content.text, null, null)
         is ShareContent.Url -> Triple(null, content.url, null)
@@ -72,11 +77,11 @@ private fun showNativeShare(content: ShareContent): ShareResult? {
     }
 
     return try {
-        val result = NativeShareBridge.showShareSheet(
-            text = text,
-            url = url,
-            filePaths = filePaths,
-            parentWindow = 0L, // Rust gets the focused window via NSApp.keyWindow
+        val result = showShareSheet(
+            text,
+            url,
+            filePaths,
+            0L, // Rust gets the focused window via NSApp.keyWindow
         )
         when (result) {
             NativeShareBridge.RESULT_SUCCESS -> ShareResult.Success

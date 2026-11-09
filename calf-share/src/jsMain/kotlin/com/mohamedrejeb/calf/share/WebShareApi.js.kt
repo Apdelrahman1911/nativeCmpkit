@@ -20,15 +20,17 @@ internal actual fun webShareUrl(url: String, title: String?, onResult: (Boolean?
     handleSharePromise(window.navigator.asDynamic().share(data), onResult)
 }
 
-internal actual fun webShareFile(file: org.w3c.files.File, onResult: (Boolean?) -> Unit) {
+internal actual fun webShareFile(file: org.w3c.files.File, title: String?, onResult: (Boolean?) -> Unit) {
     val data = js("{}")
     data.files = arrayOf(file)
+    if (title != null) data.title = title
     handleSharePromise(window.navigator.asDynamic().share(data), onResult)
 }
 
-internal actual fun webShareFiles(files: List<org.w3c.files.File>, onResult: (Boolean?) -> Unit) {
+internal actual fun webShareFiles(files: List<org.w3c.files.File>, title: String?, onResult: (Boolean?) -> Unit) {
     val data = js("{}")
     data.files = files.toTypedArray()
+    if (title != null) data.title = title
     handleSharePromise(window.navigator.asDynamic().share(data), onResult)
 }
 

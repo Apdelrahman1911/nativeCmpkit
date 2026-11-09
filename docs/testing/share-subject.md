@@ -46,7 +46,7 @@ objects, not `ShareContent.File.mimeType` / `ShareContent.Files.mimeType`; these
 parameters do not rewrite browser file metadata. Desktop success does not mean
 subject delivery or establish that an open/clipboard fallback is a native share.
 
-## Prepared test inventory (not executed)
+## Test inventory (desktop executed; UIKit and browser pending)
 
 | Source suite | `@Test` methods | Production boundary and assertions |
 | --- | ---: | --- |
@@ -123,7 +123,7 @@ Signature inspection is not compilation, linking or selector-dispatch evidence.
    targets and retain the actual payload-inspection results. Source tests and this
    unsupported-metadata documentation do not count as that execution. Promise,
    cancellation and real share-target behavior require separate evidence.
-3. **Desktop:** execute the injected production-mapping tests, then retain real
+3. **Desktop:** the 12 injected production-mapping tests passed once; retain real
    native and fallback evidence on their supported hosts, including the documented
    inability to deliver subjects. This seam does not test JNI loading, AppKit,
    clipboard, browsing, file opening or receiver behavior. Do not infer criterion

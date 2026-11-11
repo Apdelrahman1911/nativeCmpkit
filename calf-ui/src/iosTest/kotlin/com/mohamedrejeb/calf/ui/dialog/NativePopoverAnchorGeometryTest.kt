@@ -20,7 +20,7 @@ import platform.Foundation.NSThread
 import platform.UIKit.UIAlertController
 import platform.UIKit.UIAlertControllerStyleActionSheet
 import platform.UIKit.UIAlertControllerStyleAlert
-import platform.UIKit.UIBarButtonSystemItemDone
+import platform.UIKit.UIBarButtonSystemItem.UIBarButtonSystemItemDone
 import platform.UIKit.UIPresentationController
 import platform.UIKit.UIBarButtonItem
 import platform.UIKit.UIButton

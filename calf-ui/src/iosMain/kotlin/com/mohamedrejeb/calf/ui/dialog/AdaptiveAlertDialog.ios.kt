@@ -15,6 +15,7 @@ import com.mohamedrejeb.calf.core.InternalCalfApi
 import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosActionStyle
 import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosProperties
 import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosStyle
+import com.mohamedrejeb.calf.ui.dialog.uikit.LocalAlertDialogIosPopoverAnchor
 
 @OptIn(InternalCalfApi::class)
 @Composable
@@ -45,6 +46,7 @@ actual fun AdaptiveAlertDialog(
 ) {
     val currentUIViewController = LocalUIViewController.current
     val layoutDirection = LocalLayoutDirection.current
+    val popoverAnchor = LocalAlertDialogIosPopoverAnchor.current
 
     fun createIosDialogProperties(): AlertDialogIosProperties {
         return AlertDialogIosProperties(
@@ -70,7 +72,9 @@ actual fun AdaptiveAlertDialog(
             iosProperties = createIosDialogProperties(),
             properties = properties,
             layoutDirection = layoutDirection,
-        )
+        ).also {
+            it.popoverAnchor = popoverAnchor
+        }
     }
 
     LaunchedEffect(
@@ -86,11 +90,13 @@ actual fun AdaptiveAlertDialog(
         iosConfirmButtonIsPreferred,
         properties,
         layoutDirection,
+        popoverAnchor,
     ) {
         alertDialogManager.onDismissRequest = onDismiss
         alertDialogManager.iosProperties = createIosDialogProperties()
         alertDialogManager.properties = properties
         alertDialogManager.layoutDirection = layoutDirection
+        alertDialogManager.popoverAnchor = popoverAnchor
         alertDialogManager.updateDialogProperties()
     }
 
@@ -114,6 +120,7 @@ actual fun AdaptiveBasicAlertDialog(
 ) {
     val currentUIViewController = LocalUIViewController.current
     val layoutDirection = LocalLayoutDirection.current
+    val popoverAnchor = LocalAlertDialogIosPopoverAnchor.current
 
     val alertDialogManager = remember(currentUIViewController) {
         AlertDialogManager(
@@ -122,14 +129,17 @@ actual fun AdaptiveBasicAlertDialog(
             iosProperties = iosProperties,
             properties = properties,
             layoutDirection = layoutDirection,
-        )
+        ).also {
+            it.popoverAnchor = popoverAnchor
+        }
     }
 
-    LaunchedEffect(onDismissRequest, iosProperties, properties, layoutDirection) {
+    LaunchedEffect(onDismissRequest, iosProperties, properties, layoutDirection, popoverAnchor) {
         alertDialogManager.onDismissRequest = onDismissRequest
         alertDialogManager.iosProperties = iosProperties
         alertDialogManager.properties = properties
         alertDialogManager.layoutDirection = layoutDirection
+        alertDialogManager.popoverAnchor = popoverAnchor
         alertDialogManager.updateDialogProperties()
     }
 

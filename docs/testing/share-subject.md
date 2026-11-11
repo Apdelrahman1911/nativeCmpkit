@@ -2,23 +2,18 @@
 
 ## Status and scope
 
-Implementation and local checks updated 2026-11-09. The production and test
-sources compile for desktop, JS and Wasm. **All 12 focused desktop mapping tests
-passed once.** JS and Wasm browser methods remain unexecuted: local Chrome refuses
-to launch as root with its sandbox configuration. The sandbox was not disabled;
-actual browser execution requires a supported sandboxed host. The first desktop
-compile attempt stopped because rustup was absent from PATH; the installed tool
-was added only to the subsequent child process environment. Both attempts remain
-in the external execution records.
+Validation updated 2026-11-11 from retained XML for run 42693431968, attempt 1,
+at 587f00e7. The Linux job passed: all 12 desktop mapping methods, all 14 shared
+browser methods on JS, and all 14 on Wasm passed. Local browser execution was
+blocked by Chrome's root/sandbox configuration; that sandbox was not disabled.
+The hosted browser results were acquired from artifact 13711241105.
 
-The normal Linux CI browser phase now requests both calf-share browser tasks in
-addition to calf-ui. The first macOS job compiled and linked the iOS suite, then
-executed 12 methods: six passed and six failed at Kotlin wrapper-identity assertions
-for equal NSURL payloads. The retained XML is authoritative. The fixture correction
-uses Foundation URL equality; its six failed methods require focused execution on
-an Apple host. Browser runtime, real Mail, native desktop, fallback runtime and
-issue acceptance remain unproven. Issue #150's original criteria
-remain authoritative and open.
+The macOS job compiled and linked the iOS suite, then executed 12 methods: six
+passed and six failed at Kotlin wrapper-identity assertions for equal NSURL
+payloads. The fixture correction checks Foundation URL equality and the exact
+serialized payload; its six previously failed methods still require Apple
+execution. Original failing XML and logs remain retained. Real Mail delivery,
+desktop native/fallback behavior and full issue acceptance remain open.
 
 The isolated branch is `fix/native034-share-subject`, prepared at
 `c2eeec65a0bfd8d03f0b3a7e27c3f97b4542f0f6`. All ten source baseline SHA-256 values
@@ -50,7 +45,7 @@ objects, not `ShareContent.File.mimeType` / `ShareContent.Files.mimeType`; these
 parameters do not rewrite browser file metadata. Desktop success does not mean
 subject delivery or establish that an open/clipboard fallback is a native share.
 
-## Test inventory (desktop executed; UIKit first run retained; browser pending)
+## Test inventory (desktop/browser passed; UIKit recovery pending)
 
 | Source suite | `@Test` methods | Production boundary and assertions |
 | --- | ---: | --- |
@@ -125,20 +120,19 @@ activity presentation or Mail dispatch follows from controlled selector calls.
    subjects and original payload/attachment identity/order; retain null/empty
    cases without assuming what Mail does with absent metadata. Controlled selector
    calls alone cannot establish real Mail subject delivery.
-2. **Web:** compile and execute the shared suite separately in JS and Wasm browser
-   targets and retain the actual payload-inspection results. Source tests and this
-   unsupported-metadata documentation do not count as that execution. Promise,
-   cancellation and real share-target behavior require separate evidence.
+2. **Web:** the 14 production payload-inspection methods passed on each of JS and
+   Wasm in the retained Linux XML. Promise resolution, cancellation and genuine
+   receiver/share-target behavior require separate evidence; intercepted payloads
+   do not establish email subject delivery.
 3. **Desktop:** the 12 injected production-mapping tests passed once; retain real
    native and fallback evidence on their supported hosts, including the documented
    inability to deliver subjects. This seam does not test JNI loading, AppKit,
    clipboard, browsing, file opening or receiver behavior. Do not infer criterion
    closure from subject omission assertions alone.
 
-The implementation sub-agent was not authorized to run any of these gates. The
-lead reports that local heavy compiler admission does not meet the 8 GiB disk
-floor. All integration, execution, Git/GitHub actions, acceptance and closure stay
-with the lead; no resource-admission bypass or publication is authorized here.
+All integration, execution, acceptance and closure remain subject to the existing
+resource and platform gates. No resource-admission bypass or publication is
+authorized by these results.
 
 ## First hosted iOS result and focused recovery
 
@@ -149,7 +143,7 @@ job log are preserved externally. The fixture now checks Foundation URL equality
 and the exact serialized payload, without requiring Kotlin wrapper identity.
 Production subject/item selectors are unchanged.
 
-Execute only the failed URL/file/files ordinary-subject and empty-subject methods
-for recovery; retain the six earlier passes without replaying them. This correction
-has not been compiled or executed on Apple. Existing real Mail and other platform
+The six failed URL/file/files ordinary-subject and empty-subject methods require
+recovery execution. The six original passes remain recorded separately from the
+original failures. This correction has not been compiled or executed on Apple. Existing real Mail and other platform
 acceptance requirements remain open.

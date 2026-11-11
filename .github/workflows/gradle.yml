@@ -83,6 +83,7 @@ jobs:
           -Pkotlin.compiler.execution.strategy=in-process
           -Pkotlin.native.jvmArgs=-Xmx2048m
           :calf-ui:jsBrowserTest :calf-ui:wasmJsBrowserTest
+          :calf-share:jsBrowserTest :calf-share:wasmJsBrowserTest
           --no-configuration-cache
       - name: Browser sample production builds
         if: always() && runner.os == 'Linux'

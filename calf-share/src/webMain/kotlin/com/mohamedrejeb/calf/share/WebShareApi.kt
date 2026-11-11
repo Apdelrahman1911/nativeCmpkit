@@ -11,7 +11,7 @@ internal expect fun isWebShareSupported(): Boolean
  * or `null` on other errors (e.g., InvalidStateError from a share already in progress).
  *
  * @param text The text to share.
- * @param title Optional title for the share dialog.
+ * @param title Optional share title; null omits the field, while an empty string is retained.
  * @param onResult Callback with the share outcome.
  */
 internal expect fun webShareText(text: String, title: String?, onResult: (Boolean?) -> Unit)
@@ -20,7 +20,7 @@ internal expect fun webShareText(text: String, title: String?, onResult: (Boolea
  * Shares a URL using the Web Share API.
  *
  * @param url The URL to share.
- * @param title Optional title for the share dialog.
+ * @param title Optional share title; null omits the field, while an empty string is retained.
  * @param onResult Callback with the share outcome.
  */
 internal expect fun webShareUrl(url: String, title: String?, onResult: (Boolean?) -> Unit)
@@ -29,17 +29,19 @@ internal expect fun webShareUrl(url: String, title: String?, onResult: (Boolean?
  * Shares a file using the Web Share API.
  *
  * @param file The web File object to share.
+ * @param title Optional share title; null omits the field, while an empty string is retained.
  * @param onResult Callback with the share outcome.
  */
-internal expect fun webShareFile(file: org.w3c.files.File, onResult: (Boolean?) -> Unit)
+internal expect fun webShareFile(file: org.w3c.files.File, title: String?, onResult: (Boolean?) -> Unit)
 
 /**
  * Shares multiple files using the Web Share API.
  *
  * @param files The web File objects to share.
+ * @param title Optional share title; null omits the field, while an empty string is retained.
  * @param onResult Callback with the share outcome.
  */
-internal expect fun webShareFiles(files: List<org.w3c.files.File>, onResult: (Boolean?) -> Unit)
+internal expect fun webShareFiles(files: List<org.w3c.files.File>, title: String?, onResult: (Boolean?) -> Unit)
 
 /**
  * Copies the given text to the system clipboard.

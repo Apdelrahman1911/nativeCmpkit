@@ -10,7 +10,7 @@ private external fun jsIsShareSupported(): Boolean
 @JsFun("""
 function(text, title, onSuccess, onDismissed, onError) {
     var data = { text: text };
-    if (title) data.title = title;
+    if (title != null) data.title = title;
     navigator.share(data).then(function() {
         onSuccess();
     }).catch(function(e) {
@@ -29,7 +29,7 @@ private external fun jsShareText(
 @JsFun("""
 function(url, title, onSuccess, onDismissed, onError) {
     var data = { url: url };
-    if (title) data.title = title;
+    if (title != null) data.title = title;
     navigator.share(data).then(function() {
         onSuccess();
     }).catch(function(e) {
@@ -46,8 +46,10 @@ private external fun jsShareUrl(
 )
 
 @JsFun("""
-function(file, onSuccess, onDismissed, onError) {
-    navigator.share({ files: [file] }).then(function() {
+function(file, title, onSuccess, onDismissed, onError) {
+    var data = { files: [file] };
+    if (title != null) data.title = title;
+    navigator.share(data).then(function() {
         onSuccess();
     }).catch(function(e) {
         if (e && e.name === 'AbortError') { onDismissed(); } else { onError(); }
@@ -56,14 +58,17 @@ function(file, onSuccess, onDismissed, onError) {
 """)
 private external fun jsShareFile(
     file: JsAny,
+    title: JsString?,
     onSuccess: () -> Unit,
     onDismissed: () -> Unit,
     onError: () -> Unit,
 )
 
 @JsFun("""
-function(files, onSuccess, onDismissed, onError) {
-    navigator.share({ files: Array.from(files) }).then(function() {
+function(files, title, onSuccess, onDismissed, onError) {
+    var data = { files: Array.from(files) };
+    if (title != null) data.title = title;
+    navigator.share(data).then(function() {
         onSuccess();
     }).catch(function(e) {
         if (e && e.name === 'AbortError') { onDismissed(); } else { onError(); }
@@ -72,6 +77,7 @@ function(files, onSuccess, onDismissed, onError) {
 """)
 private external fun jsShareFiles(
     files: JsArray<JsAny>,
+    title: JsString?,
     onSuccess: () -> Unit,
     onDismissed: () -> Unit,
     onError: () -> Unit,
@@ -103,20 +109,22 @@ internal actual fun webShareUrl(url: String, title: String?, onResult: (Boolean?
     )
 }
 
-internal actual fun webShareFile(file: org.w3c.files.File, onResult: (Boolean?) -> Unit) {
+internal actual fun webShareFile(file: org.w3c.files.File, title: String?, onResult: (Boolean?) -> Unit) {
     jsShareFile(
         file = file as JsAny,
+        title = title?.toJsString(),
         onSuccess = { onResult(true) },
         onDismissed = { onResult(false) },
         onError = { onResult(null) },
     )
 }
 
-internal actual fun webShareFiles(files: List<org.w3c.files.File>, onResult: (Boolean?) -> Unit) {
+internal actual fun webShareFiles(files: List<org.w3c.files.File>, title: String?, onResult: (Boolean?) -> Unit) {
     val jsArray = JsArray<JsAny>()
     files.forEach { jsArrayPush(jsArray, it as JsAny) }
     jsShareFiles(
         files = jsArray,
+        title = title?.toJsString(),
         onSuccess = { onResult(true) },
         onDismissed = { onResult(false) },
         onError = { onResult(null) },

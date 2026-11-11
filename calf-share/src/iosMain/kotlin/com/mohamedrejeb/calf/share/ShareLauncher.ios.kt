@@ -58,17 +58,6 @@ private fun presentShareSheet(
         applicationActivities = null,
     )
 
-    // Set subject for email clients if available
-    val subject = when (content) {
-        is ShareContent.Text -> content.subject
-        is ShareContent.Url -> content.subject
-        is ShareContent.File -> content.subject
-        is ShareContent.Files -> content.subject
-    }
-    if (subject != null) {
-        activityViewController.title = subject
-    }
-
     // Handle completion
     activityViewController.completionWithItemsHandler = { _, completed, _, _ ->
         if (completed) {

@@ -507,7 +507,7 @@ class NativePopoverAnchorGeometryTest {
             var dismissals = 0
             val manager = actionSheetManager(fixture.parent)
             manager.onDismissRequest = { dismissals++ }
-            val presentation = UIPresentationController(manager.dialogUIViewController, fixture.parent)
+            val presentation = assertNotNull(manager.dialogUIViewController.presentationController)
             manager.properties = DialogProperties(dismissOnClickOutside = false)
             manager.presentationCompleted(presentation)
             val delegate = assertNotNull(presentation.delegate)
@@ -517,15 +517,69 @@ class NativePopoverAnchorGeometryTest {
                 AlertDialogIosAction(
                     title = "Confirm",
                     style = AlertDialogIosActionStyle.Default,
-                    onClick = { actions++ },
+                    onClick = {
+                        actions++
+                        assertTrue(delegate.presentationControllerShouldDismiss(presentation))
+                        assertFalse(manager.dialogUIViewController.modalInPresentation)
+                    },
                 )
             )
+            assertTrue(sameNativeObject(presentation, manager.dialogUIViewController.presentationController))
             assertTrue(delegate.presentationControllerShouldDismiss(presentation))
             assertFalse(manager.dialogUIViewController.modalInPresentation)
             manager.configureActionSheetDismissal(presentation)
             assertFalse(manager.dialogUIViewController.modalInPresentation)
             delegate.presentationControllerDidDismiss(presentation)
             manager.dismissalCompleted()
+            assertEquals(1, actions)
+            assertEquals(0, dismissals)
+        }
+    }
+
+    @Test
+    fun replacedAndForeignPresentationControllersCannotDismissTheCurrentActionSheet() = onMain {
+        withFixture { fixture ->
+            var actions = 0
+            var dismissals = 0
+            val manager = actionSheetManager(fixture.parent)
+            manager.onDismissRequest = { dismissals++ }
+            manager.properties = DialogProperties(dismissOnClickOutside = false)
+            val retired = UIPresentationController(manager.dialogUIViewController, fixture.parent)
+            manager.presentationCompleted(retired)
+            val delegate = assertNotNull(retired.delegate)
+            assertFalse(delegate.presentationControllerShouldDismiss(retired))
+            val presentation = assertNotNull(manager.dialogUIViewController.presentationController)
+            assertFalse(sameNativeObject(retired, presentation))
+            manager.presentationCompleted(presentation)
+            assertNull(retired.delegate)
+            val foreign = UIPresentationController(UIViewController(), fixture.parent)
+            manager.configureActionSheetDismissal(foreign)
+            assertNull(foreign.delegate)
+            assertFalse(delegate.presentationControllerShouldDismiss(retired))
+            assertFalse(delegate.presentationControllerShouldDismiss(foreign))
+            delegate.presentationControllerDidDismiss(retired)
+            delegate.presentationControllerDidDismiss(foreign)
+            assertTrue(sameNativeObject(delegate as? NSObject, presentation.delegate as? NSObject))
+            assertTrue(manager.dialogUIViewController.modalInPresentation)
+            assertEquals(0, dismissals)
+            manager.actionInvoked(
+                AlertDialogIosAction(
+                    title = "Confirm",
+                    style = AlertDialogIosActionStyle.Default,
+                    onClick = { actions++ },
+                )
+            )
+            assertFalse(delegate.presentationControllerShouldDismiss(retired))
+            assertFalse(delegate.presentationControllerShouldDismiss(foreign))
+            assertTrue(delegate.presentationControllerShouldDismiss(presentation))
+            assertFalse(manager.dialogUIViewController.modalInPresentation)
+            delegate.presentationControllerDidDismiss(retired)
+            delegate.presentationControllerDidDismiss(foreign)
+            assertTrue(delegate.presentationControllerShouldDismiss(presentation))
+            assertEquals(0, dismissals)
+            delegate.presentationControllerDidDismiss(presentation)
+            manager.dismissalCompleted()
+            assertNull(presentation.delegate)
             assertEquals(1, actions)
             assertEquals(0, dismissals)
         }

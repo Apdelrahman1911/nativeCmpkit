@@ -149,7 +149,7 @@ class IosActionSheetAnchorSourceTest(unittest.TestCase):
         ):
             with self.subTest(name=name):
                 self.assertIn(f"fun {name}()", self.native_test)
-        self.assertEqual(16, len(re.findall(r"@Test\s+fun\s+", self.native_test)))
+        self.assertEqual(17, len(re.findall(r"@Test\s+fun\s+", self.native_test)))
         self.assertNotIn(".presentViewController(", self.native_test)
         self.assertNotIn(".showAlertDialog(", self.native_test)
 
